@@ -1,5 +1,7 @@
 <?xml version="1.0" ?>
 <LOG_ROOT>
 	<PROJECT NAME="CII_Starter_USB_API">
+		<CBX_INST_ENTRY INSTANCE_NAME="|CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component" CBX_FILE_NAME="cntr_m7j.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|CPU|lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component" CBX_FILE_NAME="cntr_m7j.tdf"/>
 	</PROJECT>
 </LOG_ROOT>

@@ -667,7 +667,7 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 48 1032 224 1048)
+	(rect 96 1032 272 1048)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "VOut" (rect 90 0 114 12)(font "Arial" ))
 	(pt 0 8)
@@ -680,7 +680,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 296 984 352 1032))
+	(annotation_block (location)(rect 344 984 400 1032))
 )
 (pin
 	(output)
@@ -769,7 +769,7 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 720 808 896 824)
+	(rect 720 896 896 912)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "LEDG[7]" (rect 90 0 132 12)(font "Arial" ))
 	(pt 0 8)
@@ -782,11 +782,11 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 896 824 952 840))
+	(annotation_block (location)(rect 896 912 952 928))
 )
 (pin
 	(output)
-	(rect 720 824 896 840)
+	(rect 720 912 896 928)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "LEDG[6]" (rect 90 0 132 12)(font "Arial" ))
 	(pt 0 8)
@@ -799,11 +799,11 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 896 840 952 856))
+	(annotation_block (location)(rect 896 928 952 944))
 )
 (pin
 	(output)
-	(rect 720 840 896 856)
+	(rect 720 928 896 944)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "LEDG[5]" (rect 90 0 132 12)(font "Arial" ))
 	(pt 0 8)
@@ -816,11 +816,11 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 896 856 960 872))
+	(annotation_block (location)(rect 896 944 960 960))
 )
 (pin
 	(output)
-	(rect 720 856 896 872)
+	(rect 720 944 896 960)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "LEDG[4]" (rect 90 0 132 12)(font "Arial" ))
 	(pt 0 8)
@@ -833,11 +833,11 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 896 872 960 888))
+	(annotation_block (location)(rect 896 960 960 976))
 )
 (pin
 	(output)
-	(rect 720 872 896 888)
+	(rect 720 960 896 976)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "LEDG[3]" (rect 90 0 132 12)(font "Arial" ))
 	(pt 0 8)
@@ -850,7 +850,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 896 888 952 904))
+	(annotation_block (location)(rect 896 976 952 992))
 )
 (pin
 	(output)
@@ -2444,14 +2444,6 @@ applicable agreement for further details.
 	(pt -712 920)
 )
 (connector
-	(pt 16 872)
-	(pt 320 872)
-)
-(connector
-	(pt 16 872)
-	(pt 16 1040)
-)
-(connector
 	(text "SD_DATA_FINISHED" (rect 480 1032 588 1044)(font "Arial" ))
 	(pt 576 1048)
 	(pt 502 1048)
@@ -2494,14 +2486,6 @@ applicable agreement for further details.
 (connector
 	(pt -40 1040)
 	(pt -40 1032)
-)
-(connector
-	(pt -40 1040)
-	(pt 16 1040)
-)
-(connector
-	(pt 16 1040)
-	(pt 48 1040)
 )
 (connector
 	(pt -112 1104)
@@ -2608,14 +2592,6 @@ applicable agreement for further details.
 	(text "Lock729" (rect -558 448 -517 460)(font "Arial" ))
 	(pt -576 464)
 	(pt -512 464)
-)
-(connector
-	(pt -728 976)
-	(pt -424 976)
-)
-(connector
-	(pt -424 976)
-	(pt 0 976)
 )
 (connector
 	(pt 704 656)
@@ -2792,31 +2768,6 @@ applicable agreement for further details.
 	(pt 240 400)
 	(pt 136 400)
 	(bus)
-)
-(connector
-	(text "LaserLEDs[4]" (rect 610 800 677 812)(font "Arial" ))
-	(pt 600 816)
-	(pt 720 816)
-)
-(connector
-	(text "LaserLEDs[3]" (rect 610 816 677 828)(font "Arial" ))
-	(pt 600 832)
-	(pt 720 832)
-)
-(connector
-	(text "LaserLEDs[2]" (rect 610 832 677 844)(font "Arial" ))
-	(pt 600 848)
-	(pt 720 848)
-)
-(connector
-	(text "LaserLEDs[1]" (rect 610 848 677 860)(font "Arial" ))
-	(pt 600 864)
-	(pt 720 864)
-)
-(connector
-	(text "LaserLEDs[0]" (rect 610 864 677 876)(font "Arial" ))
-	(pt 600 880)
-	(pt 720 880)
 )
 (connector
 	(pt 200 832)
@@ -3069,26 +3020,6 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt -632 960)
-	(pt -440 960)
-)
-(connector
-	(pt -440 960)
-	(pt 0 960)
-)
-(connector
-	(pt 0 784)
-	(pt 0 800)
-)
-(connector
-	(pt 0 960)
-	(pt 0 976)
-)
-(connector
-	(pt 0 800)
-	(pt 0 816)
-)
-(connector
 	(text "Clock_50" (rect -446 640 -400 652)(font "Arial" ))
 	(pt -496 656)
 	(pt -360 656)
@@ -3154,14 +3085,6 @@ applicable agreement for further details.
 	(pt -360 848)
 )
 (connector
-	(pt 0 720)
-	(pt 0 736)
-)
-(connector
-	(pt 0 736)
-	(pt 0 752)
-)
-(connector
 	(pt 104 304)
 	(pt 104 768)
 	(bus)
@@ -3172,26 +3095,10 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 0 816)
-	(pt 0 832)
-)
-(connector
-	(pt 0 832)
-	(pt 0 960)
-)
-(connector
 	(text "<<__$DEF_ALIAS3074>>" (rect 0 752 123 764)(font "Arial" )(invisible))
 	(pt 0 768)
 	(pt 104 768)
 	(bus)
-)
-(connector
-	(pt 0 752)
-	(pt 0 768)
-)
-(connector
-	(pt 0 768)
-	(pt 0 784)
 )
 (connector
 	(text "LasersIdle[9..0]" (rect 656 712 732 724)(font "Arial" ))
@@ -3199,18 +3106,83 @@ applicable agreement for further details.
 	(pt 640 720)
 	(bus)
 )
-(junction (pt 16 1040))
+(connector
+	(pt -632 960)
+	(pt -440 960)
+)
+(connector
+	(pt -440 960)
+	(pt 8 960)
+)
+(connector
+	(pt 320 872)
+	(pt 56 872)
+)
+(connector
+	(pt 56 1040)
+	(pt 56 872)
+)
+(connector
+	(pt -40 1040)
+	(pt 56 1040)
+)
+(connector
+	(pt 56 1040)
+	(pt 96 1040)
+)
+(connector
+	(pt -728 976)
+	(pt -424 976)
+)
+(connector
+	(pt -424 976)
+	(pt 32 976)
+)
+(connector
+	(pt 8 736)
+	(pt 8 960)
+)
+(connector
+	(pt 0 720)
+	(pt 32 720)
+)
+(connector
+	(pt 32 720)
+	(pt 32 976)
+)
+(connector
+	(pt 8 736)
+	(pt 0 736)
+)
+(connector
+	(text "LaserLEDs[9]" (rect 610 888 677 900)(font "Arial" ))
+	(pt 600 904)
+	(pt 720 904)
+)
+(connector
+	(text "LaserLEDs[8]" (rect 610 904 677 916)(font "Arial" ))
+	(pt 600 920)
+	(pt 720 920)
+)
+(connector
+	(text "LaserLEDs[7]" (rect 610 920 677 932)(font "Arial" ))
+	(pt 600 936)
+	(pt 720 936)
+)
+(connector
+	(text "LaserLEDs[6]" (rect 610 936 677 948)(font "Arial" ))
+	(pt 600 952)
+	(pt 720 952)
+)
+(connector
+	(text "LaserLEDs[5]" (rect 610 952 677 964)(font "Arial" ))
+	(pt 600 968)
+	(pt 720 968)
+)
 (junction (pt -32 1096))
 (junction (pt -440 960))
 (junction (pt -424 976))
-(junction (pt 0 960))
-(junction (pt 0 784))
-(junction (pt 0 800))
-(junction (pt 0 752))
-(junction (pt 0 768))
-(junction (pt 0 816))
-(junction (pt 0 832))
-(junction (pt 0 736))
+(junction (pt 56 1040))
 (text "Lock397a" (rect -438 784 -391 796)(font "Arial" ))
 (text "Lock397b" (rect -438 800 -391 812)(font "Arial" ))
 (text "Lock854" (rect -438 816 -397 828)(font "Arial" ))

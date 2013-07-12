@@ -49,6 +49,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
 }
+# hierarchies {
+CII_Starter_USB_API:inst
+}
 # macro_sequence
 
 # end
@@ -81,6 +84,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+CII_Starter_USB_API:inst|CLK_LOCK:p0
 }
 # macro_sequence
 
@@ -115,6 +121,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
 }
+# hierarchies {
+CII_Starter_USB_API:inst|CLK_LOCK:p0|CLK_LOCK_altclkctrl_tb8:CLK_LOCK_altclkctrl_tb8_component
+}
 # macro_sequence
 
 # end
@@ -147,6 +156,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+CII_Starter_USB_API:inst|Reset_Delay:d0
 }
 # macro_sequence
 
@@ -227,6 +239,9 @@ TX_DELAY_RESTART
 PARAMETER_SIGNED_DEC
 DEF
 }
+# hierarchies {
+CII_Starter_USB_API:inst|uart:u1
+}
 # macro_sequence
 
 # end
@@ -260,6 +275,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Flash:u2
+}
 # macro_sequence
 
 # end
@@ -292,6 +310,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Multiplexer:u0
 }
 # macro_sequence
 
@@ -448,6 +469,9 @@ DEF
 flash_command.h
 3ca71612ddd226cf8d7954210e5
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1
+}
 # macro_sequence
 
 # end
@@ -481,6 +505,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3
+}
 # macro_sequence
 
 # end
@@ -513,6 +540,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0
 }
 # macro_sequence
 
@@ -593,6 +623,9 @@ DEF
 multi_sdram|sdram_params.h
 625599f965a889cf34497649a6d284d8
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1
+}
 # macro_sequence
 ASIZE23      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      ASIZE23      DSIZE16      
 # end
@@ -625,6 +658,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1
 }
 # macro_sequence
 
@@ -2119,6 +2155,9 @@ c2ee779f89b3bc181df753ea85b3ef
 stratixii_pll.inc
 6797ab505ed70f1a221e4a213e16a6
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component
+}
 # macro_sequence
 
 # end
@@ -2197,6 +2236,9 @@ DEF
 # include_file {
 multi_sdram|sdram_params.h
 625599f965a889cf34497649a6d284d8
+}
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1
 }
 # macro_sequence
 ASIZE23      ASIZE23      ASIZE23      
@@ -2277,6 +2319,9 @@ DEF
 multi_sdram|sdram_params.h
 625599f965a889cf34497649a6d284d8
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1
+}
 # macro_sequence
 ASIZE23      ROWSIZE12COLSIZE8BANKSIZE2ROWSTART8          ROWSIZE12ROWSTART8          COLSTART0COLSIZE8COLSTART0BANKSTART20BANKSIZE2BANKSTART20ASIZE23      ASIZE23      
 # end
@@ -2356,6 +2401,9 @@ DEF
 multi_sdram|sdram_params.h
 625599f965a889cf34497649a6d284d8
 }
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|sdr_data_path:data_path1
+}
 # macro_sequence
 DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      DSIZE16      
 # end
@@ -2388,6 +2436,9 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+CII_Starter_USB_API:inst|Multi_Sram:u6
 }
 # macro_sequence
 
@@ -2460,6 +2511,9 @@ DEF
 laserinstructions.h
 d2c15c32b5ffce35aa78425fff138581
 }
+# hierarchies {
+Laser_Controller:inst10
+}
 # macro_sequence
 
 # end
@@ -2486,6 +2540,10 @@ AUTO_RAM_RECOGNITION
 ON
 AUTO_ROM_RECOGNITION
 ON
+}
+# hierarchies {
+lpm_counter0:inst1
+lpm_counter0:inst9
 }
 # macro_sequence
 
@@ -2704,6 +2762,10 @@ bbd3e8c93afb7320934629e5fb11566
 lpm_decode.inc
 10da69a8bbd590d66779e7a142f73790
 }
+# hierarchies {
+lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component
+lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component
+}
 # macro_sequence
 
 # end
@@ -2827,6 +2889,10 @@ aclr
 -1
 3
 }
+# hierarchies {
+lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated
+lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated
+}
 # macro_sequence
 
 # end
@@ -2859,6 +2925,229 @@ VERILOG_CONSTANT_LOOP_LIMIT
 5000
 VERILOG_NON_CONSTANT_LOOP_LIMIT
 250
+}
+# hierarchies {
+LaserSwitch:inst3
+}
+# macro_sequence
+
+# end
+# entity
+CPU
+# storage
+db|CII_Starter_USB_API.(0).cnf
+db|CII_Starter_USB_API.(0).cnf
+# case_insensitive
+# source_file
+cpu.bdf
+999d808ffa497d4873ae1a791b4a45c
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+|
+}
+# macro_sequence
+
+# end
+# entity
+CMD_Decode
+# storage
+db|CII_Starter_USB_API.(17).cnf
+db|CII_Starter_USB_API.(17).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_sensitive
+# source_file
+cmd_decode.v
+e87919629a8533dbdc428aa53431285
+8
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+IGNORE_VERILOG_INITIAL_CONSTRUCTS
+OFF
+VERILOG_CONSTANT_LOOP_LIMIT
+5000
+VERILOG_NON_CONSTANT_LOOP_LIMIT
+250
+}
+# user_parameter {
+SETUP
+01100001
+PARAMETER_UNSIGNED_BIN
+DEF
+ERASE
+01110010
+PARAMETER_UNSIGNED_BIN
+DEF
+WRITE
+10000011
+PARAMETER_UNSIGNED_BIN
+DEF
+READ
+10010100
+PARAMETER_UNSIGNED_BIN
+DEF
+LCD_DAT
+10000011
+PARAMETER_UNSIGNED_BIN
+DEF
+LCD_CMD
+10010100
+PARAMETER_UNSIGNED_BIN
+DEF
+LASER_SETUP
+10100011
+PARAMETER_UNSIGNED_BIN
+DEF
+SDRAM
+10110100
+PARAMETER_UNSIGNED_BIN
+DEF
+SRAM
+10100101
+PARAMETER_UNSIGNED_BIN
+DEF
+LED
+11110000
+PARAMETER_UNSIGNED_BIN
+DEF
+SEG7
+11100001
+PARAMETER_UNSIGNED_BIN
+DEF
+PS2
+11010010
+PARAMETER_UNSIGNED_BIN
+DEF
+FLASH
+11000011
+PARAMETER_UNSIGNED_BIN
+DEF
+LCD
+10010110
+PARAMETER_UNSIGNED_BIN
+DEF
+VGA
+10000111
+PARAMETER_UNSIGNED_BIN
+DEF
+SDRSEL
+00011111
+PARAMETER_UNSIGNED_BIN
+DEF
+FLSEL
+00101110
+PARAMETER_UNSIGNED_BIN
+DEF
+EXTIO
+00111101
+PARAMETER_UNSIGNED_BIN
+DEF
+SET_REG
+01001100
+PARAMETER_UNSIGNED_BIN
+DEF
+SRSEL
+01011011
+PARAMETER_UNSIGNED_BIN
+DEF
+SETUPFINISH
+10110111
+PARAMETER_UNSIGNED_BIN
+DEF
+READINGFINISH
+11000110
+PARAMETER_UNSIGNED_BIN
+DEF
+INFOREQUEST
+11110010
+PARAMETER_UNSIGNED_BIN
+DEF
+FINISHREQUEST
+11010100
+PARAMETER_UNSIGNED_BIN
+DEF
+FREQFINISH
+11100100
+PARAMETER_UNSIGNED_BIN
+DEF
+LASER_CMD
+11010111
+PARAMETER_UNSIGNED_BIN
+DEF
+RESETFPGA
+11100010
+PARAMETER_UNSIGNED_BIN
+DEF
+OUTSEL
+00110011
+PARAMETER_UNSIGNED_BIN
+DEF
+NORMAL
+10101010
+PARAMETER_UNSIGNED_BIN
+DEF
+DISPLAY
+11001100
+PARAMETER_UNSIGNED_BIN
+DEF
+BURST
+11111111
+PARAMETER_UNSIGNED_BIN
+DEF
+FILEUPLOAD
+01001011
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_READ
+000
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_WRITE
+001
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_BLK_ERA
+010
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_SEC_ERA
+011
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_CHP_ERA
+100
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_ENTRY_ID
+101
+PARAMETER_UNSIGNED_BIN
+DEF
+CMD_RESET
+110
+PARAMETER_UNSIGNED_BIN
+DEF
+}
+# include_file {
+rs232_command.h
+a58689119551beff773fad6abb15b1c1
+flash_command.h
+3ca71612ddd226cf8d7954210e5
+}
+# hierarchies {
+CII_Starter_USB_API:inst|CMD_Decode:u5
 }
 # macro_sequence
 
