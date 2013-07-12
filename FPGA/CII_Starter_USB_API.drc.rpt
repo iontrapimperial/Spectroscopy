@@ -1,0 +1,594 @@
+Design Assistant report for CII_Starter_USB_API
+Wed Jul 10 17:30:31 2013
+Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Design Assistant Summary
+  3. Design Assistant Settings
+  4. High Violations
+  5. Medium Violations
+  6. Information only Violations
+  7. Design Assistant Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2011 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------------+
+; Design Assistant Summary                                                ;
++-----------------------------------+-------------------------------------+
+; Design Assistant Status           ; Analyzed - Wed Jul 10 17:30:31 2013 ;
+; Revision Name                     ; CII_Starter_USB_API                 ;
+; Top-level Entity Name             ; CPU                                 ;
+; Family                            ; Cyclone II                          ;
+; Total Critical Violations         ; 0                                   ;
+; Total High Violations             ; 32                                  ;
+; - Rule D101                       ; 32                                  ;
+; Total Medium Violations           ; 2                                   ;
+; - Rule R102                       ; 1                                   ;
+; - Rule R105                       ; 1                                   ;
+; Total Information only Violations ; 79                                  ;
+; - Rule T101                       ; 29                                  ;
+; - Rule T102                       ; 50                                  ;
++-----------------------------------+-------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Design Assistant Settings                                                                                                                                                                                                                                                                                ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+----+
+; Option                                                                                                                                                                                                                                                                               ; Setting      ; To ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+----+
+; Design Assistant mode                                                                                                                                                                                                                                                                ; Post-Fitting ;    ;
+; Threshold value for clock net not mapped to clock spines rule                                                                                                                                                                                                                        ; 25           ;    ;
+; Minimum number of clock port feed by gated clocks                                                                                                                                                                                                                                    ; 30           ;    ;
+; Minimum number of node fan-out                                                                                                                                                                                                                                                       ; 30           ;    ;
+; Maximum number of nodes to report                                                                                                                                                                                                                                                    ; 50           ;    ;
+; Rule C101: Gated clock should be implemented according to the Altera standard scheme                                                                                                                                                                                                 ; On           ;    ;
+; Rule C102: Logic cell should not be used to generate an inverted clock signal                                                                                                                                                                                                        ; On           ;    ;
+; Rule C103: Gated clock does not feed at least a pre-defined number of clock ports to effectively save power                                                                                                                                                                          ; On           ;    ;
+; Rule C104: Clock signal source should drive only clock input ports                                                                                                                                                                                                                   ; On           ;    ;
+; Rule C105: Clock signal should be a global signal (Rule applies during post-fitting analysis. This rule applies during both post-fitting analysis and post-synthesis analysis if the design targets a MAX 3000 or MAX 7000 device. For more information, see the Help for the rule.) ; On           ;    ;
+; Rule C106: Clock signal source should not drive registers triggered by different clock edges                                                                                                                                                                                         ; On           ;    ;
+; Rule R101: Combinational logic used as a reset signal should be synchronized                                                                                                                                                                                                         ; On           ;    ;
+; Rule R102: External reset signals should be synchronized using two cascaded registers                                                                                                                                                                                                ; On           ;    ;
+; Rule R103: External reset signal should be correctly synchronized                                                                                                                                                                                                                    ; On           ;    ;
+; Rule R104: The reset signal that is generated in one clock domain and used in another clock domain should be correctly synchronized                                                                                                                                                  ; On           ;    ;
+; Rule R105: The reset signal that is generated in one clock domain and used in another clock domain should be synchronized                                                                                                                                                            ; On           ;    ;
+; Rule T101: Nodes with more than the specified number of fan-outs                                                                                                                                                                                                                     ; On           ;    ;
+; Rule T102: Top nodes with the highest number of fan-outs                                                                                                                                                                                                                             ; On           ;    ;
+; Rule A101: Design should not contain combinational loops                                                                                                                                                                                                                             ; On           ;    ;
+; Rule A102: Register output should not drive its own control signal directly or through combinational logic                                                                                                                                                                           ; On           ;    ;
+; Rule A103: Design should not contain delay chains                                                                                                                                                                                                                                    ; On           ;    ;
+; Rule A104: Design should not contain ripple clock structures                                                                                                                                                                                                                         ; On           ;    ;
+; Rule A105: Pulses should not be implemented asynchronously                                                                                                                                                                                                                           ; On           ;    ;
+; Rule A106: Multiple pulses should not be generated in design                                                                                                                                                                                                                         ; On           ;    ;
+; Rule A107: Design should not contain SR latches                                                                                                                                                                                                                                      ; On           ;    ;
+; Rule A108: Design should not contain latches                                                                                                                                                                                                                                         ; On           ;    ;
+; Rule S101: Output enable and input of the same tri-state node should not be driven by same signal source                                                                                                                                                                             ; On           ;    ;
+; Rule S102: Synchronous port and asynchronous port of the same register should not be driven by the same signal source                                                                                                                                                                ; On           ;    ;
+; Rule S103: More than one asynchronous port of a register should not be driven by the same signal source                                                                                                                                                                              ; On           ;    ;
+; Rule S104: Clock port and any other port of a register should not be driven by the same signal source                                                                                                                                                                                ; On           ;    ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains                                                                                                                                                                                        ; On           ;    ;
+; Rule D102: Multiple data bits that are transferred across asynchronous clock domains are synchronized, but not all bits may be aligned in the receiving clock domain                                                                                                                 ; On           ;    ;
+; Rule D103: Data bits are not correctly synchronized when transferred between asynchronous clock domains                                                                                                                                                                              ; On           ;    ;
+; Rule M101: Data bits are not synchronized when transferred to the state machine of asynchronous clock domains                                                                                                                                                                        ; Off          ;    ;
+; Rule M102: No reset signal defined to initialize the state machine                                                                                                                                                                                                                   ; Off          ;    ;
+; Rule M103: State machine should not contain an unreachable state                                                                                                                                                                                                                     ; Off          ;    ;
+; Rule M104: State machine should not contain a deadlock state                                                                                                                                                                                                                         ; Off          ;    ;
+; Rule M105: State machine should not contain a dead transition                                                                                                                                                                                                                        ; Off          ;    ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+----+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; High Violations                                                                                                                                                                                        ;
++--------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+; Rule name                                                                                                    ; Name                                                                                    ;
++--------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 1  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 2  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 3  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[0]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[1]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[2]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 4  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[0]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[1]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[2]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 5  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 6  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 7  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 8  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 9  ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 10 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 11 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 12 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 13 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 14 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 15 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[1]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[1]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[2]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 16 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[1]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[1]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[2]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 17 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[2]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[2]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 18 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[2]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[2]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 19 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 20 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[8]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 21 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[11] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 22 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[11] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 23 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 24 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 25 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[3]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 26 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[3]  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[3]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[4]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[5]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 27 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[13] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 28 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[13] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 29 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 30 ;                                                                                         ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14] ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
+;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 31 ;                                                                                         ;
+;  Structure 31                                                                                                ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[15] ;
+; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 32 ;                                                                                         ;
+;  Structure 32                                                                                                ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[15] ;
++--------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Medium Violations                                                                                                                                                                                                   ;
++---------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+; Rule name                                                                                                                 ; Name                                                                                    ;
++---------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+; Rule R102: External reset signals should be synchronized using two cascaded registers                                     ; KEY[0]                                                                                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                       ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_ResetFPGA                                      ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DONE                        ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[0]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[1]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[7]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[8]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[6]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[10]                 ;
+; Rule R105: The reset signal that is generated in one clock domain and used in another clock domain should be synchronized ; Laser_Controller:inst10|oPMTClear                                                       ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10] ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[1]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[2]  ;
+;  Reset signal destination node(s) from clock "PMT_In_B"                                                                   ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10] ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[1]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[2]  ;
+;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]  ;
++---------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Information only Violations                                                                                                                                                                    ;
++------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+---------+
+; Rule name                                                        ; Name                                                                                                              ; Fan-Out ;
++------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+---------+
+; Rule T101: Nodes with more than the specified number of fan-outs ; CLOCK_50~clkctrl                                                                                                  ; 882     ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                                                 ; 229     ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount                                                               ; 38      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; KEY[0]                                                                                                            ; 244     ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[31]~1                                                              ; 64      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|oSendData                                                                                 ; 35      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD                                                  ; 131     ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[3]~19                                                       ; 37      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|always5~0                                                                                 ; 44      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                                ; 35      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|ControlBits[1]                                                                            ; 31      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_PrepNextInstruction~8                                                                   ; 44      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_NextInstructionReady~13                                                                 ; 37      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_State.0001                                                                              ; 33      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_InstructionBuffered                                                      ; 42      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]                                                             ; 64      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]                                                             ; 64      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0~clkctrl ; 197     ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_WRn~4                                                                 ; 39      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                                ; 42      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT                                                  ; 33      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|r_DATA[0]~0                                           ; 32      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                                              ; 39      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]                                                              ; 39      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_LoopCount[15]~0                                                                         ; 45      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]                                                              ; 52      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                                              ; 52      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|oPMTClear~clkctrl                                                                         ; 32      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|oPMTGate                                                                                  ; 33      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CLOCK_50~clkctrl                                                                                                  ; 882     ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; KEY[0]                                                                                                            ; 244     ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                                                 ; 229     ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0~clkctrl ; 197     ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD                                                  ; 131     ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[31]~1                                                              ; 64      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]                                                             ; 64      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]                                                             ; 64      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                                              ; 52      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]                                                              ; 52      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_LoopCount[15]~0                                                                         ; 45      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_PrepNextInstruction~8                                                                   ; 44      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|always5~0                                                                                 ; 44      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                                ; 42      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_InstructionBuffered                                                      ; 42      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]                                                              ; 39      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                                              ; 39      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_WRn~4                                                                 ; 39      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount                                                               ; 38      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[3]~19                                                       ; 37      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextInstructionReady~13                                                                 ; 37      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|oSendData                                                                                 ; 35      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                                ; 35      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_State.0001                                                                              ; 33      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT                                                  ; 33      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|oPMTGate                                                                                  ; 33      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|oPMTClear~clkctrl                                                                         ; 32      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|r_DATA[0]~0                                           ; 32      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|ControlBits[1]                                                                            ; 31      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_ADDR[21]~0                                                             ; 30      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|uart:u1|tx_Done                                                                          ; 30      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|Equal35~14                                                                 ; 28      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|ControlBits[0]                                                                            ; 27      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|ControlBits[2]                                                                            ; 27      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|INIT_REQ                   ; 26      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|uart:u1|rx                                                                               ; 25      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|TicksToRun[0]~15                                                                          ; 25      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|Equal9~0                                                                                  ; 25      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state.00001010                                                       ; 25      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NumTimesLooped[0]~72                                                                    ; 24      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|always11~0                                                                 ; 22      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|NextInstruction[7]~1                                                                      ; 22      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[21]~26                                               ; 22      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[16]~0                                                      ; 22      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextAddress[12]~2                                                                       ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|uart:u1|tx_state.TX_IDLE                                                                 ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST.000                                                                 ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextAddress[12]~1                                                                       ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextAddress[12]~4                                                                       ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST.READ                                               ; 21      ;
++------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+---------+
+
+
++---------------------------+
+; Design Assistant Messages ;
++---------------------------+
+Info: *******************************************************************
+Info: Running Quartus II Design Assistant
+    Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
+    Info: Processing started: Wed Jul 10 17:30:27 2013
+Info: Command: quartus_drc --read_settings_files=off --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
+Warning: Old Design Assistant assignment is used to turn ON/OFF rule. ENABLE_DA_RULE or DISABLE_DA_RULE assignment should be used to turn ON/OFF Design Assistant rule.
+    Warning: CLK_RULE_COMB_CLOCK
+    Warning: CLK_RULE_INV_CLOCK
+    Warning: CLK_RULE_INPINS_CLKNET
+    Warning: CLK_RULE_CLKNET_CLKSPINES
+    Warning: CLK_RULE_MIX_EDGES
+    Warning: RESET_RULE_COMB_ASYNCH_RESET
+    Warning: RESET_RULE_UNSYNCH_EXRESET
+    Warning: RESET_RULE_IMSYNCH_EXRESET
+    Warning: RESET_RULE_IMSYNCH_ASYNCH_DOMAIN
+    Warning: RESET_RULE_UNSYNCH_ASYNCH_DOMAIN
+    Warning: DRC_REPORT_FANOUT_EXCEEDING
+    Warning: DRC_REPORT_TOP_FANOUT
+    Warning: NONSYNCHSTRUCT_RULE_COMBLOOP
+    Warning: NONSYNCHSTRUCT_RULE_REG_LOOP
+    Warning: NONSYNCHSTRUCT_RULE_DELAY_CHAIN
+    Warning: NONSYNCHSTRUCT_RULE_RIPPLE_CLK
+    Warning: NONSYNCHSTRUCT_RULE_ILLEGAL_PULSE_GEN
+    Warning: NONSYNCHSTRUCT_RULE_MULTI_VIBRATOR
+    Warning: NONSYNCHSTRUCT_RULE_SRLATCH
+    Warning: NONSYNCHSTRUCT_RULE_LATCH_UNIDENTIFIED
+    Warning: NONSYNCHSTRUCT_RULE_COMB_DRIVES_RAM_WE
+    Warning: NONSYNCHSTRUCT_RULE_ASYN_RAM
+    Warning: SIGNALRACE_RULE_TRISTATE
+    Warning: SIGNALRACE_RULE_RESET_RACE
+    Warning: ACLK_RULE_NO_SZER_ACLK_DOMAIN
+    Warning: ACLK_RULE_SZER_BTW_ACLK_DOMAIN
+    Warning: ACLK_RULE_IMSZER_ADOMAIN
+    Warning: HCPY_VREF_PINS
+Info: Reading SDC File: 'CII_Starter_USB_API.sdc'
+Critical Warning: Setting INCREMENTAL_COMPILATION to "OFF" is no longer supported. Assignment is ignored. To disable partitions, set the IGNORE_PARTITIONS global assignment to "ON" instead.
+Info: Deriving PLL Clocks
+    Info: create_generated_clock -source {inst|u3|u1|sdram_pll1|altpll_component|pll|inclk[0]} -duty_cycle 50.00 -name {CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0} {inst|u3|u1|sdram_pll1|altpll_component|pll|clk[0]}
+    Info: create_generated_clock -source {inst|u3|u1|sdram_pll1|altpll_component|pll|inclk[0]} -duty_cycle 50.00 -name {CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk2} {inst|u3|u1|sdram_pll1|altpll_component|pll|clk[2]}
+Warning: Ignored filter at CII_Starter_USB_API.sdc(25): TCK could not be matched with a port or pin or register or keeper or net
+Warning: Ignored create_clock at CII_Starter_USB_API.sdc(25): Argument <targets> is not an object ID
+    Info: create_clock -period "2.500 ns" \
+             -name {TCK} {TCK}
+Warning: Ignored filter at CII_Starter_USB_API.sdc(73): TCK could not be matched with a clock
+Warning: Node: PMT_In_B was determined to be a clock but was found without an associated clock assignment.
+Warning: Node: PMT_In_A was determined to be a clock but was found without an associated clock assignment.
+Critical Warning: (High) Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains. (Value defined:2). Found 32 asynchronous clock domain interface structure(s) related to this rule.
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[1]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[1]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[2]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[2]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[11]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[11]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[3]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[3]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[13]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[13]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14]"
+    Info: Truncated list of Design Assistant messages to 30 messages. Go to sections under Design Assistant section of Compilation Report for complete lists of Design Assistant messages generated.
+Warning: (Medium) Rule R102: External reset signals should be synchronized using two cascaded registers. Found 1 node(s) related to this rule.
+    Warning: Node  "KEY[0]"
+Warning: (Medium) Rule R105: The reset signal that is generated in one clock domain and used in another clock domain should be synchronized. Found 1 node(s) related to this rule.
+    Warning: Node  "Laser_Controller:inst10|oPMTClear"
+Info: (Information) Rule T101: Nodes with more than the specified number of fan-outs. (Value defined:30). Found 29 node(s) with highest fan-out.
+    Info: Node  "CLOCK_50~clkctrl"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount"
+    Info: Node  "KEY[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[31]~1"
+    Info: Node  "Laser_Controller:inst10|oSendData"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[3]~19"
+    Info: Node  "Laser_Controller:inst10|always5~0"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount"
+    Info: Node  "Laser_Controller:inst10|ControlBits[1]"
+    Info: Node  "Laser_Controller:inst10|f_PrepNextInstruction~8"
+    Info: Node  "Laser_Controller:inst10|f_NextInstructionReady~13"
+    Info: Node  "Laser_Controller:inst10|f_State.0001"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_InstructionBuffered"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0~clkctrl"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_WRn~4"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|r_DATA[0]~0"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]"
+    Info: Node  "Laser_Controller:inst10|f_LoopCount[15]~0"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]"
+    Info: Node  "Laser_Controller:inst10|oPMTClear~clkctrl"
+    Info: Node  "Laser_Controller:inst10|oPMTGate"
+Info: (Information) Rule T102: Top nodes with the highest number of fan-outs. (Value defined:50). Found 50 node(s) with highest fan-out.
+    Info: Node  "CLOCK_50~clkctrl"
+    Info: Node  "KEY[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0~clkctrl"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[31]~1"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]"
+    Info: Node  "Laser_Controller:inst10|f_LoopCount[15]~0"
+    Info: Node  "Laser_Controller:inst10|f_PrepNextInstruction~8"
+    Info: Node  "Laser_Controller:inst10|always5~0"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_InstructionBuffered"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_WRn~4"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[3]~19"
+    Info: Node  "Laser_Controller:inst10|f_NextInstructionReady~13"
+    Info: Node  "Laser_Controller:inst10|oSendData"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount"
+    Info: Node  "Laser_Controller:inst10|f_State.0001"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT"
+    Info: Node  "Laser_Controller:inst10|oPMTGate"
+    Info: Node  "Laser_Controller:inst10|oPMTClear~clkctrl"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|r_DATA[0]~0"
+    Info: Node  "Laser_Controller:inst10|ControlBits[1]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_ADDR[21]~0"
+    Info: Truncated list of Design Assistant messages to 30 messages. Go to sections under Design Assistant section of Compilation Report for complete lists of Design Assistant messages generated.
+Info: Design Assistant information: finished post-fitting analysis of current design -- generated 79 information messages and 34 warning messages
+Info: Quartus II Design Assistant was successful. 0 errors, 70 warnings
+    Info: Peak virtual memory: 237 megabytes
+    Info: Processing ended: Wed Jul 10 17:30:31 2013
+    Info: Elapsed time: 00:00:04
+    Info: Total CPU time (on all processors): 00:00:03
+
+

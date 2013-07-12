@@ -1,0 +1,16 @@
+module LaserSwitch ( 
+							iExperimentRunning,
+							iLasersExperiment,
+							iLasersIdle,
+							oLasers);
+input iExperimentRunning;
+input [4:0] iLasersExperiment;			
+input [4:0] iLasersIdle;
+output [4:0] oLasers;
+
+assign oLasers = (iExperimentRunning) ? iLasersExperiment:
+													iLasersIdle;
+
+//could probably just use a multiplexer for this...							
+							
+endmodule

@@ -1,0 +1,100 @@
+Restore Archived Project report for CII_Starter_USB_API
+Wed Jul 10 14:58:49 2013
+Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Restore Archived Project Summary
+  3. Restore Archived Project Messages
+  4. Files Restored
+  5. Files Not Restored
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2011 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------------+
+; Restore Archived Project Summary                                        ;
++---------------------------------+---------------------------------------+
+; Restore Archived Project Status ; Successful - Wed Jul 10 14:58:49 2013 ;
+; Revision Name                   ; CII_Starter_USB_API                   ;
+; Top-level Entity Name           ; CPU                                   ;
+; Family                          ; Cyclone II                            ;
++---------------------------------+---------------------------------------+
+
+
++-----------------------------------+
+; Restore Archived Project Messages ;
++-----------------------------------+
+Info: Successfully restored 'Z:/Shamim Stefan MSci/SourceCode/Version3.3 (Windowing)/FPGA(Quartus Project)/CII_Starter_USB_API_tmp_archive.qar' into the 'Z:/Spectroscopy/FPGA' directory
+Info: Generated report 'CII_Starter_USB_API.restore.rpt'
+
+
++----------------------------------------------------------------+
+; Files Restored                                                 ;
++----------------------------------------------------------------+
+; File Name                                                      ;
++----------------------------------------------------------------+
+; CII_Starter_USB_API.out.sdc                                    ;
+; CII_Starter_USB_API.qpf                                        ;
+; CII_Starter_USB_API.qsf                                        ;
+; CII_Starter_USB_API.sdc                                        ;
+; CII_Starter_USB_API.v                                          ;
+; CII_Starter_USB_API_assignment_defaults.qdf                    ;
+; CLK_LOCK.v                                                     ;
+; CMD_Decode.v                                                   ;
+; CPU.bdf                                                        ;
+; Flash_Command.h                                                ;
+; LaserInstructions.h                                            ;
+; LaserSwitch.v                                                  ;
+; Laser_Controller.v                                             ;
+; Multi_Flash/Flash_Controller.v                                 ;
+; Multi_Flash/Flash_Multiplexer.v                                ;
+; Multi_Flash/Multi_Flash.v                                      ;
+; Multi_Sdram/Multi_Sdram.v                                      ;
+; Multi_Sdram/PLL1.v                                             ;
+; Multi_Sdram/Sdram_Controller.v                                 ;
+; Multi_Sdram/Sdram_Multiplexer.v                                ;
+; Multi_Sdram/Sdram_Params.h                                     ;
+; Multi_Sdram/command.v                                          ;
+; Multi_Sdram/control_interface.v                                ;
+; Multi_Sdram/sdr_data_path.v                                    ;
+; Multi_Sram.v                                                   ;
+; RS232_Command.h                                                ;
+; RS232_Controller.v                                             ;
+; Reset_Delay.v                                                  ;
+; SRAM_16Bit_512K.v                                              ;
+; UART.v                                                         ;
+; USB_JTAG.v                                                     ;
+; incremental_db/compiled_partitions/CII_Starter_USB_API.db_info ;
+; lpm_counter0.vhd                                               ;
++----------------------------------------------------------------+
+
+
++--------------------+
+; Files Not Restored ;
++--------------------+
+; File Name          ;
++--------------------+
+
+

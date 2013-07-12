@@ -1,0 +1,444 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2011 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 360 432)
+	(text "CMD_Decode" (rect 5 0 75 12)(font "Arial" ))
+	(text "inst" (rect 8 400 36 412)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "iRXD_DATA[7..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "iRXD_DATA[7..0]" (rect 21 27 127 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "iRXD_Ready" (rect 0 0 70 12)(font "Arial" ))
+		(text "iRXD_Ready" (rect 21 43 91 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "iTXD_Done" (rect 0 0 63 12)(font "Arial" ))
+		(text "iTXD_Done" (rect 21 59 84 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "iFL_DATA[7..0]" (rect 0 0 99 12)(font "Arial" ))
+		(text "iFL_DATA[7..0]" (rect 21 75 120 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "iFL_Ready" (rect 0 0 63 12)(font "Arial" ))
+		(text "iFL_Ready" (rect 21 91 84 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "iSDR_DATA[15..0]" (rect 0 0 113 12)(font "Arial" ))
+		(text "iSDR_DATA[15..0]" (rect 21 107 134 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 3))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "iSDR_Done" (rect 0 0 63 12)(font "Arial" ))
+		(text "iSDR_Done" (rect 21 123 84 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 1))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "iSR_DATA[15..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "iSR_DATA[15..0]" (rect 21 139 127 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "iCLK" (rect 0 0 28 12)(font "Arial" ))
+		(text "iCLK" (rect 21 155 49 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 1))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "iRST_n" (rect 0 0 42 12)(font "Arial" ))
+		(text "iRST_n" (rect 21 171 63 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 1))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "iSD_ADDR[21..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "iSD_ADDR[21..0]" (rect 21 187 127 199)(font "Arial" ))
+		(line (pt 0 192)(pt 16 192)(line_width 3))
+	)
+	(port
+		(pt 0 208)
+		(input)
+		(text "iSD_DATA_REQUEST" (rect 0 0 113 12)(font "Arial" ))
+		(text "iSD_DATA_REQUEST" (rect 21 203 134 215)(font "Arial" ))
+		(line (pt 0 208)(pt 16 208)(line_width 1))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "iCountReady" (rect 0 0 77 12)(font "Arial" ))
+		(text "iCountReady" (rect 21 219 98 231)(font "Arial" ))
+		(line (pt 0 224)(pt 16 224)(line_width 1))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "iCountData[31..0]" (rect 0 0 120 12)(font "Arial" ))
+		(text "iCountData[31..0]" (rect 21 235 141 247)(font "Arial" ))
+		(line (pt 0 240)(pt 16 240)(line_width 3))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "iSendData" (rect 0 0 63 12)(font "Arial" ))
+		(text "iSendData" (rect 21 251 84 263)(font "Arial" ))
+		(line (pt 0 256)(pt 16 256)(line_width 1))
+	)
+	(port
+		(pt 344 32)
+		(output)
+		(text "oTXD_DATA[7..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "oTXD_DATA[7..0]" (rect 217 27 323 39)(font "Arial" ))
+		(line (pt 344 32)(pt 328 32)(line_width 3))
+	)
+	(port
+		(pt 344 48)
+		(output)
+		(text "oTXD_Start" (rect 0 0 70 12)(font "Arial" ))
+		(text "oTXD_Start" (rect 253 43 323 55)(font "Arial" ))
+		(line (pt 344 48)(pt 328 48)(line_width 1))
+	)
+	(port
+		(pt 344 64)
+		(output)
+		(text "oFL_DATA[7..0]" (rect 0 0 99 12)(font "Arial" ))
+		(text "oFL_DATA[7..0]" (rect 224 59 323 71)(font "Arial" ))
+		(line (pt 344 64)(pt 328 64)(line_width 3))
+	)
+	(port
+		(pt 344 80)
+		(output)
+		(text "oFL_ADDR[21..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "oFL_ADDR[21..0]" (rect 217 75 323 87)(font "Arial" ))
+		(line (pt 344 80)(pt 328 80)(line_width 3))
+	)
+	(port
+		(pt 344 96)
+		(output)
+		(text "oFL_Start" (rect 0 0 63 12)(font "Arial" ))
+		(text "oFL_Start" (rect 260 91 323 103)(font "Arial" ))
+		(line (pt 344 96)(pt 328 96)(line_width 1))
+	)
+	(port
+		(pt 344 112)
+		(output)
+		(text "oFL_CMD[2..0]" (rect 0 0 92 12)(font "Arial" ))
+		(text "oFL_CMD[2..0]" (rect 231 107 323 119)(font "Arial" ))
+		(line (pt 344 112)(pt 328 112)(line_width 3))
+	)
+	(port
+		(pt 344 128)
+		(output)
+		(text "oSDR_DATA[15..0]" (rect 0 0 113 12)(font "Arial" ))
+		(text "oSDR_DATA[15..0]" (rect 210 123 323 135)(font "Arial" ))
+		(line (pt 344 128)(pt 328 128)(line_width 3))
+	)
+	(port
+		(pt 344 144)
+		(output)
+		(text "oSDR_ADDR[21..0]" (rect 0 0 113 12)(font "Arial" ))
+		(text "oSDR_ADDR[21..0]" (rect 210 139 323 151)(font "Arial" ))
+		(line (pt 344 144)(pt 328 144)(line_width 3))
+	)
+	(port
+		(pt 344 160)
+		(output)
+		(text "oSDR_WR" (rect 0 0 49 12)(font "Arial" ))
+		(text "oSDR_WR" (rect 274 155 323 167)(font "Arial" ))
+		(line (pt 344 160)(pt 328 160)(line_width 1))
+	)
+	(port
+		(pt 344 176)
+		(output)
+		(text "oSDR_RD" (rect 0 0 49 12)(font "Arial" ))
+		(text "oSDR_RD" (rect 274 171 323 183)(font "Arial" ))
+		(line (pt 344 176)(pt 328 176)(line_width 1))
+	)
+	(port
+		(pt 344 192)
+		(output)
+		(text "oSR_DATA[15..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "oSR_DATA[15..0]" (rect 217 187 323 199)(font "Arial" ))
+		(line (pt 344 192)(pt 328 192)(line_width 3))
+	)
+	(port
+		(pt 344 208)
+		(output)
+		(text "oSR_ADDR[17..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "oSR_ADDR[17..0]" (rect 217 203 323 215)(font "Arial" ))
+		(line (pt 344 208)(pt 328 208)(line_width 3))
+	)
+	(port
+		(pt 344 224)
+		(output)
+		(text "oSR_WE_N" (rect 0 0 56 12)(font "Arial" ))
+		(text "oSR_WE_N" (rect 267 219 323 231)(font "Arial" ))
+		(line (pt 344 224)(pt 328 224)(line_width 1))
+	)
+	(port
+		(pt 344 240)
+		(output)
+		(text "oSR_OE_N" (rect 0 0 56 12)(font "Arial" ))
+		(text "oSR_OE_N" (rect 267 235 323 247)(font "Arial" ))
+		(line (pt 344 240)(pt 328 240)(line_width 1))
+	)
+	(port
+		(pt 344 256)
+		(output)
+		(text "oSDR_Select[1..0]" (rect 0 0 120 12)(font "Arial" ))
+		(text "oSDR_Select[1..0]" (rect 203 251 323 263)(font "Arial" ))
+		(line (pt 344 256)(pt 328 256)(line_width 3))
+	)
+	(port
+		(pt 344 272)
+		(output)
+		(text "oFL_Select[1..0]" (rect 0 0 113 12)(font "Arial" ))
+		(text "oFL_Select[1..0]" (rect 210 267 323 279)(font "Arial" ))
+		(line (pt 344 272)(pt 328 272)(line_width 3))
+	)
+	(port
+		(pt 344 288)
+		(output)
+		(text "oSR_Select[1..0]" (rect 0 0 113 12)(font "Arial" ))
+		(text "oSR_Select[1..0]" (rect 210 283 323 295)(font "Arial" ))
+		(line (pt 344 288)(pt 328 288)(line_width 3))
+	)
+	(port
+		(pt 344 304)
+		(output)
+		(text "oSD_DATA[31..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "oSD_DATA[31..0]" (rect 217 299 323 311)(font "Arial" ))
+		(line (pt 344 304)(pt 328 304)(line_width 3))
+	)
+	(port
+		(pt 344 320)
+		(output)
+		(text "oSD_DATA_FINISHED_UPLOAD" (rect 0 0 169 12)(font "Arial" ))
+		(text "oSD_DATA_FINISHED_UPLOAD" (rect 154 315 323 327)(font "Arial" ))
+		(line (pt 344 320)(pt 328 320)(line_width 1))
+	)
+	(port
+		(pt 344 336)
+		(output)
+		(text "oSD_DATA_READY" (rect 0 0 99 12)(font "Arial" ))
+		(text "oSD_DATA_READY" (rect 224 331 323 343)(font "Arial" ))
+		(line (pt 344 336)(pt 328 336)(line_width 1))
+	)
+	(port
+		(pt 344 352)
+		(output)
+		(text "oRedLEDs[9..0]" (rect 0 0 99 12)(font "Arial" ))
+		(text "oRedLEDs[9..0]" (rect 224 347 323 359)(font "Arial" ))
+		(line (pt 344 352)(pt 328 352)(line_width 3))
+	)
+	(port
+		(pt 344 368)
+		(output)
+		(text "oFinishedSendingData" (rect 0 0 141 12)(font "Arial" ))
+		(text "oFinishedSendingData" (rect 182 363 323 375)(font "Arial" ))
+		(line (pt 344 368)(pt 328 368)(line_width 1))
+	)
+	(parameter
+		"SETUP"
+		"01100001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"ERASE"
+		"01110010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"WRITE"
+		"10000011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"READ"
+		"10010100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"LCD_DAT"
+		"10000011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"LCD_CMD"
+		"10010100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"LED"
+		"11110000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SEG7"
+		"11100001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"PS2"
+		"11010010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FLASH"
+		"11000011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SDRAM"
+		"10110100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SRAM"
+		"10100101"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"LCD"
+		"10010110"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"VGA"
+		"10000111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SDRSEL"
+		"00011111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"FLSEL"
+		"00101110"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"EXTIO"
+		"00111101"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SET_REG"
+		"01001100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SRSEL"
+		"01011011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"SETUPFINISH"
+		"10110111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"OUTSEL"
+		"00110011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"NORMAL"
+		"10101010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"DISPLAY"
+		"11001100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"BURST"
+		"11111111"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_READ"
+		"000"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_WRITE"
+		"001"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_BLK_ERA"
+		"010"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_SEC_ERA"
+		"011"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_CHP_ERA"
+		"100"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_ENTRY_ID"
+		"101"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"CMD_RESET"
+		"110"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 328 400)(line_width 1))
+	)
+	(annotation_block (parameter)(rect 360 -64 460 16))
+)
