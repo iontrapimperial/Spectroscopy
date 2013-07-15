@@ -308,8 +308,6 @@ set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to TCK
 set_instance_assignment -name GLOBAL_SIGNAL ON -to TDI
 set_instance_assignment -name GLOBAL_SIGNAL ON -to TCS
 set_instance_assignment -name GLOBAL_SIGNAL ON -to TDO
-set_location_assignment PIN_F13 -to GND
-set_global_assignment -name ASSIGNMENT_GROUP_MEMBER GND -section_id SpectroscopyAdditions
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "NO HEAT SINK WITH STILL AIR"
@@ -347,27 +345,36 @@ set_global_assignment -name BDF_FILE CPU.bdf
 set_global_assignment -name VERILOG_FILE Laser_Controller.v
 set_global_assignment -name ASSIGNMENT_GROUP_MEMBER VOut -section_id SpectroscopyAdditions
 set_global_assignment -name VERILOG_FILE LaserSwitch.v
-set_location_assignment PIN_C14 -to L397a
-set_location_assignment PIN_D14 -to L397b
-set_location_assignment PIN_D15 -to L729
-set_location_assignment PIN_D16 -to L854
-set_location_assignment PIN_C17 -to L866
-set_location_assignment PIN_G15 -to Laser397a
-set_location_assignment PIN_E14 -to Laser397b
-set_location_assignment PIN_E15 -to Laser729
-set_location_assignment PIN_F15 -to Laser854
-set_location_assignment PIN_G16 -to Laser866
-set_location_assignment PIN_H13 -to GND_MAINSTRIG
-set_location_assignment PIN_H14 -to VOut
-set_location_assignment PIN_H12 -to MainsTrigIn
+set_location_assignment PIN_H14 -to Laser729
+set_location_assignment PIN_G15 -to Laser854
+set_location_assignment PIN_C20 -to VOut
+set_location_assignment PIN_C19 -to MainsTrigIn
 set_global_assignment -name VERILOG_FILE UART.v
 set_location_assignment PIN_B18 -to CTS
 set_location_assignment PIN_B20 -to SerialIn
 set_location_assignment PIN_C22 -to SerialOut
-set_location_assignment PIN_C20 -to PMT_In_B
-set_location_assignment PIN_F12 -to PMT_In_A
-set_location_assignment PIN_F20 -to LaserLockIn397a
-set_location_assignment PIN_E20 -to LaserLockIn397b
-set_location_assignment PIN_D20 -to LaserLockIn729
-set_location_assignment PIN_D19 -to LaserLockIn854
+set_location_assignment PIN_C18 -to PMT_In_B
+set_location_assignment PIN_C17 -to PMT_In_A
+set_location_assignment PIN_D15 -to LaserLockIn729
+set_location_assignment PIN_H12 -to Laser397_1
+set_location_assignment PIN_H13 -to Laser397_2
+set_location_assignment PIN_E14 -to Laser729_RF1
+set_location_assignment PIN_E15 -to Laser729_RF2
+set_location_assignment PIN_G16 -to Laser854_Freq
+set_location_assignment PIN_F15 -to Laser854_Power
+set_location_assignment PIN_F12 -to LaserAux1
+set_location_assignment PIN_F13 -to LaserAux2
+set_location_assignment PIN_C14 -to LaserLockIn397_1
+set_location_assignment PIN_D14 -to LaserLockIn397_2
+set_location_assignment PIN_D16 -to LaserLockInRedSC
+set_location_assignment PIN_G17 -to LED397_1
+set_location_assignment PIN_H17 -to LED397_2
+set_location_assignment PIN_J15 -to LED729
+set_location_assignment PIN_N22 -to LED729_RF1
+set_location_assignment PIN_N21 -to LED729_RF2
+set_location_assignment PIN_H18 -to LED854
+set_location_assignment PIN_N15 -to LED854_Freq
+set_location_assignment PIN_P15 -to LED854_Power
+set_location_assignment PIN_P17 -to LEDAux1
+set_location_assignment PIN_P18 -to LEDAux2
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

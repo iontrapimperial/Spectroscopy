@@ -82,9 +82,9 @@ GND*                         : A11       :        :                   :         
 CLOCK_24[1]                  : A12       : input  : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : A13       :        :                   :         : 4         :                
 GND*                         : A14       :        :                   :         : 4         :                
-GND*                         : A15       :        :                   :         : 4         :                
+LEDR_temp[2]                 : A15       : output : 3.3-V LVTTL       :         : 4         : N              
 GND*                         : A16       :        :                   :         : 4         :                
-GND*                         : A17       :        :                   :         : 4         :                
+LEDR_temp[0]                 : A17       : output : 3.3-V LVTTL       :         : 4         : N              
 GND*                         : A18       :        :                   :         : 4         :                
 GND*                         : A19       :        :                   :         : 4         :                
 GND*                         : A20       :        :                   :         : 4         :                
@@ -148,9 +148,9 @@ GND*                         : B11       :        :                   :         
 CLOCK_24[0]                  : B12       : input  : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : B13       :        :                   :         : 4         :                
 GND*                         : B14       :        :                   :         : 4         :                
-GND*                         : B15       :        :                   :         : 4         :                
+LEDR_temp[1]                 : B15       : output : 3.3-V LVTTL       :         : 4         : N              
 GND*                         : B16       :        :                   :         : 4         :                
-GND*                         : B17       :        :                   :         : 4         :                
+LEDR_temp[3]                 : B17       : output : 3.3-V LVTTL       :         : 4         : N              
 CTS                          : B18       : output : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : B19       :        :                   :         : 4         :                
 SerialIn                     : B20       : input  : 3.3-V LVTTL       :         : 4         : Y              
@@ -169,13 +169,13 @@ GND*                         : C10       :        :                   :         
 VCCIO3                       : C11       : power  :                   : 3.3V    : 3         :                
 VCCIO4                       : C12       : power  :                   : 3.3V    : 4         :                
 GND*                         : C13       :        :                   :         : 4         :                
-L397a                        : C14       : output : 3.3-V LVTTL       :         : 4         : Y              
+LaserLockIn397_1             : C14       : input  : 3.3-V LVTTL       :         : 4         : Y              
 GND                          : C15       : gnd    :                   :         :           :                
 GND*                         : C16       :        :                   :         : 4         :                
-L866                         : C17       : output : 3.3-V LVTTL       :         : 4         : Y              
-GND*                         : C18       :        :                   :         : 4         :                
-GND*                         : C19       :        :                   :         : 5         :                
-PMT_In_B                     : C20       : input  : 3.3-V LVTTL       :         : 5         : Y              
+PMT_In_A                     : C17       : input  : 3.3-V LVTTL       :         : 4         : Y              
+PMT_In_B                     : C18       : input  : 3.3-V LVTTL       :         : 4         : Y              
+MainsTrigIn                  : C19       : input  : 3.3-V LVTTL       :         : 5         : Y              
+VOut                         : C20       : output : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : C21       :        :                   :         : 5         :                
 SerialOut                    : C22       : output : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : D1        :        :                   :         : 2         :                
@@ -191,13 +191,13 @@ GND                          : D10       : gnd    :                   :         
 GND*                         : D11       :        :                   :         : 3         :                
 CLOCK_27[0]                  : D12       : input  : 3.3-V LVTTL       :         : 3         : Y              
 GND                          : D13       : gnd    :                   :         :           :                
-L397b                        : D14       : output : 3.3-V LVTTL       :         : 4         : Y              
-L729                         : D15       : output : 3.3-V LVTTL       :         : 4         : Y              
-L854                         : D16       : output : 3.3-V LVTTL       :         : 4         : Y              
+LaserLockIn397_2             : D14       : input  : 3.3-V LVTTL       :         : 4         : Y              
+LaserLockIn729               : D15       : input  : 3.3-V LVTTL       :         : 4         : Y              
+LaserLockInRedSC             : D16       : input  : 3.3-V LVTTL       :         : 4         : Y              
 VCCIO4                       : D17       : power  :                   : 3.3V    : 4         :                
 GND                          : D18       : gnd    :                   :         :           :                
-LaserLockIn854               : D19       : input  : 3.3-V LVTTL       :         : 5         : Y              
-LaserLockIn729               : D20       : input  : 3.3-V LVTTL       :         : 5         : Y              
+GND*                         : D19       :        :                   :         : 5         :                
+GND*                         : D20       :        :                   :         : 5         :                
 GND*                         : D21       :        :                   :         : 5         :                
 GND*                         : D22       :        :                   :         : 5         :                
 GND*                         : E1        :        :                   :         : 2         :                
@@ -213,14 +213,14 @@ VCCIO3                       : E10       : power  :                   : 3.3V    
 GND*                         : E11       :        :                   :         : 3         :                
 CLOCK_27[1]                  : E12       : input  : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO4                       : E13       : power  :                   : 3.3V    : 4         :                
-Laser397b                    : E14       : output : 3.3-V LVTTL       :         : 4         : Y              
-Laser729                     : E15       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser729_RF1                 : E14       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser729_RF2                 : E15       : output : 3.3-V LVTTL       :         : 4         : Y              
 GNDA_PLL2                    : E16       : gnd    :                   :         :           :                
 GND_PLL2                     : E17       : gnd    :                   :         :           :                
 GND*                         : E18       :        :                   :         : 5         :                
 GND*                         : E19       :        :                   :         : 5         :                
-LaserLockIn397b              : E20       : input  : 3.3-V LVTTL       :         : 5         : Y              
-LEDR_temp[3]                 : E21       : output : 3.3-V LVTTL       :         : 5         : N              
+GND*                         : E20       :        :                   :         : 5         :                
+GND*                         : E21       :        :                   :         : 5         :                
 GND*                         : E22       :        :                   :         : 5         :                
 GND*                         : F1        :        :                   :         : 2         :                
 GND*                         : F2        :        :                   :         : 2         :                
@@ -233,15 +233,15 @@ GND*                         : F8        :        :                   :         
 GND*                         : F9        :        :                   :         : 3         :                
 GND*                         : F10       :        :                   :         : 3         :                
 GND*                         : F11       :        :                   :         : 3         :                
-PMT_In_A                     : F12       : input  : 3.3-V LVTTL       :         : 4         : Y              
-GND                          : F13       : output : 3.3-V LVTTL       :         : 4         : Y              
+LaserAux1                    : F12       : output : 3.3-V LVTTL       :         : 4         : Y              
+LaserAux2                    : F13       : output : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : F14       :        :                   :         : 4         :                
-Laser854                     : F15       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser854_Power               : F15       : output : 3.3-V LVTTL       :         : 4         : Y              
 VCCA_PLL2                    : F16       : power  :                   : 1.2V    :           :                
 VCCD_PLL2                    : F17       : power  :                   : 1.2V    :           :                
 GND_PLL2                     : F18       : gnd    :                   :         :           :                
 GND                          : F19       : gnd    :                   :         :           :                
-LaserLockIn397a              : F20       : input  : 3.3-V LVTTL       :         : 5         : Y              
+GND*                         : F20       :        :                   :         : 5         :                
 GND*                         : F21       :        :                   :         : 5         :                
 GND*                         : F22       :        :                   :         : 5         :                
 NC                           : G1        :        :                   :         :           :                
@@ -258,12 +258,12 @@ GND*                         : G11       :        :                   :         
 GND*                         : G12       :        :                   :         : 4         :                
 GND                          : G13       : gnd    :                   :         :           :                
 VCCIO4                       : G14       : power  :                   : 3.3V    : 4         :                
-Laser397a                    : G15       : output : 3.3-V LVTTL       :         : 4         : Y              
-Laser866                     : G16       : output : 3.3-V LVTTL       :         : 4         : Y              
-GND*                         : G17       :        :                   :         : 5         :                
-LEDR_temp[0]                 : G18       : output : 3.3-V LVTTL       :         : 5         : N              
+Laser854                     : G15       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser854_Freq                : G16       : output : 3.3-V LVTTL       :         : 4         : Y              
+LED397_1                     : G17       : output : 3.3-V LVTTL       :         : 5         : Y              
+GND*                         : G18       :        :                   :         : 5         :                
 VCCIO5                       : G19       : power  :                   : 3.3V    : 5         :                
-LEDR_temp[1]                 : G20       : output : 3.3-V LVTTL       :         : 5         : N              
+GND*                         : G20       :        :                   :         : 5         :                
 GND*                         : G21       :        :                   :         : 5         :                
 GND*                         : G22       :        :                   :         : 5         :                
 GND*                         : H1        :        :                   :         : 2         :                
@@ -277,13 +277,13 @@ GND*                         : H8        :        :                   :         
 GND*                         : H9        :        :                   :         : 3         :                
 GND*                         : H10       :        :                   :         : 3         :                
 GND*                         : H11       :        :                   :         : 3         :                
-MainsTrigIn                  : H12       : input  : 3.3-V LVTTL       :         : 4         : Y              
-GND_MAINSTRIG                : H13       : output : 3.3-V LVTTL       :         : 4         : Y              
-VOut                         : H14       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser397_1                   : H12       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser397_2                   : H13       : output : 3.3-V LVTTL       :         : 4         : Y              
+Laser729                     : H14       : output : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : H15       :        :                   :         : 4         :                
 GND*                         : H16       :        :                   :         : 5         :                
-GND*                         : H17       :        :                   :         : 5         :                
-GND*                         : H18       :        :                   :         : 5         :                
+LED397_2                     : H17       : output : 3.3-V LVTTL       :         : 5         : Y              
+LED854                       : H18       : output : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : H19       :        :                   :         : 5         :                
 GND                          : H20       : gnd    :                   :         :           :                
 NC                           : H21       :        :                   :         :           :                
@@ -302,13 +302,13 @@ VCCINT                       : J11       : power  :                   : 1.2V    
 VCCINT                       : J12       : power  :                   : 1.2V    :           :                
 VCCINT                       : J13       : power  :                   : 1.2V    :           :                
 GND*                         : J14       :        :                   :         : 4         :                
-GND*                         : J15       :        :                   :         : 5         :                
+LED729                       : J15       : output : 3.3-V LVTTL       :         : 5         : Y              
 VCCIO5                       : J16       : power  :                   : 3.3V    : 5         :                
 GND*                         : J17       :        :                   :         : 5         :                
 GND*                         : J18       :        :                   :         : 5         :                
 GND*                         : J19       :        :                   :         : 5         :                
 GND*                         : J20       :        :                   :         : 5         :                
-LEDR_temp[2]                 : J21       : output : 3.3-V LVTTL       :         : 5         : N              
+GND*                         : J21       :        :                   :         : 5         :                
 GND*                         : J22       :        :                   :         : 5         :                
 nCE                          : K1        :        :                   :         : 2         :                
 TCK                          : K2        : input  :                   :         : 2         :                
@@ -390,14 +390,14 @@ GND                          : N11       : gnd    :                   :         
 GND                          : N12       : gnd    :                   :         :           :                
 GND                          : N13       : gnd    :                   :         :           :                
 VCCINT                       : N14       : power  :                   : 1.2V    :           :                
-GND*                         : N15       :        :                   :         : 6         :                
+LED854_Freq                  : N15       : output : 3.3-V LVTTL       :         : 6         : Y              
 GND                          : N16       : gnd    :                   :         :           :                
 MSEL1                        : N17       :        :                   :         : 6         :                
 CONF_DONE                    : N18       :        :                   :         : 6         :                
 GND                          : N19       : gnd    :                   :         :           :                
 nSTATUS                      : N20       :        :                   :         : 6         :                
-GND*                         : N21       :        :                   :         : 6         :                
-GND*                         : N22       :        :                   :         : 6         :                
+LED729_RF2                   : N21       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED729_RF1                   : N22       : output : 3.3-V LVTTL       :         : 6         : Y              
 DRAM_DQ[10]                  : P1        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 DRAM_DQ[11]                  : P2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 DRAM_ADDR[8]                 : P3        : output : 3.3-V LVTTL       :         : 1         : Y              
@@ -412,10 +412,10 @@ VCCINT                       : P11       : power  :                   : 1.2V    
 VCCINT                       : P12       : power  :                   : 1.2V    :           :                
 VCCINT                       : P13       : power  :                   : 1.2V    :           :                
 NC                           : P14       :        :                   :         :           :                
-GND*                         : P15       :        :                   :         : 6         :                
+LED854_Power                 : P15       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCIO6                       : P16       : power  :                   : 3.3V    : 6         :                
-GND*                         : P17       :        :                   :         : 6         :                
-GND*                         : P18       :        :                   :         : 6         :                
+LEDAux1                      : P17       : output : 3.3-V LVTTL       :         : 6         : Y              
+LEDAux2                      : P18       : output : 3.3-V LVTTL       :         : 6         : Y              
 NC                           : P19       :        :                   :         :           :                
 NC                           : P20       :        :                   :         :           :                
 NC                           : P21       :        :                   :         :           :                

@@ -2933,26 +2933,6 @@ LaserSwitch:inst3
 
 # end
 # entity
-CPU
-# storage
-db|CII_Starter_USB_API.(0).cnf
-db|CII_Starter_USB_API.(0).cnf
-# case_insensitive
-# source_file
-cpu.bdf
-999d808ffa497d4873ae1a791b4a45c
-26
-# internal_option {
-BLOCK_DESIGN_NAMING
-AUTO
-}
-# hierarchies {
-|
-}
-# macro_sequence
-
-# end
-# entity
 CMD_Decode
 # storage
 db|CII_Starter_USB_API.(17).cnf
@@ -3148,6 +3128,26 @@ flash_command.h
 }
 # hierarchies {
 CII_Starter_USB_API:inst|CMD_Decode:u5
+}
+# macro_sequence
+
+# end
+# entity
+CPU
+# storage
+db|CII_Starter_USB_API.(0).cnf
+db|CII_Starter_USB_API.(0).cnf
+# case_insensitive
+# source_file
+cpu.bdf
+34e72025f2ffa8af1f255f5f372164ef
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+|
 }
 # macro_sequence
 
