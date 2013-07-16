@@ -105,11 +105,21 @@ namespace Spectroscopy_Viewer
             // Configuring dialog to open a new data file
             openDataFile.InitialDirectory = "Z:";   // Initialise to share drive
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
-            openDataFile.ShowDialog();              // Show dialog to open new data file
 
+            // Show dialog to open new data file
             // Only attempt to open the file if user didn't press 'Cancel'
             if(openDataFile.ShowDialog() != DialogResult.Cancel){
 
+                try
+                {
+                    // Dealing with opening the file goes in here
+
+                }
+                catch (Exception)   // If any general exception is thrown
+                {
+                    MessageBox.Show("Invalid file");
+
+                }
 
 
             }
