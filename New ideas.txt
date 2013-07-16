@@ -1,0 +1,10 @@
+Create class for each data point, consisting of private members:
+- 100 readings
+- Frequency
+- Metadata
+- Which spectrum it belongs to
+
+Then perform methods on the class to e.g. calculate bad counts, excitations given a threshold
+
+
+Don't want to just throw away data about error flags - but might still be worth using fun bitwise operations!
