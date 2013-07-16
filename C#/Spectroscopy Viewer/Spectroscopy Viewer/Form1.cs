@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ZedGraph;     // Includes ZedGraph for plotting graphs
+
 
 namespace Spectroscopy_Viewer
 {

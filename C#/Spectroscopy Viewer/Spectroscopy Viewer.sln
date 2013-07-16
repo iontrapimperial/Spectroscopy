@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Viewer", "Spectroscopy Viewer\Spectroscopy Viewer.csproj", "{8ADFF013-7CC6-4E92-BC05-A3D8B67B6DDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Viewer", "Spectroscopy Viewer\Spectroscopy Viewer.csproj", "{A0DC7E82-3691-484E-8360-7A5036E879BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8ADFF013-7CC6-4E92-BC05-A3D8B67B6DDE}.Debug|x86.ActiveCfg = Debug|x86
-		{8ADFF013-7CC6-4E92-BC05-A3D8B67B6DDE}.Debug|x86.Build.0 = Debug|x86
-		{8ADFF013-7CC6-4E92-BC05-A3D8B67B6DDE}.Release|x86.ActiveCfg = Release|x86
-		{8ADFF013-7CC6-4E92-BC05-A3D8B67B6DDE}.Release|x86.Build.0 = Release|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|x86.ActiveCfg = Debug|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|x86.Build.0 = Debug|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|x86.ActiveCfg = Release|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
