@@ -1,4 +1,4 @@
-﻿namespace Spectroscopy
+﻿namespace Spectroscopy_Viewer
 {
     partial class Form1
     {

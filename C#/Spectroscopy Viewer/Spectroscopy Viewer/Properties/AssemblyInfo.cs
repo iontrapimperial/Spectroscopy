@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Spectroscopy")]
+[assembly: AssemblyTitle("Spectroscopy Viewer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Spectroscopy")]
+[assembly: AssemblyProduct("Spectroscopy Viewer")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0fe2d7e9-ff0c-496e-b6d1-ea81d0064378")]
+[assembly: Guid("fe8166b2-67d4-4fdc-944d-e0b8668a7eab")]
 
 // Version information for an assembly consists of the following four values:
 //

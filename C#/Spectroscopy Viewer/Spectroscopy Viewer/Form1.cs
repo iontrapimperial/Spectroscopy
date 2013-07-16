@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Spectroscopy
+namespace Spectroscopy_Viewer
 {
     public partial class Form1 : Form
     {
