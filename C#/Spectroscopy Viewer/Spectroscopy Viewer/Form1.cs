@@ -112,7 +112,7 @@ namespace Spectroscopy_Viewer
 
                 try
                 {
-                    // Dealing with opening the file goes in here
+                    // Dealing with opening the file & importing data goes in here
 
                 }
                 catch (Exception)   // If any general exception is thrown
