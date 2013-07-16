@@ -34,13 +34,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // zedGraphControl1
             // 
-            this.zedGraphControl1.Location = new System.Drawing.Point(105, 71);
+            this.zedGraphControl1.Location = new System.Drawing.Point(374, 98);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -49,7 +49,7 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(643, 381);
+            this.zedGraphControl1.Size = new System.Drawing.Size(287, 196);
             this.zedGraphControl1.TabIndex = 0;
             this.zedGraphControl1.Load += new System.EventHandler(this.zedGraphControl1_Load);
             // 
@@ -74,8 +74,7 @@
             // loadDataToolStripMenuItem
             // 
             this.loadDataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newGraphToolStripMenuItem,
-            this.addToGraphToolStripMenuItem});
+            this.newGraphToolStripMenuItem});
             this.loadDataToolStripMenuItem.Name = "loadDataToolStripMenuItem";
             this.loadDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadDataToolStripMenuItem.Text = "Load data";
@@ -87,12 +86,10 @@
             this.newGraphToolStripMenuItem.Text = "New graph";
             this.newGraphToolStripMenuItem.Click += new System.EventHandler(this.newGraphToolStripMenuItem_Click);
             // 
-            // addToGraphToolStripMenuItem
+            // openDataFile
             // 
-            this.addToGraphToolStripMenuItem.Name = "addToGraphToolStripMenuItem";
-            this.addToGraphToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addToGraphToolStripMenuItem.Text = "Add to graph";
-            this.addToGraphToolStripMenuItem.Click += new System.EventHandler(this.addToGraphToolStripMenuItem_Click);
+            this.openDataFile.FileName = "openFileDialog1";
+            this.openDataFile.Title = "Insert data file";
             // 
             // Form1
             // 
@@ -119,7 +116,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newGraphToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addToGraphToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openDataFile;
 
     }
 }

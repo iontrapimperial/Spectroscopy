@@ -38,10 +38,10 @@ namespace Spectroscopy_Viewer
         // Customize this to fit your needs
         private void SetSize()
         {
-            zedGraphControl1.Location = new Point(10, 10);
+            zedGraphControl1.Location = new Point(10, 40);
             // Leave a small margin around the outside of the control
             zedGraphControl1.Size = new Size(ClientRectangle.Width - 20,
-                                    ClientRectangle.Height - 20);
+                                    ClientRectangle.Height - 50);
         }
 
         // Respond to form 'Load' event
@@ -93,16 +93,29 @@ namespace Spectroscopy_Viewer
         }
 
 
-
-        // Responds to 'File > Load data > New graph' menu click
-        private void newGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
 
         }
 
-        // Responds to 'File > Load data > Add to graph' menu click
-        private void addToGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        // Respond to 'File > Load data > New graph' menu click
+        private void newGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            // Configuring dialog to open a new data file
+            openDataFile.InitialDirectory = "Z:";   // Initialise to share drive
+            openDataFile.RestoreDirectory = true;   // Open to last viewed directory
+            openDataFile.ShowDialog();              // Show dialog to open new data file
+
+            // Only attempt to open the file if user didn't press 'Cancel'
+            if(openDataFile.ShowDialog() != DialogResult.Cancel){
+
+
+
+            }
+
+
+            /*******************************************/
 
         }
 
