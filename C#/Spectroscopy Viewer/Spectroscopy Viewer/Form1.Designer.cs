@@ -51,6 +51,7 @@
             this.zedGraphControl1.ScrollMinY2 = 0D;
             this.zedGraphControl1.Size = new System.Drawing.Size(643, 381);
             this.zedGraphControl1.TabIndex = 0;
+            this.zedGraphControl1.Load += new System.EventHandler(this.zedGraphControl1_Load);
             // 
             // menuStrip1
             // 
@@ -84,12 +85,14 @@
             this.newGraphToolStripMenuItem.Name = "newGraphToolStripMenuItem";
             this.newGraphToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newGraphToolStripMenuItem.Text = "New graph";
+            this.newGraphToolStripMenuItem.Click += new System.EventHandler(this.newGraphToolStripMenuItem_Click);
             // 
             // addToGraphToolStripMenuItem
             // 
             this.addToGraphToolStripMenuItem.Name = "addToGraphToolStripMenuItem";
             this.addToGraphToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addToGraphToolStripMenuItem.Text = "Add to graph";
+            this.addToGraphToolStripMenuItem.Click += new System.EventHandler(this.addToGraphToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -101,6 +104,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
