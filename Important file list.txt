@@ -1,0 +1,7 @@
+
+# List of things that have to be common to all PCs accessing this repository #
+##############################################################################
+
+
+Folder 'zedgraph_dll_v515' must be in directory 'C:\Program Files (x86)\Microsoft Visual Studio 10.0'
+# This contains the class 'ZedGraph' used for creating graphs in Spectroscopy Viewer
