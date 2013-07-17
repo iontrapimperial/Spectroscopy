@@ -115,8 +115,8 @@ namespace Spectroscopy_Viewer
                 {
                     // Create new StreamReader instance to open file
                     System.IO.StreamReader filename = new System.IO.StreamReader(openDataFile.FileName);
-                    
-
+                    // Create new instance of fileHandler to open & process file
+                    fileHandler filehandler = new fileHandler(filename&);
                 }
                 catch (Exception)   // If any general exception is thrown
                 {
