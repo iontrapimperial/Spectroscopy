@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;    
 using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 
@@ -107,12 +108,14 @@ namespace Spectroscopy_Viewer
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
 
             // Show dialog to open new data file
-            // Only attempt to open the file if user didn't press 'Cancel'
-            if(openDataFile.ShowDialog() != DialogResult.Cancel){
+            // Only attempt to open the file if user presses ok
+            if(openDataFile.ShowDialog() == DialogResult.OK){
 
                 try
                 {
-                    // Dealing with opening the file & importing data goes in here
+                    // Create new StreamReader instance to open file
+                    System.IO.StreamReader filename = new System.IO.StreamReader(openDataFile.FileName);
+                    
 
                 }
                 catch (Exception)   // If any general exception is thrown
