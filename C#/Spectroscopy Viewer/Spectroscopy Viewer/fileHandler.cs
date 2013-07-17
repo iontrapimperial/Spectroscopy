@@ -9,13 +9,18 @@ namespace Spectroscopy_Viewer
     class fileHandler
     {
 
-        // Create a list of arrays. Each array contains 4 bytes (i.e. the data for a single reading - cool, count & error flags)
-        // Assuming each data point will never take values larger than 255 (1 byte)
-        private List<byte[]> fullData = new List<byte[]>();
+        // Create a list of arrays. Each array contains 4 integer values (i.e. the data for a single reading - cool, count & error flags)
+        private List<int[]> fullData = new List<int[]>();
         // Create a list of dataPoint objects
         private List<dataPoint> dataPoints = new List<dataPoint>();
 
-        private int repeats;        // Need to know number of repeats in this class as well as in dataPoint
+        // Need metadata stored in this class as well as in dataPoint class, I believe...
+        private int frequency;              // Frequency of the data point
+        private int spectrum;               // Which spectrum the data point belongs to
+        private int date;                   // Date when the data point was taken
+        private int coolThreshold;          // Threshold value for min counts during cooling period
+        private int countThreshold;         // Threshold value for distinguishing bright/dark
+        private int repeats;                // Number of repeats
 
 
         // Default constructor
@@ -36,7 +41,7 @@ namespace Spectroscopy_Viewer
             repeats = 100;      // For now, set no. of repeats to 100 (known)
 
 
-            byte[] dataBlock = new byte[4];             // Create array of 4 bytes
+            int[] dataBlock = new int[4];             // Create array of 4 bytes
             string S = filename.ReadLine();             // Read first line of file
 
             while (S != null)                           // Only read further lines until end is reached
@@ -44,7 +49,7 @@ namespace Spectroscopy_Viewer
                 // Extract blocks of 4 data points (each reading)
                 for (int i = 0; i < 4; i++)
                 {
-                    dataBlock[i] = byte.Parse(S);       // Convert string to byte, put into array
+                    dataBlock[i] = int.Parse(S);       // Convert string to byte, put into array
                     S = filename.ReadLine();            // Read next line
                 }
                 fullData.Add(dataBlock);                // Add data block to the list
@@ -56,7 +61,7 @@ namespace Spectroscopy_Viewer
         }
 
 
-        // Method to populate list of dataPoint objects (dataPoints)
+        // Method to populate list of dataPoint objects (dataPoints), including metadata
         public void constructDataPoints()
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
@@ -67,6 +72,14 @@ namespace Spectroscopy_Viewer
                 dataPointTemp = new dataPoint(ref fullData, i, repeats);
                 // Add to the list
                 dataPoints.Add(dataPointTemp);
+                
+                // Set metadata
+                dataPointTemp.setRepeats(repeats);
+                dataPointTemp.setFreq(frequency);
+                
+
+
+
             }
 
 

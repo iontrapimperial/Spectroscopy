@@ -19,10 +19,10 @@ namespace Spectroscopy_Viewer
         private bool[] readingErrorCount;   // Error flag from count period
         private int frequency;              // Frequency of the data point
         private int spectrum;               // Which spectrum the data point belongs to
-        private int date;                   // Date when the data point was taken
+        private string date;                // Date when the data point was taken
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
-        private int repeats = 0;                // Number of repeats
+        private int repeats = 0;            // Number of repeats
 
 
 
@@ -35,12 +35,34 @@ namespace Spectroscopy_Viewer
 
         // Construct instance given an array of data,a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
-        public dataPoint(ref List<byte[]> fullData, int startPoint, int repeatsPassed)
+        public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
-            
-
+            // For each repeat, populate array of private members
+            for (int i = startPoint; i < (startPoint + repeatsPassed); i++)
+            {
+                readingCool[i] = fullData[i][0];                            // First int is the cooling period count
+                readingErrorCool[i] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
+                readingCount[i] = fullData[i][2];                           // Third int is the bright/dark count
+                readingErrorCount[i] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
+                // Not certain the [i][0] etc is the right way around... first thing to check if there are errors
+            }
         }
 
+        // Method to determine a boolean true/false from an integer value
+        private bool getBoolFromInt(int x)
+        {
+            bool y;
+            if (x == 0)
+            {
+                y = false;        // If x = 0, should return false
+            }
+            else
+            {
+                y = true;        // If x != 0, should return true
+            }
+
+            return y;
+        }
 
 
         // Set methods
@@ -69,6 +91,7 @@ namespace Spectroscopy_Viewer
         {
             frequency = x;
         }
+
 
 
 
