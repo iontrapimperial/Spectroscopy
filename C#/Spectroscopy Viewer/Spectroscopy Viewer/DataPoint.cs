@@ -17,12 +17,18 @@ namespace Spectroscopy_Viewer
         private int[] readingCount;         // Array to hold raw counts from state detection
         private bool[] readingErrorCool;    // Error flag from cooling period
         private bool[] readingErrorCount;   // Error flag from count period
+        private bool[] thresholdError;      // To keep track of whether the min threshold was met during cooling
+        private int excitationProb;         // Probability of excitation
+        private int badCountsErrors;        // No. of bad counts due to error flags
+        private int badCountsThreshold;     // No. of bad counts due to not meeting minimum threshold
+
+        // Metadata
         private int frequency;              // Frequency of the data point
         private int spectrum;               // Which spectrum the data point belongs to
         private string date;                // Date when the data point was taken
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
-        private int repeats = 0;            // Number of repeats
+        private int repeats;                // Number of repeats
 
 
 
@@ -46,7 +52,20 @@ namespace Spectroscopy_Viewer
                 readingErrorCount[i] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
                 // Not certain the [i][0] etc is the right way around... first thing to check if there are errors
             }
+
+            this.setRepeats(repeatsPassed);     // May as well set the metadata for no. of repeats straight away!
+
         }
+
+
+        // Method to calculate probablity of excitation, based on thresholds
+        private void calculateExcitation()
+        {
+            // Set private member excitationProb within this method
+
+        }
+
+
 
         // Method to determine a boolean true/false from an integer value
         private bool getBoolFromInt(int x)
@@ -72,12 +91,15 @@ namespace Spectroscopy_Viewer
         public void setCoolThresh(int x)
         {
             coolThreshold = x;
+            // Check for bad counts caused by cooling period count not meeting threshold
         }
 
         // Method to set the threshold for distinguishing bright/dark
         public void setCountThresh(int x)
         {
             countThreshold = x;
+            // Recalculate excitation prob every time this is changed
+
         }
 
         // Method to set number of repeats
@@ -90,6 +112,18 @@ namespace Spectroscopy_Viewer
         public void setFreq(int x)
         {
             frequency = x;
+        }
+
+        // Method to set date
+        public void setDate(string x)
+        {
+            date = x;
+        }
+
+        // Method to set which spectrum the data point belongs to
+        public void setSpectrum(int x)
+        {
+            spectrum = x;
         }
 
 
@@ -114,8 +148,8 @@ namespace Spectroscopy_Viewer
         // Method to return excitation probability
         public int getExcitation()
         {
-            
-            
+            // Calculated in separate method & stored - just return it here
+            return excitationProb;
         }
 
         // Method to return number of repeats
@@ -134,6 +168,18 @@ namespace Spectroscopy_Viewer
         public int getCountThresh()
         {
             return countThreshold;
+        }
+
+        // Method to return date
+        public string getDate()
+        {
+            return date;
+        }
+
+        // Method to return which spectrum the data point belongs to
+        public int getSpectrum()
+        {
+            return spectrum;
         }
 
 

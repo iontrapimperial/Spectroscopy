@@ -15,9 +15,10 @@ namespace Spectroscopy_Viewer
         private List<dataPoint> dataPoints = new List<dataPoint>();
 
         // Need metadata stored in this class as well as in dataPoint class, I believe...
-        private int frequency;              // Frequency of the data point
+        private int startFrequency;         // Starting frequency of the file
+        private int stepSize;               // Step size in frequency
         private int spectrum;               // Which spectrum the data point belongs to
-        private int date;                   // Date when the data point was taken
+        private string date;                // Date when the data point was taken
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
         private int repeats;                // Number of repeats
@@ -65,27 +66,26 @@ namespace Spectroscopy_Viewer
         public void constructDataPoints()
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
-            // 
-            for (int i = 0; i < fullData.Counts; i+repeats)
+
+            // Loop through list of data elements, but only create a new dataPoint object for each frequency 
+            for (int i = 0; i < fullData.Count; i += repeats)
             {
                 // Create new instance of dataPoint
                 dataPointTemp = new dataPoint(ref fullData, i, repeats);
                 // Add to the list
                 dataPoints.Add(dataPointTemp);
                 
-                // Set metadata
-                dataPointTemp.setRepeats(repeats);
-                dataPointTemp.setFreq(frequency);
-                
-
-
-
+                // Set metadata (nb. repeats already set in constructor)
+                dataPointTemp.setFreq(startFrequency + i*stepSize);
+                dataPointTemp.setDate(date);
+                dataPointTemp.setSpectrum(spectrum);
             }
 
 
         }
 
         // Method to return list of dataPoint objects (dataPoints)
+        // NB List<> is a reference type so it behaves like a pointer
         public List<dataPoint> getDataPoints()
         {
             return dataPoints;
