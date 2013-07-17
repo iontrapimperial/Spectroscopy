@@ -104,7 +104,7 @@ namespace Spectroscopy_Viewer
         {
 
             // Configuring dialog to open a new data file
-            openDataFile.InitialDirectory = "Z:";   // Initialise to share drive
+            openDataFile.InitialDirectory = "Z:/Data";   // Initialise to share drive
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
 
             // Show dialog to open new data file
@@ -115,8 +115,9 @@ namespace Spectroscopy_Viewer
                 {
                     // Create new StreamReader instance to open file
                     System.IO.StreamReader filename = new System.IO.StreamReader(openDataFile.FileName);
-                    // Create new instance of fileHandler to open & process file
-                    fileHandler filehandler = new fileHandler(filename&);
+                    // Create new instance of fileHandler to open & process file (pass by reference!)
+                    fileHandler filehandler = new fileHandler(ref filename);
+                    
                 }
                 catch (Exception)   // If any general exception is thrown
                 {

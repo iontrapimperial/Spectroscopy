@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Spectroscopy_Viewer
 {
@@ -21,7 +22,7 @@ namespace Spectroscopy_Viewer
         private int date;                   // Date when the data point was taken
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
-        private int repeats;                // Number of repeats
+        private int repeats = 0;                // Number of repeats
 
 
 
@@ -32,10 +33,12 @@ namespace Spectroscopy_Viewer
            System.Windows.Forms.MessageBox.Show("No file selected");
         }
 
-        // Construct instance given an array of data
-        public dataPoint(System.IO.StreamReader filename)
+        // Construct instance given an array of data,a starting point & a number of repeats
+        // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
+        public dataPoint(ref List<byte[]> fullData, int startPoint, int repeatsPassed)
         {
             
+
         }
 
 
@@ -88,6 +91,7 @@ namespace Spectroscopy_Viewer
         // Method to return excitation probability
         public int getExcitation()
         {
+            
             
         }
 
