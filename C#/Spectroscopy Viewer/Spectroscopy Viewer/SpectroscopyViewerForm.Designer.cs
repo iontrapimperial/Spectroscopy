@@ -32,6 +32,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
+            this.coolingThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.countThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.plotDataButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.coolingThreshold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.countThreshold)).BeginInit();
             this.SuspendLayout();
             // 
             // zedGraphControl1
@@ -74,11 +81,69 @@
             this.loadDataButton.UseVisualStyleBackColor = true;
             this.loadDataButton.Click += new System.EventHandler(this.loadDataButton_Click);
             // 
+            // coolingThreshold
+            // 
+            this.coolingThreshold.Location = new System.Drawing.Point(49, 92);
+            this.coolingThreshold.Name = "coolingThreshold";
+            this.coolingThreshold.Size = new System.Drawing.Size(120, 22);
+            this.coolingThreshold.TabIndex = 3;
+            this.coolingThreshold.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.coolingThreshold.ValueChanged += new System.EventHandler(this.coolingThreshold_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(49, 69);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(118, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Cooling threshold";
+            // 
+            // countThreshold
+            // 
+            this.countThreshold.Location = new System.Drawing.Point(49, 156);
+            this.countThreshold.Name = "countThreshold";
+            this.countThreshold.Size = new System.Drawing.Size(120, 22);
+            this.countThreshold.TabIndex = 5;
+            this.countThreshold.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(49, 133);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 17);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Count threshold";
+            // 
+            // plotDataButton
+            // 
+            this.plotDataButton.Location = new System.Drawing.Point(123, 0);
+            this.plotDataButton.Name = "plotDataButton";
+            this.plotDataButton.Size = new System.Drawing.Size(98, 29);
+            this.plotDataButton.TabIndex = 7;
+            this.plotDataButton.Text = "Plot data";
+            this.plotDataButton.UseVisualStyleBackColor = true;
+            this.plotDataButton.Click += new System.EventHandler(this.plotDataButton_Click);
+            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1085, 670);
+            this.Controls.Add(this.plotDataButton);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.countThreshold);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.coolingThreshold);
             this.Controls.Add(this.loadDataButton);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.menuStrip1);
@@ -87,6 +152,8 @@
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.coolingThreshold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.countThreshold)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,6 +165,11 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.OpenFileDialog openDataFile;
         private System.Windows.Forms.Button loadDataButton;
+        private System.Windows.Forms.NumericUpDown coolingThreshold;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown countThreshold;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button plotDataButton;
 
     }
 }

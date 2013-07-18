@@ -142,6 +142,20 @@ namespace Spectroscopy_Viewer
         }
 
 
+        // Method to respond to 'Plot data' button press
+        private void plotDataButton_Click(object sender, EventArgs e)
+        {
+            // Currently just plot a single spectrum, more complex later
+
+
+
+        }
+
+
+
+
+
+
 
 
     }
