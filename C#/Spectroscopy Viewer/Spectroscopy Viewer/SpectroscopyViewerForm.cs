@@ -146,6 +146,20 @@ namespace Spectroscopy_Viewer
         private void plotDataButton_Click(object sender, EventArgs e)
         {
             // Currently just plot a single spectrum, more complex later
+            
+            PointPairList dataPlot = new PointPairList();       // Create object to store data for graph
+
+            int dataSize = spectrumData[0].Count;               // How many data points there are
+            int x, y;
+
+            // For each data point
+            for (int i = 0; i < dataSize; i++)
+            {
+                x = spectrumData[0][i].getFreq();
+                y = spectrumData[0][i].getDarkProb();
+                dataPlot.Add(x, y);
+            }
+
 
 
 
