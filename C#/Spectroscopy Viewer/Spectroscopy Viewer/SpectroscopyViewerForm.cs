@@ -18,8 +18,8 @@ namespace Spectroscopy_Viewer
     public partial class SpectroscopyViewerForm : Form
     {
         // An array of lists of data points. Each list contains all of the data points for one spectrum.
-        private List<dataPoint>[] spectrumData;
-
+        private List<dataPoint>[] spectrumData = new List<dataPoint>[1];
+        private PointPairList dataPlot = new PointPairList();       // Create object to store data for graph
 
         public SpectroscopyViewerForm()
         {
@@ -68,7 +68,7 @@ namespace Spectroscopy_Viewer
             myPane.Title.Text = "My Test Graph\n(For CodeProject Sample)";
             myPane.XAxis.Title.Text = "My X Axis";
             myPane.YAxis.Title.Text = "My Y Axis";
-
+/*
             // Make up some data arrays based on the Sine function
             double x, y1, y2;
             PointPairList list1 = new PointPairList();
@@ -81,16 +81,17 @@ namespace Spectroscopy_Viewer
                 list1.Add(x, y1);
                 list2.Add(x, y2);
             }
+*/
 
             // Generate a red curve with diamond
             // symbols, and "Porsche" in the legend
-            LineItem myCurve = myPane.AddCurve("Porsche",
-                  list1, Color.Red, SymbolType.Diamond);
+            LineItem myCurve = myPane.AddCurve("Data Plot",
+                  dataPlot, Color.Red, SymbolType.Diamond);
 
             // Generate a blue curve with circle
             // symbols, and "Piper" in the legend
-            LineItem myCurve2 = myPane.AddCurve("Piper",
-                  list2, Color.Blue, SymbolType.Circle);
+//            LineItem myCurve2 = myPane.AddCurve("Piper",
+//                  list2, Color.Blue, SymbolType.Circle);
 
             // Tell ZedGraph to refigure the
             // axes since the data have changed
@@ -112,8 +113,8 @@ namespace Spectroscopy_Viewer
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
 
             // Show dialog to open new data file
-            // Only attempt to open the file if user presses ok
-            if (openDataFile.ShowDialog() == DialogResult.OK)
+            // Do not attempt to open file if user has pressed cancel
+            if (openDataFile.ShowDialog() != DialogResult.Cancel)
             {
 
                 try
@@ -145,9 +146,11 @@ namespace Spectroscopy_Viewer
         // Method to respond to 'Plot data' button press
         private void plotDataButton_Click(object sender, EventArgs e)
         {
+
+            // Want to put in an if statement to check that 
             // Currently just plot a single spectrum, more complex later
             
-            PointPairList dataPlot = new PointPairList();       // Create object to store data for graph
+
 
             int dataSize = spectrumData[0].Count;               // How many data points there are
             int x, y;
@@ -160,15 +163,13 @@ namespace Spectroscopy_Viewer
                 dataPlot.Add(x, y);
             }
 
-
+            // Setup the graph
+            CreateGraph(zedGraphControl1);
+            // Size the control to fill the form with a margin
+            SetSize();
 
 
         }
-
-
-
-
-
 
 
 

@@ -92,7 +92,6 @@
             0,
             0,
             0});
-            this.coolingThreshold.ValueChanged += new System.EventHandler(this.coolingThreshold_ValueChanged);
             // 
             // label1
             // 
