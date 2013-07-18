@@ -13,14 +13,19 @@ namespace Spectroscopy_Viewer
     {
 
         // Private members:
-        private int[] readingCool;          // Array to hold raw counts from cooling period
-        private int[] readingCount;         // Array to hold raw counts from state detection
-        private bool[] readingErrorCool;    // Error flag from cooling period
-        private bool[] readingErrorCount;   // Error flag from count period
-        private bool[] thresholdError;      // To keep track of whether the min threshold was met during cooling
-        private int excitationProb;         // Probability of excitation
-        private int badCountsErrors;        // No. of bad counts due to error flags
-        private int badCountsThreshold;     // No. of bad counts due to not meeting minimum threshold
+        private int[] readingCool;                  // Array to hold raw counts from cooling period
+        private int[] readingCount;                 // Array to hold raw counts from state detection
+        private bool[] readingErrorCool;            // Error flag from cooling period
+        private bool[] readingErrorCount;           // Error flag from count period
+        private bool[] readingErrorThreshold;       // To keep track of whether the min threshold was met during cooling
+        private int darkProb;                       // Probability of ion being dark
+        private int badCountsErrors;                // No. of bad counts due to error flags
+        private int badCountsThreshold;             // No. of bad counts due to not meeting minimum threshold
+        private int darkCount;                      // No. of dark counts
+        private int validReadings;                  // Total no. of valid readings (bright + dark)
+        private int brightMean;                     // Mean fluorescence reading for bright counts
+        private int darkMean;                       // Mean fluorescence reading for dark counts
+        
 
         // Metadata
         private int frequency;              // Frequency of the data point
@@ -58,12 +63,77 @@ namespace Spectroscopy_Viewer
         }
 
 
-        // Method to calculate probablity of excitation, based on thresholds
-        private void calculateExcitation()
+
+        // Want to have a method to calculate everything given some initial thresholds, which calls all these individual private functions
+        // Also need a method to update given new thresholds, which calls only the relevant functions
+        // This method will be the best place to check if there were enough valid readings before calling calcDarkProb
+
+        // Method to calculate probablity of ion being dark, based on thresholds
+        private void calcDarkProb()
         {
-            // Set private member excitationProb within this method
+            // Initialise averages to zero
+            brightMean = 0;
+            darkMean = 0;
+
+            // For each reading
+            for (int i = 0; i < repeats; i++)
+            {
+                // Only consider data point if no errors
+                if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+                {
+                    if (readingCount[i] <= countThreshold)
+                    {
+                        darkCount++;                              // If count below threshold, then dark
+                        darkMean += readingCount[i];              // Add fluorescence reading to average
+                    }
+                    else                                          // Otherwise, bright
+                    {
+                        brightMean += readingCount[i];            // Add fluorescence reading to average
+                    }
+                }
+            }
+
+            // Calculate averages
+            brightMean = brightMean / validReadings;
+            darkMean = darkMean / validReadings;
+
+
+            // In the original code I think this was only calculated if the valid reading count was greater than 0.1*no. of readings.
+            // Do we want to duplicate this in the new code?
+            // (Probably! - but not within this method, see note above about needing another method which calls this one)
+            // Calculate probability of ion being in dark state
+            darkProb = darkCount / validReadings;
 
         }
+
+
+
+        // Method to calculate number of bad counts due to error flags
+        private void calcBadCountsErrors()
+        {
+            badCountsErrors = 0;                    // Reset to zero
+            for (int i = 0; i < repeats; i++)       // For each reading
+            {
+                if(readingErrorCool[i]) badCountsErrors++;             // If cooling error flag is true, increase count
+                else if(readingErrorCount[i]) badCountsErrors++;       // If count error flag is true
+            }
+        }
+
+        // Method to calculate number of bad counts due to low cooling counts
+        private void calcBadCountsThreshold()
+        {
+            badCountsThreshold = 0;                 // Reset to zero
+            for (int i = 0; i < repeats; i++)       // For each reading
+            {
+                if (readingCool[i] <= coolThreshold)
+                {
+                    badCountsThreshold++;           // Increase count
+                    readingErrorThreshold[i] = true;       // Flag that threshold was NOT met
+                }
+                else readingErrorThreshold[i] = false;     // Flag that threshold was met
+            }
+        }
+
 
 
 
