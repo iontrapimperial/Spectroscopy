@@ -90,6 +90,7 @@ namespace Spectroscopy_Viewer
         // NB List<> is a reference type so it behaves like a pointer
         public List<dataPoint> getDataPoints()
         {
+            this.constructDataPoints();
             return dataPoints;
         }
 

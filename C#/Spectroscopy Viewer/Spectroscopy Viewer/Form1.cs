@@ -17,6 +17,10 @@ namespace Spectroscopy_Viewer
 {
     public partial class Form1 : Form
     {
+        // An array of lists of data points. Each list contains all of the data points for one spectrum.
+        private List<dataPoint>[] spectrumData;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -99,17 +103,18 @@ namespace Spectroscopy_Viewer
 
         }
 
-        // Respond to 'File > Load data > New graph' menu click
-        private void newGraphToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
+        // Respond to 'Load data' button press
+        private void loadDataButton_Click(object sender, EventArgs e)
+        {
             // Configuring dialog to open a new data file
             openDataFile.InitialDirectory = "Z:/Data";   // Initialise to share drive
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
 
             // Show dialog to open new data file
             // Only attempt to open the file if user presses ok
-            if(openDataFile.ShowDialog() == DialogResult.OK){
+            if (openDataFile.ShowDialog() == DialogResult.OK)
+            {
 
                 try
                 {
@@ -119,20 +124,25 @@ namespace Spectroscopy_Viewer
                     fileHandler filehandler = new fileHandler(ref filename);
                     // Clean up StreamReader instance after fileHandler has finished with it
                     filename.Close();           // Close object & release resources
+
+                    // Get the list filled with data points
+                    spectrumData[0] = filehandler.getDataPoints();
+
+                    // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
+                    // Can do this by merging lists 
+
+
                 }
                 catch (Exception)   // If any general exception is thrown
                 {
                     MessageBox.Show("Invalid file");
 
                 }
-
-
             }
-
-
-            /*******************************************/
-
         }
+
+
+
 
     }
 }
