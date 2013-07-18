@@ -56,6 +56,8 @@ namespace Spectroscopy_Viewer
                 fullData.Add(dataBlock);                // Add data block to the list
             }
 
+
+
             // Construct data points from this instance of fileHandler
             this.constructDataPoints();
 

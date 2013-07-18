@@ -117,7 +117,8 @@ namespace Spectroscopy_Viewer
                     System.IO.StreamReader filename = new System.IO.StreamReader(openDataFile.FileName);
                     // Create new instance of fileHandler to open & process file (pass by reference!)
                     fileHandler filehandler = new fileHandler(ref filename);
-                    
+                    // Clean up StreamReader instance after fileHandler has finished with it
+                    filename.Close();           // Close object & release resources
                 }
                 catch (Exception)   // If any general exception is thrown
                 {
