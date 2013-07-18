@@ -1,6 +1,6 @@
 ﻿namespace Spectroscopy_Viewer
 {
-    partial class Form1
+    partial class SpectroscopyViewerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -74,7 +74,7 @@
             this.loadDataButton.UseVisualStyleBackColor = true;
             this.loadDataButton.Click += new System.EventHandler(this.loadDataButton_Click);
             // 
-            // Form1
+            // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -84,8 +84,8 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "SpectroscopyViewerForm";
+            this.Text = "Spectroscopy Viewer";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

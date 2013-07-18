@@ -15,13 +15,13 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 namespace Spectroscopy_Viewer
 {
-    public partial class Form1 : Form
+    public partial class SpectroscopyViewerForm : Form
     {
         // An array of lists of data points. Each list contains all of the data points for one spectrum.
         private List<dataPoint>[] spectrumData;
 
 
-        public Form1()
+        public SpectroscopyViewerForm()
         {
             InitializeComponent();
         }

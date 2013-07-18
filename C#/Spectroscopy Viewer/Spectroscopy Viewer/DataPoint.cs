@@ -228,13 +228,14 @@ namespace Spectroscopy_Viewer
         // Method to return the number of bad counts
         public int getBadCounts()
         {
+            return badCountsErrors + badCountsThreshold;
         }
 
         // Method to return excitation probability
-        public int getExcitation()
+        public int getDarkProb()
         {
             // Calculated in separate method & stored - just return it here
-            return excitationProb;
+            return darkProb;
         }
 
         // Method to return number of repeats
