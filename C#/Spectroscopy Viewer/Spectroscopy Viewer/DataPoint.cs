@@ -63,10 +63,29 @@ namespace Spectroscopy_Viewer
         }
 
 
+        // Method to analyse data given a set of initial thresholds
+        public void analyseInit(int cool, int count)
+        {
+            this.calcBadCountsErrors();         // Calculate no. of bad counts due to error flags
+            this.analyseUpdate(cool, count);           // Call function to analyse from updated thresholds
+        }
 
-        // Want to have a method to calculate everything given some initial thresholds, which calls all these individual private functions
-        // Also need a method to update given new thresholds, which calls only the relevant functions
-        // This method will be the best place to check if there were enough valid readings before calling calcDarkProb
+        // Method to analyse data from updated thresholds
+        public void analyseUpdate(int cool, int count)
+        {
+            coolThreshold = cool;
+            countThreshold = count;
+
+            // Calculate no. of bad counts based on new threshold
+            this.calcBadCountsThreshold();
+            validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Calculate no. of valid readings
+
+            if (validReadings > 0.1 * repeats)
+            {
+                this.calcDarkProb();
+            }
+        }
+        
 
         // Method to calculate probablity of ion being dark, based on thresholds
         private void calcDarkProb()
@@ -97,10 +116,6 @@ namespace Spectroscopy_Viewer
             brightMean = brightMean / validReadings;
             darkMean = darkMean / validReadings;
 
-
-            // In the original code I think this was only calculated if the valid reading count was greater than 0.1*no. of readings.
-            // Do we want to duplicate this in the new code?
-            // (Probably! - but not within this method, see note above about needing another method which calls this one)
             // Calculate probability of ion being in dark state
             darkProb = darkCount / validReadings;
 
