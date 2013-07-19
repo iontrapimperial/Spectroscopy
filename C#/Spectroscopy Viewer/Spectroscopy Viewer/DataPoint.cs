@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -44,7 +43,7 @@ namespace Spectroscopy_Viewer
 
         // Construct instance given an array of data,a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
-        public dataPoint(ReadOnlyCollection<int[]> fullData, int startPoint, int repeatsPassed)
+        public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
             // Initialise based on number of repeats
             readingCool = new int[repeatsPassed];
