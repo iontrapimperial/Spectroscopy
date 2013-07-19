@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -39,24 +40,31 @@ namespace Spectroscopy_Viewer
              * Need a section of code here to deal with the metadata
              * */
 
+            // Temporary values
+            startFrequency = 1000;
+            stepSize = 10;
+
             repeats = 100;      // For now, set no. of repeats to 100 (known)
 
 
-            int[] dataBlock = new int[4];             // Create array of 4 bytes
-            string S = filename.ReadLine();             // Read first line of file
-
-            while (S != null)                           // Only read further lines until end is reached
+            int[] dataBlock = new int[4];             // Create array of 4 ints
+            string myString = filename.ReadLine();             // Read first line of file
+            int j = 0;
+            while (myString != null)                           // Only read further lines until end is reached
             {
                 // Extract blocks of 4 data points (each reading)
                 for (int i = 0; i < 4; i++)
                 {
-                    dataBlock[i] = int.Parse(S);       // Convert string to int, put into array
-                    S = filename.ReadLine();            // Read next line
+        //            Console.WriteLine("{0}", int.Parse(myString));
+                    dataBlock[i] = int.Parse(myString);       // Convert string to int, put into array
+                    myString = filename.ReadLine();            // Read next line
                 }
                 fullData.Add(dataBlock);                // Add data block to the list
+//                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", fullData[j][0], fullData[j][1], fullData[j][2], fullData[j][3], j);
+                j++;
             }
 
-
+            
 
             // Construct data points from this instance of fileHandler
             this.constructDataPoints();

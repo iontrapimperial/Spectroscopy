@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;           // For debugging
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Spectroscopy_Viewer
     public partial class SpectroscopyViewerForm : Form
     {
         // An array of spectrum objects. Can't dynamically resize arrays so set max number to 10. Could maybe use a list instead??
-        private spectrum[] spectrumData = new spectrum[10];      
+        private spectrum[] mySpectrum = new spectrum[10];      
         private PointPairList dataPlot = new PointPairList();       // Create object to store data for graph
 
         public SpectroscopyViewerForm()
@@ -108,6 +109,8 @@ namespace Spectroscopy_Viewer
         // Respond to 'Load data' button press
         private void loadDataButton_Click(object sender, EventArgs e)
         {
+            Debug.Write("Test");
+
             // Configuring dialog to open a new data file
             openDataFile.InitialDirectory = "Z:/Data";   // Initialise to share drive
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
@@ -127,7 +130,9 @@ namespace Spectroscopy_Viewer
                     myFile.Close();           // Close object & release resources
 
                     // Get the list filled with data points
-                    spectrumData[0] = new spectrum(myFilehandler.getDataPoints());
+                    mySpectrum[0] = new spectrum(myFilehandler.getDataPoints());
+
+                    Debug.WriteLine("File should have been opened");
 
                     // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
                     // Can do this by merging lists 
@@ -139,6 +144,9 @@ namespace Spectroscopy_Viewer
 
                 }
             }
+
+
+
         }
 
 
@@ -148,17 +156,16 @@ namespace Spectroscopy_Viewer
 
             // Want to put in an if statement to check that some data has been loaded
             // Currently just plot a single spectrum, more complex later
-            
 
-            // Need far more code here to analyse data before plotting can take place.....
+            mySpectrum[0].analyseInit((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
 
+            dataPlot = mySpectrum[0].getDataPlot();
 
-
-
-
+            // Setup the graph
+            CreateGraph(zedGraphControl1);
+            // Size the control to fill the form with a margin
+            SetSize();
         }
-
-
 
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ZedGraph;
+using System.Diagnostics;       // To write lines to Debug Output for debugging
 
 namespace Spectroscopy_Viewer
 {
@@ -38,6 +39,9 @@ namespace Spectroscopy_Viewer
         //**************************//
 
 
+
+
+
         // Method to add new list of data points to existing data
         public void addToSpectrum(ref List<dataPoint> dataPointsPassed)
         {
@@ -49,24 +53,41 @@ namespace Spectroscopy_Viewer
 
 
         // Method to analyse data given new thresholds
-        public void analyseInit()
+        public void analyseInit(int cool, int count)
         {
+            // Update private members
+            coolThreshold = cool;
+            countThreshold = count;
+
             for (int i = 0; i < dataSize; i++)
             {
-                myDataPoints[i].analyseInit(coolThreshold, countThreshold);        // Update each data point
+                myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
+                Console.WriteLine("Dark prob = {0}", myDataPoints[i].getDarkProb());
             }
+
+            Console.WriteLine("Initial data analysis complete");
+            Console.WriteLine("Cooling threshold = {0}", coolThreshold);
+            Console.WriteLine("Count threshold = {0}", countThreshold);
+
         }
 
         // Method to analyse data given updated thresholds
-        public void analyseUpdate()
+        public void analyseUpdate(int cool, int count)
         {
+            // Update private members
+            coolThreshold = cool;
+            countThreshold = count;
+
             // Get number of data points
             dataSize = myDataPoints.Count();
 
             for (int i = 0; i < dataSize; i++)
             {
                 myDataPoints[i].analyseUpdate(coolThreshold, countThreshold);        // Update each data point
+
             }
+
+
         }
 
 
@@ -75,7 +96,8 @@ namespace Spectroscopy_Viewer
         // Method to create data for plotting to graph
         private void createDataPlot()
         {
-            int x, y;
+            int x = new int();
+            int y = new int();
 
             for (int i = 0; i < dataSize; i++)
             {
@@ -83,6 +105,9 @@ namespace Spectroscopy_Viewer
                 y = myDataPoints[i].getDarkProb();
                 dataPlot.Add(x, y);
             }
+
+
+
         }
 
 
@@ -122,6 +147,7 @@ namespace Spectroscopy_Viewer
         // Method to return data for plotting - by reference
         public PointPairList getDataPlot()
         {
+            this.createDataPlot();        // Create the list of data
             return dataPlot;
         }
 

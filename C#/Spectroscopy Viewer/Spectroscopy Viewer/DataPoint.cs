@@ -59,7 +59,9 @@ namespace Spectroscopy_Viewer
                 readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
                 readingCount[j] = fullData[i][2];                           // Third int is the bright/dark count
                 readingErrorCount[j] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
-                // Not certain the [i][0] etc is the right way around... first thing to check if there are errors
+                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", readingCool[j], readingErrorCool[j], readingCount[j], readingErrorCount[j], j);
+ //               Console.WriteLine("{0}, {1}, {2}, {3}, {4}", fullData[i][0], fullData[i][1], fullData[i][2], fullData[i][3], i);
+      //          Console.WriteLine("Count = {0} (j = {1}, i = {2})", readingCount[j], j, i);
                 j++;
             }
 
@@ -160,7 +162,6 @@ namespace Spectroscopy_Viewer
                     else readingDark[i] = false;            // Flag as not dark
                 }
             }
-
             // Calculate probability of ion being in dark state
             darkProb = darkCount / validReadings;
 
