@@ -43,7 +43,7 @@ namespace Spectroscopy_Viewer
 
         // Construct instance given an array of data,a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
-        public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
+        public dataPoint(ref int[][] fullData, int startPoint, int repeatsPassed)
         {
             // Initialise based on number of repeats
             readingCool = new int[repeatsPassed];
@@ -59,7 +59,7 @@ namespace Spectroscopy_Viewer
                 readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
                 readingCount[j] = fullData[i][2];                           // Third int is the bright/dark count
                 readingErrorCount[j] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
-                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", readingCool[j], readingErrorCool[j], readingCount[j], readingErrorCount[j], j);
+//                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", readingCool[j], readingErrorCool[j], readingCount[j], readingErrorCount[j], j);
  //               Console.WriteLine("{0}, {1}, {2}, {3}, {4}", fullData[i][0], fullData[i][1], fullData[i][2], fullData[i][3], i);
       //          Console.WriteLine("Count = {0} (j = {1}, i = {2})", readingCount[j], j, i);
                 j++;

@@ -82,8 +82,12 @@ namespace Spectroscopy_Viewer
             // NB I think this range (i < fullData.Count) might be wrong... not sure...
             for (int i = 0; i < fullData.Count; i += repeats)
             {
+
+                int[][] myArray = new int[fullData.Count][];
+                myArray = fullData.ToArray();
+
                 // Create new instance of dataPoint
-                dataPointTemp = new dataPoint(ref fullData, i, repeats);
+                dataPointTemp = new dataPoint(ref myArray, i, repeats);
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
@@ -91,6 +95,13 @@ namespace Spectroscopy_Viewer
 
                 // Add to the list
                 dataPoints.Add(dataPointTemp);
+
+
+                // Testing
+                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", myArray[i][0], myArray[i][1], myArray[i][2], myArray[i][3], i);
+
+
+
             }
 
         }
