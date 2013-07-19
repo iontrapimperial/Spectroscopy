@@ -18,13 +18,13 @@ namespace Spectroscopy_Viewer
         private bool[] readingErrorCool;            // Error flag from cooling period
         private bool[] readingErrorCount;           // Error flag from count period
         private bool[] readingErrorThreshold;       // To keep track of whether the min threshold was met during cooling
-        private int darkProb;                       // Probability of ion being dark
-        private int badCountsErrors;                // No. of bad counts due to error flags
-        private int badCountsThreshold;             // No. of bad counts due to not meeting minimum threshold
-        private int darkCount;                      // No. of dark counts
-        private int validReadings;                  // Total no. of valid readings (bright + dark)
-        private int brightMean;                     // Mean fluorescence reading for bright counts
-        private int darkMean;                       // Mean fluorescence reading for dark counts
+        private int badCountsErrors = new int();                // No. of bad counts due to error flags
+        private int badCountsThreshold = new int();             // No. of bad counts due to not meeting minimum threshold
+        private int darkCount = new int();                      // No. of dark counts
+        private int validReadings = new int();                  // Total no. of valid readings (bright + dark)
+        private int darkProb = new int();                       // Probability of ion being dark
+        private int brightMean = new int();                     // Mean fluorescence reading for bright counts (possibly not needed)
+        private int darkMean = new int();                       // Mean fluorescence reading for dark counts (possibly not needed)
         
 
         // Metadata
@@ -38,24 +38,32 @@ namespace Spectroscopy_Viewer
 
 
         // Default constructor
-        public dataPoint()
+        /*public dataPoint()
         {
            // Cannot create a data point without a file - display error message
            System.Windows.Forms.MessageBox.Show("No file selected");
-        }
+        }*/
 
         // Construct instance given an array of data,a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
         public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
+            // Initialise based on number of repeats
+            readingCool = new int[repeatsPassed];
+            readingErrorCool = new bool[repeatsPassed];
+            readingCount = new int[repeatsPassed];
+            readingErrorCount = new bool[repeatsPassed];
+
+            int j = 0;                  // Counter for private data array
             // For each repeat, populate array of private members
             for (int i = startPoint; i < (startPoint + repeatsPassed); i++)
             {
-                readingCool[i] = fullData[i][0];                            // First int is the cooling period count
-                readingErrorCool[i] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
-                readingCount[i] = fullData[i][2];                           // Third int is the bright/dark count
-                readingErrorCount[i] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
+                readingCool[j] = fullData[i][0];                            // First int is the cooling period count
+                readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
+                readingCount[j] = fullData[i][2];                           // Third int is the bright/dark count
+                readingErrorCount[j] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
                 // Not certain the [i][0] etc is the right way around... first thing to check if there are errors
+                j++;
             }
 
             this.setRepeats(repeatsPassed);     // May as well set the metadata for no. of repeats straight away!
@@ -137,6 +145,9 @@ namespace Spectroscopy_Viewer
         // Method to calculate number of bad counts due to low cooling counts
         private void calcBadCountsThreshold()
         {
+            // Initialise based on number of repeats
+            readingErrorThreshold = new bool[repeats];
+
             badCountsThreshold = 0;                 // Reset to zero
             for (int i = 0; i < repeats; i++)       // For each reading
             {

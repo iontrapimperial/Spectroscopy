@@ -50,7 +50,7 @@ namespace Spectroscopy_Viewer
                 // Extract blocks of 4 data points (each reading)
                 for (int i = 0; i < 4; i++)
                 {
-                    dataBlock[i] = int.Parse(S);       // Convert string to byte, put into array
+                    dataBlock[i] = int.Parse(S);       // Convert string to int, put into array
                     S = filename.ReadLine();            // Read next line
                 }
                 fullData.Add(dataBlock);                // Add data block to the list
@@ -65,7 +65,7 @@ namespace Spectroscopy_Viewer
 
 
         // Method to populate list of dataPoint objects (dataPoints), including metadata
-        public void constructDataPoints()
+        private void constructDataPoints()
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
 
@@ -74,15 +74,15 @@ namespace Spectroscopy_Viewer
             {
                 // Create new instance of dataPoint
                 dataPointTemp = new dataPoint(ref fullData, i, repeats);
-                // Add to the list
-                dataPoints.Add(dataPointTemp);
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
                 dataPointTemp.setDate(date);
                 dataPointTemp.setSpectrum(spectrum);
-            }
 
+                // Add to the list
+                dataPoints.Add(dataPointTemp);
+            }
 
         }
 
