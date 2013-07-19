@@ -32,6 +32,7 @@ namespace Spectroscopy_Viewer
 
         // Internal variables - calculated within the class
         private bool[] readingErrorThreshold;           // To keep track of whether the min threshold was met during cooling
+        private bool[] readingDark;                     // Whether the reading was dark or not (true => dark)
         private int badCountsErrors = new int();        // No. of bad counts due to error flags
         private int badCountsThreshold = new int();     // No. of bad counts due to not meeting minimum threshold
         private int darkCount = new int();              // No. of dark counts
@@ -123,14 +124,18 @@ namespace Spectroscopy_Viewer
 
             if (coolThresholdChanged != 2)     // Only if cooling threshold has changed
             {
-                this.updateBadCountsThreshold(coolThresholdChanged);
+                this.updateBadCountsThreshold(coolThresholdChanged);        // Update bad counts
+                validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Update no. of valid readings
             }
             
-            validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Calculate no. of valid readings
+            
 
             if (validReadings > 0.1 * repeats)
             {
-                this.calcDarkProb();
+                if (countThresholdChanged != 2) // Only if count threshold has changed
+                {
+                    this.updateDarkProb(countThresholdChanged);         // Update dark prob
+                }
             }
         }
         
@@ -138,6 +143,9 @@ namespace Spectroscopy_Viewer
         // Method to calculate probablity of ion being dark, based on initial thresholds
         private void calcDarkProb()
         {
+            // Initialise array based on number of repeats
+            readingDark = new bool[repeats];
+
             // For each reading
             for (int i = 0; i < repeats; i++)
             {
@@ -146,8 +154,10 @@ namespace Spectroscopy_Viewer
                 {
                     if (readingCount[i] <= countThreshold)
                     {
-                        darkCount++;                              // If count below threshold, then dark
+                        darkCount++;                        // If count below threshold, then dark
+                        readingDark[i] = true;              // Flag as dark
                     }
+                    else readingDark[i] = false;            // Flag as not dark
                 }
             }
 
@@ -157,7 +167,53 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to calculate probability of ion being dark, based on updated thresholds
-        // So only change 
+        // So only check the bright/dark status of those which may have changed
+        private void updateDarkProb(int directionOfChange)
+        {
+            // If threshold has gone up, only check those which were not dark last time
+            if (directionOfChange == 0)
+            {
+                for (int i = 0; i < repeats; i++)       // For each data point
+                {
+                    // Only consider data point if no errors
+                    if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+                    {
+                        if (!readingDark[i])                   // If it was NOT dark last time
+                        {
+                            if (readingCount[i] <= countThreshold)
+                            {
+                                darkCount++;                        // If count below threshold, then dark
+                                readingDark[i] = true;              // Flag as dark
+                            }
+                        }
+                    }
+                }
+            }
+            else if (directionOfChange == 1)      // If it has gone down, only check those which were dark
+            {
+                for (int i = 0; i < repeats; i++)   // For each data point
+                {
+                    // Only consider data point if no errors
+                    if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+                    {
+                        if (readingDark[i])        // If it WAS dark last time
+                        {
+                            if (readingCount[i] > countThreshold)       // If count is now above threshold
+                            {
+                                darkCount--;                            // Decrease count
+                                readingDark[i] = false;                 // Flag as NOT dark
+                            }
+                        }
+                    }
+                }
+
+                // Update probability of ion being in dark state
+                darkProb = darkCount / validReadings;
+            }
+
+
+
+        }
 
 
 
@@ -195,7 +251,7 @@ namespace Spectroscopy_Viewer
         // Only re-checks those that might have changed
         private void updateBadCountsThreshold(int directionOfChange)
         {
-            // If it has gone up, only check those which succeeded last time
+            // If threshold has gone up, only check those which succeeded last time
             if (directionOfChange == 0)
             {
                 for (int i = 0; i < repeats; i++)       // For each data point
@@ -225,7 +281,6 @@ namespace Spectroscopy_Viewer
                 }
             }
         }
-
 
 
 
