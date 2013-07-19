@@ -13,19 +13,22 @@ namespace Spectroscopy_Viewer
     {
 
         // Private members:
+        //******************//
+
+        // Raw data take from file
         private int[] readingCool;                  // Array to hold raw counts from cooling period
         private int[] readingCount;                 // Array to hold raw counts from state detection
         private bool[] readingErrorCool;            // Error flag from cooling period
         private bool[] readingErrorCount;           // Error flag from count period
+
+
         private bool[] readingErrorThreshold;       // To keep track of whether the min threshold was met during cooling
         private int badCountsErrors = new int();                // No. of bad counts due to error flags
         private int badCountsThreshold = new int();             // No. of bad counts due to not meeting minimum threshold
         private int darkCount = new int();                      // No. of dark counts
         private int validReadings = new int();                  // Total no. of valid readings (bright + dark)
         private int darkProb = new int();                       // Probability of ion being dark
-        private int brightMean = new int();                     // Mean fluorescence reading for bright counts (possibly not needed)
-        private int darkMean = new int();                       // Mean fluorescence reading for dark counts (possibly not needed)
-        
+   
 
         // Metadata
         private int frequency;              // Frequency of the data point
@@ -98,10 +101,6 @@ namespace Spectroscopy_Viewer
         // Method to calculate probablity of ion being dark, based on thresholds
         private void calcDarkProb()
         {
-            // Initialise averages to zero
-            brightMean = 0;
-            darkMean = 0;
-
             // For each reading
             for (int i = 0; i < repeats; i++)
             {
@@ -111,18 +110,9 @@ namespace Spectroscopy_Viewer
                     if (readingCount[i] <= countThreshold)
                     {
                         darkCount++;                              // If count below threshold, then dark
-                        darkMean += readingCount[i];              // Add fluorescence reading to average
-                    }
-                    else                                          // Otherwise, bright
-                    {
-                        brightMean += readingCount[i];            // Add fluorescence reading to average
                     }
                 }
             }
-
-            // Calculate averages
-            brightMean = brightMean / validReadings;
-            darkMean = darkMean / validReadings;
 
             // Calculate probability of ion being in dark state
             darkProb = darkCount / validReadings;
