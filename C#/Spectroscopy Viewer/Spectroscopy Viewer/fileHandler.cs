@@ -15,6 +15,9 @@ namespace Spectroscopy_Viewer
         // Create a list of dataPoint objects
         private List<dataPoint> dataPoints = new List<dataPoint>();
 
+        private ReadOnlyCollection<int[]> fullDataReadOnly;
+
+
         // Need metadata stored in this class as well as in dataPoint class, I believe...
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
@@ -64,7 +67,9 @@ namespace Spectroscopy_Viewer
                 j++;
             }
 
-            
+            // Create read only version of list
+            ReadOnlyCollection<int[]> fullDataReadOnly = fullData.AsReadOnly();
+
 
             // Construct data points from this instance of fileHandler
             this.constructDataPoints();
@@ -83,7 +88,7 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < fullData.Count; i += repeats)
             {
                 // Create new instance of dataPoint
-                dataPointTemp = new dataPoint(ref fullData, i, repeats);
+                dataPointTemp = new dataPoint(fullDataReadOnly, i, repeats);
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
