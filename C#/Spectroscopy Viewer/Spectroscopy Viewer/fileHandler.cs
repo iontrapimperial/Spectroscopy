@@ -70,6 +70,8 @@ namespace Spectroscopy_Viewer
             dataPoint dataPointTemp;        // dataPoint object used in loop
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency 
+            //
+            // NB I think this range (i < fullData.Count) might be wrong... not sure...
             for (int i = 0; i < fullData.Count; i += repeats)
             {
                 // Create new instance of dataPoint

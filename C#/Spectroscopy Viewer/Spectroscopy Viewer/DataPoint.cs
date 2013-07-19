@@ -71,16 +71,6 @@ namespace Spectroscopy_Viewer
         public void analyseInit(int cool, int count)
         {
             this.calcBadCountsErrors();         // Calculate no. of bad counts due to error flags
-            this.analyseUpdate(cool, count);           // Call function to analyse from updated thresholds
-        }
-
-        // Method to analyse data from updated thresholds
-        public void analyseUpdate(int cool, int count)
-        {
-
-            // When thresholds change, we want to keep track of whether they have changed up or down and NOT recalculate
-            // all threshold checks, just those that might have changed
-
 
             coolThreshold = cool;
             countThreshold = count;
@@ -93,10 +83,59 @@ namespace Spectroscopy_Viewer
             {
                 this.calcDarkProb();
             }
+
+        }
+
+        // Method to analyse data from updated thresholds
+        public void analyseUpdate(int cool, int count)
+        {
+            //****************************************
+            // When thresholds change, we want to keep track of whether they have changed up or down and NOT recalculate
+            // all threshold checks, just those that might have changed
+
+            // Variable to store information about whether the cooling threshold is increased, decreased or unchanged
+            // 0 => threshold has increased
+            // 1 => threshold has decreased
+            // 2 => threshold is unchanged
+            int coolThresholdChanged;
+
+            if (cool > coolThreshold) coolThresholdChanged = 0;
+            else if (cool < coolThreshold) coolThresholdChanged = 1;
+            else coolThresholdChanged = 2;
+
+
+            // Variable to store information about whether the count threshold is increased, decreased or unchanged
+            // 0 => threshold has increased
+            // 1 => threshold has decreased
+            // 2 => threshold is unchanged
+            int countThresholdChanged;
+
+            if (count > countThreshold) countThresholdChanged = 0;
+            else if (count < countThreshold) countThresholdChanged = 1;
+            else countThresholdChanged = 2;
+            //******************************************
+
+
+            // Update thresholds
+            coolThreshold = cool;
+            countThreshold = count;
+
+
+            if (coolThresholdChanged != 2)     // Only if cooling threshold has changed
+            {
+                this.updateBadCountsThreshold(coolThresholdChanged);
+            }
+            
+            validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Calculate no. of valid readings
+
+            if (validReadings > 0.1 * repeats)
+            {
+                this.calcDarkProb();
+            }
         }
         
 
-        // Method to calculate probablity of ion being dark, based on thresholds
+        // Method to calculate probablity of ion being dark, based on initial thresholds
         private void calcDarkProb()
         {
             // For each reading
@@ -117,6 +156,9 @@ namespace Spectroscopy_Viewer
 
         }
 
+        // Method to calculate probability of ion being dark, based on updated thresholds
+        // So only change 
+
 
 
         // Method to calculate number of bad counts due to error flags
@@ -129,6 +171,7 @@ namespace Spectroscopy_Viewer
                 else if(readingErrorCount[i]) badCountsErrors++;       // If count error flag is true
             }
         }
+
 
         // Method to calculate number of bad counts due to low cooling counts
         private void calcBadCountsThreshold()
@@ -145,6 +188,41 @@ namespace Spectroscopy_Viewer
                     readingErrorThreshold[i] = true;       // Flag that threshold was NOT met
                 }
                 else readingErrorThreshold[i] = false;     // Flag that threshold was met
+            }
+        }
+
+        // Method to re-calculate number of bad counts due to low cooling counts, based on a changed threshold
+        // Only re-checks those that might have changed
+        private void updateBadCountsThreshold(int directionOfChange)
+        {
+            // If it has gone up, only check those which succeeded last time
+            if (directionOfChange == 0)
+            {
+                for (int i = 0; i < repeats; i++)       // For each data point
+                {
+                    if (!readingErrorThreshold[i])      // If it succeeded last time
+                    {
+                        if (readingCool[i] <= coolThreshold)        // If it does NOT meet threshold
+                        {
+                            badCountsThreshold++;                   // Increase count
+                            readingErrorThreshold[i] = true;        // Flag that threshold was NOT met
+                        }
+                    }
+                }
+            }
+            else if (directionOfChange == 1)        // If it has gone down, only check those which failed
+            {
+                for (int i = 0; i < repeats; i++)       // For each data point
+                {
+                    if (readingErrorThreshold[i])       // If it failed last time
+                    {
+                        if (readingCool[i] > coolThreshold)         // If it DOES meet threshold
+                        {
+                            badCountsThreshold--;                   // Decrease count
+                            readingErrorThreshold[i] = false;       // Flag that threshold WAS met
+                        }
+                    }
+                }
             }
         }
 

@@ -26,10 +26,6 @@ namespace Spectroscopy_Viewer
 
 
 
-
-
-
-
         // Constructor given a list of data points
         public spectrum(List<dataPoint> dataPointsPassed)
         {
@@ -45,6 +41,7 @@ namespace Spectroscopy_Viewer
         // Method to add new list of data points to existing data
         public void addToSpectrum(ref List<dataPoint> dataPointsPassed)
         {
+            // Need to merge lists here
 
             dataSize = myDataPoints.Count();        // Update data size variable
         }
