@@ -18,7 +18,7 @@ namespace Spectroscopy_Viewer
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
         private int spectrum;               // Which spectrum the data point belongs to
-        private string date;                // Date when the data point was taken
+        private string date;                // Date when file was taken
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
         private int repeats;                // Number of repeats
@@ -77,7 +77,6 @@ namespace Spectroscopy_Viewer
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
-                dataPointTemp.setDate(date);
                 dataPointTemp.setSpectrum(spectrum);
 
                 // Add to the list

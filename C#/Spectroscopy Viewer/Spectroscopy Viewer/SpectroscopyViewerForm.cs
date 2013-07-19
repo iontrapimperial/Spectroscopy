@@ -117,8 +117,8 @@ namespace Spectroscopy_Viewer
             if (openDataFile.ShowDialog() != DialogResult.Cancel)
             {
 
- //               try
-     //           {
+                try
+                {
                     // Create new StreamReader instance to open file
                     System.IO.StreamReader filename = new System.IO.StreamReader(openDataFile.FileName);
                     // Create new instance of fileHandler to open & process file (pass by reference!)
@@ -133,12 +133,12 @@ namespace Spectroscopy_Viewer
                     // Can do this by merging lists 
 
 
-     //           }
-      //          catch (Exception)   // If any general exception is thrown
-        //        {
-        //            MessageBox.Show("Invalid file");
+                }
+                catch (Exception)   // If any general exception is thrown
+                {
+                    MessageBox.Show("Invalid file");
 
-      //          }
+                }
             }
         }
 
@@ -147,9 +147,11 @@ namespace Spectroscopy_Viewer
         private void plotDataButton_Click(object sender, EventArgs e)
         {
 
-            // Want to put in an if statement to check that 
+            // Want to put in an if statement to check that some data has been loaded
             // Currently just plot a single spectrum, more complex later
             
+
+            // Need far more code here to analyse data before plotting can take place.....
 
 
             int dataSize = spectrumData[0].Count;               // How many data points there are

@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="spectrum.cs" />
     <EmbeddedResource Include="SpectroscopyViewerForm.resx">
       <DependentUpon>SpectroscopyViewerForm.cs</DependentUpon>
     </EmbeddedResource>

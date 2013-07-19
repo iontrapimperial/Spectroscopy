@@ -21,31 +21,24 @@ namespace Spectroscopy_Viewer
         private bool[] readingErrorCool;            // Error flag from cooling period
         private bool[] readingErrorCount;           // Error flag from count period
 
-
-        private bool[] readingErrorThreshold;       // To keep track of whether the min threshold was met during cooling
-        private int badCountsErrors = new int();                // No. of bad counts due to error flags
-        private int badCountsThreshold = new int();             // No. of bad counts due to not meeting minimum threshold
-        private int darkCount = new int();                      // No. of dark counts
-        private int validReadings = new int();                  // Total no. of valid readings (bright + dark)
-        private int darkProb = new int();                       // Probability of ion being dark
-   
-
         // Metadata
         private int frequency;              // Frequency of the data point
         private int spectrum;               // Which spectrum the data point belongs to
-        private string date;                // Date when the data point was taken
+        private int repeats;                // Number of repeats
+        
+        // Thresholds
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
-        private int repeats;                // Number of repeats
 
+        // Internal variables - calculated within the class
+        private bool[] readingErrorThreshold;           // To keep track of whether the min threshold was met during cooling
+        private int badCountsErrors = new int();        // No. of bad counts due to error flags
+        private int badCountsThreshold = new int();     // No. of bad counts due to not meeting minimum threshold
+        private int darkCount = new int();              // No. of dark counts
+        private int validReadings = new int();          // Total no. of valid readings (bright + dark)
+        private int darkProb = new int();               // Probability of ion being dark
+   
 
-
-        // Default constructor
-        /*public dataPoint()
-        {
-           // Cannot create a data point without a file - display error message
-           System.Windows.Forms.MessageBox.Show("No file selected");
-        }*/
 
         // Construct instance given an array of data,a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
@@ -57,7 +50,7 @@ namespace Spectroscopy_Viewer
             readingCount = new int[repeatsPassed];
             readingErrorCount = new bool[repeatsPassed];
 
-            int j = 0;                  // Counter for private data array
+            int j = 0;                  // Counter for internal data arrays
             // For each repeat, populate array of private members
             for (int i = startPoint; i < (startPoint + repeatsPassed); i++)
             {
@@ -84,6 +77,11 @@ namespace Spectroscopy_Viewer
         // Method to analyse data from updated thresholds
         public void analyseUpdate(int cool, int count)
         {
+
+            // When thresholds change, we want to keep track of whether they have changed up or down and NOT recalculate
+            // all threshold checks, just those that might have changed
+
+
             coolThreshold = cool;
             countThreshold = count;
 
@@ -200,11 +198,6 @@ namespace Spectroscopy_Viewer
             frequency = x;
         }
 
-        // Method to set date
-        public void setDate(string x)
-        {
-            date = x;
-        }
 
         // Method to set which spectrum the data point belongs to
         public void setSpectrum(int x)
@@ -255,12 +248,6 @@ namespace Spectroscopy_Viewer
         public int getCountThresh()
         {
             return countThreshold;
-        }
-
-        // Method to return date
-        public string getDate()
-        {
-            return date;
         }
 
         // Method to return which spectrum the data point belongs to
