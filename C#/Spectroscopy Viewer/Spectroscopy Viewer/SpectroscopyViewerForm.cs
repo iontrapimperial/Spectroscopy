@@ -17,8 +17,8 @@ namespace Spectroscopy_Viewer
 {
     public partial class SpectroscopyViewerForm : Form
     {
-        // An array of lists of data points. Each list contains all of the data points for one spectrum.
-        private List<dataPoint>[] spectrumData = new List<dataPoint>[1];
+        // An array of spectrum objects. Can't dynamically resize arrays so set max number to 10. Could maybe use a list instead??
+        private spectrum[] spectrumData = new spectrum[10];      
         private PointPairList dataPlot = new PointPairList();       // Create object to store data for graph
 
         public SpectroscopyViewerForm()
@@ -120,18 +120,17 @@ namespace Spectroscopy_Viewer
                 try
                 {
                     // Create new StreamReader instance to open file
-                    System.IO.StreamReader filename = new System.IO.StreamReader(openDataFile.FileName);
+                    System.IO.StreamReader myFile = new System.IO.StreamReader(openDataFile.FileName);
                     // Create new instance of fileHandler to open & process file (pass by reference!)
-                    fileHandler filehandler = new fileHandler(ref filename);
+                    fileHandler myFilehandler = new fileHandler(ref myFile);
                     // Clean up StreamReader instance after fileHandler has finished with it
-                    filename.Close();           // Close object & release resources
+                    myFile.Close();           // Close object & release resources
 
                     // Get the list filled with data points
-                    spectrumData[0] = filehandler.getDataPoints();
+                    spectrumData[0] = new spectrum(myFilehandler.getDataPoints());
 
                     // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
                     // Can do this by merging lists 
-
 
                 }
                 catch (Exception)   // If any general exception is thrown
@@ -154,21 +153,7 @@ namespace Spectroscopy_Viewer
             // Need far more code here to analyse data before plotting can take place.....
 
 
-            int dataSize = spectrumData[0].Count;               // How many data points there are
-            int x, y;
 
-            // For each data point
-            for (int i = 0; i < dataSize; i++)
-            {
-                x = spectrumData[0][i].getFreq();
-                y = spectrumData[0][i].getDarkProb();
-                dataPlot.Add(x, y);
-            }
-
-            // Setup the graph
-            CreateGraph(zedGraphControl1);
-            // Size the control to fill the form with a margin
-            SetSize();
 
 
         }
