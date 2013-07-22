@@ -62,7 +62,7 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < dataSize; i++)
             {
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
-                Console.WriteLine("Dark prob = {0}", myDataPoints[i].getDarkProb());
+  //              Console.WriteLine("Dark prob = {0}", myDataPoints[i].getDarkProb());
             }
 
             Console.WriteLine("Initial data analysis complete");

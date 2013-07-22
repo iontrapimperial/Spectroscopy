@@ -167,7 +167,7 @@ namespace Spectroscopy_Viewer
             }
             // Calculate probability of ion being in dark state
             darkProb = (float) darkCount / validReadings;
-            Console.WriteLine("Count: {0}, Readings: {1}, Prob: {2}", darkCount, validReadings, darkProb);
+//            Console.WriteLine("Count: {0}, Readings: {1}, Prob: {2}", darkCount, validReadings, darkProb);
         }
 
         // Method to calculate probability of ion being dark, based on updated thresholds
