@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Controller", "Spectroscopy Controller\Spectroscopy Controller.csproj", "{80120DBE-C573-462C-BDB2-FB015E12A6B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPGAPulseSpectroscopy", "..\..\..\Version3.3 (Windowing)\C#\FPGAPulseSpectroscopy\FPGAPulseSpectroscopy.csproj", "{51C56F4F-52A7-4B2F-99EB-986825B3DDB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|x86.ActiveCfg = Debug|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|x86.Build.0 = Debug|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|x86.ActiveCfg = Release|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|x86.Build.0 = Release|x86
+		{51C56F4F-52A7-4B2F-99EB-986825B3DDB3}.Debug|x86.ActiveCfg = Debug|x86
+		{51C56F4F-52A7-4B2F-99EB-986825B3DDB3}.Debug|x86.Build.0 = Debug|x86
+		{51C56F4F-52A7-4B2F-99EB-986825B3DDB3}.Release|x86.ActiveCfg = Release|x86
+		{51C56F4F-52A7-4B2F-99EB-986825B3DDB3}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
