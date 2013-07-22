@@ -67,5 +67,7 @@ namespace Spectroscopy_Viewer
             this.Close();       // Close form
         }
 
+
+
     }
 }

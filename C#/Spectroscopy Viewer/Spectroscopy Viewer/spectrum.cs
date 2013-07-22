@@ -46,7 +46,7 @@ namespace Spectroscopy_Viewer
 
 
         // Method to add new list of data points to existing data
-        public void addToSpectrum(ref List<dataPoint> dataPointsPassed)
+        public void addToSpectrum(List<dataPoint> dataPointsPassed)
         {
             // Need to merge lists here
 

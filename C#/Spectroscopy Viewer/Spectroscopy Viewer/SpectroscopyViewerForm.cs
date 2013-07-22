@@ -105,8 +105,8 @@ namespace Spectroscopy_Viewer
             if (openDataFile.ShowDialog() != DialogResult.Cancel)
             {
 
-                try
-                {
+ //               try
+   //             {
                     // Create new StreamReader instance to open file
                     System.IO.StreamReader myFile = new System.IO.StreamReader(openDataFile.FileName);
                     // Create new instance of fileHandler to open & process file (pass by reference!)
@@ -116,27 +116,35 @@ namespace Spectroscopy_Viewer
 
                     // Create spectrumSelect form, give it list of existing spectra
                     spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum);
-                    mySpectrumSelectBox.Show();         // Display form
+                    mySpectrumSelectBox.ShowDialog();         // Display form
+
+                    int selectedIndex = mySpectrumSelectBox.selectedIndex;
+                    int existingSpectra = mySpectrum.Count();
 
                     // If the index is equal to the number of existing spectra, then "Create new spectrum" must be selected
                     // (since for a list of N items, index runs from 0 to N-1)
-                    if (mySpectrumSelectBox.selectedIndex == mySpectrum.Count)
+                    if (selectedIndex == existingSpectra)
                     {
                         // Get the list filled with data points, add to list of spectra
                         mySpectrum.Add(new spectrum(myFilehandler.getDataPoints()));
 
-                        // Set the number of the spectrum
-                        mySpectrum[mySpectrum.Count - 1].setNumber(mySpectrum.Count - 1);
-
+                        // Set number
+                        mySpectrum[existingSpectra].setNumber(existingSpectra);
                         // Set the name of the spectrum
-                        mySpectrum[mySpectrum.Count - 1].setName(mySpectrumSelectBox.newSpectrumName);
+                        mySpectrum[existingSpectra].setName(mySpectrumSelectBox.newSpectrumName);
 
                         // Add blank PointPairList for storing plot data
                         dataPlot.Add(new PointPairList());
                     }
+                    else if (mySpectrumSelectBox.DialogResult == DialogResult.Cancel)
+                    {
+                        // If user closes the form without clicking "Add to spectrum"
+                        MessageBox.Show("Canceled loading data");
+                    }
                     else
                     {
-                        // Add to new spectrum
+                        // Add list of data points from file handler into existing spectrum
+                        mySpectrum[selectedIndex].addToSpectrum(myFilehandler.getDataPoints());
                     }
 
                     
@@ -144,12 +152,12 @@ namespace Spectroscopy_Viewer
                     // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
                     // Can do this by merging lists 
 
-                }
+  /*              }
                 catch (Exception)   // If any general exception is thrown
                 {
                     MessageBox.Show("Error");
 
-                }
+                }*/
             }
 
 
