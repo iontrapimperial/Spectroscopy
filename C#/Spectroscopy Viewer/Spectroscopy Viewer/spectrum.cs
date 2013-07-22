@@ -26,7 +26,7 @@ namespace Spectroscopy_Viewer
         private int coolThreshold;      // Cooling threshold
         private int countThreshold;     // Count threshold
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
-
+        private string spectrumName;     
 
 
         // Constructor given a list of data points

@@ -44,23 +44,26 @@ namespace Spectroscopy_Viewer
         // Customize this to fit your needs
         private void SetSize()
         {
-            zedGraphControl1.Location = new Point(10, 40);
+            zedGraphControl1.Location = new Point(10, 60);
             // Leave a small margin around the outside of the control
             zedGraphControl1.Size = new Size(ClientRectangle.Width - 20,
-                                    ClientRectangle.Height - 50);
+                                    ClientRectangle.Height - 70);
         }
 
         // Respond to form 'Load' event
         private void Form1_Load(object sender, EventArgs e)
         {
             // Setup the graph
-            CreateGraph(zedGraphControl1);
+            createGraph(zedGraphControl1);
             // Size the control to fill the form with a margin
             SetSize();
         }
+        
 
-        // Build the Chart
-        private void CreateGraph(ZedGraphControl zgc)
+
+
+        // Build the Chart - before any data has been added
+        private void createGraph(ZedGraphControl zgc)
         {
             // get a reference to the GraphPane
             GraphPane myPane = zgc.GraphPane;
@@ -69,30 +72,21 @@ namespace Spectroscopy_Viewer
             myPane.Title.Text = "My Test Graph\n(For CodeProject Sample)";
             myPane.XAxis.Title.Text = "My X Axis";
             myPane.YAxis.Title.Text = "My Y Axis";
-/*
-            // Make up some data arrays based on the Sine function
-            double x, y1, y2;
-            PointPairList list1 = new PointPairList();
-            PointPairList list2 = new PointPairList();
-            for (int i = 0; i < 36; i++)
-            {
-                x = (double)i + 5;
-                y1 = 1.5 + Math.Sin((double)i * 0.2);
-                y2 = 3.0 * (1.5 + Math.Sin((double)i * 0.2));
-                list1.Add(x, y1);
-                list2.Add(x, y2);
-            }
-*/
+
+        }
+
+        
+        // Update the chart when data has been added/updated
+        private void updateGraph(ZedGraphControl zgc)
+        {
+            // get a reference to the GraphPane
+            GraphPane myPane = zgc.GraphPane;
 
             // Generate a red curve with diamond
-            // symbols, and "Porsche" in the legend
+            // symbols
             LineItem myCurve = myPane.AddCurve("Data Plot",
                   dataPlot[0], Color.Red, SymbolType.Diamond);
 
-            // Generate a blue curve with circle
-            // symbols, and "Piper" in the legend
-//            LineItem myCurve2 = myPane.AddCurve("Piper",
-//                  list2, Color.Blue, SymbolType.Circle);
 
             // Tell ZedGraph to refigure the
             // axes since the data have changed
@@ -100,18 +94,14 @@ namespace Spectroscopy_Viewer
         }
 
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
 
         // Respond to 'Load data' button press
         private void loadDataButton_Click(object sender, EventArgs e)
         {
             // Configuring dialog to open a new data file
-            openDataFile.InitialDirectory = "Z:/Data";   // Initialise to share drive
-            openDataFile.RestoreDirectory = true;   // Open to last viewed directory
+            openDataFile.InitialDirectory = "Z:/Data";      // Initialise to share drive
+            openDataFile.RestoreDirectory = true;           // Open to last viewed directory
+            openDataFile.FileName = "";                     // Set default filename to blank
 
             // Show dialog to open new data file
             // Do not attempt to open file if user has pressed cancel
@@ -138,7 +128,7 @@ namespace Spectroscopy_Viewer
                 }
                 catch (Exception)   // If any general exception is thrown
                 {
-                    MessageBox.Show("Invalid file");
+                    MessageBox.Show("Error");
 
                 }
             }
@@ -155,14 +145,18 @@ namespace Spectroscopy_Viewer
             // Want to put in an if statement to check that some data has been loaded
             // Currently just plot a single spectrum, more complex later
 
+            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+
             // Analyse each spectrum and get the data
+            // NB if no spectra have been loaded, mySpectrum.Count will be 0 and this loop will not run
             for (int i = 0; i < mySpectrum.Count; i++)
             {
                 mySpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
                 dataPlot[i] = mySpectrum[i].getDataPlot();
             }
+
             // Setup the graph
-            CreateGraph(zedGraphControl1);
+            updateGraph(zedGraphControl1);
             // Size the control to fill the form with a margin
             SetSize();
         }

@@ -84,7 +84,7 @@
             // 
             // coolingThresholdSelect
             // 
-            this.coolingThresholdSelect.Location = new System.Drawing.Point(37, 75);
+            this.coolingThresholdSelect.Location = new System.Drawing.Point(5, 57);
             this.coolingThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
             this.coolingThresholdSelect.Name = "coolingThresholdSelect";
             this.coolingThresholdSelect.Size = new System.Drawing.Size(90, 20);
@@ -98,7 +98,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(37, 56);
+            this.label1.Location = new System.Drawing.Point(5, 38);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 13);
@@ -107,7 +107,7 @@
             // 
             // countThresholdSelect
             // 
-            this.countThresholdSelect.Location = new System.Drawing.Point(37, 127);
+            this.countThresholdSelect.Location = new System.Drawing.Point(5, 109);
             this.countThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
             this.countThresholdSelect.Name = "countThresholdSelect";
             this.countThresholdSelect.Size = new System.Drawing.Size(90, 20);
@@ -121,7 +121,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 108);
+            this.label2.Location = new System.Drawing.Point(5, 90);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
@@ -130,7 +130,7 @@
             // 
             // plotDataButton
             // 
-            this.plotDataButton.Location = new System.Drawing.Point(146, 97);
+            this.plotDataButton.Location = new System.Drawing.Point(114, 79);
             this.plotDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.plotDataButton.Name = "plotDataButton";
             this.plotDataButton.Size = new System.Drawing.Size(74, 24);
