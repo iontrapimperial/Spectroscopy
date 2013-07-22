@@ -47,19 +47,19 @@ namespace Spectroscopy_Viewer
             repeats = 100;      // For now, set no. of repeats to 100 (known)
 
 
-            int[] dataBlock = new int[4];             // Create array of 4 ints
             string myString = filename.ReadLine();             // Read first line of file
             int j = 0;
             while (myString != null)                           // Only read further lines until end is reached
             {
+                fullData.Add(new int[4]);                       // Add new reading to the list, will contain 4 int
+
                 // Extract blocks of 4 data points (each reading)
                 for (int i = 0; i < 4; i++)
                 {
         //            Console.WriteLine("{0}", int.Parse(myString));
-                    dataBlock[i] = int.Parse(myString);       // Convert string to int, put into array
+                    fullData[j][i] = int.Parse(myString);       // Convert string to int, put into array
                     myString = filename.ReadLine();            // Read next line
                 }
-                fullData.Add(dataBlock);                // Add data block to the list
 //                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", fullData[j][0], fullData[j][1], fullData[j][2], fullData[j][3], j);
                 j++;
             }
