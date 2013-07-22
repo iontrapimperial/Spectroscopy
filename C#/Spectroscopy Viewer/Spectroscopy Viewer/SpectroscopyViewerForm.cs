@@ -79,15 +79,19 @@ namespace Spectroscopy_Viewer
             // get a reference to the GraphPane
             GraphPane myPane = zgc.GraphPane;
 
-            // Generate a red curve with diamond
-            // symbols
-            LineItem myCurve = myPane.AddCurve("Data Plot",
-                  dataPlot[0], Color.Red, SymbolType.Diamond);
+
+            for (int i = 0; i < mySpectrum.Count; i++)
+            {
+                // Generate a red curve with diamond
+                // symbols
+                LineItem myCurve = myPane.AddCurve("Data Plot",
+                      dataPlot[i], Color.Red, SymbolType.Diamond);
 
 
-            // Tell ZedGraph to refigure the
-            // axes since the data have changed
-            zgc.AxisChange();
+                // Tell ZedGraph to refigure the
+                // axes since the data have changed
+                zgc.AxisChange();
+            }
         }
 
 

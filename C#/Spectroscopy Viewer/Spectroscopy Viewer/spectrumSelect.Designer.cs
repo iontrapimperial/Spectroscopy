@@ -44,6 +44,7 @@
             // 
             // addToSpectrumButton
             // 
+            this.addToSpectrumButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.addToSpectrumButton.Location = new System.Drawing.Point(12, 204);
             this.addToSpectrumButton.Name = "addToSpectrumButton";
             this.addToSpectrumButton.Size = new System.Drawing.Size(187, 36);

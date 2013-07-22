@@ -48,8 +48,8 @@ namespace Spectroscopy_Viewer
         // Method to add new list of data points to existing data
         public void addToSpectrum(List<dataPoint> dataPointsPassed)
         {
-            // Need to merge lists here
-
+            // Add new data onto the end of list
+            myDataPoints.AddRange(dataPointsPassed);
             dataSize = myDataPoints.Count();        // Update data size variable
         }
 

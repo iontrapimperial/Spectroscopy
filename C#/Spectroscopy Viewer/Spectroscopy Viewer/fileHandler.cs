@@ -18,7 +18,7 @@ namespace Spectroscopy_Viewer
         // Need metadata stored in this class as well as in dataPoint class, I believe...
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
-        private int spectrum;               // Which spectrum the data point belongs to
+        private int spectrumNumber;               // Which spectrum the data point belongs to
         private string date;                // Date when file was taken
         private int coolThreshold;          // Threshold value for min counts during cooling period
         private int countThreshold;         // Threshold value for distinguishing bright/dark
@@ -81,7 +81,7 @@ namespace Spectroscopy_Viewer
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
-                dataPointTemp.setSpectrum(spectrum);
+                dataPointTemp.setSpectrum(spectrumNumber);
 
                 // Add to the list
                 dataPoints.Add(dataPointTemp);
