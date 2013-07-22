@@ -37,7 +37,7 @@ namespace Spectroscopy_Viewer
         private int badCountsThreshold = new int();     // No. of bad counts due to not meeting minimum threshold
         private int darkCount = new int();              // No. of dark counts
         private int validReadings = new int();          // Total no. of valid readings (bright + dark)
-        private int darkProb = new int();               // Probability of ion being dark
+        private float darkProb = new float();               // Probability of ion being dark
    
 
 
@@ -59,7 +59,7 @@ namespace Spectroscopy_Viewer
                 readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
                 readingCount[j] = fullData[i][2];                           // Third int is the bright/dark count
                 readingErrorCount[j] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
-                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", readingCool[j], readingErrorCool[j], readingCount[j], readingErrorCount[j], j);
+ //               Console.WriteLine("{0}, {1}, {2}, {3}, {4}", readingCool[j], readingErrorCool[j], readingCount[j], readingErrorCount[j], j);
  //               Console.WriteLine("{0}, {1}, {2}, {3}, {4}", fullData[i][0], fullData[i][1], fullData[i][2], fullData[i][3], i);
       //          Console.WriteLine("Count = {0} (j = {1}, i = {2})", readingCount[j], j, i);
                 j++;
@@ -81,6 +81,7 @@ namespace Spectroscopy_Viewer
             // Calculate no. of bad counts based on new threshold
             this.calcBadCountsThreshold();
             validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Calculate no. of valid readings
+            
 
             if (validReadings > 0.1 * repeats)
             {
@@ -147,6 +148,8 @@ namespace Spectroscopy_Viewer
         {
             // Initialise array based on number of repeats
             readingDark = new bool[repeats];
+            darkCount = 0;                  // Initialise dark count
+            darkProb = 0;
 
             // For each reading
             for (int i = 0; i < repeats; i++)
@@ -163,8 +166,8 @@ namespace Spectroscopy_Viewer
                 }
             }
             // Calculate probability of ion being in dark state
-            darkProb = darkCount / validReadings;
-
+            darkProb = (float) darkCount / validReadings;
+            Console.WriteLine("Count: {0}, Readings: {1}, Prob: {2}", darkCount, validReadings, darkProb);
         }
 
         // Method to calculate probability of ion being dark, based on updated thresholds
@@ -360,7 +363,7 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to return excitation probability
-        public int getDarkProb()
+        public float getDarkProb()
         {
             // Calculated in separate method & stored - just return it here
             return darkProb;

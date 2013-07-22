@@ -97,7 +97,7 @@ namespace Spectroscopy_Viewer
         private void createDataPlot()
         {
             int x = new int();
-            int y = new int();
+            float y = new float();
 
             for (int i = 0; i < dataSize; i++)
             {
