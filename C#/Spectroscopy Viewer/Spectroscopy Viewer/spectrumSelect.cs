@@ -46,10 +46,10 @@ namespace Spectroscopy_Viewer
 
             // Set default text for box
             newSpectrumNameBox.Text = "Spectrum name";
-            // Highlight text by default
-            newSpectrumNameBox.SelectionStart = 0;
-            newSpectrumNameBox.SelectionLength = newSpectrumNameBox.Text.Length;
             newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
+
+            // Default setting is to create new spectrum
+            spectrumSelectList.SelectedIndex = mySpectrumLength;
 
         }
 

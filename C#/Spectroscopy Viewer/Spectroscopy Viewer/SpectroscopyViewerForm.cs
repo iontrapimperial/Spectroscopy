@@ -114,12 +114,15 @@ namespace Spectroscopy_Viewer
                     // Clean up StreamReader instance after fileHandler has finished with it
                     myFile.Close();           // Close object & release resources
 
+                    //*************************************************************//
+                    // Pop up dialog box to select which spectrum to add data to, and act accordingly
+                    
                     // Create spectrumSelect form, give it list of existing spectra
                     spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum);
                     mySpectrumSelectBox.ShowDialog();         // Display form
 
-                    int selectedIndex = mySpectrumSelectBox.selectedIndex;
-                    int existingSpectra = mySpectrum.Count();
+                    int selectedIndex = mySpectrumSelectBox.selectedIndex;      // Which option has been chosen by user
+                    int existingSpectra = mySpectrum.Count();                   // How many spectra exist already
 
                     // If the index is equal to the number of existing spectra, then "Create new spectrum" must be selected
                     // (since for a list of N items, index runs from 0 to N-1)
@@ -147,11 +150,9 @@ namespace Spectroscopy_Viewer
                         mySpectrum[selectedIndex].addToSpectrum(myFilehandler.getDataPoints());
                     }
 
+                    //**************************************************************
+
                     
-
-                    // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
-                    // Can do this by merging lists 
-
   /*              }
                 catch (Exception)   // If any general exception is thrown
                 {
