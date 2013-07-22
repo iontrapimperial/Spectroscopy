@@ -45,7 +45,7 @@
             // zedGraphControl1
             // 
             this.zedGraphControl1.Location = new System.Drawing.Point(374, 98);
-            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -74,7 +74,7 @@
             // loadDataButton
             // 
             this.loadDataButton.Location = new System.Drawing.Point(0, 0);
-            this.loadDataButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadDataButton.Name = "loadDataButton";
             this.loadDataButton.Size = new System.Drawing.Size(74, 24);
             this.loadDataButton.TabIndex = 2;
@@ -85,7 +85,7 @@
             // coolingThresholdSelect
             // 
             this.coolingThresholdSelect.Location = new System.Drawing.Point(37, 75);
-            this.coolingThresholdSelect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.coolingThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
             this.coolingThresholdSelect.Name = "coolingThresholdSelect";
             this.coolingThresholdSelect.Size = new System.Drawing.Size(90, 20);
             this.coolingThresholdSelect.TabIndex = 3;
@@ -108,7 +108,7 @@
             // countThresholdSelect
             // 
             this.countThresholdSelect.Location = new System.Drawing.Point(37, 127);
-            this.countThresholdSelect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.countThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
             this.countThresholdSelect.Name = "countThresholdSelect";
             this.countThresholdSelect.Size = new System.Drawing.Size(90, 20);
             this.countThresholdSelect.TabIndex = 5;
@@ -130,8 +130,8 @@
             // 
             // plotDataButton
             // 
-            this.plotDataButton.Location = new System.Drawing.Point(92, 0);
-            this.plotDataButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.plotDataButton.Location = new System.Drawing.Point(146, 97);
+            this.plotDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.plotDataButton.Name = "plotDataButton";
             this.plotDataButton.Size = new System.Drawing.Size(74, 24);
             this.plotDataButton.TabIndex = 7;

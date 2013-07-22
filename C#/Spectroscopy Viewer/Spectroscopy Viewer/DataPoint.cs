@@ -79,7 +79,7 @@ namespace Spectroscopy_Viewer
             this.calcBadCountsThreshold();
             validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Calculate no. of valid readings
             
-
+            // Only calculate if there are enough valid readings
             if (validReadings > 0.1 * repeats)
             {
                 this.calcDarkProb();
@@ -146,7 +146,6 @@ namespace Spectroscopy_Viewer
             // Initialise array based on number of repeats
             readingDark = new bool[repeats];
             darkCount = 0;                  // Initialise dark count
-            darkProb = 0;
 
             // For each reading
             for (int i = 0; i < repeats; i++)

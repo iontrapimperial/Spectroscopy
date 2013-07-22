@@ -19,8 +19,8 @@ namespace Spectroscopy_Viewer
     public partial class SpectroscopyViewerForm : Form
     {
         // An array of spectrum objects. Can't dynamically resize arrays so set max number to 10. Could maybe use a list instead??
-        private spectrum[] mySpectrum = new spectrum[10];      
-        private PointPairList dataPlot = new PointPairList();       // Create object to store data for graph
+        private spectrum[] mySpectrum = new spectrum[1];      
+        private PointPairList[] dataPlot = new PointPairList[1];       // Create object to store data for graph
 
         public SpectroscopyViewerForm()
         {
@@ -87,7 +87,7 @@ namespace Spectroscopy_Viewer
             // Generate a red curve with diamond
             // symbols, and "Porsche" in the legend
             LineItem myCurve = myPane.AddCurve("Data Plot",
-                  dataPlot, Color.Red, SymbolType.Diamond);
+                  dataPlot[0], Color.Red, SymbolType.Diamond);
 
             // Generate a blue curve with circle
             // symbols, and "Piper" in the legend
@@ -153,10 +153,13 @@ namespace Spectroscopy_Viewer
             // Want to put in an if statement to check that some data has been loaded
             // Currently just plot a single spectrum, more complex later
 
-            mySpectrum[0].analyseInit((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
+            // Initialise and plot each spectrum
+            for (int i = 0; i < mySpectrum.Length; i++)
+            {
+                mySpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
+                dataPlot[i] = mySpectrum[i].getDataPlot();
 
-            dataPlot = mySpectrum[0].getDataPlot();
-
+            }
             // Setup the graph
             CreateGraph(zedGraphControl1);
             // Size the control to fill the form with a margin

@@ -21,9 +21,11 @@ namespace Spectroscopy_Viewer
         private PointPairList dataPlot = new PointPairList();
 
 
+        // Various bits of information about the spectrum
         private int dataSize;           // Number of data points
         private int coolThreshold;      // Cooling threshold
         private int countThreshold;     // Count threshold
+        private bool beenInitialised = false;   // Has the initial data analysis taken place?
 
 
 
@@ -52,8 +54,19 @@ namespace Spectroscopy_Viewer
 
 
 
+        // General public method to analyse data
+        // When we call this, we don't want to have to know about whether the initial analysis has taken place or not
+        public void analyse(int cool, int count)
+        {
+            // If not yet initialised, carry out initial analysis
+            if (!beenInitialised) this.analyseInit(cool, count);
+            // Otherwise just update
+            else this.analyseUpdate(cool, count);
+        }
+
+
         // Method to analyse data given new thresholds
-        public void analyseInit(int cool, int count)
+        private void analyseInit(int cool, int count)
         {
             // Update private members
             coolThreshold = cool;
@@ -63,10 +76,11 @@ namespace Spectroscopy_Viewer
             {
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
             }
+            beenInitialised = true;
         }
 
         // Method to analyse data given updated thresholds
-        public void analyseUpdate(int cool, int count)
+        private void analyseUpdate(int cool, int count)
         {
             // Update private members
             coolThreshold = cool;
@@ -78,7 +92,6 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < dataSize; i++)
             {
                 myDataPoints[i].analyseUpdate(coolThreshold, countThreshold);        // Update each data point
-
             }
 
 
@@ -99,8 +112,6 @@ namespace Spectroscopy_Viewer
                 y = myDataPoints[i].getDarkProb();
                 dataPlot.Add(x, y);
             }
-
-
 
         }
 
