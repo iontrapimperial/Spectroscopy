@@ -13,22 +13,28 @@ namespace Spectroscopy_Viewer
     {
         // List to display 
         private List<string> myList = new List<string>();
-        private List<spectrum> mySpectrum = new List<spectrum>();
+        // Store the number of existing spectra
+        private int mySpectrumLength = new int();
+
+        // Public variables to
         public int selectedIndex = new int();
+        public string newSpectrumName;
 
         // Constructor given a list of existing spectra
-        public spectrumSelect(List<spectrum> mySpectrumPassed)
+        public spectrumSelect(List<spectrum> mySpectrum)
         {
             InitializeComponent();
 
-            mySpectrum = mySpectrumPassed;      // Save the passed list as a private member
-            string spectrumName;                // String to contain the name of each spectrum
+            // Store number of existing spectra
+            mySpectrumLength = mySpectrum.Count();
+
+            string existingSpectrumName;                // String to contain the name of each spectrum
 
             // Create new item in list for each existing spectrum
             for (int i = 0; i < mySpectrum.Count; i++)
             {
-                spectrumName = mySpectrum[i].getName();                     // Retrieve name of spectrum
-                myList.Add("Spectrum " + i + " (" + spectrumName + ")");    // Concatenate string with name & number
+                existingSpectrumName = mySpectrum[i].getName();                     // Retrieve name of spectrum
+                myList.Add("Spectrum " + i + " (" + existingSpectrumName + ")");    // Concatenate string with name & number
             }
 
             // Option to create new spectrum
@@ -38,15 +44,28 @@ namespace Spectroscopy_Viewer
             // Populate list box from this list
             spectrumSelectList.DataSource = myList;
 
+            // Set default text for box
+            newSpectrumNameBox.Text = "Spectrum name";
+            // Highlight text by default
+            newSpectrumNameBox.SelectionStart = 0;
+            newSpectrumNameBox.SelectionLength = newSpectrumNameBox.Text.Length;
+            newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
+
         }
 
         private void addToSpectrumButton_Click(object sender, EventArgs e)
         {
             // Check which item was selected, set public value
             selectedIndex = spectrumSelectList.SelectedIndex;
+
+            // If creating new spectrum, set public string from user input
+            if (selectedIndex == mySpectrumLength)
+            {
+                newSpectrumName = newSpectrumNameBox.Text;
+            }
+
             this.Close();       // Close form
         }
-
 
     }
 }

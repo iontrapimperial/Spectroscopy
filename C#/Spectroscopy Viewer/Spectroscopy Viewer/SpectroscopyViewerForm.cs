@@ -128,6 +128,9 @@ namespace Spectroscopy_Viewer
                         // Set the number of the spectrum
                         mySpectrum[mySpectrum.Count - 1].setNumber(mySpectrum.Count - 1);
 
+                        // Set the name of the spectrum
+                        mySpectrum[mySpectrum.Count - 1].setName(mySpectrumSelectBox.newSpectrumName);
+
                         // Add blank PointPairList for storing plot data
                         dataPlot.Add(new PointPairList());
                     }

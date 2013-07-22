@@ -43,7 +43,7 @@
             // 
             // zedGraphControl1
             // 
-            this.zedGraphControl1.Location = new System.Drawing.Point(374, 98);
+            this.zedGraphControl1.Location = new System.Drawing.Point(334, 57);
             this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
@@ -53,7 +53,7 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(287, 196);
+            this.zedGraphControl1.Size = new System.Drawing.Size(436, 306);
             this.zedGraphControl1.TabIndex = 0;
             // 
             // openDataFile

@@ -30,6 +30,8 @@
         {
             this.spectrumSelectList = new System.Windows.Forms.ListBox();
             this.addToSpectrumButton = new System.Windows.Forms.Button();
+            this.newSpectrumNameBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // spectrumSelectList
@@ -37,7 +39,7 @@
             this.spectrumSelectList.FormattingEnabled = true;
             this.spectrumSelectList.Location = new System.Drawing.Point(12, 12);
             this.spectrumSelectList.Name = "spectrumSelectList";
-            this.spectrumSelectList.Size = new System.Drawing.Size(187, 186);
+            this.spectrumSelectList.Size = new System.Drawing.Size(187, 134);
             this.spectrumSelectList.TabIndex = 0;
             // 
             // addToSpectrumButton
@@ -50,16 +52,35 @@
             this.addToSpectrumButton.UseVisualStyleBackColor = true;
             this.addToSpectrumButton.Click += new System.EventHandler(this.addToSpectrumButton_Click);
             // 
+            // newSpectrumNameBox
+            // 
+            this.newSpectrumNameBox.Location = new System.Drawing.Point(13, 178);
+            this.newSpectrumNameBox.Name = "newSpectrumNameBox";
+            this.newSpectrumNameBox.Size = new System.Drawing.Size(186, 20);
+            this.newSpectrumNameBox.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 159);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(179, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Please enter name of new spectrum:";
+            // 
             // spectrumSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(207, 252);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.newSpectrumNameBox);
             this.Controls.Add(this.addToSpectrumButton);
             this.Controls.Add(this.spectrumSelectList);
             this.Name = "spectrumSelect";
             this.Text = "Choose spectrum";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -67,5 +88,7 @@
 
         private System.Windows.Forms.ListBox spectrumSelectList;
         private System.Windows.Forms.Button addToSpectrumButton;
+        private System.Windows.Forms.TextBox newSpectrumNameBox;
+        private System.Windows.Forms.Label label1;
     }
 }
