@@ -56,15 +56,11 @@ namespace Spectroscopy_Viewer
                 // Extract blocks of 4 data points (each reading)
                 for (int i = 0; i < 4; i++)
                 {
-        //            Console.WriteLine("{0}", int.Parse(myString));
                     fullData[j][i] = int.Parse(myString);       // Convert string to int, put into array
                     myString = filename.ReadLine();            // Read next line
                 }
-//                Console.WriteLine("{0}, {1}, {2}, {3}, {4}", fullData[j][0], fullData[j][1], fullData[j][2], fullData[j][3], j);
                 j++;
             }
-
-            
 
             // Construct data points from this instance of fileHandler
             this.constructDataPoints();
@@ -78,8 +74,6 @@ namespace Spectroscopy_Viewer
             dataPoint dataPointTemp;        // dataPoint object used in loop
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency 
-            //
-            // NB I think this range (i < fullData.Count) might be wrong... not sure...
             for (int i = 0; i < fullData.Count; i += repeats)
             {
                 // Create new instance of dataPoint
@@ -102,8 +96,6 @@ namespace Spectroscopy_Viewer
             this.constructDataPoints();
             return dataPoints;
         }
-
-
 
     }
 }

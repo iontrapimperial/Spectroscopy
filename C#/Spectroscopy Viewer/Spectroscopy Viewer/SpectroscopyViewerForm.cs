@@ -109,8 +109,6 @@ namespace Spectroscopy_Viewer
         // Respond to 'Load data' button press
         private void loadDataButton_Click(object sender, EventArgs e)
         {
-            Debug.Write("Test");
-
             // Configuring dialog to open a new data file
             openDataFile.InitialDirectory = "Z:/Data";   // Initialise to share drive
             openDataFile.RestoreDirectory = true;   // Open to last viewed directory
@@ -131,8 +129,6 @@ namespace Spectroscopy_Viewer
 
                     // Get the list filled with data points
                     mySpectrum[0] = new spectrum(myFilehandler.getDataPoints());
-
-                    Debug.WriteLine("File should have been opened");
 
                     // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
                     // Can do this by merging lists 
