@@ -15,15 +15,13 @@ namespace Spectroscopy_Viewer
         // Create a list of dataPoint objects
         private List<dataPoint> dataPoints = new List<dataPoint>();
 
-        // Need metadata stored in this class as well as in dataPoint class, I believe...
+        // Metadata read from file
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
-        private int spectrumNumber;               // Which spectrum the data point belongs to
+        private int spectrumNumber;         // Which spectrum the data point belongs to
         private string date;                // Date when file was taken
-        private int coolThreshold;          // Threshold value for min counts during cooling period
-        private int countThreshold;         // Threshold value for distinguishing bright/dark
         private int repeats;                // Number of repeats
-
+        private int numberInterleaved;      // How many spectra are interleaved in this file
 
         // Default constructor
         public fileHandler()
@@ -62,9 +60,7 @@ namespace Spectroscopy_Viewer
                 j++;
             }
 
-            // Construct data points from this instance of fileHandler
-            this.constructDataPoints();
-
+          
         }
 
 
@@ -88,6 +84,13 @@ namespace Spectroscopy_Viewer
             }
 
         }
+
+        // Method to return number of interleaved spectra in the file
+        public int getNumberInterleaved()
+        {
+            return numberInterleaved;
+        }
+
 
         // Method to return list of dataPoint objects (dataPoints)
         // NB List<> is a reference type so it behaves like a pointer

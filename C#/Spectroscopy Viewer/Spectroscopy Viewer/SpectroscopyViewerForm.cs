@@ -120,38 +120,54 @@ namespace Spectroscopy_Viewer
 
                     //*************************************************************//
                     // Pop up dialog box to select which spectrum to add data to, and act accordingly
-                    
-                    // Create spectrumSelect form, give it list of existing spectra
-                    spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum);
-                    mySpectrumSelectBox.ShowDialog();         // Display form
 
-                    int selectedIndex = mySpectrumSelectBox.selectedIndex;      // Which option has been chosen by user
+                    // Check how many interleaved spectra there 
+                    int numberInterleaved = myFilehandler.getNumberInterleaved();
+                    
+                    // Create spectrumSelect form, give it list of existing spectra and number of spectra in file
+                    spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved);
+                    mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
+
                     int existingSpectra = mySpectrum.Count();                   // How many spectra exist already
 
-                    // If the index is equal to the number of existing spectra, then "Create new spectrum" must be selected
-                    // (since for a list of N items, index runs from 0 to N-1)
-                    if (selectedIndex == existingSpectra)
-                    {
-                        // Get the list filled with data points, add to list of spectra
-                        mySpectrum.Add(new spectrum(myFilehandler.getDataPoints()));
+                    // Get array of information about which data to add to which spectrum
+                    int[] selectedSpectrum = new int[numberInterleaved];
+                    selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
 
-                        // Set number
-                        mySpectrum[existingSpectra].setNumber(existingSpectra);
-                        // Set the name of the spectrum
-                        mySpectrum[existingSpectra].setName(mySpectrumSelectBox.newSpectrumName);
+                    // Make sure the user didn't press cancel or close the dialog box
+                    if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
+                    {
 
-                        // Add blank PointPairList for storing plot data
-                        dataPlot.Add(new PointPairList());
-                    }
-                    else if (mySpectrumSelectBox.DialogResult == DialogResult.Cancel)
-                    {
-                        // If user closes the form without clicking "Add to spectrum"
-                        MessageBox.Show("Canceled loading data");
-                    }
-                    else
-                    {
-                        // Add list of data points from file handler into existing spectrum
-                        mySpectrum[selectedIndex].addToSpectrum(myFilehandler.getDataPoints());
+                        // For each interleaved spectrum
+                        for (int i = 0; i < numberInterleaved; i++)
+                        {
+
+                            // If the index >= number of existing spectra, new ones must have been added
+                            // (since for a list of N items, index runs from 0 to N-1)
+                            if (selectedSpectrum[i] >= existingSpectra)
+                            {
+
+                                // NB this might add them out of order!!!
+                                // Need to put in safeguards
+
+                                // Get the list filled with data points, add to list of spectra
+                                mySpectrum.Add(new spectrum(myFilehandler.getDataPoints()));
+
+                                // Set number
+                                mySpectrum[selectedSpectrum[i]].setNumber(selectedSpectrum[i]);
+                                // Set the name of the spectrum
+                                mySpectrum[selectedSpectrum[i]].setName(mySpectrumSelectBox.spectrumNames[selectedSpectrum[i]]);
+
+                                // Add blank PointPairList for storing plot data
+                                dataPlot.Add(new PointPairList());
+
+                            }
+                            else
+                            {
+                                // Add list of data points from file handler into existing spectrum
+                                mySpectrum[selectedSpectrum[i]].addToSpectrum(myFilehandler.getDataPoints());
+                            }
+                        }
                     }
 
                     //**************************************************************

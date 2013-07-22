@@ -15,26 +15,32 @@ namespace Spectroscopy_Viewer
         private List<string> myList = new List<string>();
         // Store the number of existing spectra
         private int mySpectrumLength = new int();
+        // Store the number of interleaved spectra in file
+        private int numberInterleaved = new int();
 
-        // Public variables to
-        public int selectedIndex = new int();
-        public string newSpectrumName;
+        // To store names of the new spectra to be created
+        private List<string> newSpectra = new List<string>();
+
+        // Public variables to be accessed by main form
+        public List<int> selectedSpectrum = new List<int>();        // Which option selected for each data set
+        public List<string> spectrumNames = new List<string>();     // List of names
 
         // Constructor given a list of existing spectra
-        public spectrumSelect(List<spectrum> mySpectrum)
+        public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed)
         {
             InitializeComponent();
+
+            // Store number of spectra in the file
+            int numberInterleaved = numberInterleavedPassed;
 
             // Store number of existing spectra
             mySpectrumLength = mySpectrum.Count();
 
-            string existingSpectrumName;                // String to contain the name of each spectrum
-
             // Create new item in list for each existing spectrum
             for (int i = 0; i < mySpectrum.Count; i++)
             {
-                existingSpectrumName = mySpectrum[i].getName();                     // Retrieve name of spectrum
-                myList.Add("Spectrum " + i + " (" + existingSpectrumName + ")");    // Concatenate string with name & number
+                spectrumNames[i] = mySpectrum[i].getName();                     // Retrieve name of spectrum
+                myList.Add("Spectrum " + i + " (" + spectrumNames[i] + ")");    // Concatenate string with name & number
             }
 
             // Option to create new spectrum
@@ -47,24 +53,36 @@ namespace Spectroscopy_Viewer
             // Set default text for box
             newSpectrumNameBox.Text = "Spectrum name";
             newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
-
-            // Default setting is to create new spectrum
-            spectrumSelectList.SelectedIndex = mySpectrumLength;
-
+ 
         }
 
         private void addToSpectrumButton_Click(object sender, EventArgs e)
         {
-            // Check which item was selected, set public value
-            selectedIndex = spectrumSelectList.SelectedIndex;
 
-            // If creating new spectrum, set public string from user input
-            if (selectedIndex == mySpectrumLength)
+            // Need to make sure ordering is correct for adding to list!!!
+
+
+            for (int i = 0; i < numberInterleaved; i++)
             {
-                newSpectrumName = newSpectrumNameBox.Text;
+                if (selectedSpectrum[i] >= mySpectrumLength)
+                {
+                    // Do some things - 
+                }
+
             }
 
+
+            // Check which item was selected, set public value (for each spectrum in file)
             this.Close();       // Close form
+        }
+
+        private void addNewSpectrumButton_Click(object sender, EventArgs e)
+        {
+            // Add name to temporary list of new spectra to be created
+            newSpectra.Add(newSpectrumNameBox.Text);
+
+            // Add spectra to list
+            myList.Add(newSpectrumNameBox.Text + " (New)" );
         }
 
 
