@@ -19,7 +19,7 @@ namespace Spectroscopy_Viewer
     public partial class SpectroscopyViewerForm : Form
     {
         // An array of spectrum objects. Can't dynamically resize arrays so set max number to 10. Could maybe use a list instead??
-        private List<spectrum> mySpectrum = new List<spectrum>();      
+        public List<spectrum> mySpectrum = new List<spectrum>();      
         private List<PointPairList> dataPlot = new List<PointPairList>();       // Create object to store data for graph
 
         public SpectroscopyViewerForm()
@@ -27,9 +27,13 @@ namespace Spectroscopy_Viewer
             InitializeComponent();
         }
 
-        private void zedGraphControl1_Load(object sender, EventArgs e)
+        // Respond to form 'Load' event
+        private void SpectroscopyViewerForm_Load(object sender, EventArgs e)
         {
-
+            // Setup the graph
+            createGraph(zedGraphControl1);
+            // Size the control to fill the form with a margin
+            SetSize();
         }
 
         // Respond to the form 'Resize' event
@@ -50,14 +54,7 @@ namespace Spectroscopy_Viewer
                                     ClientRectangle.Height - 70);
         }
 
-        // Respond to form 'Load' event
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            // Setup the graph
-            createGraph(zedGraphControl1);
-            // Size the control to fill the form with a margin
-            SetSize();
-        }
+
         
 
 
@@ -117,10 +114,29 @@ namespace Spectroscopy_Viewer
                     // Clean up StreamReader instance after fileHandler has finished with it
                     myFile.Close();           // Close object & release resources
 
-                    // Get the list filled with data points, add to list of spectra
-                    mySpectrum.Add( new spectrum(myFilehandler.getDataPoints() ) );
-                    // Add blank PointPairList for storing plot data
-                    dataPlot.Add(new PointPairList());
+                    // Create spectrumSelect form, give it list of existing spectra
+                    spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum);
+                    mySpectrumSelectBox.Show();         // Display form
+
+                    // If the index is equal to the number of existing spectra, then "Create new spectrum" must be selected
+                    // (since for a list of N items, index runs from 0 to N-1)
+                    if (mySpectrumSelectBox.selectedIndex == mySpectrum.Count)
+                    {
+                        // Get the list filled with data points, add to list of spectra
+                        mySpectrum.Add(new spectrum(myFilehandler.getDataPoints()));
+
+                        // Set the number of the spectrum
+                        mySpectrum[mySpectrum.Count - 1].setNumber(mySpectrum.Count - 1);
+
+                        // Add blank PointPairList for storing plot data
+                        dataPlot.Add(new PointPairList());
+                    }
+                    else
+                    {
+                        // Add to new spectrum
+                    }
+
+                    
 
                     // Want to have an option to create new spectrum/add to existing, but for now just focus on one spectrum
                     // Can do this by merging lists 
@@ -160,6 +176,13 @@ namespace Spectroscopy_Viewer
             // Size the control to fill the form with a margin
             SetSize();
         }
+
+
+
+
+
+
+
 
     }
 }

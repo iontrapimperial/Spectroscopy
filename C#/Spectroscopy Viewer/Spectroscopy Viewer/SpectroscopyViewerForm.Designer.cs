@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
             this.coolingThresholdSelect = new System.Windows.Forms.NumericUpDown();
@@ -56,15 +55,6 @@
             this.zedGraphControl1.ScrollMinY2 = 0D;
             this.zedGraphControl1.Size = new System.Drawing.Size(287, 196);
             this.zedGraphControl1.TabIndex = 0;
-            this.zedGraphControl1.Load += new System.EventHandler(this.zedGraphControl1_Load);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(814, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
             // 
             // openDataFile
             // 
@@ -151,11 +141,9 @@
             this.Controls.Add(this.coolingThresholdSelect);
             this.Controls.Add(this.loadDataButton);
             this.Controls.Add(this.zedGraphControl1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.SpectroscopyViewerForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).EndInit();
             this.ResumeLayout(false);
@@ -166,7 +154,6 @@
         #endregion
 
         private ZedGraph.ZedGraphControl zedGraphControl1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.OpenFileDialog openDataFile;
         private System.Windows.Forms.Button loadDataButton;
         private System.Windows.Forms.NumericUpDown coolingThresholdSelect;

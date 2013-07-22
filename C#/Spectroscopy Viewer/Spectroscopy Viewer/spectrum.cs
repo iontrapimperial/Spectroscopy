@@ -8,7 +8,7 @@ using System.Diagnostics;       // To write lines to Debug Output for debugging
 namespace Spectroscopy_Viewer
 {
     // Class contains all data for a spectrum
-    class spectrum
+    public class spectrum
     {
 
         // Private members:
@@ -26,7 +26,8 @@ namespace Spectroscopy_Viewer
         private int coolThreshold;      // Cooling threshold
         private int countThreshold;     // Count threshold
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
-        private string spectrumName;     
+        private string spectrumName = "Spectrum";
+        private int spectrumNumber = new int();
 
 
         // Constructor given a list of data points
@@ -129,6 +130,18 @@ namespace Spectroscopy_Viewer
             countThreshold = x;
         }
 
+        // Method to set spectrum name
+        public void setName(string S)
+        {
+            spectrumName = S;
+        }
+
+        // Method to set spectrum number
+        public void setNumber(int x)
+        {
+            spectrumNumber = x;
+        }
+
 
         // Method to return cooling threshold
         public int getCoolThreshold()
@@ -156,7 +169,18 @@ namespace Spectroscopy_Viewer
             return dataPlot;
         }
 
+        
+        // Method to return name of spectrum
+        public string getName()
+        {
+            return spectrumName;
+        }
 
+        // Method to return spectrum number
+        public int getNumber()
+        {
+            return spectrumNumber;
+        }
 
 
 

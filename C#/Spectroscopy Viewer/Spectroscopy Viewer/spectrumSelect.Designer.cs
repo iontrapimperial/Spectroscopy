@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.spectrumSelectList = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.addToSpectrumButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // spectrumSelectList
@@ -40,22 +40,22 @@
             this.spectrumSelectList.Size = new System.Drawing.Size(187, 186);
             this.spectrumSelectList.TabIndex = 0;
             // 
-            // button1
+            // addToSpectrumButton
             // 
-            this.button1.Location = new System.Drawing.Point(12, 204);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(187, 36);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Add to spectrum";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.addToSpectrumButton.Location = new System.Drawing.Point(12, 204);
+            this.addToSpectrumButton.Name = "addToSpectrumButton";
+            this.addToSpectrumButton.Size = new System.Drawing.Size(187, 36);
+            this.addToSpectrumButton.TabIndex = 1;
+            this.addToSpectrumButton.Text = "Add to spectrum";
+            this.addToSpectrumButton.UseVisualStyleBackColor = true;
+            this.addToSpectrumButton.Click += new System.EventHandler(this.addToSpectrumButton_Click);
             // 
             // spectrumSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(207, 252);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.addToSpectrumButton);
             this.Controls.Add(this.spectrumSelectList);
             this.Name = "spectrumSelect";
             this.Text = "Choose spectrum";
@@ -66,6 +66,6 @@
         #endregion
 
         private System.Windows.Forms.ListBox spectrumSelectList;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button addToSpectrumButton;
     }
 }
