@@ -37,7 +37,7 @@
             // 
             // newSpectrumNameBox
             // 
-            this.newSpectrumNameBox.Location = new System.Drawing.Point(12, 214);
+            this.newSpectrumNameBox.Location = new System.Drawing.Point(12, 173);
             this.newSpectrumNameBox.Name = "newSpectrumNameBox";
             this.newSpectrumNameBox.Size = new System.Drawing.Size(186, 20);
             this.newSpectrumNameBox.TabIndex = 2;
@@ -46,7 +46,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 195);
+            this.label1.Location = new System.Drawing.Point(12, 154);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(179, 13);
             this.label1.TabIndex = 3;
@@ -54,7 +54,7 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(295, 201);
+            this.buttonOK.Location = new System.Drawing.Point(295, 160);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(206, 62);
             this.buttonOK.TabIndex = 6;
@@ -63,7 +63,7 @@
             // 
             // addNewSpectrumButton
             // 
-            this.addNewSpectrumButton.Location = new System.Drawing.Point(12, 240);
+            this.addNewSpectrumButton.Location = new System.Drawing.Point(12, 199);
             this.addNewSpectrumButton.Name = "addNewSpectrumButton";
             this.addNewSpectrumButton.Size = new System.Drawing.Size(116, 23);
             this.addNewSpectrumButton.TabIndex = 7;
@@ -84,7 +84,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 278);
+            this.ClientSize = new System.Drawing.Size(513, 229);
             this.Controls.Add(this.detectedSpectraText);
             this.Controls.Add(this.addNewSpectrumButton);
             this.Controls.Add(this.buttonOK);

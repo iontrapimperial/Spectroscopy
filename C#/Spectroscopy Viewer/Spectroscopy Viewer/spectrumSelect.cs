@@ -12,7 +12,7 @@ namespace Spectroscopy_Viewer
     public partial class spectrumSelect : Form
     {
         // List to display 
-        private List<string> myListOfSpectra = new List<string>();
+        private BindingList<string> myListOfSpectra = new BindingList<string>();
         // Store the number of existing spectra
         private int existingSpectra = new int();
         // Store the number of interleaved spectra in file
@@ -37,7 +37,7 @@ namespace Spectroscopy_Viewer
             int numberInterleaved = numberInterleavedPassed;    // Store number of spectra in the file
             existingSpectra = mySpectrum.Count();               // Store number of existing spectra
             selectedSpectrum = new int[numberInterleaved];      // Initialise array
-            myComboBox = new ComboBox[numberInterleaved];       // Create combo boxes
+            
 
             // Create new item in list for each existing spectrum
             for (int i = 0; i < existingSpectra; i++)
@@ -53,17 +53,32 @@ namespace Spectroscopy_Viewer
             
             // Set text telling the user how many spectra have been detected
             detectedSpectraText.Text = "Valid file " + myFileName + " opened \nFile contains "
-                                        + numberInterleaved + " interleaved spectra";
+                                        + numberInterleaved + " interleaved spectra"
+                                        + "\nPlease choose destinations:";
 
+
+            //********************************//
+            // Create combo boxes & labels dynamically, depending on number of interleaved spectra
+            //********************************//
+            myComboBox = new ComboBox[numberInterleaved];               // Create combo boxes
+            Label[] myComboBoxLabel = new Label[numberInterleaved];     // Create labels
 
             // Create combo boxes and set data source
             for (int i = 0; i < numberInterleaved; i++)
             {
+                myComboBoxLabel[i] = new Label();
+                myComboBoxLabel[i].Text = "Spectrum " + i + ":";
+                myComboBoxLabel[i].Location = new Point(200, 10 + i * 30);
+                myComboBoxLabel[i].Size = new System.Drawing.Size(70, 13);
+                this.Controls.Add(myComboBoxLabel[i]);
+
                 myComboBox[i] = new ComboBox();
                 myComboBox[i].DataSource = myListOfSpectra;
+                myComboBox[i].Location = new Point(280, 10 + i * 30);
+                myComboBox[i].Size = new System.Drawing.Size(220, 21);
+                this.Controls.Add(myComboBox[i]);
             }
-
-
+            //********************************//
 
             // Set text on button to singular/plural depending on number of spectra (just being fancy really)
             if (numberInterleaved == 1)
@@ -83,16 +98,9 @@ namespace Spectroscopy_Viewer
 
             // Add spectra to list
             myListOfSpectra.Add("(New) " + newSpectrumNameBox.Text);
+            
+            // NB drop-down lists automatically update
 
-            // Update drop-down lists
-            for (int i = 0; i < numberInterleaved; i++)
-            {
-                myComboBox[i].DataSource = myListOfSpectra;
-            }
-
-            // Trying to get this to update.. but it doesn't seem to be working
-            // Wait for new form design before worrying too much
-            this.Refresh();
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
