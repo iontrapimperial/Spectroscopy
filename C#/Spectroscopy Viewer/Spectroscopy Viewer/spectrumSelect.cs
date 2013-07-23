@@ -26,7 +26,7 @@ namespace Spectroscopy_Viewer
         public List<string> spectrumNames = new List<string>();     // List of names
 
         // Constructor given a list of existing spectra
-        public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed)
+        public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed, string myFileName)
         {
             InitializeComponent();
 
@@ -42,6 +42,7 @@ namespace Spectroscopy_Viewer
                 spectrumNames[i] = mySpectrum[i].getName();                     // Retrieve name of spectrum
                 myListOfSpectra.Add("Spectrum " + i + " (" + spectrumNames[i] + ")");    // Concatenate string with name & number
             }
+            myListOfSpectra.Add("");    // Add a blank option
 
 
             // Set defaults for text box
@@ -55,9 +56,17 @@ namespace Spectroscopy_Viewer
             {
                 // Add rows to data grid view
                 spectrumSelectDataGrid.Rows.Add();
-                spectrumSelectDataGrid.Rows[i].Cells[0].Value = i;
+                spectrumSelectDataGrid.Rows[i].Cells[0].Value = "(" + myFileName + ") Spectrum " + i;
             }
 
+
+
+            // Set text on button to singular/plural depending on number of spectra (just being fancy really)
+            if (numberInterleaved == 1)
+            {
+                buttonOK.Text = "Load spectrum";
+            }
+            else buttonOK.Text = "Load spectra";
 
  
         }
@@ -69,8 +78,11 @@ namespace Spectroscopy_Viewer
             newSpectra.Add(newSpectrumNameBox.Text);
 
             // Add spectra to list
-            myListOfSpectra.Add(newSpectrumNameBox.Text + " (New)");
-            
+            myListOfSpectra.Add("(New) " + newSpectrumNameBox.Text);
+
+            // Refresh drop-down list
+            DestinationColumn.DataSource = myListOfSpectra;
+
             // Trying to get this to update.. but it doesn't seem to be working
             // Wait for new form design before worrying too much
             this.Refresh();
@@ -78,13 +90,25 @@ namespace Spectroscopy_Viewer
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            // Temp variables for debugging
-            selectedSpectrum[0] = 0;
-            selectedSpectrum[1] = 1;
 
             // For each of the interleaved spectra
             for (int i = 0; i < numberInterleaved; i++)
             {
+
+                // Retrieve 
+                string S = (string) spectrumSelectDataGrid[1, i].Value;
+
+                if (S == "") MessageBox.Show("Please select a spectrum");
+                else
+                {
+                    // If adding to a new spectrum
+                    if (S.Substring(0, 5) == "(New)")
+                    {
+
+                    }
+                    else selectedSpectrum[i] = (int) S[10];       // 
+
+                }
 
                 // Check which spectrum each data set should belong to - from user input on form
                 // (Waiting for form design)
@@ -102,7 +126,6 @@ namespace Spectroscopy_Viewer
 
             this.Close();       // Close form
         }
-
 
     }
 }

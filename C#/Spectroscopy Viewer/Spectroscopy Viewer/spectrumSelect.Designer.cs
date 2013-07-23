@@ -32,15 +32,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.spectrumSelectDataGrid = new System.Windows.Forms.DataGridView();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.addNewSpectrumButton = new System.Windows.Forms.Button();
             this.SourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DestinationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spectrumSelectDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // newSpectrumNameBox
             // 
-            this.newSpectrumNameBox.Location = new System.Drawing.Point(426, 50);
+            this.newSpectrumNameBox.Location = new System.Drawing.Point(12, 214);
             this.newSpectrumNameBox.Name = "newSpectrumNameBox";
             this.newSpectrumNameBox.Size = new System.Drawing.Size(186, 20);
             this.newSpectrumNameBox.TabIndex = 2;
@@ -49,7 +49,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(426, 31);
+            this.label1.Location = new System.Drawing.Point(12, 195);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(179, 13);
             this.label1.TabIndex = 3;
@@ -64,44 +64,49 @@
             this.DestinationColumn});
             this.spectrumSelectDataGrid.Location = new System.Drawing.Point(12, 12);
             this.spectrumSelectDataGrid.Name = "spectrumSelectDataGrid";
-            this.spectrumSelectDataGrid.Size = new System.Drawing.Size(304, 221);
+            this.spectrumSelectDataGrid.Size = new System.Drawing.Size(491, 180);
             this.spectrumSelectDataGrid.TabIndex = 5;
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(117, 275);
+            this.buttonOK.Location = new System.Drawing.Point(295, 201);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.Size = new System.Drawing.Size(206, 62);
             this.buttonOK.TabIndex = 6;
-            this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // addNewSpectrumButton
+            // 
+            this.addNewSpectrumButton.Location = new System.Drawing.Point(12, 240);
+            this.addNewSpectrumButton.Name = "addNewSpectrumButton";
+            this.addNewSpectrumButton.Size = new System.Drawing.Size(116, 23);
+            this.addNewSpectrumButton.TabIndex = 7;
+            this.addNewSpectrumButton.Text = "Add new spectrum";
+            this.addNewSpectrumButton.UseVisualStyleBackColor = true;
+            this.addNewSpectrumButton.Click += new System.EventHandler(this.addNewSpectrumButton_Click);
+            // 
             // SourceColumn
             // 
+            this.SourceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.SourceColumn.FillWeight = 200F;
             this.SourceColumn.HeaderText = "Source";
             this.SourceColumn.Name = "SourceColumn";
+            this.SourceColumn.ReadOnly = true;
             // 
             // DestinationColumn
             // 
+            this.DestinationColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.DestinationColumn.FillWeight = 250F;
             this.DestinationColumn.HeaderText = "Destination";
             this.DestinationColumn.Name = "DestinationColumn";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(426, 77);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // spectrumSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 420);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(513, 278);
+            this.Controls.Add(this.addNewSpectrumButton);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.spectrumSelectDataGrid);
             this.Controls.Add(this.label1);
@@ -120,8 +125,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView spectrumSelectDataGrid;
         private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button addNewSpectrumButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn SourceColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn DestinationColumn;
-        private System.Windows.Forms.Button button1;
     }
 }

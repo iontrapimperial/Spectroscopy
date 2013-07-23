@@ -123,9 +123,12 @@ namespace Spectroscopy_Viewer
 
                     // Check how many interleaved spectra there 
                     int numberInterleaved = myFilehandler.getNumberInterleaved();
-                    
+
+                    // Get and store just the name of the file (without full path)
+                    string myFileName = Path.GetFileName(openDataFile.FileName);
+
                     // Create spectrumSelect form, give it list of existing spectra and number of spectra in file
-                    spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved);
+                    spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved, myFileName);
                     mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
 
                     int existingSpectra = mySpectrum.Count();                   // How many spectra exist already
