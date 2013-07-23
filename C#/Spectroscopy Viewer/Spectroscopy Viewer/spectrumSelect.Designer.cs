@@ -20,6 +20,9 @@
             base.Dispose(disposing);
         }
 
+        
+
+        // Code modified by SW - create combo boxes depending on number of interleaved spectra
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -29,7 +32,6 @@
         private void InitializeComponent()
         {
             this.newSpectrumNameBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.buttonOK = new System.Windows.Forms.Button();
             this.addNewSpectrumButton = new System.Windows.Forms.Button();
             this.detectedSpectraText = new System.Windows.Forms.Label();
@@ -42,15 +44,6 @@
             this.newSpectrumNameBox.Size = new System.Drawing.Size(186, 20);
             this.newSpectrumNameBox.TabIndex = 2;
             this.newSpectrumNameBox.Text = "Enter spectrum name";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 195);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(179, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Please enter name of new spectrum:";
             // 
             // buttonOK
             // 
@@ -88,19 +81,21 @@
             this.Controls.Add(this.detectedSpectraText);
             this.Controls.Add(this.addNewSpectrumButton);
             this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.newSpectrumNameBox);
             this.Name = "spectrumSelect";
             this.Text = "Choose spectrum";
             this.ResumeLayout(false);
             this.PerformLayout();
+            
+
 
         }
 
         #endregion
 
+
+
         private System.Windows.Forms.TextBox newSpectrumNameBox;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button addNewSpectrumButton;
         private System.Windows.Forms.Label detectedSpectraText;

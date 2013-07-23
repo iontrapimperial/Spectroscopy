@@ -18,8 +18,7 @@ namespace Spectroscopy_Viewer
         // Store the number of interleaved spectra in file
         private int numberInterleaved = new int();
         // Combo boxes for user input
-        private ComboBox[] myComboBox;
-
+        private ComboBox[] myComboBox;      
 
         // To store names of the new spectra to be created
         private List<string> newSpectra = new List<string>();
@@ -31,13 +30,13 @@ namespace Spectroscopy_Viewer
         // Constructor given a list of existing spectra
         public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed, string myFileName)
         {
+            int numberInterleaved = numberInterleavedPassed;    // Store number of spectra in the file
+
             InitializeComponent();
 
-
-            int numberInterleaved = numberInterleavedPassed;    // Store number of spectra in the file
             existingSpectra = mySpectrum.Count();               // Store number of existing spectra
             selectedSpectrum = new int[numberInterleaved];      // Initialise array
-            myComboBox = new ComboBox[numberInterleaved];       // Create combo boxes
+            
 
             // Create new item in list for each existing spectrum
             for (int i = 0; i < existingSpectra; i++)
@@ -52,25 +51,21 @@ namespace Spectroscopy_Viewer
             newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
             
             // Set text telling the user how many spectra have been detected
-            detectedSpectraText.Text = "Valid file " + myFileName + " opened \nFile contains "
-                                        + numberInterleaved + " interleaved spectra";
+            detectedSpectraText.Text = "Valid file " + myFileName + " opened\nFile contains "
+                                        + numberInterleaved + " interleaved spectra"
+                                        + "\nPlease choose destinations:";
 
+            this.addComboBoxes();
 
-            // Create combo boxes and set data source
-            for (int i = 0; i < numberInterleaved; i++)
-            {
-                myComboBox[i] = new ComboBox();
-                myComboBox[i].DataSource = myListOfSpectra;
-            }
-
-
-
-            // Set text on button to singular/plural depending on number of spectra (just being fancy really)
-            if (numberInterleaved == 1)
+            //******************************************//
+            // Set text on button to singular/plural depending on number of spectra (just being fancy really) 
+                        if (numberInterleaved == 1)
             {
                 buttonOK.Text = "Load spectrum";
             }
             else buttonOK.Text = "Load spectra";
+            //******************************************//
+            
 
  
         }
@@ -114,6 +109,31 @@ namespace Spectroscopy_Viewer
 
             this.Close();       // Close form
         }
+
+
+
+        private void addComboBoxes()
+        {
+            //******************************************//
+            myComboBox = new ComboBox[numberInterleaved];       // Create combo boxes
+            Label[] myComboBoxLabel = new Label[numberInterleaved];     // Create labels for combo boxes
+            // For each interleaved spectrum
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                myComboBoxLabel[i] = new Label();                       // Create label
+                myComboBoxLabel[i].Text = "Spectrum " + i + ":";        // Set text
+                myComboBoxLabel[i].Location = new Point(10, 80 + i * 30); // Set location
+                this.Controls.Add(myComboBoxLabel[i]);
+
+                myComboBox[i] = new ComboBox();                         // Create combo box
+                myComboBox[i].DataSource = myListOfSpectra;             // Set data source
+                myComboBox[i].Location = new Point(110, 80 + i * 30);     // Set location
+                this.Controls.Add(myComboBox[i]);
+            }
+            //******************************************//
+        }
+
+
 
     }
 }
