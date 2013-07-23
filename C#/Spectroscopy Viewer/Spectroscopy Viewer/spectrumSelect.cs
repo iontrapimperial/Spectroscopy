@@ -14,7 +14,7 @@ namespace Spectroscopy_Viewer
         // List to display 
         private List<string> myList = new List<string>();
         // Store the number of existing spectra
-        private int mySpectrumLength = new int();
+        private int existingSpectra = new int();
         // Store the number of interleaved spectra in file
         private int numberInterleaved = new int();
 
@@ -34,7 +34,7 @@ namespace Spectroscopy_Viewer
             int numberInterleaved = numberInterleavedPassed;
 
             // Store number of existing spectra
-            mySpectrumLength = mySpectrum.Count();
+            existingSpectra = mySpectrum.Count();
 
             // Create new item in list for each existing spectrum
             for (int i = 0; i < mySpectrum.Count; i++)
@@ -72,11 +72,11 @@ namespace Spectroscopy_Viewer
                 // (Waiting for form design)
 
 
-                if (selectedSpectrum[i] >= mySpectrumLength)
+                if (selectedSpectrum[i] >= existingSpectra)
                 {
                     // Re-order so that the next spectrum to be dealt with is the next in the array
                     // This ensures correct metadata when items are added to list using List.Add
-                    spectrumNames[mySpectrumLength + j] = newSpectra[i - mySpectrumLength];
+                    spectrumNames[existingSpectra + j] = newSpectra[selectedSpectrum[i] - existingSpectra];
                     j++;
                 }
 
