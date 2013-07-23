@@ -61,12 +61,23 @@ namespace Spectroscopy_Viewer
 
             // Need to make sure ordering is correct for adding to list!!!
 
+            
+
+            int j = 1;
 
             for (int i = 0; i < numberInterleaved; i++)
             {
+
+                // Check which spectrum each data set should belong to - from user input on form
+                // (Waiting for form design)
+
+
                 if (selectedSpectrum[i] >= mySpectrumLength)
                 {
-                    // Do some things - 
+                    // Re-order so that the next spectrum to be dealt with is the next in the array
+                    // This ensures correct metadata when items are added to list using List.Add
+                    spectrumNames[mySpectrumLength + j] = newSpectra[i - mySpectrumLength];
+                    j++;
                 }
 
             }
