@@ -15,5 +15,10 @@ namespace Spectroscopy_Controller
         {
             InitializeComponent();
         }
+
+        private void SetRFSpecButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

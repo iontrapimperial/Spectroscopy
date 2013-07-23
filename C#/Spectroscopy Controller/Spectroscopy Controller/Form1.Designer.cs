@@ -68,9 +68,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.StopButton = new System.Windows.Forms.Button();
             this.PauseButton = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
+            this.StartButton = new System.Windows.Forms.Button();
             this.ResetButton = new System.Windows.Forms.Button();
+            this.OpenUSBButton = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.UploadButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
@@ -95,18 +98,43 @@
             this.TrapVoltageBox = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.SpecTypeBox = new System.Windows.Forms.ComboBox();
-            this.StartButton = new System.Windows.Forms.Button();
-            this.OpenUSBButton = new System.Windows.Forms.Button();
             this.LaserControl = new System.Windows.Forms.GroupBox();
-            this.StopButton = new System.Windows.Forms.Button();
-            this.LiveLaserBox397B1 = new System.Windows.Forms.CheckBox();
-            this.LiveLaserBox397B2 = new System.Windows.Forms.CheckBox();
-            this.LiveLaserBox729 = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.SpecRFPower = new System.Windows.Forms.NumericUpDown();
+            this.SpecRFSourceButton = new System.Windows.Forms.RadioButton();
+            this.LiveLaserBoxAux2 = new System.Windows.Forms.CheckBox();
+            this.LiveLaserBoxAux1 = new System.Windows.Forms.CheckBox();
             this.LiveLaserBox854FREQ = new System.Windows.Forms.CheckBox();
             this.LiveLaserBox854POWER = new System.Windows.Forms.CheckBox();
             this.LiveLaserBox854 = new System.Windows.Forms.CheckBox();
-            this.LiveLaserBoxAux2 = new System.Windows.Forms.CheckBox();
-            this.LiveLaserBoxAux1 = new System.Windows.Forms.CheckBox();
+            this.LiveLaserBox729 = new System.Windows.Forms.CheckBox();
+            this.LiveLaserBox397B2 = new System.Windows.Forms.CheckBox();
+            this.LiveLaserBox397B1 = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.SpecRFFreq = new System.Windows.Forms.NumericUpDown();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.SB1RFFreq = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.SB1RFPower = new System.Windows.Forms.NumericUpDown();
+            this.SB1RFSourceButton = new System.Windows.Forms.RadioButton();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.SB2RFFreq = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.SB2RFPower = new System.Windows.Forms.NumericUpDown();
+            this.SB2RFSourceButton = new System.Windows.Forms.RadioButton();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.SB3RFFreq = new System.Windows.Forms.NumericUpDown();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.SB3RFPower = new System.Windows.Forms.NumericUpDown();
+            this.SB3RFSourceButton = new System.Windows.Forms.RadioButton();
+            this.SetRFSpecButton = new System.Windows.Forms.Button();
+            this.SetRFSB1Button = new System.Windows.Forms.Button();
+            this.SetRFSB2Button = new System.Windows.Forms.Button();
+            this.SetRFSB3Button = new System.Windows.Forms.Button();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -132,6 +160,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.TrapFrequencyBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrapVoltageBox)).BeginInit();
             this.LaserControl.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SpecRFPower)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SpecRFFreq)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SB1RFFreq)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SB1RFPower)).BeginInit();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SB2RFFreq)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SB2RFPower)).BeginInit();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SB3RFFreq)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SB3RFPower)).BeginInit();
             this.SuspendLayout();
             // 
             // FileSendBox
@@ -595,6 +635,15 @@
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
             // 
+            // StopButton
+            // 
+            this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
+            this.StopButton.Location = new System.Drawing.Point(196, 407);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(58, 58);
+            this.StopButton.TabIndex = 61;
+            this.StopButton.UseVisualStyleBackColor = true;
+            // 
             // PauseButton
             // 
             this.PauseButton.Image = ((System.Drawing.Image)(resources.GetObject("PauseButton.Image")));
@@ -604,14 +653,14 @@
             this.PauseButton.TabIndex = 58;
             this.PauseButton.UseVisualStyleBackColor = true;
             // 
-            // label15
+            // StartButton
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(15, 155);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(110, 13);
-            this.label15.TabIndex = 24;
-            this.label15.Text = "Magnetron Freq (kHz)";
+            this.StartButton.Image = ((System.Drawing.Image)(resources.GetObject("StartButton.Image")));
+            this.StartButton.Location = new System.Drawing.Point(70, 407);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(58, 58);
+            this.StartButton.TabIndex = 59;
+            this.StartButton.UseVisualStyleBackColor = true;
             // 
             // ResetButton
             // 
@@ -621,6 +670,24 @@
             this.ResetButton.Size = new System.Drawing.Size(58, 58);
             this.ResetButton.TabIndex = 57;
             this.ResetButton.UseVisualStyleBackColor = true;
+            // 
+            // OpenUSBButton
+            // 
+            this.OpenUSBButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenUSBButton.Image")));
+            this.OpenUSBButton.Location = new System.Drawing.Point(6, 343);
+            this.OpenUSBButton.Name = "OpenUSBButton";
+            this.OpenUSBButton.Size = new System.Drawing.Size(58, 58);
+            this.OpenUSBButton.TabIndex = 60;
+            this.OpenUSBButton.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(15, 155);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(110, 13);
+            this.label15.TabIndex = 24;
+            this.label15.Text = "Magnetron Freq (kHz)";
             // 
             // numericUpDown2
             // 
@@ -775,15 +842,21 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(15, 233);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(74, 13);
+            this.label10.Size = new System.Drawing.Size(80, 13);
             this.label10.TabIndex = 14;
-            this.label10.Text = "Step Size (Hz)";
+            this.label10.Text = "Step Size (kHz)";
             // 
             // StepSizeBox
             // 
+            this.StepSizeBox.DecimalPlaces = 1;
+            this.StepSizeBox.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.StepSizeBox.Location = new System.Drawing.Point(150, 231);
             this.StepSizeBox.Maximum = new decimal(new int[] {
-            1000000,
+            1000,
             0,
             0,
             0});
@@ -791,7 +864,7 @@
             this.StepSizeBox.Size = new System.Drawing.Size(104, 20);
             this.StepSizeBox.TabIndex = 13;
             this.StepSizeBox.Value = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
@@ -801,15 +874,21 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(15, 207);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(112, 13);
+            this.label9.Size = new System.Drawing.Size(121, 13);
             this.label9.TabIndex = 12;
-            this.label9.Text = "Carrier Frequency (Hz)";
+            this.label9.Text = "Carrier Frequency (MHz)";
             // 
             // CarrierFrequencyBox
             // 
+            this.CarrierFrequencyBox.DecimalPlaces = 3;
+            this.CarrierFrequencyBox.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.CarrierFrequencyBox.Location = new System.Drawing.Point(150, 205);
             this.CarrierFrequencyBox.Maximum = new decimal(new int[] {
-            1000000000,
+            1000,
             0,
             0,
             0});
@@ -820,22 +899,28 @@
             230000000,
             0,
             0,
-            0});
+            393216});
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(15, 181);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(104, 13);
+            this.label8.Size = new System.Drawing.Size(113, 13);
             this.label8.TabIndex = 10;
-            this.label8.Text = "Start Frequency (Hz)";
+            this.label8.Text = "Start Frequency (MHz)";
             // 
             // StartFrequencyBox
             // 
+            this.StartFrequencyBox.DecimalPlaces = 3;
+            this.StartFrequencyBox.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.StartFrequencyBox.Location = new System.Drawing.Point(150, 179);
             this.StartFrequencyBox.Maximum = new decimal(new int[] {
-            1000000000,
+            1000,
             0,
             0,
             0});
@@ -846,7 +931,7 @@
             230000000,
             0,
             0,
-            0});
+            393216});
             // 
             // label7
             // 
@@ -949,26 +1034,12 @@
             this.SpecTypeBox.TabIndex = 1;
             this.SpecTypeBox.Text = "Select";
             // 
-            // StartButton
-            // 
-            this.StartButton.Image = ((System.Drawing.Image)(resources.GetObject("StartButton.Image")));
-            this.StartButton.Location = new System.Drawing.Point(70, 407);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(58, 58);
-            this.StartButton.TabIndex = 59;
-            this.StartButton.UseVisualStyleBackColor = true;
-            // 
-            // OpenUSBButton
-            // 
-            this.OpenUSBButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenUSBButton.Image")));
-            this.OpenUSBButton.Location = new System.Drawing.Point(6, 343);
-            this.OpenUSBButton.Name = "OpenUSBButton";
-            this.OpenUSBButton.Size = new System.Drawing.Size(58, 58);
-            this.OpenUSBButton.TabIndex = 60;
-            this.OpenUSBButton.UseVisualStyleBackColor = true;
-            // 
             // LaserControl
             // 
+            this.LaserControl.Controls.Add(this.panel4);
+            this.LaserControl.Controls.Add(this.panel3);
+            this.LaserControl.Controls.Add(this.panel2);
+            this.LaserControl.Controls.Add(this.panel1);
             this.LaserControl.Controls.Add(this.LiveLaserBoxAux2);
             this.LaserControl.Controls.Add(this.LiveLaserBoxAux1);
             this.LaserControl.Controls.Add(this.LiveLaserBox854FREQ);
@@ -984,79 +1055,72 @@
             this.LaserControl.TabStop = false;
             this.LaserControl.Text = "Laser Control";
             // 
-            // StopButton
+            // panel1
             // 
-            this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
-            this.StopButton.Location = new System.Drawing.Point(196, 407);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(58, 58);
-            this.StopButton.TabIndex = 61;
-            this.StopButton.UseVisualStyleBackColor = true;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.SetRFSpecButton);
+            this.panel1.Controls.Add(this.SpecRFFreq);
+            this.panel1.Controls.Add(this.label17);
+            this.panel1.Controls.Add(this.label16);
+            this.panel1.Controls.Add(this.SpecRFPower);
+            this.panel1.Controls.Add(this.SpecRFSourceButton);
+            this.panel1.Location = new System.Drawing.Point(12, 123);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(231, 81);
+            this.panel1.TabIndex = 12;
             // 
-            // LiveLaserBox397B1
+            // label16
             // 
-            this.LiveLaserBox397B1.AutoSize = true;
-            this.LiveLaserBox397B1.Location = new System.Drawing.Point(11, 30);
-            this.LiveLaserBox397B1.Name = "LiveLaserBox397B1";
-            this.LiveLaserBox397B1.Size = new System.Drawing.Size(74, 17);
-            this.LiveLaserBox397B1.TabIndex = 0;
-            this.LiveLaserBox397B1.Text = "397nm B1";
-            this.LiveLaserBox397B1.UseVisualStyleBackColor = true;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(55, 54);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(67, 13);
+            this.label16.TabIndex = 62;
+            this.label16.Text = "Power (dBm)";
             // 
-            // LiveLaserBox397B2
+            // SpecRFPower
             // 
-            this.LiveLaserBox397B2.AutoSize = true;
-            this.LiveLaserBox397B2.Location = new System.Drawing.Point(11, 53);
-            this.LiveLaserBox397B2.Name = "LiveLaserBox397B2";
-            this.LiveLaserBox397B2.Size = new System.Drawing.Size(74, 17);
-            this.LiveLaserBox397B2.TabIndex = 1;
-            this.LiveLaserBox397B2.Text = "397nm B2";
-            this.LiveLaserBox397B2.UseVisualStyleBackColor = true;
+            this.SpecRFPower.DecimalPlaces = 1;
+            this.SpecRFPower.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.SpecRFPower.Location = new System.Drawing.Point(3, 52);
+            this.SpecRFPower.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            this.SpecRFPower.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            -2147483648});
+            this.SpecRFPower.Name = "SpecRFPower";
+            this.SpecRFPower.Size = new System.Drawing.Size(46, 20);
+            this.SpecRFPower.TabIndex = 62;
+            this.SpecRFPower.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
             // 
-            // LiveLaserBox729
+            // SpecRFSourceButton
             // 
-            this.LiveLaserBox729.AutoSize = true;
-            this.LiveLaserBox729.Location = new System.Drawing.Point(11, 76);
-            this.LiveLaserBox729.Name = "LiveLaserBox729";
-            this.LiveLaserBox729.Size = new System.Drawing.Size(58, 17);
-            this.LiveLaserBox729.TabIndex = 2;
-            this.LiveLaserBox729.Text = "729nm";
-            this.LiveLaserBox729.UseVisualStyleBackColor = true;
-            // 
-            // LiveLaserBox854FREQ
-            // 
-            this.LiveLaserBox854FREQ.AutoSize = true;
-            this.LiveLaserBox854FREQ.Location = new System.Drawing.Point(132, 53);
-            this.LiveLaserBox854FREQ.Name = "LiveLaserBox854FREQ";
-            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(111, 17);
-            this.LiveLaserBox854FREQ.TabIndex = 5;
-            this.LiveLaserBox854FREQ.Text = "854nm Frequency";
-            this.LiveLaserBox854FREQ.UseVisualStyleBackColor = true;
-            // 
-            // LiveLaserBox854POWER
-            // 
-            this.LiveLaserBox854POWER.AutoSize = true;
-            this.LiveLaserBox854POWER.Location = new System.Drawing.Point(132, 30);
-            this.LiveLaserBox854POWER.Name = "LiveLaserBox854POWER";
-            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(91, 17);
-            this.LiveLaserBox854POWER.TabIndex = 4;
-            this.LiveLaserBox854POWER.Text = "854nm Power";
-            this.LiveLaserBox854POWER.UseVisualStyleBackColor = true;
-            // 
-            // LiveLaserBox854
-            // 
-            this.LiveLaserBox854.AutoSize = true;
-            this.LiveLaserBox854.Location = new System.Drawing.Point(11, 99);
-            this.LiveLaserBox854.Name = "LiveLaserBox854";
-            this.LiveLaserBox854.Size = new System.Drawing.Size(58, 17);
-            this.LiveLaserBox854.TabIndex = 3;
-            this.LiveLaserBox854.Text = "854nm";
-            this.LiveLaserBox854.UseVisualStyleBackColor = true;
+            this.SpecRFSourceButton.AutoSize = true;
+            this.SpecRFSourceButton.Location = new System.Drawing.Point(3, 3);
+            this.SpecRFSourceButton.Name = "SpecRFSourceButton";
+            this.SpecRFSourceButton.Size = new System.Drawing.Size(179, 17);
+            this.SpecRFSourceButton.TabIndex = 8;
+            this.SpecRFSourceButton.TabStop = true;
+            this.SpecRFSourceButton.Text = "729nm Spectroscopy RF Source";
+            this.SpecRFSourceButton.UseVisualStyleBackColor = true;
             // 
             // LiveLaserBoxAux2
             // 
             this.LiveLaserBoxAux2.AutoSize = true;
-            this.LiveLaserBoxAux2.Location = new System.Drawing.Point(132, 99);
+            this.LiveLaserBoxAux2.Location = new System.Drawing.Point(133, 92);
             this.LiveLaserBoxAux2.Name = "LiveLaserBoxAux2";
             this.LiveLaserBoxAux2.Size = new System.Drawing.Size(75, 17);
             this.LiveLaserBoxAux2.TabIndex = 7;
@@ -1066,12 +1130,399 @@
             // LiveLaserBoxAux1
             // 
             this.LiveLaserBoxAux1.AutoSize = true;
-            this.LiveLaserBoxAux1.Location = new System.Drawing.Point(132, 76);
+            this.LiveLaserBoxAux1.Location = new System.Drawing.Point(133, 69);
             this.LiveLaserBoxAux1.Name = "LiveLaserBoxAux1";
             this.LiveLaserBoxAux1.Size = new System.Drawing.Size(75, 17);
             this.LiveLaserBoxAux1.TabIndex = 6;
             this.LiveLaserBoxAux1.Text = "Auxilliary 1";
             this.LiveLaserBoxAux1.UseVisualStyleBackColor = true;
+            // 
+            // LiveLaserBox854FREQ
+            // 
+            this.LiveLaserBox854FREQ.AutoSize = true;
+            this.LiveLaserBox854FREQ.Location = new System.Drawing.Point(133, 46);
+            this.LiveLaserBox854FREQ.Name = "LiveLaserBox854FREQ";
+            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(111, 17);
+            this.LiveLaserBox854FREQ.TabIndex = 5;
+            this.LiveLaserBox854FREQ.Text = "854nm Frequency";
+            this.LiveLaserBox854FREQ.UseVisualStyleBackColor = true;
+            // 
+            // LiveLaserBox854POWER
+            // 
+            this.LiveLaserBox854POWER.AutoSize = true;
+            this.LiveLaserBox854POWER.Location = new System.Drawing.Point(133, 23);
+            this.LiveLaserBox854POWER.Name = "LiveLaserBox854POWER";
+            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(91, 17);
+            this.LiveLaserBox854POWER.TabIndex = 4;
+            this.LiveLaserBox854POWER.Text = "854nm Power";
+            this.LiveLaserBox854POWER.UseVisualStyleBackColor = true;
+            // 
+            // LiveLaserBox854
+            // 
+            this.LiveLaserBox854.AutoSize = true;
+            this.LiveLaserBox854.Location = new System.Drawing.Point(12, 92);
+            this.LiveLaserBox854.Name = "LiveLaserBox854";
+            this.LiveLaserBox854.Size = new System.Drawing.Size(58, 17);
+            this.LiveLaserBox854.TabIndex = 3;
+            this.LiveLaserBox854.Text = "854nm";
+            this.LiveLaserBox854.UseVisualStyleBackColor = true;
+            // 
+            // LiveLaserBox729
+            // 
+            this.LiveLaserBox729.AutoSize = true;
+            this.LiveLaserBox729.Location = new System.Drawing.Point(12, 69);
+            this.LiveLaserBox729.Name = "LiveLaserBox729";
+            this.LiveLaserBox729.Size = new System.Drawing.Size(58, 17);
+            this.LiveLaserBox729.TabIndex = 2;
+            this.LiveLaserBox729.Text = "729nm";
+            this.LiveLaserBox729.UseVisualStyleBackColor = true;
+            // 
+            // LiveLaserBox397B2
+            // 
+            this.LiveLaserBox397B2.AutoSize = true;
+            this.LiveLaserBox397B2.Location = new System.Drawing.Point(12, 46);
+            this.LiveLaserBox397B2.Name = "LiveLaserBox397B2";
+            this.LiveLaserBox397B2.Size = new System.Drawing.Size(74, 17);
+            this.LiveLaserBox397B2.TabIndex = 1;
+            this.LiveLaserBox397B2.Text = "397nm B2";
+            this.LiveLaserBox397B2.UseVisualStyleBackColor = true;
+            // 
+            // LiveLaserBox397B1
+            // 
+            this.LiveLaserBox397B1.AutoSize = true;
+            this.LiveLaserBox397B1.Location = new System.Drawing.Point(12, 23);
+            this.LiveLaserBox397B1.Name = "LiveLaserBox397B1";
+            this.LiveLaserBox397B1.Size = new System.Drawing.Size(74, 17);
+            this.LiveLaserBox397B1.TabIndex = 0;
+            this.LiveLaserBox397B1.Text = "397nm B1";
+            this.LiveLaserBox397B1.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(122, 28);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(79, 13);
+            this.label17.TabIndex = 64;
+            this.label17.Text = "Frequency (Hz)";
+            // 
+            // SpecRFFreq
+            // 
+            this.SpecRFFreq.Location = new System.Drawing.Point(3, 26);
+            this.SpecRFFreq.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.SpecRFFreq.Name = "SpecRFFreq";
+            this.SpecRFFreq.Size = new System.Drawing.Size(113, 20);
+            this.SpecRFFreq.TabIndex = 62;
+            this.SpecRFFreq.Value = new decimal(new int[] {
+            230000000,
+            0,
+            0,
+            0});
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.SetRFSB1Button);
+            this.panel2.Controls.Add(this.SB1RFFreq);
+            this.panel2.Controls.Add(this.label18);
+            this.panel2.Controls.Add(this.label19);
+            this.panel2.Controls.Add(this.SB1RFPower);
+            this.panel2.Controls.Add(this.SB1RFSourceButton);
+            this.panel2.Location = new System.Drawing.Point(12, 210);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(231, 81);
+            this.panel2.TabIndex = 65;
+            // 
+            // SB1RFFreq
+            // 
+            this.SB1RFFreq.Location = new System.Drawing.Point(3, 26);
+            this.SB1RFFreq.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.SB1RFFreq.Name = "SB1RFFreq";
+            this.SB1RFFreq.Size = new System.Drawing.Size(113, 20);
+            this.SB1RFFreq.TabIndex = 62;
+            this.SB1RFFreq.Value = new decimal(new int[] {
+            230000000,
+            0,
+            0,
+            0});
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(122, 28);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(79, 13);
+            this.label18.TabIndex = 64;
+            this.label18.Text = "Frequency (Hz)";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(55, 54);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(67, 13);
+            this.label19.TabIndex = 62;
+            this.label19.Text = "Power (dBm)";
+            // 
+            // SB1RFPower
+            // 
+            this.SB1RFPower.DecimalPlaces = 1;
+            this.SB1RFPower.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.SB1RFPower.Location = new System.Drawing.Point(3, 52);
+            this.SB1RFPower.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            this.SB1RFPower.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            -2147483648});
+            this.SB1RFPower.Name = "SB1RFPower";
+            this.SB1RFPower.Size = new System.Drawing.Size(46, 20);
+            this.SB1RFPower.TabIndex = 62;
+            this.SB1RFPower.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            // 
+            // SB1RFSourceButton
+            // 
+            this.SB1RFSourceButton.AutoSize = true;
+            this.SB1RFSourceButton.Location = new System.Drawing.Point(3, 3);
+            this.SB1RFSourceButton.Name = "SB1RFSourceButton";
+            this.SB1RFSourceButton.Size = new System.Drawing.Size(168, 17);
+            this.SB1RFSourceButton.TabIndex = 8;
+            this.SB1RFSourceButton.TabStop = true;
+            this.SB1RFSourceButton.Text = "729nm Sideband RF Source 1";
+            this.SB1RFSourceButton.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.SetRFSB2Button);
+            this.panel3.Controls.Add(this.SB2RFFreq);
+            this.panel3.Controls.Add(this.label20);
+            this.panel3.Controls.Add(this.label21);
+            this.panel3.Controls.Add(this.SB2RFPower);
+            this.panel3.Controls.Add(this.SB2RFSourceButton);
+            this.panel3.Location = new System.Drawing.Point(12, 297);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(231, 81);
+            this.panel3.TabIndex = 66;
+            // 
+            // SB2RFFreq
+            // 
+            this.SB2RFFreq.Location = new System.Drawing.Point(3, 26);
+            this.SB2RFFreq.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.SB2RFFreq.Name = "SB2RFFreq";
+            this.SB2RFFreq.Size = new System.Drawing.Size(113, 20);
+            this.SB2RFFreq.TabIndex = 62;
+            this.SB2RFFreq.Value = new decimal(new int[] {
+            230000000,
+            0,
+            0,
+            0});
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(122, 28);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(79, 13);
+            this.label20.TabIndex = 64;
+            this.label20.Text = "Frequency (Hz)";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(55, 54);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(67, 13);
+            this.label21.TabIndex = 62;
+            this.label21.Text = "Power (dBm)";
+            // 
+            // SB2RFPower
+            // 
+            this.SB2RFPower.DecimalPlaces = 1;
+            this.SB2RFPower.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.SB2RFPower.Location = new System.Drawing.Point(3, 52);
+            this.SB2RFPower.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            this.SB2RFPower.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            -2147483648});
+            this.SB2RFPower.Name = "SB2RFPower";
+            this.SB2RFPower.Size = new System.Drawing.Size(46, 20);
+            this.SB2RFPower.TabIndex = 62;
+            this.SB2RFPower.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            // 
+            // SB2RFSourceButton
+            // 
+            this.SB2RFSourceButton.AutoSize = true;
+            this.SB2RFSourceButton.Location = new System.Drawing.Point(3, 3);
+            this.SB2RFSourceButton.Name = "SB2RFSourceButton";
+            this.SB2RFSourceButton.Size = new System.Drawing.Size(168, 17);
+            this.SB2RFSourceButton.TabIndex = 8;
+            this.SB2RFSourceButton.TabStop = true;
+            this.SB2RFSourceButton.Text = "729nm Sideband RF Source 2";
+            this.SB2RFSourceButton.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.SetRFSB3Button);
+            this.panel4.Controls.Add(this.SB3RFFreq);
+            this.panel4.Controls.Add(this.label22);
+            this.panel4.Controls.Add(this.label23);
+            this.panel4.Controls.Add(this.SB3RFPower);
+            this.panel4.Controls.Add(this.SB3RFSourceButton);
+            this.panel4.Location = new System.Drawing.Point(12, 384);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(231, 81);
+            this.panel4.TabIndex = 67;
+            // 
+            // SB3RFFreq
+            // 
+            this.SB3RFFreq.Location = new System.Drawing.Point(3, 26);
+            this.SB3RFFreq.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.SB3RFFreq.Name = "SB3RFFreq";
+            this.SB3RFFreq.Size = new System.Drawing.Size(113, 20);
+            this.SB3RFFreq.TabIndex = 62;
+            this.SB3RFFreq.Value = new decimal(new int[] {
+            230000000,
+            0,
+            0,
+            0});
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(122, 28);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(79, 13);
+            this.label22.TabIndex = 64;
+            this.label22.Text = "Frequency (Hz)";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(55, 54);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(67, 13);
+            this.label23.TabIndex = 62;
+            this.label23.Text = "Power (dBm)";
+            // 
+            // SB3RFPower
+            // 
+            this.SB3RFPower.DecimalPlaces = 1;
+            this.SB3RFPower.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.SB3RFPower.Location = new System.Drawing.Point(3, 52);
+            this.SB3RFPower.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            this.SB3RFPower.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            -2147483648});
+            this.SB3RFPower.Name = "SB3RFPower";
+            this.SB3RFPower.Size = new System.Drawing.Size(46, 20);
+            this.SB3RFPower.TabIndex = 62;
+            this.SB3RFPower.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            // 
+            // SB3RFSourceButton
+            // 
+            this.SB3RFSourceButton.AutoSize = true;
+            this.SB3RFSourceButton.Location = new System.Drawing.Point(3, 3);
+            this.SB3RFSourceButton.Name = "SB3RFSourceButton";
+            this.SB3RFSourceButton.Size = new System.Drawing.Size(168, 17);
+            this.SB3RFSourceButton.TabIndex = 8;
+            this.SB3RFSourceButton.TabStop = true;
+            this.SB3RFSourceButton.Text = "729nm Sideband RF Source 3";
+            this.SB3RFSourceButton.UseVisualStyleBackColor = true;
+            // 
+            // SetRFSpecButton
+            // 
+            this.SetRFSpecButton.Location = new System.Drawing.Point(138, 47);
+            this.SetRFSpecButton.Name = "SetRFSpecButton";
+            this.SetRFSpecButton.Size = new System.Drawing.Size(86, 27);
+            this.SetRFSpecButton.TabIndex = 65;
+            this.SetRFSpecButton.Text = "Set";
+            this.SetRFSpecButton.UseVisualStyleBackColor = true;
+            this.SetRFSpecButton.Click += new System.EventHandler(this.SetRFSpecButton_Click);
+            // 
+            // SetRFSB1Button
+            // 
+            this.SetRFSB1Button.Location = new System.Drawing.Point(138, 47);
+            this.SetRFSB1Button.Name = "SetRFSB1Button";
+            this.SetRFSB1Button.Size = new System.Drawing.Size(86, 27);
+            this.SetRFSB1Button.TabIndex = 66;
+            this.SetRFSB1Button.Text = "Set";
+            this.SetRFSB1Button.UseVisualStyleBackColor = true;
+            // 
+            // SetRFSB2Button
+            // 
+            this.SetRFSB2Button.Location = new System.Drawing.Point(138, 47);
+            this.SetRFSB2Button.Name = "SetRFSB2Button";
+            this.SetRFSB2Button.Size = new System.Drawing.Size(86, 27);
+            this.SetRFSB2Button.TabIndex = 67;
+            this.SetRFSB2Button.Text = "Set";
+            this.SetRFSB2Button.UseVisualStyleBackColor = true;
+            // 
+            // SetRFSB3Button
+            // 
+            this.SetRFSB3Button.Location = new System.Drawing.Point(138, 47);
+            this.SetRFSB3Button.Name = "SetRFSB3Button";
+            this.SetRFSB3Button.Size = new System.Drawing.Size(86, 27);
+            this.SetRFSB3Button.TabIndex = 68;
+            this.SetRFSB3Button.Text = "Set";
+            this.SetRFSB3Button.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1109,6 +1560,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.TrapVoltageBox)).EndInit();
             this.LaserControl.ResumeLayout(false);
             this.LaserControl.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SpecRFPower)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SpecRFFreq)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SB1RFFreq)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SB1RFPower)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SB2RFFreq)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SB2RFPower)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SB3RFFreq)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SB3RFPower)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1188,6 +1655,34 @@
         private System.Windows.Forms.CheckBox LiveLaserBox729;
         private System.Windows.Forms.CheckBox LiveLaserBox397B2;
         private System.Windows.Forms.CheckBox LiveLaserBox397B1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown SpecRFPower;
+        private System.Windows.Forms.RadioButton SpecRFSourceButton;
+        private System.Windows.Forms.NumericUpDown SpecRFFreq;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.NumericUpDown SB3RFFreq;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown SB3RFPower;
+        private System.Windows.Forms.RadioButton SB3RFSourceButton;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.NumericUpDown SB2RFFreq;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.NumericUpDown SB2RFPower;
+        private System.Windows.Forms.RadioButton SB2RFSourceButton;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.NumericUpDown SB1RFFreq;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.NumericUpDown SB1RFPower;
+        private System.Windows.Forms.RadioButton SB1RFSourceButton;
+        private System.Windows.Forms.Button SetRFSB3Button;
+        private System.Windows.Forms.Button SetRFSB2Button;
+        private System.Windows.Forms.Button SetRFSB1Button;
+        private System.Windows.Forms.Button SetRFSpecButton;
     }
 }
 
