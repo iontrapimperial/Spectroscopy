@@ -182,17 +182,5 @@ namespace Spectroscopy_Viewer
             return spectrumNumber;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

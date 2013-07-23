@@ -141,7 +141,7 @@ namespace Spectroscopy_Viewer
                         // For each interleaved spectrum
                         for (int i = 0; i < numberInterleaved; i++)
                         {
-
+                            
                             // If the index >= number of existing spectra, new ones must have been added
                             // (since for a list of N items, index runs from 0 to N-1)
                             if (selectedSpectrum[i] >= existingSpectra)
@@ -168,6 +168,10 @@ namespace Spectroscopy_Viewer
                                 mySpectrum[selectedSpectrum[i]].addToSpectrum(myFilehandler.getDataPoints(i));
                             }
                         }
+
+                        Console.WriteLine("{0} spectra found", numberInterleaved);
+                        
+
                     }
 
                     //**************************************************************

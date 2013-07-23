@@ -58,32 +58,28 @@ namespace Spectroscopy_Viewer
 
         private void addToSpectrumButton_Click(object sender, EventArgs e)
         {
+            // Temp variables for debugging
+            selectedSpectrum[0] = 0;
+            selectedSpectrum[1] = 1;
 
-            // Need to make sure ordering is correct for adding to list!!!
-
-            
-
-            int j = 1;
-
+            // For each of the interleaved spectra
             for (int i = 0; i < numberInterleaved; i++)
             {
 
                 // Check which spectrum each data set should belong to - from user input on form
                 // (Waiting for form design)
 
+                
+
 
                 if (selectedSpectrum[i] >= existingSpectra)
                 {
                     // Re-order so that the next spectrum to be dealt with is the next in the array
                     // This ensures correct metadata when items are added to list using List.Add
-                    spectrumNames[existingSpectra + j] = newSpectra[selectedSpectrum[i] - existingSpectra];
-                    j++;
-                }
-
+                    spectrumNames.Add( newSpectra[selectedSpectrum[i] - existingSpectra] );
+                 }
             }
 
-
-            // Check which item was selected, set public value (for each spectrum in file)
             this.Close();       // Close form
         }
 
@@ -94,8 +90,9 @@ namespace Spectroscopy_Viewer
 
             // Add spectra to list
             myList.Add(newSpectrumNameBox.Text + " (New)" );
-            // Populate list box from this list
-
+            
+            // Trying to get this to update.. but it doesn't seem to be working
+            // Wait for new form design before worrying too much
             this.Refresh();
         }
 
