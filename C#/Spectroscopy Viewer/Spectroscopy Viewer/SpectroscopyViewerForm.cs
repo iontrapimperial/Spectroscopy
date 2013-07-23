@@ -151,7 +151,7 @@ namespace Spectroscopy_Viewer
                                 // Need to put in safeguards
 
                                 // Get the list filled with data points, add to list of spectra
-                                mySpectrum.Add(new spectrum(myFilehandler.getDataPoints()));
+                                mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(i)));
 
                                 // Set number
                                 mySpectrum[selectedSpectrum[i]].setNumber(selectedSpectrum[i]);

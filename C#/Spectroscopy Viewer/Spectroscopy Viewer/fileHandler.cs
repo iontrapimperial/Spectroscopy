@@ -11,9 +11,9 @@ namespace Spectroscopy_Viewer
     {
 
         // Create a list of arrays. Each array contains 4 integer values (i.e. the data for a single reading - cool, count & error flags)
-        private List<int[]> fullData = new List<int[]>();
+        private List<int[]>[] fullData;
         // Create a list of dataPoint objects
-        private List<dataPoint> dataPoints = new List<dataPoint>();
+        private List<dataPoint>[] dataPoints;
 
         // Metadata read from file
         private int startFrequency;         // Starting frequency of the file
@@ -41,21 +41,31 @@ namespace Spectroscopy_Viewer
             // Temporary values
             startFrequency = 1000;
             stepSize = 10;
+            numberInterleaved = 2;
 
             repeats = 100;      // For now, set no. of repeats to 100 (known)
 
+            // Initialise array of lists of data
+            fullData = new List<int[]>[numberInterleaved];
+            dataPoints = new List<dataPoint>[numberInterleaved];
 
-            string myString = filename.ReadLine();             // Read first line of file
-            int j = 0;
-            while (myString != null)                           // Only read further lines until end is reached
+
+            string myString = filename.ReadLine();              // Read first line of file
+            int j = 0;                                          // Counter for data points
+            while (myString != null)                            // Only read further lines until end is reached
             {
-                fullData.Add(new int[4]);                       // Add new reading to the list, will contain 4 int
-
-                // Extract blocks of 4 data points (each reading)
-                for (int i = 0; i < 4; i++)
+                for (int k = 0; k < numberInterleaved; k++)
                 {
-                    fullData[j][i] = int.Parse(myString);       // Convert string to int, put into array
-                    myString = filename.ReadLine();            // Read next line
+
+                    fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
+
+                    // Extract blocks of 4 data points (each reading)
+                    for (int i = 0; i < 4; i++)
+                    {
+                        fullData[k][j][i] = int.Parse(myString);        // Convert string to int, put into array
+                        myString = filename.ReadLine();                 // Read next line
+                    }
+
                 }
                 j++;
             }
@@ -65,22 +75,24 @@ namespace Spectroscopy_Viewer
 
 
         // Method to populate list of dataPoint objects (dataPoints), including metadata
-        private void constructDataPoints()
+        // Integer x tells which number spectrum (e.g. 0(first), 1(second)) in file to return
+        private void constructDataPoints(int x)
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
 
-            // Loop through list of data elements, but only create a new dataPoint object for each frequency 
-            for (int i = 0; i < fullData.Count; i += repeats)
+            // Loop through list of data elements, but only create a new dataPoint object for each frequency
+            // 
+            for (int i = x; i < fullData[x].Count; i += numberInterleaved*repeats)
             {
                 // Create new instance of dataPoint
-                dataPointTemp = new dataPoint(ref fullData, i, repeats);
+                dataPointTemp = new dataPoint(ref fullData[x], i, repeats);
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
                 dataPointTemp.setSpectrum(spectrumNumber);
 
                 // Add to the list
-                dataPoints.Add(dataPointTemp);
+                dataPoints[x].Add(dataPointTemp);
             }
 
         }
@@ -94,9 +106,9 @@ namespace Spectroscopy_Viewer
 
         // Method to return list of dataPoint objects (dataPoints)
         // NB List<> is a reference type so it behaves like a pointer
-        public List<dataPoint> getDataPoints()
+        public List<dataPoint> getDataPoints(int x)
         {
-            this.constructDataPoints();
+            this.constructDataPoints(x);
             return dataPoints;
         }
 

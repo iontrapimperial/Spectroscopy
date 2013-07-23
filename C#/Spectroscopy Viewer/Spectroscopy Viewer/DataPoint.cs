@@ -41,7 +41,7 @@ namespace Spectroscopy_Viewer
    
 
 
-        // Construct instance given an array of data,a starting point & a number of repeats
+        // Construct instance given an array of data, a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
         public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
