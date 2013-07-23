@@ -18,7 +18,6 @@ namespace Spectroscopy_Viewer
         // Metadata read from file
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
-        private int spectrumNumber;         // Which spectrum the data point belongs to
         private string date;                // Date when file was taken
         private int repeats;                // Number of repeats
         private int numberInterleaved;      // How many spectra are interleaved in this file
@@ -45,10 +44,20 @@ namespace Spectroscopy_Viewer
 
             repeats = 100;      // For now, set no. of repeats to 100 (known)
 
-            // Initialise array of lists of data
+            // Initialise arrays for storing Lists of raw data & dataPoints
             fullData = new List<int[]>[numberInterleaved];
             dataPoints = new List<dataPoint>[numberInterleaved];
 
+            // Have to initialise the array and then each List in the array individually... tedious!!
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                fullData[i] = new List<int[]>();
+                dataPoints[i] = new List<dataPoint>();
+            }
+
+            
+
+            int[] myIntArray = new int[4];
 
             string myString = filename.ReadLine();              // Read first line of file
             int j = 0;                                          // Counter for data points
@@ -57,7 +66,8 @@ namespace Spectroscopy_Viewer
                 for (int k = 0; k < numberInterleaved; k++)
                 {
 
-                    fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
+                    
+                    fullData[k].Add(myIntArray);                        // Add new reading to the list, reading will contain 4 ints
 
                     // Extract blocks of 4 data points (each reading)
                     for (int i = 0; i < 4; i++)
@@ -70,27 +80,34 @@ namespace Spectroscopy_Viewer
                 j++;
             }
 
+
+            // Create array of data point lists
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                this.constructDataPoints(i);
+            }
+
+
           
         }
 
 
         // Method to populate list of dataPoint objects (dataPoints), including metadata
-        // Integer x tells which number spectrum (e.g. 0(first), 1(second)) in file to return
+        // Integer x tells which number spectrum (e.g. 0(first), 1(second)) in file to use
         private void constructDataPoints(int x)
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
             // 
-            for (int i = x; i < fullData[x].Count; i += numberInterleaved*repeats)
+            for (int i = 0; i < fullData[x].Count; i += numberInterleaved*repeats)
             {
                 // Create new instance of dataPoint
                 dataPointTemp = new dataPoint(ref fullData[x], i, repeats);
                 
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(startFrequency + i*stepSize);
-                dataPointTemp.setSpectrum(spectrumNumber);
-
+               
                 // Add to the list
                 dataPoints[x].Add(dataPointTemp);
             }
@@ -108,8 +125,8 @@ namespace Spectroscopy_Viewer
         // NB List<> is a reference type so it behaves like a pointer
         public List<dataPoint> getDataPoints(int x)
         {
-            this.constructDataPoints(x);
-            return dataPoints;
+            
+            return dataPoints[x];
         }
 
     }

@@ -94,6 +94,9 @@ namespace Spectroscopy_Viewer
 
             // Add spectra to list
             myList.Add(newSpectrumNameBox.Text + " (New)" );
+            // Populate list box from this list
+
+            this.Refresh();
         }
 
 

@@ -165,7 +165,7 @@ namespace Spectroscopy_Viewer
                             else
                             {
                                 // Add list of data points from file handler into existing spectrum
-                                mySpectrum[selectedSpectrum[i]].addToSpectrum(myFilehandler.getDataPoints());
+                                mySpectrum[selectedSpectrum[i]].addToSpectrum(myFilehandler.getDataPoints(i));
                             }
                         }
                     }
