@@ -17,12 +17,15 @@ namespace Spectroscopy_Viewer
         private int existingSpectra = new int();
         // Store the number of interleaved spectra in file
         private int numberInterleaved = new int();
+        // Combo boxes for user input
+        private ComboBox[] myComboBox;
+
 
         // To store names of the new spectra to be created
         private List<string> newSpectra = new List<string>();
 
         // Public variables to be accessed by main form
-        public List<int> selectedSpectrum = new List<int>();        // Which option selected for each data set
+        public int[] selectedSpectrum;        // Which option selected for each data set
         public List<string> spectrumNames = new List<string>();     // List of names
 
         // Constructor given a list of existing spectra
@@ -30,14 +33,14 @@ namespace Spectroscopy_Viewer
         {
             InitializeComponent();
 
-            // Store number of spectra in the file
-            int numberInterleaved = numberInterleavedPassed;
 
-            // Store number of existing spectra
-            existingSpectra = mySpectrum.Count();
+            int numberInterleaved = numberInterleavedPassed;    // Store number of spectra in the file
+            existingSpectra = mySpectrum.Count();               // Store number of existing spectra
+            selectedSpectrum = new int[numberInterleaved];      // Initialise array
+            myComboBox = new ComboBox[numberInterleaved];       // Create combo boxes
 
             // Create new item in list for each existing spectrum
-            for (int i = 0; i < mySpectrum.Count; i++)
+            for (int i = 0; i < existingSpectra; i++)
             {
                 spectrumNames[i] = mySpectrum[i].getName();                     // Retrieve name of spectrum
                 myListOfSpectra.Add("Spectrum " + i + " (" + spectrumNames[i] + ")");    // Concatenate string with name & number
@@ -48,15 +51,16 @@ namespace Spectroscopy_Viewer
             // Set defaults for text box
             newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
             
-            // Set data source for combo box 
-            DestinationColumn.DataSource = myListOfSpectra;
+            // Set text telling the user how many spectra have been detected
+            detectedSpectraText.Text = "Valid file " + myFileName + " opened \nFile contains "
+                                        + numberInterleaved + " interleaved spectra";
 
 
+            // Create combo boxes and set data source
             for (int i = 0; i < numberInterleaved; i++)
             {
-                // Add rows to data grid view
-                spectrumSelectDataGrid.Rows.Add();
-                spectrumSelectDataGrid.Rows[i].Cells[0].Value = "(" + myFileName + ") Spectrum " + i;
+                myComboBox[i] = new ComboBox();
+                myComboBox[i].DataSource = myListOfSpectra;
             }
 
 
@@ -80,8 +84,11 @@ namespace Spectroscopy_Viewer
             // Add spectra to list
             myListOfSpectra.Add("(New) " + newSpectrumNameBox.Text);
 
-            // Refresh drop-down list
-            DestinationColumn.DataSource = myListOfSpectra;
+            // Update drop-down lists
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                myComboBox[i].DataSource = myListOfSpectra;
+            }
 
             // Trying to get this to update.. but it doesn't seem to be working
             // Wait for new form design before worrying too much
@@ -94,27 +101,8 @@ namespace Spectroscopy_Viewer
             // For each of the interleaved spectra
             for (int i = 0; i < numberInterleaved; i++)
             {
-
-                // Retrieve 
-                string S = (string) spectrumSelectDataGrid[1, i].Value;
-
-                if (S == "") MessageBox.Show("Please select a spectrum");
-                else
-                {
-                    // If adding to a new spectrum
-                    if (S.Substring(0, 5) == "(New)")
-                    {
-
-                    }
-                    else selectedSpectrum[i] = (int) S[10];       // 
-
-                }
-
-                // Check which spectrum each data set should belong to - from user input on form
-                // (Waiting for form design)
-
-
-
+                // Assign which spectrum each data set should belong to - from user input on form
+                selectedSpectrum[i] = myComboBox[i].SelectedIndex;
 
                 if (selectedSpectrum[i] >= existingSpectra)
                 {

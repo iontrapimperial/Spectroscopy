@@ -30,12 +30,9 @@
         {
             this.newSpectrumNameBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.spectrumSelectDataGrid = new System.Windows.Forms.DataGridView();
             this.buttonOK = new System.Windows.Forms.Button();
             this.addNewSpectrumButton = new System.Windows.Forms.Button();
-            this.SourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DestinationColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.spectrumSelectDataGrid)).BeginInit();
+            this.detectedSpectraText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // newSpectrumNameBox
@@ -54,18 +51,6 @@
             this.label1.Size = new System.Drawing.Size(179, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Please enter name of new spectrum:";
-            // 
-            // spectrumSelectDataGrid
-            // 
-            this.spectrumSelectDataGrid.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.spectrumSelectDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.spectrumSelectDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SourceColumn,
-            this.DestinationColumn});
-            this.spectrumSelectDataGrid.Location = new System.Drawing.Point(12, 12);
-            this.spectrumSelectDataGrid.Name = "spectrumSelectDataGrid";
-            this.spectrumSelectDataGrid.Size = new System.Drawing.Size(491, 180);
-            this.spectrumSelectDataGrid.TabIndex = 5;
             // 
             // buttonOK
             // 
@@ -86,34 +71,27 @@
             this.addNewSpectrumButton.UseVisualStyleBackColor = true;
             this.addNewSpectrumButton.Click += new System.EventHandler(this.addNewSpectrumButton_Click);
             // 
-            // SourceColumn
+            // detectedSpectraText
             // 
-            this.SourceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.SourceColumn.FillWeight = 200F;
-            this.SourceColumn.HeaderText = "Source";
-            this.SourceColumn.Name = "SourceColumn";
-            this.SourceColumn.ReadOnly = true;
-            // 
-            // DestinationColumn
-            // 
-            this.DestinationColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DestinationColumn.FillWeight = 250F;
-            this.DestinationColumn.HeaderText = "Destination";
-            this.DestinationColumn.Name = "DestinationColumn";
+            this.detectedSpectraText.AutoSize = true;
+            this.detectedSpectraText.Location = new System.Drawing.Point(12, 9);
+            this.detectedSpectraText.Name = "detectedSpectraText";
+            this.detectedSpectraText.Size = new System.Drawing.Size(35, 13);
+            this.detectedSpectraText.TabIndex = 8;
+            this.detectedSpectraText.Text = "label2";
             // 
             // spectrumSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(513, 278);
+            this.Controls.Add(this.detectedSpectraText);
             this.Controls.Add(this.addNewSpectrumButton);
             this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.spectrumSelectDataGrid);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.newSpectrumNameBox);
             this.Name = "spectrumSelect";
             this.Text = "Choose spectrum";
-            ((System.ComponentModel.ISupportInitialize)(this.spectrumSelectDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -123,10 +101,8 @@
 
         private System.Windows.Forms.TextBox newSpectrumNameBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView spectrumSelectDataGrid;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button addNewSpectrumButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SourceColumn;
-        private System.Windows.Forms.DataGridViewComboBoxColumn DestinationColumn;
+        private System.Windows.Forms.Label detectedSpectraText;
     }
 }
