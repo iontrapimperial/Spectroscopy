@@ -155,5 +155,266 @@ namespace Spectroscopy_Controller
                            LiveLaserBoxAux1.Checked,
                            LiveLaserBoxAux2.Checked);
         }
+
+        /*private void OnFormClosing(object sender, EventArgs e) //clean up any threads left running
+        {
+            if ((BinarySendThread != null) && (BinarySendThread.IsAlive))
+            {
+                BinarySendThread.Abort();
+                BinarySendThread.Join();
+            }
+
+            if ((FPGAReadThread != null) && (FPGAReadThread.IsAlive))
+            {
+                FPGAReadThread.Abort();
+                FPGAReadThread.Join();
+            }
+        } */
+
+        #region Methods defined in FPGAControls.cs
+
+        private void OpenUSBButton_Click(object sender, EventArgs e)
+        {
+            OpenUSBPort();       
+        }
+
+        /*private void StartButton_Click(object sender, EventArgs e)
+        {
+            if (FPGA.bUSBPortIsOpen == false)
+            {
+                WriteMessage("Can't Send Start Signal to FPGA: USB port is not open", true);
+                return;
+            }
+            bShouldQuitThread = false;
+
+            int WindowSize = 0;
+            int WindowGap = 0;
+
+            if (FreqSelectForm.GetFreqGenEnable())
+            {
+                bIsFreqGenEnabled = true;
+                float Amplitude = FreqSelectForm.GetAmplitude();
+                GPIB.InitDevice(Amplitude);
+                int Frequency = FreqSelectForm.GetInitialFrequency();
+                GPIB.SetFrequency(Frequency);
+                if (FreqSelectForm.GetWindowingEnable())
+                {
+                    bIsWindowingEnabled = true;
+                    WindowSize = FreqSelectForm.GetWindowSize();
+                    WindowGap = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();                   
+                }
+                else bIsWindowingEnabled = false;
+            }
+            else
+            {
+                bIsFreqGenEnabled = false;
+            }
+
+            float FrequencyAmp = FreqSelectForm.GetAmplitude();
+            int Frequencystep = FreqSelectForm.GetFreqStep();
+            int Frequencystart = FreqSelectForm.GetInitialFrequency();
+
+            ResultsForm.StartConditions(Frequencystart, Frequencystep, FrequencyAmp, bIsWindowingEnabled, WindowSize, WindowGap);
+
+            SendSetupFinish();         
+            StartReadingData();
+            
+        }*/
+
+        #endregion
+
+        /*#region Methods defined in DebugTools.cs
+
+        private void SendDataButton_Click(object sender, EventArgs e)
+        {
+            SendData();   //defined in DebugTools.cs  
+        }
+
+        private void ReadDataButton_Click(object sender, EventArgs e)
+        {
+            ReadData();  //defined in DebugTools.cs
+        }*/
+
+        /*#endregion
+
+        #region Methods defined in XMLFIleIO.cs
+
+        private void saveXMLFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveXMLFileDialog.ShowDialog();
+        }
+
+        private void saveXMLFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            SaveXMLFile();
+        }
+
+        private void openXMLFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            OpenXMLFile();
+        }
+
+        private void openXMLFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openXMLFileDialog.ShowDialog();
+        }
+
+        #endregion*/
+
+        /*#region Methods defined in PulseTree.cs
+
+        private void AddRootButton_Click(object sender, EventArgs e)
+        {
+            AddNewState(true);
+        }
+
+        private void AddChildButton_Click(object sender, EventArgs e)
+        {
+            AddNewState(false);
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            RemoveState();
+        }        
+
+        private void MoveUpButton_Click(object sender, EventArgs e)
+        {
+            MoveState(true);
+        }
+
+        private void MoveDownButton_Click(object sender, EventArgs e)
+        {
+            MoveState(false);
+        }
+
+        private void PulseTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            PulseTreeSelect();            
+        }
+
+        private void SaveStateButton_Click(object sender, EventArgs e)
+        {
+            SaveStateFromForm();
+        }
+
+        private void AddRootButton_MouseEnter(object sender, EventArgs e)
+        {
+            ManagePreviewNode(true, true);
+        }
+
+        private void AddRootButton_MouseLeave(object sender, EventArgs e)
+        {
+            ManagePreviewNode(true, false);
+        }
+
+        private void AddChildButton_MouseEnter(object sender, EventArgs e)
+        {
+            ManagePreviewNode(false, true);
+        }
+
+        private void AddChildButton_MouseLeave(object sender, EventArgs e)
+        {
+            ManagePreviewNode(false, false);
+        }
+
+
+        private void TicksBox_ValueChanged(object sender, EventArgs e)
+        {
+            TimeLabel.Text = "Length: " + ((TicksBox.Value * 20) / (1000000)) + " ms";
+        }
+
+        #endregion*/
+              
+        /*#region Methods defined in HexFileIO.cs
+
+        private void compileToBinaryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveHexFileDialog.ShowDialog();
+        }
+
+        private void saveHexFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            SaveHexFile();
+        }
+
+        private void sendBinaryFileOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (FPGA.bUSBPortIsOpen == false)
+            {
+                WriteMessage("Can't Send Data to FPGA: USB port is not open", true);
+                return;
+            }
+
+            openHexFileDialog.ShowDialog();
+        }
+
+        private void openHexFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            SendBinaryFile();
+        }
+
+        private void sendBinaryFileStartSignalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sendBinaryFileOnlyToolStripMenuItem_Click(null, null);
+            sendStartSignalToolStripMenuItem_Click(null, null);
+        }
+
+        #endregion*/        
+
+        /*private void ChooseFileButton_Click(object sender, EventArgs e)
+        {
+            saveResultsFileDialog.ShowDialog();
+        }
+
+        private void saveResultsFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            FilenameTextbox.Text = saveResultsFileDialog.FileName;
+        }
+
+        private void CreateFromTemplateButton_Click(object sender, EventArgs e)
+        {            
+            TemplateForm.ShowDialog();            
+        }*/
+
+        /*private void StopButton_Click(object sender, EventArgs e)
+        {
+            bShouldQuitThread = true;
+        }*/
+
+        /*private void frequencyGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FreqSelectForm.ShowDialog();            
+        }*/
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            if (FPGA.bUSBPortIsOpen == false)
+            {
+                WriteMessage("Can't Send Reset Signal to FPGA: USB port is not open", true);
+                return;
+            }
+            if (FPGAReadThread != null && FPGAReadThread.IsAlive)
+            {
+                bResetFPGA = true;
+            }
+            else
+            {
+                FPGA.SendResetSignal();
+            }
+            
+        }
+
+        /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
+        {
+            if (FPGAReadThread != null && FPGAReadThread.IsAlive)
+            {
+                endReadThreadToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                endReadThreadToolStripMenuItem.Enabled = false;
+            }
+        }*/
     }
 }

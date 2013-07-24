@@ -94,9 +94,9 @@ namespace Spectroscopy_Controller
             Data += (byte)(GetIntFromBool(L397B2) << 1);
             Data += (byte)(GetIntFromBool(L397B1) << 0);
 
-            byte Data2 = 255;
-            Data += (byte)(GetIntFromBool(LAux2) << 1);
-            Data += (byte)(GetIntFromBool(LAux1) << 0);
+            byte Data2 = 252;
+            Data2 += (byte)(GetIntFromBool(LAux2) << 1);
+            Data2 += (byte)(GetIntFromBool(LAux1) << 0);
 
             byte[] x = new byte[8];
             x[0] = LASER_SETUP;

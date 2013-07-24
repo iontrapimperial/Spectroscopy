@@ -682,6 +682,7 @@
             this.OpenUSBButton.Size = new System.Drawing.Size(58, 58);
             this.OpenUSBButton.TabIndex = 60;
             this.OpenUSBButton.UseVisualStyleBackColor = true;
+            this.OpenUSBButton.Click += new System.EventHandler(this.OpenUSBButton_Click);
             // 
             // label15
             // 
