@@ -34,7 +34,7 @@ namespace Spectroscopy_Viewer
             InitializeComponent();
 
 
-            int numberInterleaved = numberInterleavedPassed;    // Store number of spectra in the file
+            numberInterleaved = 3;// numberInterleavedPassed;    // Store number of spectra in the file
             existingSpectra = mySpectrum.Count();               // Store number of existing spectra
             selectedSpectrum = new int[numberInterleaved];      // Initialise array
 
@@ -47,10 +47,10 @@ namespace Spectroscopy_Viewer
             // Create new item in list for each existing spectrum
             for (int i = 0; i < existingSpectra; i++)
             {
-                spectrumNames[i] = mySpectrum[i].getName();                     // Retrieve name of spectrum
+                spectrumNames.Add( mySpectrum[i].getName() );                     // Retrieve name of spectrum
                 myListOfSpectra[0].Add("Spectrum " + (i+1) + " (" + spectrumNames[i] + ")");    // Concatenate string with name & number
             }
-            
+         
 
             // Duplicate list
             for (int i = 1; i < numberInterleaved; i++)
@@ -89,8 +89,8 @@ namespace Spectroscopy_Viewer
                 this.Controls.Add(myComboBox[i]);
                 this.myComboBox[i].SelectedIndexChanged +=
                     new System.EventHandler(this.myComboBox_SelectedIndexChanged);
-                this.myComboBox[i].DrawMode = DrawMode.OwnerDrawFixed;
-                this.myComboBox[i].DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.myComboBox_DrawItem);
+ //               this.myComboBox[i].DrawMode = DrawMode.OwnerDrawFixed;
+   //             this.myComboBox[i].DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.myComboBox_DrawItem);
             }
             //********************************//
 
@@ -101,7 +101,8 @@ namespace Spectroscopy_Viewer
             }
             else buttonOK.Text = "Load spectra";
 
-            Console.WriteLine("{0} interleaved", numberInterleaved);
+       //     Console.WriteLine("{0} interleaved", numberInterleaved);
+       //     Console.WriteLine("Spectrum 1: {0}", spectrumNames[0]);
  
         }
 
@@ -111,13 +112,14 @@ namespace Spectroscopy_Viewer
             // Add name to temporary list of new spectra to be created
             newSpectra.Add(newSpectrumNameBox.Text);
 
-            Console.WriteLine("{0} interleaved", numberInterleaved);
+ //           Console.WriteLine("{0} interleaved", numberInterleaved);
+  //          Console.WriteLine("Spectrum 1: {0}", spectrumNames[0]);
 
             // Add new spectra to all lists
             for (int i = 0; i < numberInterleaved; i++)
             {
                 myListOfSpectra[i].Add("(New) " + newSpectrumNameBox.Text);
-                myComboBox[i].DataSource = myListOfSpectra[i];
+//                myComboBox[i].DataSource = myListOfSpectra[i];
             }
 
             // NB drop-down lists automatically update
@@ -143,7 +145,7 @@ namespace Spectroscopy_Viewer
 
         // Handles change of selected index for all combo boxes
         private void myComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        {/*
             // Check for clashes
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
@@ -175,9 +177,9 @@ namespace Spectroscopy_Viewer
                     selectedSpectrum[i] = myComboBox[i].SelectedIndex - 1;
                 }
             }
-
+        */
         }
-
+/*
         private void myComboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             Font myFont = new Font("Aerial", 10, FontStyle.Underline | FontStyle.Regular);
@@ -206,7 +208,7 @@ namespace Spectroscopy_Viewer
                     }
                 }
             }
-        }
+        }*/
 
 
     }
