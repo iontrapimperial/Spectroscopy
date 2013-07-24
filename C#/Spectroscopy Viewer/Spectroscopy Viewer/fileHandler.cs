@@ -65,8 +65,6 @@ namespace Spectroscopy_Viewer
             {
                 for (int k = 0; k < numberInterleaved; k++)
                 {
-
-                    
                     fullData[k].Add(myIntArray);                        // Add new reading to the list, reading will contain 4 ints
 
                     // Extract blocks of 4 data points (each reading)
@@ -100,7 +98,7 @@ namespace Spectroscopy_Viewer
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
             // 
-            for (int i = 0; i < fullData[x].Count; i += numberInterleaved*repeats)
+            for (int i = x; i < fullData[x].Count; i += numberInterleaved*repeats)
             {
                 // Create new instance of dataPoint
                 dataPointTemp = new dataPoint(ref fullData[x], i, repeats);
@@ -125,7 +123,6 @@ namespace Spectroscopy_Viewer
         // NB List<> is a reference type so it behaves like a pointer
         public List<dataPoint> getDataPoints(int x)
         {
-            
             return dataPoints[x];
         }
 

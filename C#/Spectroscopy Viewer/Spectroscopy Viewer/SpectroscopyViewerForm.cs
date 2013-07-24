@@ -149,10 +149,6 @@ namespace Spectroscopy_Viewer
                             // (since for a list of N items, index runs from 0 to N-1)
                             if (selectedSpectrum[i] >= existingSpectra)
                             {
-
-                                // NB this might add them out of order!!!
-                                // Need to put in safeguards
-
                                 // Get the list filled with data points, add to list of spectra
                                 mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(i)));
 

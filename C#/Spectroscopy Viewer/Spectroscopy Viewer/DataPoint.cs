@@ -23,7 +23,6 @@ namespace Spectroscopy_Viewer
 
         // Metadata
         private int frequency;              // Frequency of the data point
-        private int spectrumNumber;               // Which spectrum the data point belongs to
         private int repeats;                // Number of repeats
         
         // Thresholds
@@ -331,14 +330,6 @@ namespace Spectroscopy_Viewer
         }
 
 
-        // Method to set which spectrum the data point belongs to
-        public void setSpectrum(int x)
-        {
-            spectrumNumber = x;
-        }
-
-
-
 
 
 
@@ -381,18 +372,6 @@ namespace Spectroscopy_Viewer
         {
             return countThreshold;
         }
-
-        // Method to return which spectrum the data point belongs to
-        public int getSpectrum()
-        {
-            return spectrumNumber;
-        }
-
-
-
-
-
-
 
     }
 }
