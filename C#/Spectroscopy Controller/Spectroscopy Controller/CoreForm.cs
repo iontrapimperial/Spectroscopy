@@ -143,16 +143,16 @@ namespace Spectroscopy_Controller
 
         public void SetOutputs()
         {
-            /*FPGA.SetLasers(LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
-                           LiveLaserBox397B1.Checked,
+            FPGA.SetLasers(LiveLaserBox397B1.Checked,
+                           LiveLaserBox397B2.Checked,
+                           LiveLaserBox729.Checked,
+                           LiveLaserBox854.Checked,
                            RFSwitch1State,
-                           RFSwitch2State);*/
+                           RFSwitch2State,
+                           LiveLaserBox854POWER.Checked,
+                           LiveLaserBox854FREQ.Checked,
+                           LiveLaserBoxAux1.Checked,
+                           LiveLaserBoxAux2.Checked);
         }
     }
 }

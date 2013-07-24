@@ -59,6 +59,9 @@
     <Compile Include="CoreForm.Designer.cs">
       <DependentUpon>CoreForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Defines.cs" />
+    <Compile Include="FPGA.cs" />
+    <Compile Include="FTDI.cs" />
     <Compile Include="GPIB.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
