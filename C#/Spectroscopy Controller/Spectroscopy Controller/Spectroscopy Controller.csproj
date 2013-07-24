@@ -61,6 +61,9 @@
     </Compile>
     <Compile Include="Defines.cs" />
     <Compile Include="FPGA.cs" />
+    <Compile Include="FPGAControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FTDI.cs" />
     <Compile Include="GPIB.cs" />
     <Compile Include="Program.cs" />

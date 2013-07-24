@@ -193,7 +193,7 @@ applicable agreement for further details.
 	(input)
 	(rect -816 368 -632 384)
 	(text "INPUT" (rect 141 0 169 10)(font "Arial" (font_size 6)))
-	(text "LaserLockIn397_1" (rect 5 0 95 12)(font "Arial" ))
+	(text "LaserLockIn397_1" (rect 5 0 94 12)(font "Arial" ))
 	(pt 184 8)
 	(drawing
 		(line (pt 100 12)(pt 125 12))
@@ -210,7 +210,7 @@ applicable agreement for further details.
 	(input)
 	(rect -816 384 -632 400)
 	(text "INPUT" (rect 141 0 169 10)(font "Arial" (font_size 6)))
-	(text "LaserLockIn397_2" (rect 5 0 95 12)(font "Arial" ))
+	(text "LaserLockIn397_2" (rect 5 0 94 12)(font "Arial" ))
 	(pt 184 8)
 	(drawing
 		(line (pt 100 12)(pt 125 12))
@@ -227,7 +227,7 @@ applicable agreement for further details.
 	(input)
 	(rect -824 400 -632 416)
 	(text "INPUT" (rect 149 0 177 10)(font "Arial" (font_size 6)))
-	(text "LaserLockInRedSC" (rect 5 0 101 12)(font "Arial" ))
+	(text "LaserLockInRedSC" (rect 5 0 100 12)(font "Arial" ))
 	(pt 192 8)
 	(drawing
 		(line (pt 108 12)(pt 133 12))
@@ -854,7 +854,7 @@ applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 200 824 376 840)
+	(rect 976 824 1152 840)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "LEDR[9..0]" (rect 90 0 145 12)(font "Arial" ))
 	(pt 0 8)
@@ -867,7 +867,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 256 840 312 952))
+	(annotation_block (location)(rect 1032 840 1088 992))
 )
 (pin
 	(output)
@@ -2542,11 +2542,6 @@ applicable agreement for further details.
 	(pt 680 712)
 )
 (connector
-	(pt 696 688)
-	(pt 800 688)
-	(bus)
-)
-(connector
 	(text "SD_DATA_READY" (rect 706 648 800 660)(font "Arial" ))
 	(pt 704 664)
 	(pt 832 664)
@@ -2691,11 +2686,6 @@ applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 200 832)
-	(pt 192 832)
-	(bus)
-)
-(connector
 	(text "oLasersExperiment[9..0]" (rect 138 368 258 380)(font "Arial" ))
 	(pt 152 368)
 	(pt 240 368)
@@ -2787,11 +2777,6 @@ applicable agreement for further details.
 (connector
 	(pt 136 400)
 	(pt 136 832)
-	(bus)
-)
-(connector
-	(pt 192 832)
-	(pt 192 704)
 	(bus)
 )
 (connector
@@ -3111,6 +3096,26 @@ applicable agreement for further details.
 (connector
 	(pt -576 456)
 	(pt -592 456)
+)
+(connector
+	(pt 192 704)
+	(pt 192 832)
+	(bus)
+)
+(connector
+	(pt 952 688)
+	(pt 696 688)
+	(bus)
+)
+(connector
+	(pt 952 688)
+	(pt 952 832)
+	(bus)
+)
+(connector
+	(pt 952 832)
+	(pt 976 832)
+	(bus)
 )
 (junction (pt -440 960))
 (junction (pt -424 976))

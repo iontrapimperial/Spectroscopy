@@ -135,6 +135,8 @@
             this.LiveLaserBox729 = new System.Windows.Forms.CheckBox();
             this.LiveLaserBox397B2 = new System.Windows.Forms.CheckBox();
             this.LiveLaserBox397B1 = new System.Windows.Forms.CheckBox();
+            this.debugmessagebox = new System.Windows.Forms.GroupBox();
+            this.MessagesBox = new System.Windows.Forms.ListView();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -172,6 +174,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpecRFFreq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpecRFAmp)).BeginInit();
+            this.debugmessagebox.SuspendLayout();
             this.SuspendLayout();
             // 
             // FileSendBox
@@ -588,7 +591,7 @@
             this.DesignerGroup.Controls.Add(this.MoveUpButton);
             this.DesignerGroup.Controls.Add(this.AddRootButton);
             this.DesignerGroup.Controls.Add(this.PulseTree);
-            this.DesignerGroup.Location = new System.Drawing.Point(3, 5);
+            this.DesignerGroup.Location = new System.Drawing.Point(12, 5);
             this.DesignerGroup.Name = "DesignerGroup";
             this.DesignerGroup.Size = new System.Drawing.Size(497, 475);
             this.DesignerGroup.TabIndex = 55;
@@ -628,7 +631,7 @@
             this.SpectroGroup.Controls.Add(this.TrapVoltageBox);
             this.SpectroGroup.Controls.Add(this.label3);
             this.SpectroGroup.Controls.Add(this.SpecTypeBox);
-            this.SpectroGroup.Location = new System.Drawing.Point(511, 5);
+            this.SpectroGroup.Location = new System.Drawing.Point(520, 5);
             this.SpectroGroup.Name = "SpectroGroup";
             this.SpectroGroup.Size = new System.Drawing.Size(262, 474);
             this.SpectroGroup.TabIndex = 56;
@@ -1048,7 +1051,7 @@
             this.LaserControl.Controls.Add(this.LiveLaserBox729);
             this.LaserControl.Controls.Add(this.LiveLaserBox397B2);
             this.LaserControl.Controls.Add(this.LiveLaserBox397B1);
-            this.LaserControl.Location = new System.Drawing.Point(784, 5);
+            this.LaserControl.Location = new System.Drawing.Point(793, 5);
             this.LaserControl.Name = "LaserControl";
             this.LaserControl.Size = new System.Drawing.Size(255, 474);
             this.LaserControl.TabIndex = 57;
@@ -1532,11 +1535,30 @@
             this.LiveLaserBox397B1.Text = "397nm B1";
             this.LiveLaserBox397B1.UseVisualStyleBackColor = true;
             // 
+            // debugmessagebox
+            // 
+            this.debugmessagebox.Controls.Add(this.MessagesBox);
+            this.debugmessagebox.Location = new System.Drawing.Point(12, 485);
+            this.debugmessagebox.Name = "debugmessagebox";
+            this.debugmessagebox.Size = new System.Drawing.Size(1036, 165);
+            this.debugmessagebox.TabIndex = 58;
+            this.debugmessagebox.TabStop = false;
+            this.debugmessagebox.Text = "Debug Messages";
+            // 
+            // MessagesBox
+            // 
+            this.MessagesBox.Location = new System.Drawing.Point(12, 19);
+            this.MessagesBox.Name = "MessagesBox";
+            this.MessagesBox.Size = new System.Drawing.Size(1013, 132);
+            this.MessagesBox.TabIndex = 0;
+            this.MessagesBox.UseCompatibleStateImageBehavior = false;
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 485);
+            this.ClientSize = new System.Drawing.Size(1059, 662);
+            this.Controls.Add(this.debugmessagebox);
             this.Controls.Add(this.LaserControl);
             this.Controls.Add(this.SpectroGroup);
             this.Controls.Add(this.DesignerGroup);
@@ -1584,6 +1606,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SpecRFFreq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpecRFAmp)).EndInit();
+            this.debugmessagebox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1691,6 +1714,8 @@
         private System.Windows.Forms.Button SetRFSB2Button;
         private System.Windows.Forms.Button SetRFSB1Button;
         private System.Windows.Forms.Button SetRFSpecButton;
+        private System.Windows.Forms.GroupBox debugmessagebox;
+        private System.Windows.Forms.ListView MessagesBox;
     }
 }
 
