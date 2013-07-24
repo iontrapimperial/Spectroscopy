@@ -81,7 +81,7 @@ namespace Spectroscopy_Viewer
                 this.Controls.Add(myComboBoxLabel[i]);
 
                 myComboBox[i] = new ComboBox();
-                myComboBox[i].DataSource = myListOfSpectra;
+                myComboBox[i].DataSource = myListOfSpectra[i];
                 myComboBox[i].Location = new Point(280, 10 + i * 30);
                 myComboBox[i].Size = new System.Drawing.Size(220, 21);
                 this.Controls.Add(myComboBox[i]);
@@ -111,6 +111,13 @@ namespace Spectroscopy_Viewer
             {
                 myListOfSpectra[i].Add("(New) " + newSpectrumNameBox.Text);
             }
+
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                myComboBox[i].DataSource = myListOfSpectra[i];
+            }
+
+
             // NB drop-down lists automatically update
 
         }
@@ -135,13 +142,44 @@ namespace Spectroscopy_Viewer
         // Handles change of selected index for all combo boxes
         private void myComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Check for clashes
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
             {
-                // Assign which spectrum each data set should belong to - from user input on form
-                selectedSpectrum[i] = myComboBox[i].SelectedIndex;
+                // Check against other selected spectra
+                for (int j = 0; j < numberInterleaved; j++)
+                {
+                    // Ignore selections by the same combobox
+                    if (i != j)
+                    {
+                        // If that index is already taken
+                        if (myComboBox[i].SelectedIndex == selectedSpectrum[j])
+                        {
+                            // Reset to what it was before
+                            myComboBox[i].SelectedIndex = selectedSpectrum[i];
+                            // Display error message
+                            MessageBox.Show("Error: Cannot assign two data sets to the same spectrum. Please re-assign spectra.");
+                        }
+                    }
+                }
             }
 
+            // Reject any selections which clash
+            // For each drop-down box
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                // Check the selection is not invalid
+                if (myComboBox[i].SelectedIndex == -1)
+                {
+                    MessageBox.Show("Error: Cannot assign two data sets to the same spectrum. Please re-assign spectra.");
+                }
+                else
+                {   // Assign selected spectrum
+                    selectedSpectrum[i] = myComboBox[i].SelectedIndex;
+                }
+            }
+
+            // Refresh list of currently assigned spectra
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
             {
