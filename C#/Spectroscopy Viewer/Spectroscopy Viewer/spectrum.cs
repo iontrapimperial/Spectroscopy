@@ -42,9 +42,6 @@ namespace Spectroscopy_Viewer
         //**************************//
 
 
-
-
-
         // Method to add new list of data points to existing data
         public void addToSpectrum(List<dataPoint> dataPointsPassed)
         {
@@ -86,9 +83,6 @@ namespace Spectroscopy_Viewer
             // Update private members
             coolThreshold = cool;
             countThreshold = count;
-
-            // Get number of data points
-            dataSize = myDataPoints.Count();
 
             for (int i = 0; i < dataSize; i++)
             {

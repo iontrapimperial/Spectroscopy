@@ -36,7 +36,7 @@ namespace Spectroscopy_Viewer
         private int badCountsThreshold = new int();     // No. of bad counts due to not meeting minimum threshold
         private int darkCount = new int();              // No. of dark counts
         private int validReadings = new int();          // Total no. of valid readings (bright + dark)
-        private float darkProb = new float();               // Probability of ion being dark
+        private float darkProb = new float();           // Probability of ion being dark
    
 
 
@@ -162,6 +162,7 @@ namespace Spectroscopy_Viewer
             }
             // Calculate probability of ion being in dark state
             darkProb = (float) darkCount / validReadings;
+
         }
 
         // Method to calculate probability of ion being dark, based on updated thresholds

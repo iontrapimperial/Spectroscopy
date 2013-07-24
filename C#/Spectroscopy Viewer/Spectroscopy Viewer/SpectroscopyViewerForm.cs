@@ -140,7 +140,7 @@ namespace Spectroscopy_Viewer
                     // Make sure the user didn't press cancel or close the dialog box
                     if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
                     {
-
+                       
                         // For each interleaved spectrum
                         for (int i = 0; i < numberInterleaved; i++)
                         {
@@ -168,7 +168,7 @@ namespace Spectroscopy_Viewer
                             }
                         }
 
-                        Console.WriteLine("{0} spectra found", numberInterleaved);
+                        Console.WriteLine("{0} spectra found", mySpectrum.Count);
                         
 
                     }
@@ -193,27 +193,55 @@ namespace Spectroscopy_Viewer
         private void plotDataButton_Click(object sender, EventArgs e)
         {
 
-            // Want to put in an if statement to check that some data has been loaded
             // Currently just plot a single spectrum, more complex later
 
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
-
-            // Analyse each spectrum and get the data
-            // NB if no spectra have been loaded, mySpectrum.Count will be 0 and this loop will not run
-            for (int i = 0; i < mySpectrum.Count; i++)
+            else
             {
-                mySpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
-                dataPlot[i] = mySpectrum[i].getDataPlot();
-            }
+                // Analyse each spectrum and get the data
+                // NB if no spectra have been loaded, mySpectrum.Count will be 0 and this loop will not run
+                for (int i = 0; i < mySpectrum.Count; i++)
+                {
+                    mySpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
+                    dataPlot[i] = mySpectrum[i].getDataPlot();
+                }
 
-            // Setup the graph
-            updateGraph(zedGraphControl1);
-            // Size the control to fill the form with a margin
-            SetSize();
+                // Setup the graph
+                updateGraph(zedGraphControl1);
+                // Size the control to fill the form with a margin
+                SetSize();
+                this.writeToFile_test();
+            }
         }
 
 
+        // Function to output contents of spectra to file. For testing.
+        private void writeToFile_test()
+        {
+            TextWriter[] testFile = new StreamWriter[mySpectrum.Count];
 
+            // Write a separate file for each spectrum
+            for (int i = 0; i < mySpectrum.Count; i++)
+            {
+                testFile[i] = new StreamWriter("C:/Users/localadmin/Documents/testFile_Spectrum" + i + ".txt");
+                Console.WriteLine("File created successfully");
+                testFile[i].WriteLine("Frequency\tDark ion prob");
+
+                // For each point pair in the list
+                for (int j = 0; j < dataPlot[i].Count; j++)
+                {
+                    testFile[i].WriteLine(dataPlot[i][j].X + "\t" + dataPlot[i][j].Y + "\n");
+                }
+
+                testFile[i].Flush();
+                testFile[i].Close();
+
+            }
+
+
+
+
+        }
 
 
 
