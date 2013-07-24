@@ -34,7 +34,7 @@ namespace Spectroscopy_Viewer
             InitializeComponent();
 
 
-            numberInterleaved = 3;// numberInterleavedPassed;    // Store number of spectra in the file
+            numberInterleaved = numberInterleavedPassed;    // Store number of spectra in the file
             existingSpectra = mySpectrum.Count();               // Store number of existing spectra
             selectedSpectrum = new int[numberInterleaved];      // Initialise array
 
@@ -52,10 +52,15 @@ namespace Spectroscopy_Viewer
             }
          
 
-            // Duplicate list
+            // Duplicate list - make sure you duplicate the ITEMS not the LIST
             for (int i = 1; i < numberInterleaved; i++)
             {
-                myListOfSpectra[i] = myListOfSpectra[0];
+                myListOfSpectra[i] = new BindingList<string>();
+                for (int j = 0; j < myListOfSpectra[0].Count; j++)
+                {
+                    myListOfSpectra[i].Add("");
+                    myListOfSpectra[i][j] = myListOfSpectra[0][j];
+                }
             }
 
             // Set defaults for text box
