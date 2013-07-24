@@ -137,6 +137,9 @@ namespace Spectroscopy_Viewer
             // For each of the interleaved spectra
             for (int i = 0; i < numberInterleaved; i++)
             {
+                // Increment to ignore the blank option
+                selectedSpectrum[i]++;
+
                 if (selectedSpectrum[i] >= existingSpectra)
                 {
                     // Re-order so that the next spectrum to be dealt with is the next in the array
@@ -150,7 +153,7 @@ namespace Spectroscopy_Viewer
 
         // Handles change of selected index for all combo boxes
         private void myComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {/*
+        {
             // Check for clashes
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
@@ -159,15 +162,15 @@ namespace Spectroscopy_Viewer
                 for (int j = 0; j < numberInterleaved; j++)
                 {
                     // Ignore selections by the same combobox & any boxes set to blank option
-                    if (i != j && myComboBox[i].SelectedIndex != 0)
+                    if (j != i && myComboBox[i].SelectedIndex != 0)
                     {
                         // If that index is already taken
-                        if ( (myComboBox[i].SelectedIndex - 1) == selectedSpectrum[j])
+                        if ( myComboBox[i].SelectedIndex == selectedSpectrum[j])
                         {
                             // Reset to what it was before
-                            myComboBox[i].SelectedIndex = selectedSpectrum[i] + 1;
+                            myComboBox[i].SelectedIndex = selectedSpectrum[i];
                             // Display error message
-                            MessageBox.Show("Error: Cannot assign two data sets to the same spectrum. Please re-assign spectra.");
+                            MessageBox.Show("Cannot assign two spectra to the same destination. Please re-assign.");
                         }
                     }
                 }
@@ -176,13 +179,10 @@ namespace Spectroscopy_Viewer
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
             {
-                if (myComboBox[i].SelectedIndex > 0)
-                {
-                    // Assign selected spectrum
-                    selectedSpectrum[i] = myComboBox[i].SelectedIndex - 1;
-                }
+                // Assign selected spectrum
+                selectedSpectrum[i] = myComboBox[i].SelectedIndex;              
             }
-        */
+        
         }
 /*
         private void myComboBox_DrawItem(object sender, DrawItemEventArgs e)
