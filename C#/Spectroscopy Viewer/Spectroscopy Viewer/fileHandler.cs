@@ -90,23 +90,17 @@ namespace Spectroscopy_Viewer
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 //******************************//
 
-
-                // Temporary values
-                startFrequency = 1000;
-                stepSize = 10;
-                numberInterleaved = 1;
-
-                repeats = 100;      // For now, set no. of repeats to 100 (known)
-
                 this.processData(ref myFile);
 
             }   // If there is no metadata
             else if (myString == "Spectroscopy data file (no metadata)")
             {
                 // Open a form requesting metadata (start freq, repeats, step size, number of spectra)
+                // & wait for it to be closed before continuing
                 requestMetadata myRequestMetadata = new requestMetadata();
                 myRequestMetadata.ShowDialog();
 
+                // Check that user has pressed ok
                 if (myRequestMetadata.DialogResult == DialogResult.OK)
                 {
                     // Set metadata from user input on form
@@ -119,9 +113,8 @@ namespace Spectroscopy_Viewer
                     this.processData(ref myFile);
                 }
 
-                
             }
-            else System.Windows.Forms.MessageBox.Show("Invalid file selected");
+            else System.Windows.Forms.MessageBox.Show("File not recognised");
         }
 
 
