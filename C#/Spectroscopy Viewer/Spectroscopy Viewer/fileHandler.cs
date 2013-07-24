@@ -35,12 +35,7 @@ namespace Spectroscopy_Viewer
         // Constructor given a file (pass by reference!)
         public fileHandler(ref System.IO.StreamReader myFile)
         {
-
-            /*
-             * Need a section of code here to deal with the metadata
-             * */
-
-            //***************************//
+            //*************************************//
             // Metadata format
             // ---------------
             //
@@ -59,12 +54,13 @@ namespace Spectroscopy_Viewer
             // "File contains interleaved spectra:"
             // numberInterleaved
             // "Data:"
+            //*************************************//
 
             // String to temporarily store data from the file
-            string myString;              // Read first line of file
+            string myString = myFile.ReadLine();              // Read first line of file
 
-            // Read first line of file and make sure it is a valid data file
-            if (myFile.ReadLine() == "Spectroscopy data file")
+            // Make sure it is a valid data file - check for metadata
+            if (myString == "Spectroscopy data file")
             {
                 //******************************//
                 // Processing metadata
@@ -72,23 +68,23 @@ namespace Spectroscopy_Viewer
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is trap frequency
-                trapFrequency = float.Parse(myString);      // Convert to float and save
+                if (myString != "N/A") trapFrequency = float.Parse(myString);      // Convert to float and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is trap voltage
-                trapVoltage = float.Parse(myString);        // Convert to float and save
+                if (myString != "N/A") trapVoltage = float.Parse(myString);        // Convert to float and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is AOM start frequency
-                startFrequency = int.Parse(myString);       // Convert to int and save
+                if (myString != "N/A") startFrequency = int.Parse(myString);       // Convert to int and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is number of repeats
-                repeats = int.Parse(myString);              // Convert to int and save
+                if (myString != "N/A") repeats = int.Parse(myString);              // Convert to int and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is number of interleaved spectra
-                numberInterleaved = int.Parse(myString);    // Convert to int and save
+                if (myString != "N/A") numberInterleaved = int.Parse(myString);    // Convert to int and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 //******************************//
@@ -101,47 +97,61 @@ namespace Spectroscopy_Viewer
 
                 repeats = 100;      // For now, set no. of repeats to 100 (known)
 
-                // Initialise arrays for storing Lists of raw data & dataPoints
-                fullData = new List<int[]>[numberInterleaved];
-                dataPoints = new List<dataPoint>[numberInterleaved];
+                this.processData(ref myFile);
 
-                // Have to initialise the array and then each List in the array individually... tedious!!
-                for (int i = 0; i < numberInterleaved; i++)
-                {
-                    fullData[i] = new List<int[]>();
-                    dataPoints[i] = new List<dataPoint>();
-                }
+            }   // If there is no metadata
+            else if (myString == "Spectroscopy data file (no metadata)")
+            {
+                // Open a form requesting metadata (start freq, repeats, step size)
 
-
-                myString = myFile.ReadLine();                       // Read first line of data
-                int j = 0;                                          // Counter for data points
-                while (myString != null)                            // Only read further lines until end is reached
-                {
-                    for (int k = 0; k < numberInterleaved; k++)
-                    {
-                        // This MUST be a new int, cannot add any other array!!!!
-                        fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
-
-                        // Extract blocks of 4 data points (each reading)
-                        for (int i = 0; i < 4; i++)
-                        {
-                            fullData[k][j][i] = int.Parse(myString);        // Convert string to int, put into array
-                            myString = myFile.ReadLine();                 // Read next line
-                        }
-                    }
-                    j++;
-                }
-
-
-                // Create array of data point lists
-                for (int i = 0; i < numberInterleaved; i++)
-                {
-                    this.constructDataPoints(i);
-                }
-
-
+                // Just process the raw data
+                this.processData(ref myFile);
             }
             else System.Windows.Forms.MessageBox.Show("Invalid file selected");
+        }
+
+
+        // Method to deal with data (not metadata)
+        private void processData(ref System.IO.StreamReader myFile)
+        {
+            // Initialise arrays for storing Lists of raw data & dataPoints
+            fullData = new List<int[]>[numberInterleaved];
+            dataPoints = new List<dataPoint>[numberInterleaved];
+
+            // Have to initialise the array and then each List in the array individually... tedious!!
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                fullData[i] = new List<int[]>();
+                dataPoints[i] = new List<dataPoint>();
+            }
+
+
+            string myString = myFile.ReadLine();                       // Read first line of data
+            int j = 0;                                          // Counter for data points
+            while (myString != null)                            // Only read further lines until end is reached
+            {
+                for (int k = 0; k < numberInterleaved; k++)
+                {
+                    // This MUST be a new int, cannot add any other array!!!!
+                    fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
+
+                    // Extract blocks of 4 data points (each reading)
+                    for (int i = 0; i < 4; i++)
+                    {
+                        fullData[k][j][i] = int.Parse(myString);        // Convert string to int, put into array
+                        myString = myFile.ReadLine();                 // Read next line
+                    }
+                }
+                j++;
+            }
+
+
+            // Create array of data point lists
+            for (int i = 0; i < numberInterleaved; i++)
+            {
+                this.constructDataPoints(i);
+            }
+
         }
 
 
