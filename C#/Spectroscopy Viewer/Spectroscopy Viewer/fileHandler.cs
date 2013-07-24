@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 
 namespace Spectroscopy_Viewer
@@ -102,10 +103,23 @@ namespace Spectroscopy_Viewer
             }   // If there is no metadata
             else if (myString == "Spectroscopy data file (no metadata)")
             {
-                // Open a form requesting metadata (start freq, repeats, step size)
+                // Open a form requesting metadata (start freq, repeats, step size, number of spectra)
+                requestMetadata myRequestMetadata = new requestMetadata();
+                myRequestMetadata.ShowDialog();
 
-                // Just process the raw data
-                this.processData(ref myFile);
+                if (myRequestMetadata.DialogResult == DialogResult.OK)
+                {
+                    // Set metadata from user input on form
+                    startFrequency = myRequestMetadata.startFreq;
+                    stepSize = myRequestMetadata.stepSize;
+                    repeats = myRequestMetadata.repeats;
+                    numberInterleaved = myRequestMetadata.numberInterleaved;
+
+                    // Just process the raw data
+                    this.processData(ref myFile);
+                }
+
+                
             }
             else System.Windows.Forms.MessageBox.Show("Invalid file selected");
         }

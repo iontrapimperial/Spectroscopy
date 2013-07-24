@@ -56,6 +56,12 @@
   <ItemGroup>
     <Compile Include="dataPoint.cs" />
     <Compile Include="fileHandler.cs" />
+    <Compile Include="requestMetadata.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="requestMetadata.Designer.cs">
+      <DependentUpon>requestMetadata.cs</DependentUpon>
+    </Compile>
     <Compile Include="SpectroscopyViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,9 @@
     <Compile Include="spectrumSelect.Designer.cs">
       <DependentUpon>spectrumSelect.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="requestMetadata.resx">
+      <DependentUpon>requestMetadata.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SpectroscopyViewerForm.resx">
       <DependentUpon>SpectroscopyViewerForm.cs</DependentUpon>
     </EmbeddedResource>
