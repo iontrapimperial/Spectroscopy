@@ -25,7 +25,7 @@ namespace Spectroscopy_Viewer
         private List<string> newSpectra = new List<string>();
 
         // Public variables to be accessed by main form
-        public int[] selectedSpectrum;        // Which option selected for each data set
+        public int[] selectedSpectrum;        // Which option is selected for each data set
         public List<string> spectrumNames = new List<string>();     // List of names
 
         // Constructor given a list of existing spectra
@@ -42,13 +42,15 @@ namespace Spectroscopy_Viewer
             myListOfSpectra = new BindingList<string>[numberInterleaved];
             myListOfSpectra[0] = new BindingList<string>();
 
+            myListOfSpectra[0].Add("");    // Add a blank option
+
             // Create new item in list for each existing spectrum
             for (int i = 0; i < existingSpectra; i++)
             {
                 spectrumNames[i] = mySpectrum[i].getName();                     // Retrieve name of spectrum
                 myListOfSpectra[0].Add("Spectrum " + (i+1) + " (" + spectrumNames[i] + ")");    // Concatenate string with name & number
             }
-            myListOfSpectra[0].Add("");    // Add a blank option
+            
 
             // Duplicate list
             for (int i = 1; i < numberInterleaved; i++)
@@ -87,6 +89,8 @@ namespace Spectroscopy_Viewer
                 this.Controls.Add(myComboBox[i]);
                 this.myComboBox[i].SelectedIndexChanged +=
                     new System.EventHandler(this.myComboBox_SelectedIndexChanged);
+                this.myComboBox[i].DrawMode = DrawMode.OwnerDrawFixed;
+                this.myComboBox[i].DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.myComboBox_DrawItem);
             }
             //********************************//
 
@@ -97,6 +101,7 @@ namespace Spectroscopy_Viewer
             }
             else buttonOK.Text = "Load spectra";
 
+            Console.WriteLine("{0} interleaved", numberInterleaved);
  
         }
 
@@ -106,17 +111,14 @@ namespace Spectroscopy_Viewer
             // Add name to temporary list of new spectra to be created
             newSpectra.Add(newSpectrumNameBox.Text);
 
-            // Add spectra to all lists
+            Console.WriteLine("{0} interleaved", numberInterleaved);
+
+            // Add new spectra to all lists
             for (int i = 0; i < numberInterleaved; i++)
             {
                 myListOfSpectra[i].Add("(New) " + newSpectrumNameBox.Text);
-            }
-
-            for (int i = 0; i < numberInterleaved; i++)
-            {
                 myComboBox[i].DataSource = myListOfSpectra[i];
             }
-
 
             // NB drop-down lists automatically update
 
@@ -149,14 +151,14 @@ namespace Spectroscopy_Viewer
                 // Check against other selected spectra
                 for (int j = 0; j < numberInterleaved; j++)
                 {
-                    // Ignore selections by the same combobox
-                    if (i != j)
+                    // Ignore selections by the same combobox & any boxes set to blank option
+                    if (i != j && myComboBox[i].SelectedIndex != 0)
                     {
                         // If that index is already taken
-                        if (myComboBox[i].SelectedIndex == selectedSpectrum[j])
+                        if ( (myComboBox[i].SelectedIndex - 1) == selectedSpectrum[j])
                         {
                             // Reset to what it was before
-                            myComboBox[i].SelectedIndex = selectedSpectrum[i];
+                            myComboBox[i].SelectedIndex = selectedSpectrum[i] + 1;
                             // Display error message
                             MessageBox.Show("Error: Cannot assign two data sets to the same spectrum. Please re-assign spectra.");
                         }
@@ -164,22 +166,23 @@ namespace Spectroscopy_Viewer
                 }
             }
 
-            // Reject any selections which clash
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
             {
-                // Check the selection is not invalid
-                if (myComboBox[i].SelectedIndex == -1)
+                if (myComboBox[i].SelectedIndex > 0)
                 {
-                    MessageBox.Show("Error: Cannot assign two data sets to the same spectrum. Please re-assign spectra.");
-                }
-                else
-                {   // Assign selected spectrum
-                    selectedSpectrum[i] = myComboBox[i].SelectedIndex;
+                    // Assign selected spectrum
+                    selectedSpectrum[i] = myComboBox[i].SelectedIndex - 1;
                 }
             }
 
-            // Refresh list of currently assigned spectra
+        }
+
+        private void myComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Font myFont = new Font("Aerial", 10, FontStyle.Underline | FontStyle.Regular);
+            Font myFont2 = new Font("Aerial", 10, FontStyle.Italic | FontStyle.Strikeout);
+
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
             {
@@ -188,12 +191,21 @@ namespace Spectroscopy_Viewer
                 {
                     // Ignore selection made by this combo box
                     if (j != i)
-                    {
-                        // Disable item in list that corresponds to selectedSpectrum[j]
+                    {   
+                        // If that index is taken already
+                        if (e.Index == selectedSpectrum[j])
+                        {
+                            e.Graphics.DrawString(myComboBox[i].Items[e.Index].ToString(), myFont2, Brushes.LightSlateGray, e.Bounds);
+                        } else
+                        {
+                            e.DrawBackground();
+                            e.Graphics.DrawString(myComboBox[i].Items[e.Index].ToString(), myFont, Brushes.Black, e.Bounds);
+                            e.DrawFocusRectangle();
+                        }
+             
                     }
                 }
             }
-
         }
 
 
