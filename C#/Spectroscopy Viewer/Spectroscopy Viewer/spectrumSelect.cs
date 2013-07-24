@@ -94,8 +94,8 @@ namespace Spectroscopy_Viewer
                 this.Controls.Add(myComboBox[i]);
                 this.myComboBox[i].SelectedIndexChanged +=
                     new System.EventHandler(this.myComboBox_SelectedIndexChanged);
-                this.myComboBox[i].DrawMode = DrawMode.OwnerDrawFixed;
-                this.myComboBox[i].DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.myComboBox_DrawItem);
+ //               this.myComboBox[i].DrawMode = DrawMode.OwnerDrawFixed;
+   //             this.myComboBox[i].DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.myComboBox_DrawItem);
             }
             //********************************//
 
@@ -184,7 +184,7 @@ namespace Spectroscopy_Viewer
             }
         
         }
-
+/*
         private void myComboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             Font myFont = new Font("Aerial", 10, FontStyle.Underline | FontStyle.Regular);
@@ -213,7 +213,7 @@ namespace Spectroscopy_Viewer
                     }
                 }
             }
-        }
+        }*/
 
 
     }
