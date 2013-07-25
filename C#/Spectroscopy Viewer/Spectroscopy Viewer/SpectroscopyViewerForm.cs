@@ -222,7 +222,6 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < mySpectrum.Count; i++)
             {
                 testFile[i] = new StreamWriter("C:/Users/localadmin/Documents/testFile_Spectrum" + i + ".txt");
-                Console.WriteLine("File created successfully");
                 testFile[i].WriteLine("Frequency\tDark ion prob");
 
                 // For each point pair in the list

@@ -87,35 +87,8 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to analyse data from updated thresholds
-        public void analyseUpdate(int cool, int count)
+        public void analyseUpdate(int cool, int coolThresholdChanged, int count, int countThresholdChanged)
         {
-            //****************************************
-            // When thresholds change, we want to keep track of whether they have changed up or down and NOT recalculate
-            // all threshold checks, just those that might have changed
-
-            // Variable to store information about whether the cooling threshold is increased, decreased or unchanged
-            // 0 => threshold has increased
-            // 1 => threshold has decreased
-            // 2 => threshold is unchanged
-            int coolThresholdChanged;
-
-            if (cool > coolThreshold) coolThresholdChanged = 0;
-            else if (cool < coolThreshold) coolThresholdChanged = 1;
-            else coolThresholdChanged = 2;
-
-
-            // Variable to store information about whether the count threshold is increased, decreased or unchanged
-            // 0 => threshold has increased
-            // 1 => threshold has decreased
-            // 2 => threshold is unchanged
-            int countThresholdChanged;
-
-            if (count > countThreshold) countThresholdChanged = 0;
-            else if (count < countThreshold) countThresholdChanged = 1;
-            else countThresholdChanged = 2;
-            //******************************************
-
-
             // Update thresholds
             coolThreshold = cool;
             countThreshold = count;
@@ -126,6 +99,8 @@ namespace Spectroscopy_Viewer
                 this.updateBadCountsThreshold(coolThresholdChanged);        // Update bad counts
                 validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Update no. of valid readings
             }
+
+            Console.WriteLine("{0} valid readings", validReadings);
          
 
             
@@ -135,7 +110,7 @@ namespace Spectroscopy_Viewer
                 {
                     this.updateDarkProb(countThresholdChanged);         // Update dark prob
                 }
-
+                else darkProb = 0;
             }
         }
         

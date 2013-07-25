@@ -20,6 +20,12 @@ namespace Spectroscopy_Viewer
         // PointPairList for plotting data. This will contain frequency and darkProb for each data point.
         private PointPairList dataPlot = new PointPairList();
 
+        // List for plotting bad counts due to failed cooling counts
+        private PointPairList badCountsThreshold = new PointPairList();
+        // List for plotting bad counts due to error flags
+        private PointPairList badCountsErrors = new PointPairList();
+        // List for plotting all bad counts
+        private PointPairList badCountsAll = new PointPairList();
 
         // Various bits of information about the spectrum
         private int dataSize;           // Number of data points
@@ -28,6 +34,10 @@ namespace Spectroscopy_Viewer
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
         private string spectrumName = "Default";
         private int spectrumNumber = new int();
+
+        // Internal variables
+        private int coolThresholdChanged;       // Which direction cooling threshold has moved
+        private int countThresholdChanged;      // Which direction count threshold has moved
 
 
         // Constructor given a list of data points
@@ -75,26 +85,57 @@ namespace Spectroscopy_Viewer
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
             }
             beenInitialised = true;
-            Console.WriteLine("Initial data analysis complete");
         }
 
         // Method to analyse data given updated thresholds
         private void analyseUpdate(int cool, int count)
         {
-            Console.WriteLine("Attempting to carry out update of data");
+
+            // Calculate this here instead of within each data point - saves doing it every time
+            // & also update dataPlot, badCountsThreshold list differently depending on what has changed
+            // Need to work out exactly what needs updating when to be most efficient!
+
+
+
+            //****************************************
+            // When thresholds change, we want to keep track of whether they have changed up or down and NOT recalculate
+            // all threshold checks, just those that might have changed
+
+            // Variable to store information about whether the cooling threshold is increased, decreased or unchanged
+            // 0 => threshold has increased
+            // 1 => threshold has decreased
+            // 2 => threshold is unchanged
+            int coolThresholdChanged;
+
+            if (cool > coolThreshold) coolThresholdChanged = 0;
+            else if (cool < coolThreshold) coolThresholdChanged = 1;
+            else coolThresholdChanged = 2;
+
+
+            // Variable to store information about whether the count threshold is increased, decreased or unchanged
+            // 0 => threshold has increased
+            // 1 => threshold has decreased
+            // 2 => threshold is unchanged
+            int countThresholdChanged;
+
+            if (count > countThreshold) countThresholdChanged = 0;
+            else if (count < countThreshold) countThresholdChanged = 1;
+            else countThresholdChanged = 2;
+            //******************************************
+
+
             // Update private members
             coolThreshold = cool;
             countThreshold = count;
 
+           
             for (int i = 0; i < dataSize; i++)
             {
-                myDataPoints[i].analyseUpdate(coolThreshold, countThreshold);        // Update each data point
+                // Update each data point
+                myDataPoints[i].analyseUpdate(coolThreshold, coolThresholdChanged,
+                                                countThreshold, countThresholdChanged);        
             }
-
-
         }
-
-
 
 
         // Method to create data for plotting to graph
@@ -113,6 +154,8 @@ namespace Spectroscopy_Viewer
             }
 
         }
+
+        
 
 
 
@@ -163,7 +206,11 @@ namespace Spectroscopy_Viewer
         // Method to return data for plotting - by reference
         public PointPairList getDataPlot()
         {
-            this.createDataPlot();        // Create the list of data
+            // Only create dataPlot if not yet initialised, or if either threshold has changed
+            if (!beenInitialised || coolThresholdChanged != 2 || countThresholdChanged != 2)
+            {
+                this.createDataPlot();        // Create (or re-create) the list of data
+            }
             return dataPlot;
         }
 
