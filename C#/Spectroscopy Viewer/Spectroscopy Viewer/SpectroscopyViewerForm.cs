@@ -79,6 +79,8 @@ namespace Spectroscopy_Viewer
             // get a reference to the GraphPane
             GraphPane myPane = zgc.GraphPane;
 
+            // Clear data
+            zgc.GraphPane.CurveList.Clear();
 
             for (int i = 0; i < mySpectrum.Count; i++)
             {
@@ -167,10 +169,6 @@ namespace Spectroscopy_Viewer
                                 mySpectrum[selectedSpectrum[i]].addToSpectrum(myFilehandler.getDataPoints(i));
                             }
                         }
-
-                        Console.WriteLine("{0} spectra found", mySpectrum.Count);
-                        
-
                     }
 
                     //**************************************************************

@@ -126,15 +126,16 @@ namespace Spectroscopy_Viewer
                 this.updateBadCountsThreshold(coolThresholdChanged);        // Update bad counts
                 validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Update no. of valid readings
             }
-            
-            
+         
 
-            if (validReadings > 0.1 * repeats)
+            
+            if (countThresholdChanged != 2) // Only if count threshold has changed
             {
-                if (countThresholdChanged != 2) // Only if count threshold has changed
+                if (validReadings > 0.1 * repeats)
                 {
                     this.updateDarkProb(countThresholdChanged);         // Update dark prob
                 }
+
             }
         }
         
@@ -169,7 +170,7 @@ namespace Spectroscopy_Viewer
         // So only check the bright/dark status of those which may have changed
         private void updateDarkProb(int directionOfChange)
         {
-            // If threshold has gone up, only check those which were not dark last time
+             // If threshold has gone up, only check those which were not dark last time
             if (directionOfChange == 0)
             {
                 for (int i = 0; i < repeats; i++)       // For each data point
@@ -206,12 +207,11 @@ namespace Spectroscopy_Viewer
                     }
                 }
 
-                // Update probability of ion being in dark state
-                darkProb = darkCount / validReadings;
+                
+                
             }
-
-
-
+            // Update probability of ion being in dark state
+            darkProb = (float) darkCount / validReadings;
         }
 
 

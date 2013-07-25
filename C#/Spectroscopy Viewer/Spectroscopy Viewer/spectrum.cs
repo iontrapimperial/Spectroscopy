@@ -75,11 +75,13 @@ namespace Spectroscopy_Viewer
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
             }
             beenInitialised = true;
+            Console.WriteLine("Initial data analysis complete");
         }
 
         // Method to analyse data given updated thresholds
         private void analyseUpdate(int cool, int count)
         {
+            Console.WriteLine("Attempting to carry out update of data");
             // Update private members
             coolThreshold = cool;
             countThreshold = count;
@@ -98,6 +100,8 @@ namespace Spectroscopy_Viewer
         // Method to create data for plotting to graph
         private void createDataPlot()
         {
+            dataPlot.Clear();
+
             int x = new int();
             float y = new float();
 
