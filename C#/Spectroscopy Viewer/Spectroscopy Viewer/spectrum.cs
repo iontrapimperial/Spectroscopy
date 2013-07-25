@@ -128,7 +128,7 @@ namespace Spectroscopy_Viewer
             coolThreshold = cool;
             countThreshold = count;
 
-           
+            
             for (int i = 0; i < dataSize; i++)
             {
                 // Update each data point
