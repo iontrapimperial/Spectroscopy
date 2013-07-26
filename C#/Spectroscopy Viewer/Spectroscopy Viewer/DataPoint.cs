@@ -37,6 +37,8 @@ namespace Spectroscopy_Viewer
         private int darkCount = new int();              // No. of dark counts
         private int validReadings = new int();          // Total no. of valid readings (bright + dark)
         private float darkProb = new float();           // Probability of ion being dark
+        private int[] histogramCool;
+        private int[] histogramCount;
    
 
 
@@ -52,7 +54,6 @@ namespace Spectroscopy_Viewer
             readingDark = new bool[repeatsPassed];
             readingErrorThreshold = new bool[repeatsPassed];
 
-
             int j = 0;                  // Counter for internal data arrays
             // For each repeat, populate array of private members
             for (int i = startPoint; i < (startPoint + repeatsPassed); i++)
@@ -65,6 +66,9 @@ namespace Spectroscopy_Viewer
             }
 
             this.setRepeats(repeatsPassed);     // May as well set the metadata for no. of repeats straight away!
+
+            // Want to calculate histogram data in this constructor
+
 
         }
 
@@ -330,6 +334,29 @@ namespace Spectroscopy_Viewer
 
         // Get methods
         //******************************
+
+        // Method to return the maximum count value from the set of readings
+        public int getMax()
+        {
+            int maxCool = readingCool.Max();
+            int maxCount = readingCount.Max();
+
+            if (maxCool >= maxCount) return maxCool;
+            else return maxCount;
+        }
+
+        // Method to return histogram of counts from cooling period
+        public int[] getHistogramCool()
+        {
+            return histogramCool;
+        }
+
+        // Method to return histogram of counts from state detection period
+        public int[] getHistogramCount()
+        {
+            return histogramCount;
+        }
+
 
         // Method to return the frequency of the data point
         public int getFreq()

@@ -25,6 +25,11 @@ namespace Spectroscopy_Viewer
         // List for plotting bad counts due to error flags
         private PointPairList badCountsErrors = new PointPairList();
 
+        // Lists for plotting histogram of counts
+        private PointPairList histogramCoolPlot = new PointPairList();
+        private PointPairList histogramCountPlot = new PointPairList();
+
+
         // Various bits of information about the spectrum
         private int dataSize;           // Number of data points
         private int coolThreshold;      // Cooling threshold
@@ -34,8 +39,8 @@ namespace Spectroscopy_Viewer
         private int spectrumNumber = new int();
 
         // Internal variables
-        private int coolThresholdChanged;       // Which direction cooling threshold has moved
-        private int countThresholdChanged;      // Which direction count threshold has moved
+        private int coolThresholdChanged = new int();       // Which direction cooling threshold has moved
+        private int countThresholdChanged = new int();      // Which direction count threshold has moved
 
 
         //**************************//
@@ -105,8 +110,6 @@ namespace Spectroscopy_Viewer
             // 0 => threshold has increased
             // 1 => threshold has decreased
             // 2 => threshold is unchanged
-            int coolThresholdChanged;
-
             if (cool > coolThreshold) coolThresholdChanged = 0;
             else if (cool < coolThreshold) coolThresholdChanged = 1;
             else coolThresholdChanged = 2;
@@ -116,8 +119,6 @@ namespace Spectroscopy_Viewer
             // 0 => threshold has increased
             // 1 => threshold has decreased
             // 2 => threshold is unchanged
-            int countThresholdChanged;
-
             if (count > countThreshold) countThresholdChanged = 0;
             else if (count < countThreshold) countThresholdChanged = 1;
             else countThresholdChanged = 2;
@@ -139,6 +140,50 @@ namespace Spectroscopy_Viewer
                 }
                 this.updateDataPlot();
             }
+
+        }
+
+        // Method to create lists of data for the histogram
+        private void createHistogram()
+        {
+            // Variable to keep track of the maximum number of counts
+            int[] maxCountInDataPoint = new int[dataSize];
+            int maxCount = 0;
+
+            // For each data point
+            for (int i = 0; i < dataSize; i++)
+            {
+                // Use temp variable to store max count from each data point
+                // Avoids calling function getMax() twice
+                maxCountInDataPoint[i] = myDataPoints[i].getMax();
+                // If the max counts in this data point is larger than any found previously
+                if ( maxCountInDataPoint[i] > maxCount)
+                {   
+                    maxCount = maxCountInDataPoint[i];        // Update to new max
+                }
+            }
+
+            int[] histogramCool = new int[maxCount];
+            int[] histogramCount = new int[maxCount];
+
+            // For each data point
+            for (int i = 0; i < dataSize; i++)
+            {
+                // Retrieve the histogram for this data point
+                int[] tempHistogramCool_DataPoint = myDataPoints[i].getHistogramCool();
+                int[] tempHistogramCount_DataPoint = myDataPoints[i].getHistogramCount();
+
+                // For each bin
+                for (int j = 0; j < maxCountInDataPoint[j]; j++)
+                {
+                    // Add histogram data from this data point to total histogram
+                    histogramCool[j] += tempHistogramCool_DataPoint[j];
+                    histogramCount[j] += tempHistogramCount_DataPoint[j];
+                }
+            }
+
+
+
 
         }
 
