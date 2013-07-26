@@ -353,8 +353,8 @@ set_global_assignment -name VERILOG_FILE UART.v
 set_location_assignment PIN_B18 -to CTS
 set_location_assignment PIN_B20 -to SerialIn
 set_location_assignment PIN_C22 -to SerialOut
-set_location_assignment PIN_C18 -to PMT_In_B
-set_location_assignment PIN_C17 -to PMT_In_A
+set_location_assignment PIN_F20 -to PMT_In_B
+set_location_assignment PIN_D20 -to PMT_In_A
 set_location_assignment PIN_D15 -to LaserLockIn729
 set_location_assignment PIN_H12 -to Laser397_1
 set_location_assignment PIN_H13 -to Laser397_2
@@ -362,11 +362,11 @@ set_location_assignment PIN_E14 -to Laser729_RF1
 set_location_assignment PIN_E15 -to Laser729_RF2
 set_location_assignment PIN_G16 -to Laser854_Freq
 set_location_assignment PIN_F15 -to Laser854_Power
-set_location_assignment PIN_F12 -to LaserAux1
-set_location_assignment PIN_F13 -to LaserAux2
-set_location_assignment PIN_C14 -to LaserLockIn397_1
-set_location_assignment PIN_D14 -to LaserLockIn397_2
-set_location_assignment PIN_D16 -to LaserLockInRedSC
+set_location_assignment PIN_F13 -to LaserAux1
+set_location_assignment PIN_D16 -to LaserAux2
+set_location_assignment PIN_F12 -to LaserLockIn397_1
+set_location_assignment PIN_C14 -to LaserLockIn397_2
+set_location_assignment PIN_C17 -to LaserLockInRedSC
 set_location_assignment PIN_G17 -to LED397_1
 set_location_assignment PIN_H17 -to LED397_2
 set_location_assignment PIN_J15 -to LED729

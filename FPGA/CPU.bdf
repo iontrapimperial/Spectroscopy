@@ -3005,15 +3005,6 @@ applicable agreement for further details.
 	(pt 904 1432)
 )
 (connector
-	(text "LaserLEDs[1]" (rect 658 1432 725 1444)(font "Arial" ))
-	(pt 832 1448)
-	(pt 648 1448)
-)
-(connector
-	(pt 880 1448)
-	(pt 904 1448)
-)
-(connector
 	(text "LaserLEDs[2]" (rect 658 1448 725 1460)(font "Arial" ))
 	(pt 832 1464)
 	(pt 648 1464)
@@ -3023,15 +3014,6 @@ applicable agreement for further details.
 	(pt 880 1464)
 )
 (connector
-	(text "LaserLEDs[3]" (rect 658 1464 725 1476)(font "Arial" ))
-	(pt 832 1480)
-	(pt 648 1480)
-)
-(connector
-	(pt 880 1480)
-	(pt 904 1480)
-)
-(connector
 	(pt 904 1496)
 	(pt 880 1496)
 )
@@ -3039,15 +3021,6 @@ applicable agreement for further details.
 	(text "LaserLEDs[4]" (rect 658 1480 725 1492)(font "Arial" ))
 	(pt 648 1496)
 	(pt 832 1496)
-)
-(connector
-	(pt 880 1512)
-	(pt 904 1512)
-)
-(connector
-	(text "LaserLEDs[5]" (rect 658 1496 725 1508)(font "Arial" ))
-	(pt 832 1512)
-	(pt 648 1512)
 )
 (connector
 	(text "LaserLEDs[6]" (rect 658 1512 725 1524)(font "Arial" ))
@@ -3075,15 +3048,6 @@ applicable agreement for further details.
 	(text "LaserLEDs[8]" (rect 658 1544 725 1556)(font "Arial" ))
 	(pt 832 1560)
 	(pt 648 1560)
-)
-(connector
-	(text "LaserLEDs[9]" (rect 658 1560 725 1572)(font "Arial" ))
-	(pt 648 1576)
-	(pt 832 1576)
-)
-(connector
-	(pt 880 1576)
-	(pt 904 1576)
 )
 (connector
 	(pt -640 456)
@@ -3116,6 +3080,42 @@ applicable agreement for further details.
 	(pt 952 832)
 	(pt 976 832)
 	(bus)
+)
+(connector
+	(text "LaserLEDs[9]" (rect 658 1560 725 1572)(font "Arial" ))
+	(pt 648 1576)
+	(pt 832 1576)
+)
+(connector
+	(pt 880 1576)
+	(pt 904 1576)
+)
+(connector
+	(text "LaserLEDs[5]" (rect 658 1496 725 1508)(font "Arial" ))
+	(pt 832 1512)
+	(pt 648 1512)
+)
+(connector
+	(pt 880 1512)
+	(pt 904 1512)
+)
+(connector
+	(text "LaserLEDs[3]" (rect 658 1464 725 1476)(font "Arial" ))
+	(pt 832 1480)
+	(pt 648 1480)
+)
+(connector
+	(pt 880 1480)
+	(pt 904 1480)
+)
+(connector
+	(text "LaserLEDs[1]" (rect 658 1432 725 1444)(font "Arial" ))
+	(pt 832 1448)
+	(pt 648 1448)
+)
+(connector
+	(pt 880 1448)
+	(pt 904 1448)
 )
 (junction (pt -440 960))
 (junction (pt -424 976))
