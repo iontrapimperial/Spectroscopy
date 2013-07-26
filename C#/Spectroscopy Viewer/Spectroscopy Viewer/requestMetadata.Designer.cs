@@ -50,7 +50,6 @@
             this.buttonOK.TabIndex = 0;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // label1
             // 
@@ -67,6 +66,7 @@
             this.startFreqBox.Name = "startFreqBox";
             this.startFreqBox.Size = new System.Drawing.Size(100, 20);
             this.startFreqBox.TabIndex = 2;
+            this.startFreqBox.TextChanged += new System.EventHandler(this.inputBox_TextChanged);
             // 
             // stepSizeBox
             // 
@@ -74,6 +74,7 @@
             this.stepSizeBox.Name = "stepSizeBox";
             this.stepSizeBox.Size = new System.Drawing.Size(100, 20);
             this.stepSizeBox.TabIndex = 3;
+            this.stepSizeBox.TextChanged += new System.EventHandler(this.inputBox_TextChanged);
             // 
             // repeatsBox
             // 
@@ -81,6 +82,7 @@
             this.repeatsBox.Name = "repeatsBox";
             this.repeatsBox.Size = new System.Drawing.Size(100, 20);
             this.repeatsBox.TabIndex = 4;
+            this.repeatsBox.TextChanged += new System.EventHandler(this.inputBox_TextChanged);
             // 
             // numberInterleavedBox
             // 
@@ -88,6 +90,7 @@
             this.numberInterleavedBox.Name = "numberInterleavedBox";
             this.numberInterleavedBox.Size = new System.Drawing.Size(100, 20);
             this.numberInterleavedBox.TabIndex = 5;
+            this.numberInterleavedBox.TextChanged += new System.EventHandler(this.inputBox_TextChanged);
             // 
             // label2
             // 
@@ -132,7 +135,7 @@
             this.label6.Location = new System.Drawing.Point(15, 39);
             this.label6.MaximumSize = new System.Drawing.Size(250, 100);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(224, 39);
+            this.label6.Size = new System.Drawing.Size(221, 39);
             this.label6.TabIndex = 10;
             this.label6.Text = "The file you are about to open contains no metadata. Beware of opening windowed f" +
                 "iles! Please enter the following information:";
