@@ -139,23 +139,57 @@ namespace Spectroscopy_Viewer
 
 
         // Method to create data for plotting to graph
+        // Also creates lists of bad counts
         private void createDataPlot()
         {
+            // Clear lists of data
             dataPlot.Clear();
+            badCountsThreshold.Clear();
+            badCountsThreshold.Clear();
 
-            int x = new int();
-            float y = new float();
+            // Temporary variables
+            int freq = new int();
+            float data = new float();
+            int badCount = new int();
 
+            // Loop through each data point
             for (int i = 0; i < dataSize; i++)
             {
-                x = myDataPoints[i].getFreq();
-                y = myDataPoints[i].getDarkProb();
-                dataPlot.Add(x, y);
+                freq = myDataPoints[i].getFreq();              // Frequency
+                data = myDataPoints[i].getDarkProb();       // Dark count prob
+                badCount = myDataPoints[i].getBadCountsThreshold();     // Bad counts
+                dataPlot.Add(freq, data);                      // Add to list
+                badCountsThreshold.Add(freq, badCount);        
             }
 
         }
 
-        
+
+        // Method to create data for plotting to graph
+        // Also creates the list of bad counts due to cooling threshold failures
+        private void updateDataPlot()
+        {
+            // Clear lists of data
+            dataPlot.Clear();
+            badCountsThreshold.Clear();
+
+            // Temporary variables
+            int freq = new int();
+            float data = new float();
+            int badCount = new int();
+
+            // Loop through each data point
+            for (int i = 0; i < dataSize; i++)
+            {
+                freq = myDataPoints[i].getFreq();              // Frequency
+                data = myDataPoints[i].getDarkProb();       // Dark count prob
+                badCount = myDataPoints[i].getBadCountsThreshold();     // Bad counts
+                dataPlot.Add(freq, data);                      // Add to list
+                badCountsThreshold.Add(freq, badCount);
+            }
+
+        }
+
 
 
 
@@ -206,10 +240,14 @@ namespace Spectroscopy_Viewer
         // Method to return data for plotting - by reference
         public PointPairList getDataPlot()
         {
-            // Only create dataPlot if not yet initialised, or if either threshold has changed
-            if (!beenInitialised || coolThresholdChanged != 2 || countThresholdChanged != 2)
+            // Only create dataPlot if not yet initialised
+            if (!beenInitialised)
             {
-                this.createDataPlot();        // Create (or re-create) the list of data
+                this.createDataPlot();        // Create the initial lists of data
+            }
+            else if (coolThresholdChanged != 2 || countThresholdChanged != 2)
+            {
+                this.updateDataPlot();
             }
             return dataPlot;
         }

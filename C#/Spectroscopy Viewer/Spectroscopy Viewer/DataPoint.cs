@@ -337,10 +337,16 @@ namespace Spectroscopy_Viewer
             return frequency;
         }
 
-        // Method to return the number of bad counts
-        public int getBadCounts()
+        // Method to return the number of bad counts due to cooling threshold failures
+        public int getBadCountsThreshold()
         {
-            return badCountsErrors + badCountsThreshold;
+            return badCountsThreshold;
+        }
+
+        // Method to return the number of bad counts due to error flags
+        public int getBadCountsErrors()
+        {
+            return badCountsErrors;
         }
 
         // Method to return excitation probability
