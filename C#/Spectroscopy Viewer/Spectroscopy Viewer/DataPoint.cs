@@ -39,6 +39,7 @@ namespace Spectroscopy_Viewer
         private float darkProb = new float();           // Probability of ion being dark
         private int[] histogramCool;
         private int[] histogramCount;
+        private int histogramSize = new int();
    
 
 
@@ -68,6 +69,8 @@ namespace Spectroscopy_Viewer
             this.setRepeats(repeatsPassed);     // May as well set the metadata for no. of repeats straight away!
 
             // Want to calculate histogram data in this constructor
+            histogramSize = 0;
+
 
 
         }
@@ -280,6 +283,15 @@ namespace Spectroscopy_Viewer
         }
 
 
+        // Method to 
+        private int findMaxCounts()
+        {
+            int maxCool = readingCool.Max();
+            int maxCount = readingCount.Max();
+
+            if (maxCool >= maxCount) return maxCool;
+            else return maxCount;
+        }
 
         // Method to determine a boolean true/false from an integer value
         private bool getBoolFromInt(int x)
@@ -338,11 +350,7 @@ namespace Spectroscopy_Viewer
         // Method to return the maximum count value from the set of readings
         public int getMax()
         {
-            int maxCool = readingCool.Max();
-            int maxCount = readingCount.Max();
-
-            if (maxCool >= maxCount) return maxCool;
-            else return maxCount;
+            return histogramSize;
         }
 
         // Method to return histogram of counts from cooling period
