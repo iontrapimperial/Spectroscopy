@@ -31,6 +31,7 @@ namespace Spectroscopy_Viewer
         // Respond to form 'Load' event
         private void SpectroscopyViewerForm_Load(object sender, EventArgs e)
         {
+
             // Setup the graph
             createGraph(zedGraphControl1);
             // Size the control to fill the form with a margin
@@ -40,6 +41,8 @@ namespace Spectroscopy_Viewer
         // Respond to the form 'Resize' event
         private void SpectroscopyViewerForm_Resize(object sender, EventArgs e)
         {
+            
+
             SetSize();
         }
 
@@ -47,10 +50,14 @@ namespace Spectroscopy_Viewer
         // call it independently from the Form1_Load() method
         private void SetSize()
         {
+            tabControl1.Location = new Point(10, 10);
+            tabControl1.Size = new Size(ClientRectangle.Width - 20,
+                                    ClientRectangle.Height - 20);
+
             zedGraphControl1.Location = new Point(10, 60);
             // Leave a small margin around the outside of the control
-            zedGraphControl1.Size = new Size(ClientRectangle.Width - 20,
-                                    ClientRectangle.Height - 70);
+            zedGraphControl1.Size = new Size(ClientRectangle.Width - 40,
+                                    ClientRectangle.Height - 120);
         }
 
 
@@ -64,10 +71,10 @@ namespace Spectroscopy_Viewer
             // get a reference to the GraphPane
             GraphPane myPane = zgc.GraphPane;
 
-            // Set the Titles
-            myPane.Title.Text = "My Test Graph\n(For CodeProject Sample)";
-            myPane.XAxis.Title.Text = "My X Axis";
-            myPane.YAxis.Title.Text = "My Y Axis";
+            // Clear the Titles
+            myPane.Title.Text = "";
+            myPane.XAxis.Title.Text = "";
+            myPane.YAxis.Title.Text = "";
 
         }
 
@@ -236,8 +243,6 @@ namespace Spectroscopy_Viewer
 
 
         }
-
-
 
 
 
