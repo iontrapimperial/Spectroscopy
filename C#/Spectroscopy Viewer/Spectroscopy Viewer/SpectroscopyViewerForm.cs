@@ -22,6 +22,7 @@ namespace Spectroscopy_Viewer
         public List<spectrum> mySpectrum = new List<spectrum>();      
         private List<PointPairList> dataPlot = new List<PointPairList>();       // Create object to store data for graph
 
+
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
@@ -37,15 +38,13 @@ namespace Spectroscopy_Viewer
         }
 
         // Respond to the form 'Resize' event
-        private void Form1_Resize(object sender, EventArgs e)
+        private void SpectroscopyViewerForm_Resize(object sender, EventArgs e)
         {
             SetSize();
         }
 
         // SetSize() is separate from Resize() so we can 
         // call it independently from the Form1_Load() method
-        // This leaves a 10 px margin around the outside of the control
-        // Customize this to fit your needs
         private void SetSize()
         {
             zedGraphControl1.Location = new Point(10, 60);
@@ -93,6 +92,8 @@ namespace Spectroscopy_Viewer
                 // Tell ZedGraph to refigure the
                 // axes since the data have changed
                 zgc.AxisChange();
+                zgc.Invalidate();
+                // Redraw
             }
         }
 
@@ -190,9 +191,6 @@ namespace Spectroscopy_Viewer
         // Method to respond to 'Plot data' button press
         private void plotDataButton_Click(object sender, EventArgs e)
         {
-
-            // Currently just plot a single spectrum, more complex later
-
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
             else
             {
@@ -208,7 +206,6 @@ namespace Spectroscopy_Viewer
                 updateGraph(zedGraphControl1);
                 // Size the control to fill the form with a margin
                 SetSize();
-                this.writeToFile_test();
             }
         }
 

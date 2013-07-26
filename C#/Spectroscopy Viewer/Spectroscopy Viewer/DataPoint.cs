@@ -49,6 +49,9 @@ namespace Spectroscopy_Viewer
             readingErrorCool = new bool[repeatsPassed];
             readingCount = new int[repeatsPassed];
             readingErrorCount = new bool[repeatsPassed];
+            readingDark = new bool[repeatsPassed];
+            readingErrorThreshold = new bool[repeatsPassed];
+
 
             int j = 0;                  // Counter for internal data arrays
             // For each repeat, populate array of private members
@@ -117,8 +120,7 @@ namespace Spectroscopy_Viewer
         // Method to calculate probablity of ion being dark, based on initial thresholds
         private void calcDarkProb()
         {
-            // Initialise array based on number of repeats
-            readingDark = new bool[repeats];
+            
             darkCount = 0;                  // Initialise dark count
 
             // For each reading
@@ -137,7 +139,6 @@ namespace Spectroscopy_Viewer
             }
             // Calculate probability of ion being in dark state
             darkProb = (float) darkCount / validReadings;
-
         }
 
         // Method to calculate probability of ion being dark, based on updated thresholds
@@ -225,8 +226,7 @@ namespace Spectroscopy_Viewer
         // Method to calculate number of bad counts due to low cooling counts
         private void calcBadCountsThreshold()
         {
-            // Initialise based on number of repeats
-            readingErrorThreshold = new bool[repeats];
+           
 
             badCountsThreshold = 0;                 // Reset to zero
             for (int i = 0; i < repeats; i++)       // For each reading

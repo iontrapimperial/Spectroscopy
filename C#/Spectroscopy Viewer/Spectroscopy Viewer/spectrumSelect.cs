@@ -92,6 +92,7 @@ namespace Spectroscopy_Viewer
                 myComboBox[i].DataSource = myListOfSpectra[i];
                 myComboBox[i].Location = new Point(280, 10 + i * 30);
                 myComboBox[i].Size = new System.Drawing.Size(220, 21);
+                myComboBox[i].TabIndex = 5 + i;
                 this.Controls.Add(myComboBox[i]);
                 this.myComboBox[i].SelectedIndexChanged +=
                     new System.EventHandler(this.myComboBox_SelectedIndexChanged);

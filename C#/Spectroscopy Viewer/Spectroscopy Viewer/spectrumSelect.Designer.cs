@@ -40,7 +40,7 @@
             this.newSpectrumNameBox.Location = new System.Drawing.Point(12, 173);
             this.newSpectrumNameBox.Name = "newSpectrumNameBox";
             this.newSpectrumNameBox.Size = new System.Drawing.Size(186, 20);
-            this.newSpectrumNameBox.TabIndex = 2;
+            this.newSpectrumNameBox.TabIndex = 3;
             this.newSpectrumNameBox.Text = "Enter spectrum name";
             // 
             // label1
@@ -49,7 +49,7 @@
             this.label1.Location = new System.Drawing.Point(12, 154);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(179, 13);
-            this.label1.TabIndex = 3;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Please enter name of new spectrum:";
             // 
             // buttonOK
@@ -58,7 +58,7 @@
             this.buttonOK.Location = new System.Drawing.Point(295, 160);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(206, 62);
-            this.buttonOK.TabIndex = 6;
+            this.buttonOK.TabIndex = 10;
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
@@ -67,7 +67,7 @@
             this.addNewSpectrumButton.Location = new System.Drawing.Point(12, 199);
             this.addNewSpectrumButton.Name = "addNewSpectrumButton";
             this.addNewSpectrumButton.Size = new System.Drawing.Size(116, 23);
-            this.addNewSpectrumButton.TabIndex = 7;
+            this.addNewSpectrumButton.TabIndex = 4;
             this.addNewSpectrumButton.Text = "Add new spectrum";
             this.addNewSpectrumButton.UseVisualStyleBackColor = true;
             this.addNewSpectrumButton.Click += new System.EventHandler(this.addNewSpectrumButton_Click);
@@ -78,7 +78,7 @@
             this.detectedSpectraText.Location = new System.Drawing.Point(12, 9);
             this.detectedSpectraText.Name = "detectedSpectraText";
             this.detectedSpectraText.Size = new System.Drawing.Size(35, 13);
-            this.detectedSpectraText.TabIndex = 8;
+            this.detectedSpectraText.TabIndex = 1;
             this.detectedSpectraText.Text = "label2";
             // 
             // spectrumSelect

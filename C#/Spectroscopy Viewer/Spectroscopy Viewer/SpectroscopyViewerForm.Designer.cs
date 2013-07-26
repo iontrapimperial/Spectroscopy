@@ -133,7 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 544);
+            this.ClientSize = new System.Drawing.Size(811, 544);
             this.Controls.Add(this.plotDataButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.countThresholdSelect);
@@ -144,6 +144,7 @@
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
             this.Load += new System.EventHandler(this.SpectroscopyViewerForm_Load);
+            this.SizeChanged += new System.EventHandler(this.SpectroscopyViewerForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).EndInit();
             this.ResumeLayout(false);

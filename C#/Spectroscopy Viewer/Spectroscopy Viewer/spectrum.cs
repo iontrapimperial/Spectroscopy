@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ZedGraph;
-using System.Diagnostics;       // To write lines to Debug Output for debugging
+using System.Diagnostics;
 
 namespace Spectroscopy_Viewer
 {
@@ -24,8 +24,6 @@ namespace Spectroscopy_Viewer
         private PointPairList badCountsThreshold = new PointPairList();
         // List for plotting bad counts due to error flags
         private PointPairList badCountsErrors = new PointPairList();
-        // List for plotting all bad counts
-        private PointPairList badCountsAll = new PointPairList();
 
         // Various bits of information about the spectrum
         private int dataSize;           // Number of data points
@@ -39,6 +37,8 @@ namespace Spectroscopy_Viewer
         private int coolThresholdChanged;       // Which direction cooling threshold has moved
         private int countThresholdChanged;      // Which direction count threshold has moved
 
+
+        //**************************//
 
         // Constructor given a list of data points
         public spectrum(List<dataPoint> dataPointsPassed)
@@ -84,6 +84,7 @@ namespace Spectroscopy_Viewer
             {
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
             }
+            this.createDataPlot();          // Always want to create data for plotting
             beenInitialised = true;
         }
 
@@ -94,7 +95,6 @@ namespace Spectroscopy_Viewer
             // Calculate this here instead of within each data point - saves doing it every time
             // & also update dataPlot, badCountsThreshold list differently depending on what has changed
             // Need to work out exactly what needs updating when to be most efficient!
-
 
 
             //****************************************
@@ -128,13 +128,18 @@ namespace Spectroscopy_Viewer
             coolThreshold = cool;
             countThreshold = count;
 
-            
-            for (int i = 0; i < dataSize; i++)
+            // Only do anything if thresholds have actually changed
+            if (countThresholdChanged != 2 || coolThresholdChanged != 2)
             {
-                // Update each data point
-                myDataPoints[i].analyseUpdate(coolThreshold, coolThresholdChanged,
-                                                countThreshold, countThresholdChanged);        
+                for (int i = 0; i < dataSize; i++)
+                {
+                    // Update each data point
+                    myDataPoints[i].analyseUpdate(coolThreshold, coolThresholdChanged,
+                                                    countThreshold, countThresholdChanged);
+                }
+                this.updateDataPlot();
             }
+
         }
 
 
@@ -142,24 +147,18 @@ namespace Spectroscopy_Viewer
         // Also creates lists of bad counts
         private void createDataPlot()
         {
-            // Clear lists of data
-            dataPlot.Clear();
-            badCountsThreshold.Clear();
-            badCountsThreshold.Clear();
-
-            // Temporary variables
+            // Temporary variable for storing freq of each point
             int freq = new int();
-            float data = new float();
-            int badCount = new int();
 
             // Loop through each data point
             for (int i = 0; i < dataSize; i++)
             {
-                freq = myDataPoints[i].getFreq();              // Frequency
-                data = myDataPoints[i].getDarkProb();       // Dark count prob
-                badCount = myDataPoints[i].getBadCountsThreshold();     // Bad counts
-                dataPlot.Add(freq, data);                      // Add to list
-                badCountsThreshold.Add(freq, badCount);        
+                freq = myDataPoints[i].getFreq();                    // Frequency
+
+                // Add correct data to all three lists
+                dataPlot.Add( freq, myDataPoints[i].getDarkProb() );
+                badCountsThreshold.Add( freq, myDataPoints[i].getBadCountsThreshold() );
+                badCountsErrors.Add( freq, myDataPoints[i].getBadCountsErrors() );
             }
 
         }
@@ -167,31 +166,35 @@ namespace Spectroscopy_Viewer
 
         // Method to create data for plotting to graph
         // Also creates the list of bad counts due to cooling threshold failures
+        // NB badCountsErrors will not need updating
         private void updateDataPlot()
         {
             // Clear lists of data
             dataPlot.Clear();
-            badCountsThreshold.Clear();
+            // Only clear bad counts list if cooling threshold has changed
+            if (coolThresholdChanged != 2) badCountsThreshold.Clear();
 
-            // Temporary variables
+            // Temporary variable for frequency
             int freq = new int();
-            float data = new float();
-            int badCount = new int();
 
             // Loop through each data point
             for (int i = 0; i < dataSize; i++)
             {
                 freq = myDataPoints[i].getFreq();              // Frequency
-                data = myDataPoints[i].getDarkProb();       // Dark count prob
-                badCount = myDataPoints[i].getBadCountsThreshold();     // Bad counts
-                dataPlot.Add(freq, data);                      // Add to list
-                badCountsThreshold.Add(freq, badCount);
-            }
 
+                // Add correct data to lists
+                dataPlot.Add( freq, myDataPoints[i].getDarkProb() );
+                
+                // Only update bad counts list if cooling threshold has changed
+                if (coolThresholdChanged != 2)
+                {
+                    badCountsThreshold.Add(freq, myDataPoints[i].getBadCountsThreshold());
+                }
+            }
         }
 
-
-
+        // 'Set' methods
+        //**********************//
 
         // Method to set cooling threshold
         public void setCoolThreshold(int x)
@@ -218,6 +221,9 @@ namespace Spectroscopy_Viewer
         }
 
 
+        // 'Get' methods
+        //**********************//
+
         // Method to return cooling threshold
         public int getCoolThreshold()
         {
@@ -237,22 +243,24 @@ namespace Spectroscopy_Viewer
             return dataSize;
         }
 
-        // Method to return data for plotting - by reference
+        // Method to return dark ion prob data for plotting - by reference
         public PointPairList getDataPlot()
         {
-            // Only create dataPlot if not yet initialised
-            if (!beenInitialised)
-            {
-                this.createDataPlot();        // Create the initial lists of data
-            }
-            else if (coolThresholdChanged != 2 || countThresholdChanged != 2)
-            {
-                this.updateDataPlot();
-            }
             return dataPlot;
         }
 
-        
+        // Method to return list of bad counts due to error flags
+        public PointPairList getBadCountsErrors()
+        {
+            return badCountsErrors;
+        }
+
+        // Method to return list of bad counts due to threshold errors
+        public PointPairList getBadCountsThreshold()
+        {
+            return badCountsThreshold;
+        }
+                      
         // Method to return name of spectrum
         public string getName()
         {
