@@ -29,6 +29,9 @@ namespace Spectroscopy_Viewer
         private PointPairList histogramCoolPlot = new PointPairList();
         private PointPairList histogramCountPlot = new PointPairList();
 
+        // Arrays for storing histogram data
+        int[] histogramCool;
+        int[] histogramCount;
 
         // Various bits of information about the spectrum
         private int dataSize;           // Number of data points
@@ -50,6 +53,7 @@ namespace Spectroscopy_Viewer
         {
             myDataPoints = dataPointsPassed;
             dataSize = myDataPoints.Count;      // Count number of data points
+            this.createHistogram();
         }
 
 
@@ -147,24 +151,24 @@ namespace Spectroscopy_Viewer
         private void createHistogram()
         {
             // Variable to keep track of the maximum number of counts
-            int[] maxCountInDataPoint = new int[dataSize];
-            int maxCount = 0;
+            int[] maxSizeDataPoint = new int[dataSize];
+            int maxSize = 0;
 
             // For each data point
             for (int i = 0; i < dataSize; i++)
             {
                 // Use temp variable to store max count from each data point
                 // Avoids calling function getMax() twice
-                maxCountInDataPoint[i] = myDataPoints[i].getMax();
+                maxSizeDataPoint[i] = myDataPoints[i].getHistogramSize();
                 // If the max counts in this data point is larger than any found previously
-                if ( maxCountInDataPoint[i] > maxCount)
-                {   
-                    maxCount = maxCountInDataPoint[i];        // Update to new max
+                if (maxSizeDataPoint[i] > maxSize)
+                {
+                    maxSize = maxSizeDataPoint[i];        // Update to new max
                 }
             }
 
-            int[] histogramCool = new int[maxCount];
-            int[] histogramCount = new int[maxCount];
+            histogramCool = new int[maxSize];
+            histogramCount = new int[maxSize];
 
             // For each data point
             for (int i = 0; i < dataSize; i++)
@@ -174,16 +178,19 @@ namespace Spectroscopy_Viewer
                 int[] tempHistogramCount_DataPoint = myDataPoints[i].getHistogramCount();
 
                 // For each bin
-                for (int j = 0; j < maxCountInDataPoint[j]; j++)
+                for (int j = 0; j < maxSizeDataPoint[i]; j++)
                 {
                     // Add histogram data from this data point to total histogram
                     histogramCool[j] += tempHistogramCool_DataPoint[j];
                     histogramCount[j] += tempHistogramCount_DataPoint[j];
                 }
             }
+        }
 
-
-
+        // Method to update histogram (called only when new data points are added to spectrum)
+        private void updateHistogram(List<dataPoint> dataPointsPassed)
+        {
+            // To be written!
 
         }
 
@@ -316,6 +323,18 @@ namespace Spectroscopy_Viewer
         public int getNumber()
         {
             return spectrumNumber;
+        }
+
+        // Method to return array of histogram data from cooling periods
+        public int[] getHistogramCool()
+        {
+            return histogramCool;
+        }
+
+        // Method to return array of histogram data from count periods
+        public int[] getHistogramCount()
+        {
+            return histogramCount;
         }
 
     }

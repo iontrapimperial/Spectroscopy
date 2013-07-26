@@ -47,17 +47,19 @@ namespace Spectroscopy_Viewer
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
         public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
+            repeats = repeatsPassed;            // Set number of repeats
+            
             // Initialise based on number of repeats
-            readingCool = new int[repeatsPassed];
-            readingErrorCool = new bool[repeatsPassed];
-            readingCount = new int[repeatsPassed];
-            readingErrorCount = new bool[repeatsPassed];
-            readingDark = new bool[repeatsPassed];
-            readingErrorThreshold = new bool[repeatsPassed];
+            readingCool = new int[repeats];
+            readingErrorCool = new bool[repeats];
+            readingCount = new int[repeats];
+            readingErrorCount = new bool[repeats];
+            readingDark = new bool[repeats];
+            readingErrorThreshold = new bool[repeats];
 
             int j = 0;                  // Counter for internal data arrays
             // For each repeat, populate array of private members
-            for (int i = startPoint; i < (startPoint + repeatsPassed); i++)
+            for (int i = startPoint; i < (startPoint + repeats); i++)
             {
                 readingCool[j] = fullData[i][0];                            // First int is the cooling period count
                 readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
@@ -66,13 +68,32 @@ namespace Spectroscopy_Viewer
                 j++;
             }
 
-            this.setRepeats(repeatsPassed);     // May as well set the metadata for no. of repeats straight away!
+            this.createHistogram();             // Create histogram data
+     
+        }
 
-            // Want to calculate histogram data in this constructor
-            histogramSize = 0;
+        // Method to create the histogram
+        private void createHistogram()
+        {
+            // Find max number of counts in the data set
+            // Add 1 to give total array size (must include zero!)
+            histogramSize = this.findMaxCounts() + 1;
 
+            // Initialise histogram arrays based on maximum number of counts in the data set
+            histogramCool = new int[histogramSize];
+            histogramCount = new int[histogramSize];
 
-
+            // For each reading
+            for (int i = 0; i < repeats; i++)
+            {
+                int x = readingCool[i];
+                int y = readingCount[i];
+                
+                // Increment the value in the bin corresponding to the number of counts for this reading
+                // E.g. if readingCool[i] = 20, then this adds 1 to the value in bin 20 of histogramCool
+                histogramCool[x]++;
+                histogramCount[y]++;
+            }
         }
 
 
@@ -283,7 +304,7 @@ namespace Spectroscopy_Viewer
         }
 
 
-        // Method to 
+        // Method to find the maximum number of counts in all the readings
         private int findMaxCounts()
         {
             int maxCool = readingCool.Max();
@@ -313,26 +334,6 @@ namespace Spectroscopy_Viewer
         // Set methods
         //******************************
 
-        // Method to set the cooling count threshold for calculating bad counts
-        public void setCoolThresh(int x)
-        {
-            coolThreshold = x;
-            // Check for bad counts caused by cooling period count not meeting threshold
-        }
-
-        // Method to set the threshold for distinguishing bright/dark
-        public void setCountThresh(int x)
-        {
-            countThreshold = x;
-            // Recalculate excitation prob every time this is changed
-
-        }
-
-        // Method to set number of repeats
-        public void setRepeats(int x)
-        {
-            repeats = x;
-        }
 
         // Method to set frequency of data point
         public void setFreq(int x)
@@ -348,7 +349,7 @@ namespace Spectroscopy_Viewer
         //******************************
 
         // Method to return the maximum count value from the set of readings
-        public int getMax()
+        public int getHistogramSize()
         {
             return histogramSize;
         }

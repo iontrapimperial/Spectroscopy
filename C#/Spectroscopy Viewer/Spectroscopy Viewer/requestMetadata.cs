@@ -32,17 +32,11 @@ namespace Spectroscopy_Viewer
         // Respond to change in any of the values
         private void inputBox_TextChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("Changing input {0}", int.TryParse(startFreqBox.Text, out startFreq));
-
 
             // Try to convert all strings to integers
             if (int.TryParse(startFreqBox.Text, out startFreq) && int.TryParse(stepSizeBox.Text, out stepSize)
                 && int.TryParse(repeatsBox.Text, out repeats) && int.TryParse(numberInterleavedBox.Text, out numberInterleaved) )
             {
-                Console.WriteLine("Start freq {0}", startFreq);
-                Console.WriteLine("repeats {0}", repeats);
-                Console.WriteLine("step size {0}", stepSize);
-                Console.WriteLine("Interleaved {0}", numberInterleaved);
                 // If they succeed, make sure they are not zero (apart from start freq which can be)
                 if (numberInterleaved != 0 && repeats != 0 && stepSize != 0)
                 {

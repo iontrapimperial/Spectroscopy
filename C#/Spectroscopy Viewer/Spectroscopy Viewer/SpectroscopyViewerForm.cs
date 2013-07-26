@@ -33,7 +33,7 @@ namespace Spectroscopy_Viewer
         {
 
             // Setup the graph
-            createGraph(zedGraphControl1);
+            createGraph(zedGraphSpectra);
             // Size the control to fill the form with a margin
             SetSize();
         }
@@ -52,9 +52,9 @@ namespace Spectroscopy_Viewer
             tabControl1.Size = new Size(ClientRectangle.Width - 20,
                                     ClientRectangle.Height - 20);
 
-            zedGraphControl1.Location = new Point(10, 60);
+            zedGraphSpectra.Location = new Point(10, 60);
             // Leave a small margin around the outside of the control
-            zedGraphControl1.Size = new Size(ClientRectangle.Width - 40,
+            zedGraphSpectra.Size = new Size(ClientRectangle.Width - 40,
                                     ClientRectangle.Height - 120);
         }
 
@@ -73,7 +73,6 @@ namespace Spectroscopy_Viewer
             myPane.Title.Text = "";
             myPane.XAxis.Title.Text = "";
             myPane.YAxis.Title.Text = "";
-
         }
 
         
@@ -202,7 +201,7 @@ namespace Spectroscopy_Viewer
                 }
 
                 // Setup the graph
-                updateGraph(zedGraphControl1);
+                updateGraph(zedGraphSpectra);
                 // Size the control to fill the form with a margin
                 SetSize();
             }
@@ -231,7 +230,33 @@ namespace Spectroscopy_Viewer
 
 
 
+        }
 
+        private void updateHistogramButton_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < mySpectrum.Count; i++)
+            {
+                int histogramSize = mySpectrum[i].getHistogramCool().Length;
+                Console.WriteLine("{0}", histogramSize);
+
+                int[] histogramCool = mySpectrum[i].getHistogramCool();
+                int[] histogramCount = mySpectrum[i].getHistogramCount();
+                Console.WriteLine("{0}", histogramCool.Length);
+                 histogramSize = histogramCool.Length;
+                int[] histogramAll = new int[histogramSize];
+
+                // Sum histogram data & plot
+                for (int j = 0; j < histogramSize; j++)
+                {
+                    histogramAll[i] = histogramCool[i] + histogramCount[i];
+
+                    BoxObj box = new BoxObj(i, histogramAll[i], 1, histogramAll[i]);
+                    box.IsClippedToChartRect = true;
+                    box.Fill.Color = Color.Blue;
+                    zedGraphHistogram.GraphPane.GraphObjList.Add(box);
+                }
+
+            }
         }
 
 
