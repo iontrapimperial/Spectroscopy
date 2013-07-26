@@ -93,17 +93,12 @@ namespace Spectroscopy_Viewer
             coolThreshold = cool;
             countThreshold = count;
 
-
             if (coolThresholdChanged != 2)     // Only if cooling threshold has changed
             {
                 this.updateBadCountsThreshold(coolThresholdChanged);        // Update bad counts
                 validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Update no. of valid readings
             }
 
-            Console.WriteLine("{0} valid readings", validReadings);
-         
-
-            
             if (countThresholdChanged != 2) // Only if count threshold has changed
             {
                 if (validReadings > 0.1 * repeats)
@@ -111,6 +106,10 @@ namespace Spectroscopy_Viewer
                     this.updateDarkProb(countThresholdChanged);         // Update dark prob
                 }
                 else darkProb = 0;
+            }
+            else    // Or if count threshold has not changed
+            {   // Update dark probability based only on the change in bad counts
+                this.updateDarkProb_BadCountsOnly();
             }
         }
         
@@ -187,6 +186,26 @@ namespace Spectroscopy_Viewer
             }
             // Update probability of ion being in dark state
             darkProb = (float) darkCount / validReadings;
+        }
+
+        // Method to update the probability of ion being dark if ONLY the cooling threshold has changed
+        // (when count threshold has NOT changed). Only change will be due to bad counts being removed.
+        private void updateDarkProb_BadCountsOnly()
+        {
+            for (int i = 0; i < repeats; i++)
+            {
+                // Only check readings which were dark already
+                if (readingDark[i])
+                {   // If that reading has now got a threshold error
+                    if (readingErrorThreshold[i])
+                    {
+                        darkCount--;                // Decrease dark count
+                        readingDark[i] = false;     // Flag as NOT dark
+                    }
+                }
+            }
+            // Update probability of ion being in dark state
+            darkProb = (float)darkCount / validReadings;
         }
 
 
