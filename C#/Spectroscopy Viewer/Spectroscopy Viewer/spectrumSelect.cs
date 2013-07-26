@@ -104,7 +104,8 @@ namespace Spectroscopy_Viewer
             {
                 buttonOK.Text = "Load spectrum";
             }
-            else buttonOK.Text = "Load spectra"; 
+            else buttonOK.Text = "Load spectra";
+            buttonOK.Enabled = false;               // Disable button until spectra are chosen
         }
 
 
@@ -124,10 +125,10 @@ namespace Spectroscopy_Viewer
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-
             // For each of the interleaved spectra
             for (int i = 0; i < numberInterleaved; i++)
             {
+
                 // Decrement to ignore the blank option
                 selectedSpectrum[i]--;
 
@@ -138,9 +139,8 @@ namespace Spectroscopy_Viewer
                     spectrumNames.Add(newSpectra[selectedSpectrum[i] - existingSpectra]);
                 }
             }
-            this.Close();       // Close form
         }
-
+        
         // Handles change of selected index for all combo boxes
         private void myComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -166,11 +166,20 @@ namespace Spectroscopy_Viewer
                 }
             }
 
+            // Enable button
+            buttonOK.Enabled = true;
+
             // For each drop-down box
             for (int i = 0; i < numberInterleaved; i++)
             {
                 // Assign selected spectrum
-                selectedSpectrum[i] = myComboBox[i].SelectedIndex;              
+                selectedSpectrum[i] = myComboBox[i].SelectedIndex;
+                
+                // If any of the spectra are assigned to the blank option
+                if (selectedSpectrum[i] == 0)
+                {
+                    buttonOK.Enabled = false;           // Disable button
+                }
             }
         
         }

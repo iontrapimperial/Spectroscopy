@@ -41,8 +41,6 @@ namespace Spectroscopy_Viewer
         // Respond to the form 'Resize' event
         private void SpectroscopyViewerForm_Resize(object sender, EventArgs e)
         {
-            
-
             SetSize();
         }
 
@@ -66,10 +64,10 @@ namespace Spectroscopy_Viewer
 
 
         // Build the Chart - before any data has been added
-        private void createGraph(ZedGraphControl zgc)
+        private void createGraph(ZedGraphControl zgcSpectrum)
         {
             // get a reference to the GraphPane
-            GraphPane myPane = zgc.GraphPane;
+            GraphPane myPane = zgcSpectrum.GraphPane;
 
             // Clear the Titles
             myPane.Title.Text = "";
@@ -80,13 +78,13 @@ namespace Spectroscopy_Viewer
 
         
         // Update the chart when data has been added/updated
-        private void updateGraph(ZedGraphControl zgc)
+        private void updateGraph(ZedGraphControl zgcSpectrum)
         {
             // get a reference to the GraphPane
-            GraphPane myPane = zgc.GraphPane;
+            GraphPane myPane = zgcSpectrum.GraphPane;
 
             // Clear data
-            zgc.GraphPane.CurveList.Clear();
+            zgcSpectrum.GraphPane.CurveList.Clear();
 
             for (int i = 0; i < mySpectrum.Count; i++)
             {
@@ -95,12 +93,11 @@ namespace Spectroscopy_Viewer
                 LineItem myCurve = myPane.AddCurve("Data Plot",
                       dataPlot[i], Color.Red, SymbolType.Diamond);
 
-
                 // Tell ZedGraph to refigure the
                 // axes since the data have changed
-                zgc.AxisChange();
-                zgc.Invalidate();
-                // Redraw
+                zgcSpectrum.AxisChange();
+                zgcSpectrum.Invalidate();
+                // Force redraw of control
             }
         }
 
@@ -150,11 +147,9 @@ namespace Spectroscopy_Viewer
                     // Make sure the user didn't press cancel or close the dialog box
                     if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
                     {
-                       
                         // For each interleaved spectrum
                         for (int i = 0; i < numberInterleaved; i++)
                         {
-                            
                             // If the index >= number of existing spectra, new ones must have been added
                             // (since for a list of N items, index runs from 0 to N-1)
                             if (selectedSpectrum[i] >= existingSpectra)
@@ -189,9 +184,6 @@ namespace Spectroscopy_Viewer
 
                 }*/
             }
-
-
-
         }
 
 
@@ -233,10 +225,8 @@ namespace Spectroscopy_Viewer
                 {
                     testFile[i].WriteLine(dataPlot[i][j].X + "\t" + dataPlot[i][j].Y + "\n");
                 }
-
                 testFile[i].Flush();
                 testFile[i].Close();
-
             }
 
 
