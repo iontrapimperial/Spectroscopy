@@ -147,7 +147,7 @@ namespace Spectroscopy_Viewer
 
         }
 
-        // Method to create lists of data for the histogram
+        // Method to create arrays of data for the histogram
         private void createHistogram()
         {
             // Variable to keep track of the maximum number of counts
@@ -190,9 +190,10 @@ namespace Spectroscopy_Viewer
         // Method to update histogram (called only when new data points are added to spectrum)
         private void updateHistogram(List<dataPoint> dataPointsPassed)
         {
-            // To be written!
+            // Needs to be written!
 
         }
+
 
 
         // Method to create data for plotting to graph
