@@ -36,6 +36,13 @@ namespace Spectroscopy_Viewer
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
+
+            // Disable radio buttons to select histogram display
+            // If these are used before the histogram is created, program will crash
+            this.radioButtonAll.Enabled = false;
+            this.radioButtonCool.Enabled = false;
+            this.radioButtonCount.Enabled = false;
+
         }
 
         // Respond to form 'Load' event
@@ -355,6 +362,9 @@ namespace Spectroscopy_Viewer
             var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
             this.histogramChart.DataBindTable(enumerableTable, "Bin");
 
+            radioButtonAll.Enabled = true;
+            radioButtonCool.Enabled = true;
+            radioButtonCount.Enabled = true;
 
         }
 
@@ -373,7 +383,6 @@ namespace Spectroscopy_Viewer
 
             if (radioButtonCount.Checked) this.histogramChart.Series["Count period"].Enabled = true;
             else this.histogramChart.Series["Count period"].Enabled = false;
-
         }
 
     }
