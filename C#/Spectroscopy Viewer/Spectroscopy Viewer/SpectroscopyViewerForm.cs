@@ -294,8 +294,6 @@ namespace Spectroscopy_Viewer
                     histogramCount = tempHistogramCount;
                     histogramAll = new int[histogramSize];
 
-                    Console.WriteLine("{0}", histogramSize);
-
                     // Calculate total data and store in another list (cool + count)
                     for (int j = 0; j < histogramSize; j++)
                     {
@@ -367,6 +365,9 @@ namespace Spectroscopy_Viewer
             //********************************//
             // Plotting histogram data on graph
             // Need to convert to an enumerable type to get it to dataBind properly
+
+            this.histogramChart.DataBindings.Clear();
+            this.histogramChart.Series.Clear();
 
             var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
             this.histogramChart.DataBindTable(enumerableTable, "Bin");

@@ -97,9 +97,7 @@ namespace Spectroscopy_Viewer
                     histogramCool[x]++;
                     histogramCount[y]++;
                 }
-
             }
-
         }
 
 
