@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
@@ -183,15 +182,12 @@
             // 
             chartArea1.Name = "ChartArea1";
             this.histogramChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.histogramChart.Legends.Add(legend1);
-            this.histogramChart.Location = new System.Drawing.Point(7, 36);
+            this.histogramChart.Location = new System.Drawing.Point(6, 98);
             this.histogramChart.Name = "histogramChart";
             series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
             series1.Name = "seriesHistogram";
             this.histogramChart.Series.Add(series1);
-            this.histogramChart.Size = new System.Drawing.Size(766, 458);
+            this.histogramChart.Size = new System.Drawing.Size(767, 396);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
             // 

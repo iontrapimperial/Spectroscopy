@@ -316,7 +316,7 @@ namespace Spectroscopy_Viewer
                     }
                 }
             }
-        }
+        } 
 
 
         // Method to find the maximum number of counts in all the readings
@@ -341,7 +341,6 @@ namespace Spectroscopy_Viewer
             {
                 y = true;        // If x != 0, should return true
             }
-
             return y;
         }
 

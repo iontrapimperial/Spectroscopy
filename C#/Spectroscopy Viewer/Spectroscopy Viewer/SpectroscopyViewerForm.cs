@@ -257,41 +257,106 @@ namespace Spectroscopy_Viewer
 
         private void updateHistogramButton_Click(object sender, EventArgs e)
         {
-            int[] histogramSizeSpectrum = new int[numberOfSpectra];
+            // Calculating data for histogram
+            //********************************//
 
+            // Local variables used within this method
+            int[] tempHistogramCool;
+            int[] tempHistogramCount;
+            int tempHistogramSize = new int();
 
-
-
+            // For each spectrum
             for (int i = 0; i < numberOfSpectra; i++)
             {
+                // Temporarily store histograms for this spectrum
+                tempHistogramCool = mySpectrum[i].getHistogramCool();
+                tempHistogramCount = mySpectrum[i].getHistogramCount();
 
+                // Find size of histograms for this spectrum
+                tempHistogramSize = tempHistogramCool.Length;
 
-
-                histogramSize = mySpectrum[i].getHistogramCool().Length;
-                Console.WriteLine("{0}", histogramSize);
-
-                histogramCool = mySpectrum[i].getHistogramCool();
-                histogramCount = mySpectrum[i].getHistogramCount();
-                Console.WriteLine("{0}", histogramCool.Length);
-                histogramSize = histogramCool.Length;
-                histogramAll = new int[histogramSize];
-
-                // Sum histogram data & plot
-                for (int j = 0; j < histogramSize; j++)
+                // For the first spectrum only
+                if (i == 0)
                 {
-                    histogramAll[i] = histogramCool[i] + histogramCount[i];
+                    // Store size of lists
+                    histogramSize = tempHistogramSize;
 
+                    // Create binding lists using the histogram data
+                    histogramCool = new BindingList<int>(tempHistogramCool);
+                    histogramCount = new BindingList<int>(tempHistogramCount);
+                    histogramAll = new BindingList<int>();
 
+                    // Calculate total data and store in another list (cool + count)
+                    for (int j = 0; j < histogramSize; j++)
+                    {
+                        histogramAll.Add(histogramCool[j] + histogramCount[j]);
+                    }
+            
+                }
+                else
+                {   // For subsequent spectra, go through and add the data to existing lists
+                    for (int j = 0; j < histogramSize; j++)
+                    {
+                        // Sum the data from each spectrum into the full list
+                        histogramCool[j] += tempHistogramCool[j];
+                        histogramCount[j] += tempHistogramCount[j];
 
+                        histogramAll[j] = histogramCool[j] + histogramCount[j];
 
-                    /*
-                    BoxObj box = new BoxObj(i, histogramAll[i], 1, histogramAll[i]);
-                    box.IsClippedToChartRect = true;
-                    box.Fill.Color = Color.Blue;
-                    zedGraphHistogram.GraphPane.GraphObjList.Add(box); */
+                    }
+
+                    // If the histogram for the current spectrum is larger than the existing histogram
+                    if (tempHistogramSize > histogramSize)
+                    {
+                        // Add new bins to the end of each list
+                        for (int j = histogramSize; j < tempHistogramSize; j++)
+                        {
+                            histogramCool.Add(tempHistogramCool[j]);
+                            histogramCount.Add(tempHistogramCount[j]);
+                        }
+
+                        // Update size of list (could use tempHistogramSize, but recalculate just in case)
+                        histogramSize = histogramCool.Count();
+                    }
                 }
 
             }
+
+            //********************************//
+
+
+
+            // Try to create a data table with the lists as columns
+            DataSet histogramDataSet = new DataSet();
+            DataTable histogramTable = new DataTable();
+
+            histogramDataSet.Tables.Add(histogramTable);
+
+            // Create columns
+            histogramTable.Columns.Add(new DataColumn("Bin", typeof(int) ) );
+            histogramTable.Columns.Add(new DataColumn("Cool period", typeof(int)));
+            histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
+            histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
+
+            for (int i = 0; i < histogramSize; i++)
+            {
+                DataRow myRow = histogramTable.NewRow();
+                myRow["Bin"] = i;
+                myRow["Cool period"] = histogramCool[i];
+                myRow["Count period"] = histogramCount[i];
+                myRow["All"] = histogramAll[i];
+                histogramTable.Rows.Add(myRow);
+            }
+
+
+            // Plotting histogram data on graph
+            //********************************//
+            var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
+            this.histogramChart.DataBindTable(enumerableTable, "Bin");
+
+            
+
+            //this.histogramChart.Series["seriesHistogram"].Points.DataBindY(histogramAll);
 
 
         }
