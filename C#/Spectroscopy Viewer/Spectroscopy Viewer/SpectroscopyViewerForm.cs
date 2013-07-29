@@ -37,11 +37,7 @@ namespace Spectroscopy_Viewer
         {
             InitializeComponent();
 
-            // Disable radio buttons to select histogram display
-            // If these are used before the histogram is created, program will crash
-            this.radioButtonAll.Enabled = false;
-            this.radioButtonCool.Enabled = false;
-            this.radioButtonCount.Enabled = false;
+
 
         }
 
@@ -53,6 +49,17 @@ namespace Spectroscopy_Viewer
             createGraph(zedGraphSpectra);
             // Size the control to fill the form with a margin
             SetSize();
+
+            // Disable radio buttons to select histogram display
+            // If these are used before the histogram is created, program will crash
+            this.histogramDisplayAll.Enabled = false;
+            this.histogramDisplayCool.Enabled = false;
+            this.histogramDisplayCount.Enabled = false;
+
+            // Disable manual max bin select
+            this.histogramMaxBinSelect.Enabled = false;
+
+
         }
 
         // Respond to the form 'Resize' event
@@ -358,14 +365,24 @@ namespace Spectroscopy_Viewer
             //********************************//
             // Plotting histogram data on graph
             // Need to convert to an enumerable type to get it to dataBind properly
-
             var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
             this.histogramChart.DataBindTable(enumerableTable, "Bin");
 
-            radioButtonAll.Enabled = true;
-            radioButtonCool.Enabled = true;
-            radioButtonCount.Enabled = true;
 
+            // Turn off ticks on x axis
+            histogramChart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+
+            // Enable radio buttons to select display
+            histogramDisplayAll.Enabled = true;
+            histogramDisplayCool.Enabled = true;
+            histogramDisplayCount.Enabled = true;
+
+            // Set interval to 1 so that the number will be displayed for each bin
+            histogramChart.ChartAreas[0].AxisX.Interval = 1;
+            
+            
+
+    
         }
 
         // Method to be called when a change is made to the radio buttons controlling the histogram display
@@ -375,15 +392,43 @@ namespace Spectroscopy_Viewer
             // If the button is checked, display the corresponding series
             // If the button is unchecked, hide the corresponding series
 
-            if (radioButtonAll.Checked) this.histogramChart.Series["All"].Enabled = true;
+            if (histogramDisplayAll.Checked) this.histogramChart.Series["All"].Enabled = true;
             else this.histogramChart.Series["All"].Enabled = false;
 
-            if (radioButtonCool.Checked) this.histogramChart.Series["Cool period"].Enabled = true;
+            if (histogramDisplayCool.Checked) this.histogramChart.Series["Cool period"].Enabled = true;
             else this.histogramChart.Series["Cool period"].Enabled = false;
 
-            if (radioButtonCount.Checked) this.histogramChart.Series["Count period"].Enabled = true;
+            if (histogramDisplayCount.Checked) this.histogramChart.Series["Count period"].Enabled = true;
             else this.histogramChart.Series["Count period"].Enabled = false;
         }
+
+
+        private void histogramCheckBoxAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            // If selecting auto, then disable user maxBinSelect
+            if (histogramCheckBoxAuto.Checked)
+            {
+                histogramMaxBinSelect.Enabled = false;
+
+                this.histogramChart.ChartAreas[0].AxisX.Maximum = histogramSize;
+
+            }
+            else
+                // If not on auto, scale according to user max bin select
+            {
+                histogramMaxBinSelect.Enabled = true;
+                // NB no code in place to create a ">= N" bin, all this does is change the display
+                this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
+            }
+
+        }
+
+        private void histogramMaxBinSelect_ValueChanged(object sender, EventArgs e)
+        {
+            this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
+        }
+
+        
 
     }
 }

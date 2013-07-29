@@ -43,11 +43,15 @@
             this.tabPageSpectra = new System.Windows.Forms.TabPage();
             this.tabPageHistogram = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonAll = new System.Windows.Forms.RadioButton();
-            this.radioButtonCount = new System.Windows.Forms.RadioButton();
-            this.radioButtonCool = new System.Windows.Forms.RadioButton();
+            this.histogramDisplayAll = new System.Windows.Forms.RadioButton();
+            this.histogramDisplayCount = new System.Windows.Forms.RadioButton();
+            this.histogramDisplayCool = new System.Windows.Forms.RadioButton();
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
+            this.histogramCheckBoxAuto = new System.Windows.Forms.CheckBox();
+            this.groupBoxMaxBin = new System.Windows.Forms.GroupBox();
+            this.histogramMaxBinSelect = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -55,6 +59,8 @@
             this.tabPageHistogram.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).BeginInit();
+            this.groupBoxMaxBin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelect)).BeginInit();
             this.SuspendLayout();
             // 
             // zedGraphSpectra
@@ -173,6 +179,8 @@
             // 
             // tabPageHistogram
             // 
+            this.tabPageHistogram.Controls.Add(this.button1);
+            this.tabPageHistogram.Controls.Add(this.groupBoxMaxBin);
             this.tabPageHistogram.Controls.Add(this.groupBox1);
             this.tabPageHistogram.Controls.Add(this.histogramChart);
             this.tabPageHistogram.Controls.Add(this.updateHistogramButton);
@@ -186,62 +194,66 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButtonAll);
-            this.groupBox1.Controls.Add(this.radioButtonCount);
-            this.groupBox1.Controls.Add(this.radioButtonCool);
-            this.groupBox1.Location = new System.Drawing.Point(585, 7);
+            this.groupBox1.Controls.Add(this.histogramDisplayAll);
+            this.groupBox1.Controls.Add(this.histogramDisplayCount);
+            this.groupBox1.Controls.Add(this.histogramDisplayCool);
+            this.groupBox1.Location = new System.Drawing.Point(450, 7);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(157, 100);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Display";
             // 
-            // radioButtonAll
+            // histogramDisplayAll
             // 
-            this.radioButtonAll.AutoSize = true;
-            this.radioButtonAll.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonAll.Name = "radioButtonAll";
-            this.radioButtonAll.Size = new System.Drawing.Size(60, 17);
-            this.radioButtonAll.TabIndex = 3;
-            this.radioButtonAll.TabStop = true;
-            this.radioButtonAll.Text = "All data";
-            this.radioButtonAll.UseVisualStyleBackColor = true;
-            this.radioButtonAll.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
+            this.histogramDisplayAll.AutoSize = true;
+            this.histogramDisplayAll.Location = new System.Drawing.Point(6, 19);
+            this.histogramDisplayAll.Name = "histogramDisplayAll";
+            this.histogramDisplayAll.Size = new System.Drawing.Size(60, 17);
+            this.histogramDisplayAll.TabIndex = 3;
+            this.histogramDisplayAll.TabStop = true;
+            this.histogramDisplayAll.Text = "All data";
+            this.histogramDisplayAll.UseVisualStyleBackColor = true;
+            this.histogramDisplayAll.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
             // 
-            // radioButtonCount
+            // histogramDisplayCount
             // 
-            this.radioButtonCount.AutoSize = true;
-            this.radioButtonCount.Location = new System.Drawing.Point(6, 67);
-            this.radioButtonCount.Name = "radioButtonCount";
-            this.radioButtonCount.Size = new System.Drawing.Size(107, 17);
-            this.radioButtonCount.TabIndex = 5;
-            this.radioButtonCount.TabStop = true;
-            this.radioButtonCount.Text = "Count period only";
-            this.radioButtonCount.UseVisualStyleBackColor = true;
-            this.radioButtonCount.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
+            this.histogramDisplayCount.AutoSize = true;
+            this.histogramDisplayCount.Location = new System.Drawing.Point(6, 67);
+            this.histogramDisplayCount.Name = "histogramDisplayCount";
+            this.histogramDisplayCount.Size = new System.Drawing.Size(107, 17);
+            this.histogramDisplayCount.TabIndex = 5;
+            this.histogramDisplayCount.TabStop = true;
+            this.histogramDisplayCount.Text = "Count period only";
+            this.histogramDisplayCount.UseVisualStyleBackColor = true;
+            this.histogramDisplayCount.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
             // 
-            // radioButtonCool
+            // histogramDisplayCool
             // 
-            this.radioButtonCool.AutoSize = true;
-            this.radioButtonCool.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonCool.Name = "radioButtonCool";
-            this.radioButtonCool.Size = new System.Drawing.Size(114, 17);
-            this.radioButtonCool.TabIndex = 4;
-            this.radioButtonCool.TabStop = true;
-            this.radioButtonCool.Text = "Cooling period only";
-            this.radioButtonCool.UseVisualStyleBackColor = true;
-            this.radioButtonCool.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
+            this.histogramDisplayCool.AutoSize = true;
+            this.histogramDisplayCool.Location = new System.Drawing.Point(6, 42);
+            this.histogramDisplayCool.Name = "histogramDisplayCool";
+            this.histogramDisplayCool.Size = new System.Drawing.Size(114, 17);
+            this.histogramDisplayCool.TabIndex = 4;
+            this.histogramDisplayCool.TabStop = true;
+            this.histogramDisplayCool.Text = "Cooling period only";
+            this.histogramDisplayCool.UseVisualStyleBackColor = true;
+            this.histogramDisplayCool.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
             // 
             // histogramChart
             // 
+            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+                        | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
+                        | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
             chartArea1.Name = "ChartArea1";
             this.histogramChart.ChartAreas.Add(chartArea1);
-            this.histogramChart.Location = new System.Drawing.Point(6, 98);
+            this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
             series1.ChartArea = "ChartArea1";
             series1.Name = "seriesHistogram";
             this.histogramChart.Series.Add(series1);
-            this.histogramChart.Size = new System.Drawing.Size(767, 396);
+            this.histogramChart.Size = new System.Drawing.Size(767, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
             // 
@@ -249,11 +261,57 @@
             // 
             this.updateHistogramButton.Location = new System.Drawing.Point(7, 7);
             this.updateHistogramButton.Name = "updateHistogramButton";
-            this.updateHistogramButton.Size = new System.Drawing.Size(136, 23);
+            this.updateHistogramButton.Size = new System.Drawing.Size(136, 36);
             this.updateHistogramButton.TabIndex = 1;
             this.updateHistogramButton.Text = "Update histogram";
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
+            // 
+            // histogramCheckBoxAuto
+            // 
+            this.histogramCheckBoxAuto.AutoSize = true;
+            this.histogramCheckBoxAuto.Checked = true;
+            this.histogramCheckBoxAuto.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.histogramCheckBoxAuto.Location = new System.Drawing.Point(11, 31);
+            this.histogramCheckBoxAuto.Name = "histogramCheckBoxAuto";
+            this.histogramCheckBoxAuto.Size = new System.Drawing.Size(48, 17);
+            this.histogramCheckBoxAuto.TabIndex = 7;
+            this.histogramCheckBoxAuto.Text = "Auto";
+            this.histogramCheckBoxAuto.UseVisualStyleBackColor = true;
+            this.histogramCheckBoxAuto.CheckedChanged += new System.EventHandler(this.histogramCheckBoxAuto_CheckedChanged);
+            // 
+            // groupBoxMaxBin
+            // 
+            this.groupBoxMaxBin.Controls.Add(this.histogramMaxBinSelect);
+            this.groupBoxMaxBin.Controls.Add(this.histogramCheckBoxAuto);
+            this.groupBoxMaxBin.Location = new System.Drawing.Point(613, 7);
+            this.groupBoxMaxBin.Name = "groupBoxMaxBin";
+            this.groupBoxMaxBin.Size = new System.Drawing.Size(130, 100);
+            this.groupBoxMaxBin.TabIndex = 8;
+            this.groupBoxMaxBin.TabStop = false;
+            this.groupBoxMaxBin.Text = "Maximum bin";
+            // 
+            // histogramMaxBinSelect
+            // 
+            this.histogramMaxBinSelect.Location = new System.Drawing.Point(11, 64);
+            this.histogramMaxBinSelect.Name = "histogramMaxBinSelect";
+            this.histogramMaxBinSelect.Size = new System.Drawing.Size(98, 20);
+            this.histogramMaxBinSelect.TabIndex = 8;
+            this.histogramMaxBinSelect.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.histogramMaxBinSelect.ValueChanged += new System.EventHandler(this.histogramMaxBinSelect_ValueChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(7, 55);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(136, 36);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Export histogram data...";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // SpectroscopyViewerForm
             // 
@@ -275,6 +333,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).EndInit();
+            this.groupBoxMaxBin.ResumeLayout(false);
+            this.groupBoxMaxBin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelect)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -294,10 +355,14 @@
         private System.Windows.Forms.TabPage tabPageHistogram;
         private System.Windows.Forms.Button updateHistogramButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart histogramChart;
-        private System.Windows.Forms.RadioButton radioButtonCount;
-        private System.Windows.Forms.RadioButton radioButtonCool;
-        private System.Windows.Forms.RadioButton radioButtonAll;
+        private System.Windows.Forms.RadioButton histogramDisplayCount;
+        private System.Windows.Forms.RadioButton histogramDisplayCool;
+        private System.Windows.Forms.RadioButton histogramDisplayAll;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBoxMaxBin;
+        private System.Windows.Forms.NumericUpDown histogramMaxBinSelect;
+        private System.Windows.Forms.CheckBox histogramCheckBoxAuto;
+        private System.Windows.Forms.Button button1;
 
     }
 }
