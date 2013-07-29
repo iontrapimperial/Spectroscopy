@@ -25,9 +25,9 @@ namespace Spectroscopy_Viewer
 
         // Arrays of data for histograms - separate lists for cooling period, count period & all combined
         // Plus an integer to keep track of how large the arrays are
-        private BindingList<int> histogramCool;
-        private BindingList<int> histogramCount;
-        private BindingList<int> histogramAll;
+        private int[] histogramCool;
+        private int[] histogramCount;
+        private int[] histogramAll;
         private int histogramSize = new int();
 
         private int numberOfSpectra = new int();
@@ -36,9 +36,6 @@ namespace Spectroscopy_Viewer
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
-
-
-
         }
 
         // Respond to form 'Load' event
@@ -296,14 +293,16 @@ namespace Spectroscopy_Viewer
                     histogramSize = tempHistogramSize;
 
                     // Create binding lists using the histogram data
-                    histogramCool = new BindingList<int>(tempHistogramCool);
-                    histogramCount = new BindingList<int>(tempHistogramCount);
-                    histogramAll = new BindingList<int>();
+                    histogramCool = tempHistogramCool;
+                    histogramCount = tempHistogramCount;
+                    histogramAll = new int[histogramSize];
+
+                    Console.WriteLine("{0}", histogramSize);
 
                     // Calculate total data and store in another list (cool + count)
                     for (int j = 0; j < histogramSize; j++)
                     {
-                        histogramAll.Add(histogramCool[j] + histogramCount[j]);
+                        histogramAll[j] = histogramCool[j] + histogramCount[j];
                     }
             
                 }
@@ -322,11 +321,17 @@ namespace Spectroscopy_Viewer
                     // If the histogram for the current spectrum is larger than the existing histogram
                     if (tempHistogramSize > histogramSize)
                     {
-                        // Add new bins to the end of each list
+                        // Extend the size of each array
+                        histogramCool = extendArray(histogramCool, tempHistogramSize);
+                        histogramCount = extendArray(histogramCount, tempHistogramSize);
+                        histogramAll = extendArray(histogramAll, tempHistogramSize);
+
+                        // Fill in the data into the new bins
                         for (int j = histogramSize; j < tempHistogramSize; j++)
                         {
-                            histogramCool.Add(tempHistogramCool[j]);
-                            histogramCount.Add(tempHistogramCount[j]);
+                            histogramCool[j] = tempHistogramCool[j];
+                            histogramCount[j] = tempHistogramCount[j];
+                            histogramAll[j] = histogramCool[j] + histogramCount[j];
                         }
 
                         // Update size of list (could use tempHistogramSize, but recalculate just in case)
@@ -339,7 +344,7 @@ namespace Spectroscopy_Viewer
             //********************************//
 
 
-
+            // Store the data in a table for plotting to graph
             // Try to create a data table with the lists as columns
             DataSet histogramDataSet = new DataSet();
             DataTable histogramTable = new DataTable();
@@ -365,9 +370,11 @@ namespace Spectroscopy_Viewer
             //********************************//
             // Plotting histogram data on graph
             // Need to convert to an enumerable type to get it to dataBind properly
+
             var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
             this.histogramChart.DataBindTable(enumerableTable, "Bin");
 
+            // This line throws an error when chart already exists & update button is pressed
 
             // Turn off ticks on x axis
             histogramChart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -379,11 +386,29 @@ namespace Spectroscopy_Viewer
 
             // Set interval to 1 so that the number will be displayed for each bin
             histogramChart.ChartAreas[0].AxisX.Interval = 1;
-            
-            
+
 
     
         }
+
+        // Method to extend the size of an existing array
+        private int[] extendArray(int[] array, int newSize)
+        {
+            // Store data in a temporary array
+            int[] tempArray = array;
+
+            // Create a new array
+            array = new int[newSize];
+
+            // Loop through elements of old array, fill in new array
+            for (int i = 0; i < tempArray.Count(); i++)
+            {
+                array[i] = tempArray[i];
+            }
+
+            return array;
+        }
+
 
         // Method to be called when a change is made to the radio buttons controlling the histogram display
         private void radioButtonDisplay_CheckedChanged(object sender, EventArgs e)
@@ -392,14 +417,61 @@ namespace Spectroscopy_Viewer
             // If the button is checked, display the corresponding series
             // If the button is unchecked, hide the corresponding series
 
-            if (histogramDisplayAll.Checked) this.histogramChart.Series["All"].Enabled = true;
+            // For "All" radio button
+            if (histogramDisplayAll.Checked)
+            {
+                this.histogramChart.Series["All"].Enabled = true;
+                this.histogramAutoScale(histogramAll);
+            }
             else this.histogramChart.Series["All"].Enabled = false;
 
-            if (histogramDisplayCool.Checked) this.histogramChart.Series["Cool period"].Enabled = true;
+            // For "Cooling period only" radio button
+            if (histogramDisplayCool.Checked)
+            {
+                this.histogramChart.Series["Cool period"].Enabled = true;
+                this.histogramAutoScale(histogramCool);
+            }
             else this.histogramChart.Series["Cool period"].Enabled = false;
 
-            if (histogramDisplayCount.Checked) this.histogramChart.Series["Count period"].Enabled = true;
+            // For "Count period only" radio button
+            if (histogramDisplayCount.Checked)
+            {
+                this.histogramChart.Series["Count period"].Enabled = true;
+                this.histogramAutoScale(histogramCount);
+            }
+
             else this.histogramChart.Series["Count period"].Enabled = false;
+        }
+
+        // Method to scale the axes based on the data being plotted (All, Cool or Counts)
+        private void histogramAutoScale(int[] data)
+        {
+            // Specify an interval to round to based on size of data
+            int maxData = data.Max();
+            int interval = new int();
+            if (maxData <= 100)
+            {
+                interval = 20;
+            }
+            else if (maxData <= 250)
+            {
+                interval = 50;
+            }
+            else if (maxData <= 500)
+            {
+                interval = 100;
+            }
+            else
+            {
+                interval = 200;
+            }
+            
+            // Find out how many intervals fit into the data range
+            // (rounded down to an integer)
+            int x = data.Max() / interval;
+
+            // Set the max to one interval greater
+            histogramChart.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
         }
 
 
@@ -428,7 +500,7 @@ namespace Spectroscopy_Viewer
             this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
         }
 
-        
+
 
     }
 }
