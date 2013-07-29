@@ -28,7 +28,7 @@ namespace Spectroscopy_Viewer
         private int[] histogramCool;
         private int[] histogramCount;
         private int[] histogramAll;
-        private int histogramSize = new int();
+        private int histogramSize;
 
         private int numberOfSpectra = new int();
 
@@ -246,21 +246,7 @@ namespace Spectroscopy_Viewer
                 }
                 testFile[i].Flush();
                 testFile[i].Close();
-
-                
-
-            }
-
-            TextWriter histogramFile = new StreamWriter("C:/Users/localadmin/Documents/testFile_Histogram.txt");
-            histogramFile.WriteLine("Counts\tCool period\tCount period\tAll");
-
-            for (int j = 0; j < histogramSize; j++)
-            {
-                histogramFile.WriteLine(j + "\t" + histogramCool[j] + "\t" + histogramCount[j] + "\t" + histogramAll[j] + "\n");
-            }
-
-
-
+             }
         }
 
         private void updateHistogramButton_Click(object sender, EventArgs e)
@@ -268,10 +254,14 @@ namespace Spectroscopy_Viewer
             // Calculating data for histogram
             //********************************//
 
+            // Initialise variables every time we re-create the histogram
+            histogramSize = new int();
+
             // Local variables used within this method
             int[] tempHistogramCool;
             int[] tempHistogramCount;
             int tempHistogramSize = new int();
+            
 
             // For each spectrum
             for (int i = 0; i < numberOfSpectra; i++)
