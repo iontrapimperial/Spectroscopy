@@ -42,6 +42,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSpectra = new System.Windows.Forms.TabPage();
             this.tabPageHistogram = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonAll = new System.Windows.Forms.RadioButton();
+            this.radioButtonCount = new System.Windows.Forms.RadioButton();
+            this.radioButtonCool = new System.Windows.Forms.RadioButton();
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
@@ -49,6 +53,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPageSpectra.SuspendLayout();
             this.tabPageHistogram.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).BeginInit();
             this.SuspendLayout();
             // 
@@ -168,6 +173,7 @@
             // 
             // tabPageHistogram
             // 
+            this.tabPageHistogram.Controls.Add(this.groupBox1);
             this.tabPageHistogram.Controls.Add(this.histogramChart);
             this.tabPageHistogram.Controls.Add(this.updateHistogramButton);
             this.tabPageHistogram.Location = new System.Drawing.Point(4, 22);
@@ -177,6 +183,54 @@
             this.tabPageHistogram.TabIndex = 1;
             this.tabPageHistogram.Text = "Histogram";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonAll);
+            this.groupBox1.Controls.Add(this.radioButtonCount);
+            this.groupBox1.Controls.Add(this.radioButtonCool);
+            this.groupBox1.Location = new System.Drawing.Point(585, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(157, 100);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Display";
+            // 
+            // radioButtonAll
+            // 
+            this.radioButtonAll.AutoSize = true;
+            this.radioButtonAll.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonAll.Name = "radioButtonAll";
+            this.radioButtonAll.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonAll.TabIndex = 3;
+            this.radioButtonAll.TabStop = true;
+            this.radioButtonAll.Text = "All data";
+            this.radioButtonAll.UseVisualStyleBackColor = true;
+            this.radioButtonAll.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
+            // 
+            // radioButtonCount
+            // 
+            this.radioButtonCount.AutoSize = true;
+            this.radioButtonCount.Location = new System.Drawing.Point(6, 67);
+            this.radioButtonCount.Name = "radioButtonCount";
+            this.radioButtonCount.Size = new System.Drawing.Size(107, 17);
+            this.radioButtonCount.TabIndex = 5;
+            this.radioButtonCount.TabStop = true;
+            this.radioButtonCount.Text = "Count period only";
+            this.radioButtonCount.UseVisualStyleBackColor = true;
+            this.radioButtonCount.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
+            // 
+            // radioButtonCool
+            // 
+            this.radioButtonCool.AutoSize = true;
+            this.radioButtonCool.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonCool.Name = "radioButtonCool";
+            this.radioButtonCool.Size = new System.Drawing.Size(114, 17);
+            this.radioButtonCool.TabIndex = 4;
+            this.radioButtonCool.TabStop = true;
+            this.radioButtonCool.Text = "Cooling period only";
+            this.radioButtonCool.UseVisualStyleBackColor = true;
+            this.radioButtonCool.CheckedChanged += new System.EventHandler(this.radioButtonDisplay_CheckedChanged);
             // 
             // histogramChart
             // 
@@ -218,6 +272,8 @@
             this.tabPageSpectra.ResumeLayout(false);
             this.tabPageSpectra.PerformLayout();
             this.tabPageHistogram.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).EndInit();
             this.ResumeLayout(false);
 
@@ -238,6 +294,10 @@
         private System.Windows.Forms.TabPage tabPageHistogram;
         private System.Windows.Forms.Button updateHistogramButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart histogramChart;
+        private System.Windows.Forms.RadioButton radioButtonCount;
+        private System.Windows.Forms.RadioButton radioButtonCool;
+        private System.Windows.Forms.RadioButton radioButtonAll;
+        private System.Windows.Forms.GroupBox groupBox1;
 
     }
 }

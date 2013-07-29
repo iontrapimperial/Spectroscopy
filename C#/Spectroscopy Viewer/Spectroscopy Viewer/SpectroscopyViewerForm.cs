@@ -348,16 +348,31 @@ namespace Spectroscopy_Viewer
                 histogramTable.Rows.Add(myRow);
             }
 
-
-            // Plotting histogram data on graph
             //********************************//
+            // Plotting histogram data on graph
+            // Need to convert to an enumerable type to get it to dataBind properly
+
             var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
             this.histogramChart.DataBindTable(enumerableTable, "Bin");
 
-            
 
-            //this.histogramChart.Series["seriesHistogram"].Points.DataBindY(histogramAll);
+        }
 
+        // Method to be called when a change is made to the radio buttons controlling the histogram display
+        private void radioButtonDisplay_CheckedChanged(object sender, EventArgs e)
+        {
+            // For each radio button (All, Cool, Count)
+            // If the button is checked, display the corresponding series
+            // If the button is unchecked, hide the corresponding series
+
+            if (radioButtonAll.Checked) this.histogramChart.Series["All"].Enabled = true;
+            else this.histogramChart.Series["All"].Enabled = false;
+
+            if (radioButtonCool.Checked) this.histogramChart.Series["Cool period"].Enabled = true;
+            else this.histogramChart.Series["Cool period"].Enabled = false;
+
+            if (radioButtonCount.Checked) this.histogramChart.Series["Count period"].Enabled = true;
+            else this.histogramChart.Series["Count period"].Enabled = false;
 
         }
 
