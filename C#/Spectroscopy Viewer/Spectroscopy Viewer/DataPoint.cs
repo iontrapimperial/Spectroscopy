@@ -86,28 +86,19 @@ namespace Spectroscopy_Viewer
             // For each reading
             for (int i = 0; i < repeats; i++)
             {
-                int x = readingCool[i];
-                int y = readingCount[i];
-                
-                // Increment the value in the bin corresponding to the number of counts for this reading
-                // E.g. if readingCool[i] = 20, then this adds 1 to the value in bin 20 of histogramCool
-                histogramCool[x]++;
-                histogramCount[y]++;
+                // Only add the count to the histogram if there were no error flags
+                if (!readingErrorCool[i] && !readingErrorCount[i])
+                {
+                    int x = readingCool[i];
+                    int y = readingCount[i];
+
+                    // Increment the value in the bin corresponding to the number of counts for this reading
+                    // E.g. if readingCool[i] = 20, then this adds 1 to the value in bin 20 of histogramCool
+                    histogramCool[x]++;
+                    histogramCount[y]++;
+                }
 
             }
-
-            // Debugging
-            /*
-            TextWriter testFile = new StreamWriter("C:/Users/localadmin/Documents/Histogram.txt");
-
-            for (int i = 0; i < histogramSize; i++)
-            {
-                testFile.WriteLine("{0}, Cool: {1}, Count: {2}", i, histogramCool[i], histogramCount[i]);
-            }
-
-            testFile.Flush();
-            testFile.Close();
-            */
 
         }
 
