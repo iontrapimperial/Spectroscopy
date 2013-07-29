@@ -387,7 +387,8 @@ namespace Spectroscopy_Viewer
             // Set interval to 1 so that the number will be displayed for each bin
             histogramChart.ChartAreas[0].AxisX.Interval = 1;
 
-
+            // Check which radio button is checked & plot correct series
+            this.radioButtonDisplay_CheckedChanged(sender, e);
     
         }
 
@@ -474,20 +475,19 @@ namespace Spectroscopy_Viewer
             histogramChart.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
         }
 
-
+        // Method to respond to "Auto" checkbox (under Histogram tab, Maximum bin group) changing
         private void histogramCheckBoxAuto_CheckedChanged(object sender, EventArgs e)
         {
             // If selecting auto, then disable user maxBinSelect
             if (histogramCheckBoxAuto.Checked)
             {
                 histogramMaxBinSelect.Enabled = false;
-
                 this.histogramChart.ChartAreas[0].AxisX.Maximum = histogramSize;
-
             }
             else
                 // If not on auto, scale according to user max bin select
             {
+                // Enable user select for max bin
                 histogramMaxBinSelect.Enabled = true;
                 // NB no code in place to create a ">= N" bin, all this does is change the display
                 this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
@@ -495,8 +495,12 @@ namespace Spectroscopy_Viewer
 
         }
 
+        // Method to respond to user changing value in the histogram max bin select
         private void histogramMaxBinSelect_ValueChanged(object sender, EventArgs e)
         {
+            // NB nothing clever, we don't change the data, just the display
+
+            // Set maximum bin to user input
             this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
         }
 
