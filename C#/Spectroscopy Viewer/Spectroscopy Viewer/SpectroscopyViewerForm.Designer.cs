@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -40,13 +43,14 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSpectra = new System.Windows.Forms.TabPage();
             this.tabPageHistogram = new System.Windows.Forms.TabPage();
+            this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
-            this.zedGraphHistogram = new ZedGraph.ZedGraphControl();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageSpectra.SuspendLayout();
             this.tabPageHistogram.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).BeginInit();
             this.SuspendLayout();
             // 
             // zedGraphSpectra
@@ -165,8 +169,8 @@
             // 
             // tabPageHistogram
             // 
+            this.tabPageHistogram.Controls.Add(this.histogramChart);
             this.tabPageHistogram.Controls.Add(this.updateHistogramButton);
-            this.tabPageHistogram.Controls.Add(this.zedGraphHistogram);
             this.tabPageHistogram.Location = new System.Drawing.Point(4, 22);
             this.tabPageHistogram.Name = "tabPageHistogram";
             this.tabPageHistogram.Padding = new System.Windows.Forms.Padding(3);
@@ -174,6 +178,22 @@
             this.tabPageHistogram.TabIndex = 1;
             this.tabPageHistogram.Text = "Histogram";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
+            // 
+            // histogramChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.histogramChart.Legends.Add(legend1);
+            this.histogramChart.Location = new System.Drawing.Point(7, 36);
+            this.histogramChart.Name = "histogramChart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series1);
+            this.histogramChart.Size = new System.Drawing.Size(766, 458);
+            this.histogramChart.TabIndex = 2;
+            this.histogramChart.Text = "chart1";
             // 
             // updateHistogramButton
             // 
@@ -184,20 +204,6 @@
             this.updateHistogramButton.Text = "Update histogram";
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
-            // 
-            // zedGraphHistogram
-            // 
-            this.zedGraphHistogram.Location = new System.Drawing.Point(6, 36);
-            this.zedGraphHistogram.Name = "zedGraphHistogram";
-            this.zedGraphHistogram.ScrollGrace = 0D;
-            this.zedGraphHistogram.ScrollMaxX = 0D;
-            this.zedGraphHistogram.ScrollMaxY = 0D;
-            this.zedGraphHistogram.ScrollMaxY2 = 0D;
-            this.zedGraphHistogram.ScrollMinX = 0D;
-            this.zedGraphHistogram.ScrollMinY = 0D;
-            this.zedGraphHistogram.ScrollMinY2 = 0D;
-            this.zedGraphHistogram.Size = new System.Drawing.Size(767, 458);
-            this.zedGraphHistogram.TabIndex = 0;
             // 
             // SpectroscopyViewerForm
             // 
@@ -216,6 +222,7 @@
             this.tabPageSpectra.ResumeLayout(false);
             this.tabPageSpectra.PerformLayout();
             this.tabPageHistogram.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -233,8 +240,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageSpectra;
         private System.Windows.Forms.TabPage tabPageHistogram;
-        private ZedGraph.ZedGraphControl zedGraphHistogram;
         private System.Windows.Forms.Button updateHistogramButton;
+        private System.Windows.Forms.DataVisualization.Charting.Chart histogramChart;
 
     }
 }

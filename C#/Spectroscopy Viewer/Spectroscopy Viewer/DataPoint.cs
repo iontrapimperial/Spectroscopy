@@ -93,7 +93,22 @@ namespace Spectroscopy_Viewer
                 // E.g. if readingCool[i] = 20, then this adds 1 to the value in bin 20 of histogramCool
                 histogramCool[x]++;
                 histogramCount[y]++;
+
             }
+
+            // Debugging
+            /*
+            TextWriter testFile = new StreamWriter("C:/Users/localadmin/Documents/Histogram.txt");
+
+            for (int i = 0; i < histogramSize; i++)
+            {
+                testFile.WriteLine("{0}, Cool: {1}, Count: {2}", i, histogramCool[i], histogramCount[i]);
+            }
+
+            testFile.Flush();
+            testFile.Close();
+            */
+
         }
 
 

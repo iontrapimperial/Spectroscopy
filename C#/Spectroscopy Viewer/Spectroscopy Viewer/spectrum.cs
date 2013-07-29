@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ZedGraph;
@@ -51,9 +52,9 @@ namespace Spectroscopy_Viewer
         // Constructor given a list of data points
         public spectrum(List<dataPoint> dataPointsPassed)
         {
-            myDataPoints = dataPointsPassed;
-            dataSize = myDataPoints.Count;      // Count number of data points
-            this.createHistogram();
+            myDataPoints = dataPointsPassed;        // Store list of data points
+            dataSize = myDataPoints.Count;          // Count number of data points
+            this.createHistogram();                 // Create data for histogram
         }
 
 
@@ -94,16 +95,15 @@ namespace Spectroscopy_Viewer
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
             }
             this.createDataPlot();          // Always want to create data for plotting
-            beenInitialised = true;
+            beenInitialised = true;         // Flag that initialisation has been completed
         }
 
         // Method to analyse data given updated thresholds
         private void analyseUpdate(int cool, int count)
         {
 
-            // Calculate this here instead of within each data point - saves doing it every time
-            // & also update dataPlot, badCountsThreshold list differently depending on what has changed
-            // Need to work out exactly what needs updating when to be most efficient!
+            // Calculate this here instead of within data point - saves doing it for every data point
+            // & also update dataPlot, badCountsThreshold list differently depending on which thresholds changed
 
 
             //****************************************
@@ -185,6 +185,18 @@ namespace Spectroscopy_Viewer
                     histogramCount[j] += tempHistogramCount_DataPoint[j];
                 }
             }
+
+            /*
+            TextWriter testFile = new StreamWriter("C:/Users/localadmin/Documents/Histogram.txt");
+
+            for (int i = 0; i < maxSize; i++)
+            {
+                testFile.WriteLine("{0}, Cool: {1}, Count: {2}", i, histogramCool[i], histogramCount[i]);
+            }
+
+            testFile.Flush();
+            testFile.Close();
+            */
         }
 
         // Method to update histogram (called only when new data points are added to spectrum)

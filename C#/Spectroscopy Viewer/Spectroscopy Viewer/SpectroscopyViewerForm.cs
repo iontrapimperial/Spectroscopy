@@ -18,9 +18,19 @@ namespace Spectroscopy_Viewer
 {
     public partial class SpectroscopyViewerForm : Form
     {
-        // An array of spectrum objects. Can't dynamically resize arrays so set max number to 10. Could maybe use a list instead??
-        public List<spectrum> mySpectrum = new List<spectrum>();      
-        private List<PointPairList> dataPlot = new List<PointPairList>();       // Create object to store data for graph
+        // A list of spectrum objects. List is basically just a dynamic array so we can add more objects as necessary
+        public List<spectrum> mySpectrum = new List<spectrum>();
+        // List to store data for plotting spectrum graph. PointPairList is the object needed for plotting with zedGraph 
+        private List<PointPairList> dataPlot = new List<PointPairList>();
+
+        // Arrays of data for histograms - separate lists for cooling period, count period & all combined
+        // Plus an integer to keep track of how large the arrays are
+        private BindingList<int> histogramCool;
+        private BindingList<int> histogramCount;
+        private BindingList<int> histogramAll;
+        private int histogramSize = new int();
+
+        private int numberOfSpectra = new int();
 
 
         public SpectroscopyViewerForm()
@@ -137,8 +147,6 @@ namespace Spectroscopy_Viewer
                     spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved, myFileName);
                     mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
 
-                    int existingSpectra = mySpectrum.Count();                   // How many spectra exist already
-
                     // Get array of information about which data to add to which spectrum
                     int[] selectedSpectrum = new int[numberInterleaved];
                     selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
@@ -151,7 +159,7 @@ namespace Spectroscopy_Viewer
                         {
                             // If the index >= number of existing spectra, new ones must have been added
                             // (since for a list of N items, index runs from 0 to N-1)
-                            if (selectedSpectrum[i] >= existingSpectra)
+                            if (selectedSpectrum[i] >= numberOfSpectra)
                             {
                                 // Get the list filled with data points, add to list of spectra
                                 mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(i)));
@@ -183,6 +191,9 @@ namespace Spectroscopy_Viewer
 
                 }*/
             }
+
+            // Update number of spectra
+            numberOfSpectra = mySpectrum.Count();
         }
 
 
@@ -213,8 +224,9 @@ namespace Spectroscopy_Viewer
         {
             TextWriter[] testFile = new StreamWriter[mySpectrum.Count];
 
+
             // Write a separate file for each spectrum
-            for (int i = 0; i < mySpectrum.Count; i++)
+            for (int i = 0; i < numberOfSpectra; i++)
             {
                 testFile[i] = new StreamWriter("C:/Users/localadmin/Documents/testFile_Spectrum" + i + ".txt");
                 testFile[i].WriteLine("Frequency\tDark ion prob");
@@ -226,6 +238,17 @@ namespace Spectroscopy_Viewer
                 }
                 testFile[i].Flush();
                 testFile[i].Close();
+
+                
+
+            }
+
+            TextWriter histogramFile = new StreamWriter("C:/Users/localadmin/Documents/testFile_Histogram.txt");
+            histogramFile.WriteLine("Counts\tCool period\tCount period\tAll");
+
+            for (int j = 0; j < histogramSize; j++)
+            {
+                histogramFile.WriteLine(j + "\t" + histogramCool[j] + "\t" + histogramCount[j] + "\t" + histogramAll[j] + "\n");
             }
 
 
@@ -234,32 +257,44 @@ namespace Spectroscopy_Viewer
 
         private void updateHistogramButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < mySpectrum.Count; i++)
+            int[] histogramSizeSpectrum = new int[numberOfSpectra];
+
+
+
+
+            for (int i = 0; i < numberOfSpectra; i++)
             {
-                int histogramSize = mySpectrum[i].getHistogramCool().Length;
+
+
+
+                histogramSize = mySpectrum[i].getHistogramCool().Length;
                 Console.WriteLine("{0}", histogramSize);
 
-                int[] histogramCool = mySpectrum[i].getHistogramCool();
-                int[] histogramCount = mySpectrum[i].getHistogramCount();
+                histogramCool = mySpectrum[i].getHistogramCool();
+                histogramCount = mySpectrum[i].getHistogramCount();
                 Console.WriteLine("{0}", histogramCool.Length);
-                 histogramSize = histogramCool.Length;
-                int[] histogramAll = new int[histogramSize];
+                histogramSize = histogramCool.Length;
+                histogramAll = new int[histogramSize];
 
                 // Sum histogram data & plot
                 for (int j = 0; j < histogramSize; j++)
                 {
                     histogramAll[i] = histogramCool[i] + histogramCount[i];
 
+
+
+
+                    /*
                     BoxObj box = new BoxObj(i, histogramAll[i], 1, histogramAll[i]);
                     box.IsClippedToChartRect = true;
                     box.Fill.Color = Color.Blue;
-                    zedGraphHistogram.GraphPane.GraphObjList.Add(box);
+                    zedGraphHistogram.GraphPane.GraphObjList.Add(box); */
                 }
 
             }
+
+
         }
-
-
 
     }
 }
