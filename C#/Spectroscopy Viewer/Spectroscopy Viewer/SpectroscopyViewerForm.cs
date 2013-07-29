@@ -80,9 +80,6 @@ namespace Spectroscopy_Viewer
         }
 
 
-        
-
-
 
         // Build the Chart - before any data has been added
         private void createGraph(ZedGraphControl zgcSpectrum)
@@ -502,6 +499,46 @@ namespace Spectroscopy_Viewer
 
             // Set maximum bin to user input
             this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
+        }
+
+        // Method to respond to click of "Export histogram data..." button
+        // Opens a dialogue to save spectrum data independently for each displayed spectrum
+        private void histogramExportData_Click(object sender, EventArgs e)
+        {
+            
+            // Configuring dialog to save file
+            saveHistogramFile.InitialDirectory = "Z:/Data";      // Initialise to share drive
+            saveHistogramFile.RestoreDirectory = true;           // Open to last viewed directory
+            saveHistogramFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            // Show new dialogue for each spectrum
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                saveHistogramFile.Title = "Save histogram data for spectrum" + (i + 1);
+                saveHistogramFile.FileName = mySpectrum[i].getName() + " histogram data.txt";
+
+                // Show dialog to save file
+                // Check that user has not pressed cancel before continuing to save file
+                if (saveHistogramFile.ShowDialog() != DialogResult.Cancel)
+                {
+                    // Create streamwriter object to write to file
+                    // With filename given from user input
+                    TextWriter histogramFile = new StreamWriter(saveHistogramFile.FileName);
+                    // Write column titles
+                    histogramFile.WriteLine("Bin\tTotal\tCooling period\tCountperiod");
+
+                    // Go through each bin, write data to the file
+                    for (int j = 0; j < histogramSize; j++)
+                    {
+                        histogramFile.WriteLine(j + "\t" + histogramAll[j] + "\t"
+                                                + histogramCool[j] + "\t" + histogramCount[j]);
+                    }
+                    // Flush & close file when finished
+                    histogramFile.Flush();
+                    histogramFile.Close();
+                }
+            }
+
         }
 
 

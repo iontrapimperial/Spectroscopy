@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -201,6 +201,7 @@
             this.histogramExportData.TabIndex = 9;
             this.histogramExportData.Text = "Export histogram data...";
             this.histogramExportData.UseVisualStyleBackColor = true;
+            this.histogramExportData.Click += new System.EventHandler(this.histogramExportData_Click);
             // 
             // groupBoxMaxBin
             // 
@@ -288,17 +289,17 @@
             // 
             // histogramChart
             // 
-            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea2);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series2);
             this.histogramChart.Size = new System.Drawing.Size(767, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
