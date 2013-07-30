@@ -31,8 +31,8 @@ namespace Spectroscopy_Viewer
         private PointPairList histogramCountPlot = new PointPairList();
 
         // Arrays for storing histogram data
-        int[] histogramCool;
-        int[] histogramCount;
+        public int[] histogramCool;
+        public int[] histogramCount;
 
         // Various bits of information about the spectrum
         private int dataSize;           // Number of data points
@@ -50,12 +50,16 @@ namespace Spectroscopy_Viewer
         //**************************//
 
         // Constructor given a list of data points
-        public spectrum(List<dataPoint> dataPointsPassed)
+        public spectrum(List<dataPoint> dataPointsPassed, int spectrumNumberPassed, string spectrumNamePassed)
         {
             myDataPoints = dataPointsPassed;        // Store list of data points
             dataSize = myDataPoints.Count;          // Count number of data points
-            this.createHistogram(myDataPoints, false);      // Create data for histograms
 
+            // Set spectrum name, number
+            spectrumNumber = spectrumNumberPassed;
+            spectrumName = spectrumNamePassed;
+
+            this.createHistogram(myDataPoints, false);      // Create data for histograms
         }
 
 
@@ -158,6 +162,7 @@ namespace Spectroscopy_Viewer
         // Method to create arrays of data for the histogram
         private void createHistogram(List<dataPoint> dataPointsPassed, bool update)
         {
+            Console.WriteLine("Spectrum {0} ({1}) histogram updated, {2}", spectrumNumber, spectrumName, update);
             // Declare variables to be used in if statements (compiler complains if they haven't been initialised)
             // listSize stores size of new data points to be processed - for update only
             int listSize = new int();       
@@ -185,7 +190,7 @@ namespace Spectroscopy_Viewer
                 loopSize = dataSize;                // Loop through full length of myDataPoints
             }
             
-
+            // Find maximum bin size
             // For each data point
             for (int i = 0; i < loopSize; i++)
             {
@@ -199,7 +204,7 @@ namespace Spectroscopy_Viewer
                 }
             }
 
-
+            // If we are updating, check size of arrays and extend if necessary
             if (update)
             {
                 // If the new max size is larger than the existing array
@@ -211,10 +216,11 @@ namespace Spectroscopy_Viewer
                 }
             }
             else
-            {
+            {   // If we are creating the histogram for the first time, initialise arrays
                 histogramCool = new int[maxSize];
                 histogramCount = new int[maxSize];
             }
+
 
 
             // Add data to histogram
@@ -284,6 +290,43 @@ namespace Spectroscopy_Viewer
                 }
             }
         }
+
+        public void writePlotData(ref TextWriter myDataFile)
+        {
+            myDataFile.WriteLine("Frequency\tDark ion prob");
+
+            for (int i = 0; i < dataSize; i++)
+            {
+                myDataFile.WriteLine(dataPlot[i].X + "\t" + dataPlot[i].Y);
+            }
+
+            myDataFile.Flush();
+            myDataFile.Close();
+        }
+
+
+        // Method to write histogram data to a given file
+        public void writeHistogramData(ref TextWriter histogramFile)
+        {
+            // Create streamwriter object to write to file
+            // With filename given from user input
+            // Write column titles
+            histogramFile.WriteLine("Bin\tTotal\tCooling period\tCountperiod");
+
+            // Go through each bin, write data to the file
+            for (int j = 0; j < histogramCool.Count(); j++)
+            {
+                histogramFile.WriteLine(j + "\t" + (histogramCool[j] + histogramCount[j]) + "\t"
+                                        + histogramCool[j] + "\t" + histogramCount[j]);
+            }
+            // Flush & close file when finished
+            histogramFile.Flush();
+            histogramFile.Close();
+
+            Console.WriteLine("Spectrum {0} histogram data saved", spectrumNumber);
+        }
+
+
 
         // 'Set' methods
         //**********************//

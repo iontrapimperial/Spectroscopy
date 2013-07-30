@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -52,7 +52,8 @@
             this.histogramDisplayCool = new System.Windows.Forms.RadioButton();
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
-            this.saveHistogramFile = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.spectrumExportData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -164,6 +165,7 @@
             // 
             // tabPageSpectra
             // 
+            this.tabPageSpectra.Controls.Add(this.spectrumExportData);
             this.tabPageSpectra.Controls.Add(this.zedGraphSpectra);
             this.tabPageSpectra.Controls.Add(this.plotDataButton);
             this.tabPageSpectra.Controls.Add(this.label1);
@@ -289,17 +291,17 @@
             // 
             // histogramChart
             // 
-            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea2.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea1);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series1);
             this.histogramChart.Size = new System.Drawing.Size(767, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
@@ -313,6 +315,16 @@
             this.updateHistogramButton.Text = "Update histogram";
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
+            // 
+            // spectrumExportData
+            // 
+            this.spectrumExportData.Location = new System.Drawing.Point(634, 5);
+            this.spectrumExportData.Name = "spectrumExportData";
+            this.spectrumExportData.Size = new System.Drawing.Size(139, 36);
+            this.spectrumExportData.TabIndex = 8;
+            this.spectrumExportData.Text = "Export spectrum data...";
+            this.spectrumExportData.UseVisualStyleBackColor = true;
+            this.spectrumExportData.Click += new System.EventHandler(this.spectrumExportData_Click);
             // 
             // SpectroscopyViewerForm
             // 
@@ -364,7 +376,8 @@
         private System.Windows.Forms.NumericUpDown histogramMaxBinSelect;
         private System.Windows.Forms.CheckBox histogramCheckBoxAuto;
         private System.Windows.Forms.Button histogramExportData;
-        private System.Windows.Forms.SaveFileDialog saveHistogramFile;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.Button spectrumExportData;
 
     }
 }

@@ -65,8 +65,7 @@ namespace Spectroscopy_Viewer
             SetSize();
         }
 
-        // SetSize() is separate from Resize() so we can 
-        // call it independently from the Form1_Load() method
+        // Method to set size of graphs depending on overall form size
         private void SetSize()
         {
             tabControl1.Location = new Point(10, 10);
@@ -128,6 +127,7 @@ namespace Spectroscopy_Viewer
             openDataFile.RestoreDirectory = true;           // Open to last viewed directory
             openDataFile.FileName = "";                     // Set default filename to blank
 
+
             // Show dialog to open new data file
             // Do not attempt to open file if user has pressed cancel
             if (openDataFile.ShowDialog() != DialogResult.Cancel)
@@ -170,12 +170,9 @@ namespace Spectroscopy_Viewer
                             if (selectedSpectrum[i] >= numberOfSpectra)
                             {
                                 // Get the list filled with data points, add to list of spectra
-                                mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(i)));
-
-                                // Set number
-                                mySpectrum[selectedSpectrum[i]].setNumber(selectedSpectrum[i]);
-                                // Set the name of the spectrum
-                                mySpectrum[selectedSpectrum[i]].setName(mySpectrumSelectBox.spectrumNames[selectedSpectrum[i]]);
+                                mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(i),     // Data points for spectrum       
+                                               selectedSpectrum[i],         // Spectrum number
+                                               mySpectrumSelectBox.spectrumNames[selectedSpectrum[i]] ) );  // Spectrum name
 
                                 // Add blank PointPairList for storing plot data
                                 dataPlot.Add(new PointPairList());
@@ -284,14 +281,22 @@ namespace Spectroscopy_Viewer
                     // Store size of lists
                     histogramSize = tempHistogramSize;
 
-                    // Create binding lists using the histogram data
-                    histogramCool = tempHistogramCool;
-                    histogramCount = tempHistogramCount;
+                    // Create arrays of the right size
+                    histogramCool = new int[histogramSize];
+                    histogramCount = new int[histogramSize];
                     histogramAll = new int[histogramSize];
 
-                    // Calculate total data and store in another list (cool + count)
+
+                    // Loop through each histogram bin and populate arrays
                     for (int j = 0; j < histogramSize; j++)
                     {
+                        // Populate arrays from temp histograms
+                        // NB cannot just use e.g. histogramCool = tempHistogram, this will cause errors
+                        // since arrays are a reference type. Need to manipulate each element individually
+                        histogramCool[j] = tempHistogramCool[j];
+                        histogramCount[j] = tempHistogramCount[j];
+
+                        // Calculate total data and store in another array (cool + count)
                         histogramAll[j] = histogramCool[j] + histogramCount[j];
                     }
             
@@ -483,37 +488,58 @@ namespace Spectroscopy_Viewer
         private void histogramExportData_Click(object sender, EventArgs e)
         {
             // Configuring dialog to save file
-            saveHistogramFile.InitialDirectory = "Z:/Data";      // Initialise to share drive
-            saveHistogramFile.RestoreDirectory = true;           // Open to last viewed directory
-            saveHistogramFile.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
+            saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
             // Show new dialogue for each spectrum
             for (int i = 0; i < numberOfSpectra; i++)
             {
-                saveHistogramFile.Title = "Save histogram data for spectrum" + (i + 1);
-                saveHistogramFile.FileName = mySpectrum[i].getName() + " histogram data.txt";
+                saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
+                saveFileDialog.FileName = mySpectrum[i].getName() + " histogram data.txt";
 
                 // Show dialog to save file
                 // Check that user has not pressed cancel before continuing to save file
-                if (saveHistogramFile.ShowDialog() != DialogResult.Cancel)
+                if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
                 {
                     // Create streamwriter object to write to file
                     // With filename given from user input
-                    TextWriter histogramFile = new StreamWriter(saveHistogramFile.FileName);
-                    // Write column titles
-                    histogramFile.WriteLine("Bin\tTotal\tCooling period\tCountperiod");
+                    TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
 
-                    // Go through each bin, write data to the file
-                    for (int j = 0; j < histogramSize; j++)
-                    {
-                        histogramFile.WriteLine(j + "\t" + histogramAll[j] + "\t"
-                                                + histogramCool[j] + "\t" + histogramCount[j]);
-                    }
-                    // Flush & close file when finished
-                    histogramFile.Flush();
-                    histogramFile.Close();
+                    // Call method in the spectrum class to write data to the file
+                    mySpectrum[i].writeHistogramData(ref histogramFile);
                 }
             }
+
+        }
+
+        private void spectrumExportData_Click(object sender, EventArgs e)
+        {
+            // Configuring dialog to save file
+            saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
+            saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            // Show new dialogue for each spectrum
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                saveFileDialog.Title = "Save data for spectrum" + (i + 1);
+                saveFileDialog.FileName = mySpectrum[i].getName() + "_data.txt";
+
+                // Show dialog to save file
+                // Check that user has not pressed cancel before continuing to save file
+                if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                {
+                    // Create streamwriter object to write to file
+                    // With filename given from user input
+                    TextWriter myDataFile = new StreamWriter(saveFileDialog.FileName);
+
+                    // Call method in the spectrum class to write data to the file
+                    mySpectrum[i].writePlotData(ref myDataFile);
+                }
+            }
+
+
 
         }
 
