@@ -152,7 +152,7 @@ namespace Spectroscopy_Viewer
         // Method to calculate probablity of ion being dark, based on initial thresholds
         private void calcDarkProb()
         {
-            
+            darkProb = new int();
             darkCount = 0;                  // Initialise dark count
 
             // For each reading

@@ -184,7 +184,7 @@ namespace Spectroscopy_Viewer
                 frequency += stepSize;
             }
 
-        }
+        } 
 
         // Method to return number of interleaved spectra in the file
         public int getNumberInterleaved()
