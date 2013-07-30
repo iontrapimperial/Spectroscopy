@@ -167,6 +167,7 @@ namespace Spectroscopy_Viewer
         private void constructDataPoints(int x)
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
+            int frequency = startFrequency;
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
             // 
@@ -176,10 +177,11 @@ namespace Spectroscopy_Viewer
                 dataPointTemp = new dataPoint(ref fullData[x], i, repeats);
                 
                 // Set metadata (nb. repeats already set in constructor)
-                dataPointTemp.setFreq(startFrequency + i*stepSize);
+                dataPointTemp.setFreq(frequency);
                
                 // Add to the list
                 dataPoints[x].Add(dataPointTemp);
+                frequency += stepSize;
             }
 
         }

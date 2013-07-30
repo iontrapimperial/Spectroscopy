@@ -208,6 +208,7 @@ namespace Spectroscopy_Viewer
         // Method to respond to 'Plot data' button press
         private void plotDataButton_Click(object sender, EventArgs e)
         {
+            // Do not attempt to do anything if no spectra have been created
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
             else
             {

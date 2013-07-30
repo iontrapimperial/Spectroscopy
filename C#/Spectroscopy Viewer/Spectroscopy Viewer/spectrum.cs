@@ -68,6 +68,22 @@ namespace Spectroscopy_Viewer
             // Add new data onto the end of list
             myDataPoints.AddRange(dataPointsPassed);
             dataSize = myDataPoints.Count();        // Update data size variable
+
+            // Code for debugging
+
+            TextWriter testFile = new StreamWriter("C:/Users/localadmin/Documents/New data points.txt");
+            testFile.WriteLine("Frequency\tDark ion prob");
+
+            for (int i = 0; i < dataSize; i++)
+            {
+                int x = myDataPoints[i].getFreq();
+                float y = myDataPoints[i].getDarkProb();
+                testFile.WriteLine(x + "\t" + y);
+            }
+
+            testFile.Flush();
+            testFile.Close();
+
         }
 
 
