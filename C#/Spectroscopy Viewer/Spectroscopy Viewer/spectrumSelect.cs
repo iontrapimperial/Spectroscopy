@@ -28,7 +28,7 @@ namespace Spectroscopy_Viewer
 
         // Public variables to be accessed by main form
         public int[] selectedSpectrum;        // Which spectrum is selected for each data set
-        public List<string> spectrumNames = new List<string>();     // List of names
+        public List<string> spectrumNamesForGraph = new List<string>();     // List of names
 
         // Empty constructor - for when we need to initialise to avoid compiler errors
         // but don't yet have the right data for creating the form
@@ -38,7 +38,8 @@ namespace Spectroscopy_Viewer
         }
 
         // Constructor given a list of existing spectra
-        public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed, string myFileName, int numberOfFiles)
+        public spectrumSelect(List<spectrum> mySpectrum, ref string[] spectrumNamesFromFile,
+                            int numberInterleavedPassed, ref string myFileName, int numberOfFiles)
         {
             InitializeComponent();
 
@@ -57,9 +58,9 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < existingSpectra; i++)
             {
                 // Retrieve name of spectrum
-                spectrumNames.Add( mySpectrum[i].getName() );                     
+                spectrumNamesForGraph.Add(mySpectrum[i].getName());                     
                 // Concatenate string with name & number
-                myListOfSpectra[0].Add("Spectrum " + (i+1) + " (" + spectrumNames[i] + ")");    
+                myListOfSpectra[0].Add("Spectrum " + (i + 1) + " (" + spectrumNamesForGraph[i] + ")");    
             }
          
 
@@ -101,14 +102,15 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < numberInterleaved; i++)
             {
                 myComboBoxLabel[i] = new Label();
-                myComboBoxLabel[i].Text = "Spectrum " + (i+1) + ":";
+                myComboBoxLabel[i].Text = "Spectrum " + (i + 1) + " (" + spectrumNamesFromFile[i] + "):";
                 myComboBoxLabel[i].Location = new Point(200, 10 + i * 30);
-                myComboBoxLabel[i].Size = new System.Drawing.Size(70, 13);
+                myComboBoxLabel[i].AutoSize = true;
+                myComboBoxLabel[i].MaximumSize = new System.Drawing.Size(120, 30);
                 this.Controls.Add(myComboBoxLabel[i]);
 
                 myComboBox[i] = new ComboBox();
                 myComboBox[i].DataSource = myListOfSpectra[i];
-                myComboBox[i].Location = new Point(280, 10 + i * 30);
+                myComboBox[i].Location = new Point(320, 10 + i * 30);
                 myComboBox[i].Size = new System.Drawing.Size(220, 21);
                 myComboBox[i].TabIndex = 5 + i;
                 this.Controls.Add(myComboBox[i]);
@@ -163,7 +165,7 @@ namespace Spectroscopy_Viewer
                 {
                     // Re-order so that the next spectrum to be dealt with is the next in the array
                     // This ensures correct metadata when items are added to list using List.Add
-                    spectrumNames.Add(newSpectra[selectedSpectrum[i] - existingSpectra]);
+                    spectrumNamesForGraph.Add(newSpectra[selectedSpectrum[i] - existingSpectra]);
                 }
             }
         }

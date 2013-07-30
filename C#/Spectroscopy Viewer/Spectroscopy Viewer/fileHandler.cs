@@ -25,6 +25,8 @@ namespace Spectroscopy_Viewer
         private int numberInterleaved;      // How many spectra are interleaved in this file
         private float trapFrequency;          // Trap frequency
         private float trapVoltage;            // Trap voltage
+        private string[] spectrumNames;          // Names of spectra stored in file
+        private string notes = "";
 
         // Default constructor
         public fileHandler()
@@ -54,6 +56,10 @@ namespace Spectroscopy_Viewer
             // repeats
             // "File contains interleaved spectra:"
             // numberInterleaved
+            // "Spectrum i name":
+            // spectrumName[i]
+            // "Notes:"
+            // Notes section - all lines should start with a #
             // "Data:"
 
 
@@ -75,25 +81,61 @@ namespace Spectroscopy_Viewer
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is trap frequency
+                Console.WriteLine("Trap freq {0}", myString);
                 if (myString != "N/A") trapFrequency = float.Parse(myString);      // Convert to float and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is trap voltage
+                Console.WriteLine("Trap voltage {0}", myString);
                 if (myString != "N/A") trapVoltage = float.Parse(myString);        // Convert to float and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is AOM start frequency
+                Console.WriteLine("Start freq {0}", myString);
                 if (myString != "N/A") startFrequency = int.Parse(myString);       // Convert to int and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
+                myString = myFile.ReadLine();               // Next line is step size
+                Console.WriteLine("Step size {0}", myString);
+                if (myString != "N/A") stepSize = int.Parse(myString);              // Convert to int and save
+
+                myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is number of repeats
+                Console.WriteLine("Repeats {0}", myString);
                 if (myString != "N/A") repeats = int.Parse(myString);              // Convert to int and save
 
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
                 myString = myFile.ReadLine();               // Next line is number of interleaved spectra
+                Console.WriteLine("N interleaved {0}", myString);
                 if (myString != "N/A") numberInterleaved = int.Parse(myString);    // Convert to int and save
 
+                spectrumNames = new string[numberInterleaved];
+
+                Console.WriteLine("Found {0} interleaved spectra", numberInterleaved);
+
+                // Next we have a pair of lines for each interleaved spectrum, giving the spectrum name
+                for (int i = 0; i < numberInterleaved; i++)
+                {
+                    myString = myFile.ReadLine();               // Next line is a title (throw away)
+                    Console.WriteLine(myString);
+                    spectrumNames[i] = myFile.ReadLine();        // Next line is the spectrum name
+                    Console.WriteLine("Spectrum name: {0}", spectrumNames[i]);
+                }
+
                 myString = myFile.ReadLine();               // Next line is a title (throw away)
+
+                myString = myFile.ReadLine();               // Read first line of notes section
+                // Keep reading lines 
+                while (myString[0] == '#')
+                {
+                    myString.Remove(0, 1);
+                    notes += myString;
+                    myString = myFile.ReadLine(); 
+                }
+
+                // NB this will read one line PAST the end of the notes section. This is ok since
+                // the line after is a title to be thrown away
+                
                 //******************************//
 
                 this.processData(ref myFile);
@@ -114,6 +156,13 @@ namespace Spectroscopy_Viewer
                     stepSize = myRequestMetadata.stepSize;
                     repeats = myRequestMetadata.repeats;
                     numberInterleaved = myRequestMetadata.numberInterleaved;
+
+                    // Need to initialise this array
+                    spectrumNames = new string[numberInterleaved];
+                    for (int i = 0; i < numberInterleaved; i++)
+                    {
+                        spectrumNames[i] = "Default";
+                    }
 
                     // Just process the raw data
                     this.processData(ref myFile);
@@ -204,6 +253,18 @@ namespace Spectroscopy_Viewer
         public List<dataPoint> getDataPoints(int x)
         {
             return dataPoints[x];
+        }
+
+        // Method to return array of spectrum names from file
+        public string[] getSpectrumNames()
+        {
+            return spectrumNames;
+        }
+
+        // Method to return the string containing the 'Notes' section from file
+        public string getNotes()
+        {
+            return notes;
         }
 
     }

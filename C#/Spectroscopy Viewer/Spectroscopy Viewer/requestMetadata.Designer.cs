@@ -45,7 +45,7 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(90, 220);
+            this.buttonOK.Location = new System.Drawing.Point(90, 213);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(76, 24);
             this.buttonOK.TabIndex = 0;
@@ -155,7 +155,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(260, 256);
+            this.ClientSize = new System.Drawing.Size(260, 243);
             this.Controls.Add(this.openingFileText);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);

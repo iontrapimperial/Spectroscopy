@@ -57,7 +57,7 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(249, 151);
+            this.buttonOK.Location = new System.Drawing.Point(292, 151);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(178, 63);
             this.buttonOK.TabIndex = 10;
@@ -95,7 +95,7 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(442, 151);
+            this.buttonCancel.Location = new System.Drawing.Point(485, 151);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(59, 63);
             this.buttonCancel.TabIndex = 12;
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 229);
+            this.ClientSize = new System.Drawing.Size(556, 229);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.detectedFilesText);
             this.Controls.Add(this.detectedSpectraText);

@@ -173,8 +173,9 @@ namespace Spectroscopy_Viewer
 
                         // Create spectrumSelect form, give it list of existing spectra, number of spectra in first file
                         // file name of first file, and number of files opened
-                        mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved,
-                                                                myFileName, numberOfFiles);
+                        string[] spectrumNamesFromFile = myFilehandler.getSpectrumNames();
+                        mySpectrumSelectBox = new spectrumSelect(mySpectrum, ref spectrumNamesFromFile, numberInterleaved,
+                                                                ref myFileName, numberOfFiles);
                         mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
 
                         // Make sure the user didn't press cancel or close the dialog box
@@ -206,7 +207,7 @@ namespace Spectroscopy_Viewer
                                     // Get the list filled with data points, add to list of spectra
                                     mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
                                                     selectedSpectrum[j],         // Spectrum number
-                                                    mySpectrumSelectBox.spectrumNames[selectedSpectrum[j]]));  // Spectrum name
+                                                    mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]]));  // Spectrum name
 
                                     // Add blank PointPairList for storing plot data
                                     dataPlot.Add(new PointPairList());
