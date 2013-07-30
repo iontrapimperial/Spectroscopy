@@ -81,10 +81,10 @@ GND*                         : A10       :        :                   :         
 GND*                         : A11       :        :                   :         : 3         :                
 CLOCK_24[1]                  : A12       : input  : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : A13       :        :                   :         : 4         :                
-LEDR_temp[0]                 : A14       : output : 3.3-V LVTTL       :         : 4         : N              
+GND*                         : A14       :        :                   :         : 4         :                
 GND*                         : A15       :        :                   :         : 4         :                
 GND*                         : A16       :        :                   :         : 4         :                
-LEDR_temp[3]                 : A17       : output : 3.3-V LVTTL       :         : 4         : N              
+GND*                         : A17       :        :                   :         : 4         :                
 GND*                         : A18       :        :                   :         : 4         :                
 GND*                         : A19       :        :                   :         : 4         :                
 GND*                         : A20       :        :                   :         : 4         :                
@@ -150,7 +150,7 @@ GND*                         : B13       :        :                   :         
 GND*                         : B14       :        :                   :         : 4         :                
 GND*                         : B15       :        :                   :         : 4         :                
 GND*                         : B16       :        :                   :         : 4         :                
-LEDR_temp[1]                 : B17       : output : 3.3-V LVTTL       :         : 4         : N              
+GND*                         : B17       :        :                   :         : 4         :                
 CTS                          : B18       : output : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : B19       :        :                   :         : 4         :                
 SerialIn                     : B20       : input  : 3.3-V LVTTL       :         : 4         : Y              
@@ -191,7 +191,7 @@ GND                          : D10       : gnd    :                   :         
 GND*                         : D11       :        :                   :         : 3         :                
 CLOCK_27[0]                  : D12       : input  : 3.3-V LVTTL       :         : 3         : Y              
 GND                          : D13       : gnd    :                   :         :           :                
-LEDR_temp[2]                 : D14       : output : 3.3-V LVTTL       :         : 4         : N              
+GND*                         : D14       :        :                   :         : 4         :                
 LaserLockIn729               : D15       : input  : 3.3-V LVTTL       :         : 4         : Y              
 LaserAux2                    : D16       : output : 3.3-V LVTTL       :         : 4         : Y              
 VCCIO4                       : D17       : power  :                   : 3.3V    : 4         :                
@@ -200,7 +200,7 @@ GND*                         : D19       :        :                   :         
 PMT_In_A                     : D20       : input  : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : D21       :        :                   :         : 5         :                
 GND*                         : D22       :        :                   :         : 5         :                
-GND*                         : E1        :        :                   :         : 2         :                
+HEX1[0]                      : E1        : output : 3.3-V LVTTL       :         : 2         : Y              
 GND*                         : E2        :        :                   :         : 2         :                
 GND*                         : E3        :        :                   :         : 2         :                
 GND*                         : E4        :        :                   :         : 2         :                
@@ -289,7 +289,7 @@ GND                          : H20       : gnd    :                   :         
 NC                           : H21       :        :                   :         :           :                
 NC                           : H22       :        :                   :         :           :                
 GND*                         : J1        :        :                   :         : 2         :                
-GND*                         : J2        :        :                   :         : 2         :                
+HEX0[0]                      : J2        : output : 3.3-V LVTTL       :         : 2         : Y              
 NC                           : J3        :        :                   :         :           :                
 GND*                         : J4        :        :                   :         : 2         :                
 NC                           : J5        :        :                   :         :           :                
