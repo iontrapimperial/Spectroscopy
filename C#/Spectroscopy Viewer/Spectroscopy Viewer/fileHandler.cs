@@ -34,7 +34,7 @@ namespace Spectroscopy_Viewer
         }
 
         // Constructor given a file (pass by reference!)
-        public fileHandler(ref System.IO.StreamReader myFile)
+        public fileHandler(ref System.IO.StreamReader myFile, string myFileName)
         {
             //*************************************//
             // Metadata format
@@ -103,7 +103,7 @@ namespace Spectroscopy_Viewer
             {
                 // Open a form requesting metadata (start freq, repeats, step size, number of spectra)
                 // & wait for it to be closed before continuing
-                requestMetadata myRequestMetadata = new requestMetadata();
+                requestMetadata myRequestMetadata = new requestMetadata(ref myFileName);
                 myRequestMetadata.ShowDialog();
 
                 // Check that user has pressed ok

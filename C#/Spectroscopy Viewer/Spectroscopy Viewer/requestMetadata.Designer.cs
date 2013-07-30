@@ -39,12 +39,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.openingFileText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(92, 210);
+            this.buttonOK.Location = new System.Drawing.Point(90, 220);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(76, 24);
             this.buttonOK.TabIndex = 0;
@@ -54,7 +55,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 97);
+            this.label1.Location = new System.Drawing.Point(15, 109);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             // startFreqBox
             // 
-            this.startFreqBox.Location = new System.Drawing.Point(139, 97);
+            this.startFreqBox.Location = new System.Drawing.Point(139, 109);
             this.startFreqBox.Name = "startFreqBox";
             this.startFreqBox.Size = new System.Drawing.Size(100, 20);
             this.startFreqBox.TabIndex = 2;
@@ -70,7 +71,7 @@
             // 
             // stepSizeBox
             // 
-            this.stepSizeBox.Location = new System.Drawing.Point(139, 123);
+            this.stepSizeBox.Location = new System.Drawing.Point(139, 135);
             this.stepSizeBox.Name = "stepSizeBox";
             this.stepSizeBox.Size = new System.Drawing.Size(100, 20);
             this.stepSizeBox.TabIndex = 3;
@@ -78,7 +79,7 @@
             // 
             // repeatsBox
             // 
-            this.repeatsBox.Location = new System.Drawing.Point(139, 149);
+            this.repeatsBox.Location = new System.Drawing.Point(139, 161);
             this.repeatsBox.Name = "repeatsBox";
             this.repeatsBox.Size = new System.Drawing.Size(100, 20);
             this.repeatsBox.TabIndex = 4;
@@ -86,7 +87,7 @@
             // 
             // numberInterleavedBox
             // 
-            this.numberInterleavedBox.Location = new System.Drawing.Point(139, 175);
+            this.numberInterleavedBox.Location = new System.Drawing.Point(139, 187);
             this.numberInterleavedBox.Name = "numberInterleavedBox";
             this.numberInterleavedBox.Size = new System.Drawing.Size(100, 20);
             this.numberInterleavedBox.TabIndex = 5;
@@ -95,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 123);
+            this.label2.Location = new System.Drawing.Point(15, 135);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 6;
@@ -104,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 149);
+            this.label3.Location = new System.Drawing.Point(15, 161);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(97, 13);
             this.label3.TabIndex = 7;
@@ -113,7 +114,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 175);
+            this.label4.Location = new System.Drawing.Point(15, 187);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(124, 13);
             this.label4.TabIndex = 8;
@@ -132,7 +133,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 39);
+            this.label6.Location = new System.Drawing.Point(18, 57);
             this.label6.MaximumSize = new System.Drawing.Size(250, 100);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(221, 39);
@@ -141,11 +142,21 @@
                 "iles! Please enter the following information:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // openingFileText
+            // 
+            this.openingFileText.AutoSize = true;
+            this.openingFileText.Location = new System.Drawing.Point(21, 35);
+            this.openingFileText.Name = "openingFileText";
+            this.openingFileText.Size = new System.Drawing.Size(69, 13);
+            this.openingFileText.TabIndex = 12;
+            this.openingFileText.Text = "Opening file: ";
+            // 
             // requestMetadata
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(260, 242);
+            this.ClientSize = new System.Drawing.Size(260, 256);
+            this.Controls.Add(this.openingFileText);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -177,5 +188,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label openingFileText;
     }
 }

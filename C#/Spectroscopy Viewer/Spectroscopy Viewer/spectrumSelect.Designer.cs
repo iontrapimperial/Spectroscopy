@@ -33,6 +33,8 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.addNewSpectrumButton = new System.Windows.Forms.Button();
             this.detectedSpectraText = new System.Windows.Forms.Label();
+            this.detectedFilesText = new System.Windows.Forms.Label();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // newSpectrumNameBox
@@ -55,9 +57,9 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(295, 160);
+            this.buttonOK.Location = new System.Drawing.Point(249, 151);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(206, 62);
+            this.buttonOK.Size = new System.Drawing.Size(178, 63);
             this.buttonOK.TabIndex = 10;
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -75,17 +77,38 @@
             // detectedSpectraText
             // 
             this.detectedSpectraText.AutoSize = true;
-            this.detectedSpectraText.Location = new System.Drawing.Point(12, 9);
+            this.detectedSpectraText.Location = new System.Drawing.Point(12, 53);
             this.detectedSpectraText.Name = "detectedSpectraText";
-            this.detectedSpectraText.Size = new System.Drawing.Size(35, 13);
+            this.detectedSpectraText.Size = new System.Drawing.Size(126, 13);
             this.detectedSpectraText.TabIndex = 1;
-            this.detectedSpectraText.Text = "label2";
+            this.detectedSpectraText.Text = "Text for detected spectra";
+            // 
+            // detectedFilesText
+            // 
+            this.detectedFilesText.AutoSize = true;
+            this.detectedFilesText.Location = new System.Drawing.Point(12, 13);
+            this.detectedFilesText.Name = "detectedFilesText";
+            this.detectedFilesText.Size = new System.Drawing.Size(109, 13);
+            this.detectedFilesText.TabIndex = 11;
+            this.detectedFilesText.Text = "Text for detected files";
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(442, 151);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(59, 63);
+            this.buttonCancel.TabIndex = 12;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // spectrumSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(513, 229);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.detectedFilesText);
             this.Controls.Add(this.detectedSpectraText);
             this.Controls.Add(this.addNewSpectrumButton);
             this.Controls.Add(this.buttonOK);
@@ -105,5 +128,7 @@
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button addNewSpectrumButton;
         private System.Windows.Forms.Label detectedSpectraText;
+        private System.Windows.Forms.Label detectedFilesText;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

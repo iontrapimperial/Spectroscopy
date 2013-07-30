@@ -118,7 +118,6 @@ namespace Spectroscopy_Viewer
         }
 
 
-
         // Respond to 'Load data' button press
         private void loadDataButton_Click(object sender, EventArgs e)
         {
@@ -126,80 +125,120 @@ namespace Spectroscopy_Viewer
             openDataFile.InitialDirectory = "Z:/Data";      // Initialise to share drive
             openDataFile.RestoreDirectory = true;           // Open to last viewed directory
             openDataFile.FileName = "";                     // Set default filename to blank
-
+            openDataFile.Multiselect = true;                // Allow selection of multiple files
 
             // Show dialog to open new data file
             // Do not attempt to open file if user has pressed cancel
             if (openDataFile.ShowDialog() != DialogResult.Cancel)
             {
+                // Want to only open files if they have the same number of interleaved spectra
+                // So keep a 'master' record of how many there are interleaved in the first file
+                int numberInterleavedMaster = new int();
+                bool selectionMade = false;     // Flag whether user made the selection successfully
 
- //               try
-   //             {
+                // These are variables which get initialised in the first loop (when i == 0)
+                // Need to declare them here (not in if statement) to avoid compiler errors
+                // Array to store user selection of where to assign spectra
+                int[] selectedSpectrum = new int[1];        // Have to initialise this here
+                spectrumSelect mySpectrumSelectBox = new spectrumSelect();
+
+                // Store number of files being opened
+                int numberOfFiles = openDataFile.FileNames.Length;
+
+                // Loop through each file
+                for (int i = 0; i < numberOfFiles; i++)
+                {
+                    // Get and store just the name of the file (without full path)
+                    string myFileName = Path.GetFileName(openDataFile.FileNames[i]);
+
                     // Create new StreamReader instance to open file
-                    System.IO.StreamReader myFile = new System.IO.StreamReader(openDataFile.FileName);
+                    System.IO.StreamReader myFile = new System.IO.StreamReader(openDataFile.FileNames[i]);
                     // Create new instance of fileHandler to open & process file (pass by reference!)
-                    fileHandler myFilehandler = new fileHandler(ref myFile);
+                    fileHandler myFilehandler = new fileHandler(ref myFile, myFileName);
                     // Clean up StreamReader instance after fileHandler has finished with it
                     myFile.Close();           // Close object & release resources
 
-                    //*************************************************************//
-                    // Pop up dialog box to select which spectrum to add data to, and act accordingly
 
-                    // Check how many interleaved spectra there 
+                    // Check how many interleaved spectra there are
                     int numberInterleaved = myFilehandler.getNumberInterleaved();
 
-                    // Get and store just the name of the file (without full path)
-                    string myFileName = Path.GetFileName(openDataFile.FileName);
 
-                    // Create spectrumSelect form, give it list of existing spectra and number of spectra in file
-                    spectrumSelect mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved, myFileName);
-                    mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
-
-                    // Get array of information about which data to add to which spectrum
-                    int[] selectedSpectrum = new int[numberInterleaved];
-                    selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
-
-                    // Make sure the user didn't press cancel or close the dialog box
-                    if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
+                    if (i == 0)
                     {
-                        // For each interleaved spectrum
-                        for (int i = 0; i < numberInterleaved; i++)
+                        // Set number interleaved to compare other files to
+                        numberInterleavedMaster = numberInterleaved;
+
+                        //*************************************************************//
+                        // Pop up dialog box to select which spectrum to add data to, and save selections
+
+                        // Create spectrumSelect form, give it list of existing spectra, number of spectra in first file
+                        // file name of first file, and number of files opened
+                        mySpectrumSelectBox = new spectrumSelect(mySpectrum, numberInterleaved,
+                                                                myFileName, numberOfFiles);
+                        mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
+
+                        // Make sure the user didn't press cancel or close the dialog box
+                        if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
                         {
-                            // If the index >= number of existing spectra, new ones must have been added
-                            // (since for a list of N items, index runs from 0 to N-1)
-                            if (selectedSpectrum[i] >= numberOfSpectra)
-                            {
-                                // Get the list filled with data points, add to list of spectra
-                                mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(i),     // Data points for spectrum       
-                                               selectedSpectrum[i],         // Spectrum number
-                                               mySpectrumSelectBox.spectrumNames[selectedSpectrum[i]] ) );  // Spectrum name
+                            // Get array of information about which data to add to which spectrum
+                            selectedSpectrum = new int[numberInterleaved];
+                            selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
+                            selectionMade = true;
+                        }   
 
-                                // Add blank PointPairList for storing plot data
-                                dataPlot.Add(new PointPairList());
+                    } // End of if statement which checks if i == 0
 
-                            }
-                            else
+
+                    // Check that number interleaved is correct
+                    if (numberInterleaved == numberInterleavedMaster)
+                    {
+                        // Check that user has selected destinations for all spectra
+                        if (selectionMade)
+                        {
+                            // For each interleaved spectrum, check where it is being assigned to
+                            // 
+                            for (int j = 0; j < numberInterleaved; j++)
                             {
-                                // Add list of data points from file handler into existing spectrum
-                                mySpectrum[selectedSpectrum[i]].addToSpectrum(myFilehandler.getDataPoints(i));
+                                // If the index >= number of existing spectra, new ones must have been added
+                                // (since for a list of N items, index runs from 0 to N-1)
+                                if (selectedSpectrum[j] >= numberOfSpectra)
+                                {
+                                    // Get the list filled with data points, add to list of spectra
+                                    mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
+                                                    selectedSpectrum[j],         // Spectrum number
+                                                    mySpectrumSelectBox.spectrumNames[selectedSpectrum[j]]));  // Spectrum name
+
+                                    // Add blank PointPairList for storing plot data
+                                    dataPlot.Add(new PointPairList());
+                                }
+                                else
+                                {
+                                    // Add list of data points from file handler into existing spectrum
+                                    mySpectrum[selectedSpectrum[j]].addToSpectrum(myFilehandler.getDataPoints(j));
+                                }
                             }
+                            // Update number of spectra
+                            numberOfSpectra = mySpectrum.Count();
+                            Console.WriteLine("{0} spectra", numberOfSpectra);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Spectra destinations not assigned. Data not loaded.");
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("Number of spectra interleaved in file " + myFileName +
+                            " (" + numberInterleaved + " spectra) does not match previous files. File skipped.");
+                    }
 
-                    //**************************************************************
+                    // .NET garbage collector should deal with reclaiming memory used by myFileHandler
 
-                    
-  /*              }
-                catch (Exception)   // If any general exception is thrown
-                {
-                    MessageBox.Show("Error");
-
-                }*/
+                } // End of for loop which goes through each file
             }
-
-            // Update number of spectra
-            numberOfSpectra = mySpectrum.Count();
+            
         }
+        
 
 
         // Method to respond to 'Plot data' button press
@@ -253,139 +292,145 @@ namespace Spectroscopy_Viewer
         // NB histogram is recreated with every button click, since it is a fairly quick process and doesn't happen often
         private void updateHistogramButton_Click(object sender, EventArgs e)
         {
-            // Calculating data for histogram
-            //********************************//
-
-            // Initialise variables every time we re-create the histogram
-            histogramSize = new int();
-
-            // Local variables used within this method
-            int[] tempHistogramCool;
-            int[] tempHistogramCount;
-            int tempHistogramSize = new int();
-            
-
-            // For each spectrum
-            for (int i = 0; i < numberOfSpectra; i++)
+            // Do not attempt to do anything if no spectra have been created
+            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            else
             {
-                // Temporarily store histograms for this spectrum
-                tempHistogramCool = mySpectrum[i].getHistogramCool();
-                tempHistogramCount = mySpectrum[i].getHistogramCount();
+                // Calculating data for histogram
+                //********************************//
 
-                // Find size of histograms for this spectrum
-                tempHistogramSize = tempHistogramCool.Length;
+                // Initialise variables every time we re-create the histogram
+                histogramSize = new int();
 
-                // For the first spectrum only
-                if (i == 0)
+                // Local variables used within this method
+                int[] tempHistogramCool;
+                int[] tempHistogramCount;
+                int tempHistogramSize = new int();
+
+
+                // For each spectrum
+                for (int i = 0; i < numberOfSpectra; i++)
                 {
-                    // Store size of lists
-                    histogramSize = tempHistogramSize;
+                    // Temporarily store histograms for this spectrum
+                    tempHistogramCool = mySpectrum[i].getHistogramCool();
+                    tempHistogramCount = mySpectrum[i].getHistogramCount();
 
-                    // Create arrays of the right size
-                    histogramCool = new int[histogramSize];
-                    histogramCount = new int[histogramSize];
-                    histogramAll = new int[histogramSize];
+                    // Find size of histograms for this spectrum
+                    tempHistogramSize = tempHistogramCool.Length;
 
-
-                    // Loop through each histogram bin and populate arrays
-                    for (int j = 0; j < histogramSize; j++)
+                    // For the first spectrum only
+                    if (i == 0)
                     {
-                        // Populate arrays from temp histograms
-                        // NB cannot just use e.g. histogramCool = tempHistogram, this will cause errors
-                        // since arrays are a reference type. Need to manipulate each element individually
-                        histogramCool[j] = tempHistogramCool[j];
-                        histogramCount[j] = tempHistogramCount[j];
+                        // Store size of lists
+                        histogramSize = tempHistogramSize;
 
-                        // Calculate total data and store in another array (cool + count)
-                        histogramAll[j] = histogramCool[j] + histogramCount[j];
-                    }
-            
-                }
-                else
-                {   // For subsequent spectra, go through and add the data to existing lists
-                    for (int j = 0; j < histogramSize; j++)
-                    {
-                        // Sum the data from each spectrum into the full list
-                        histogramCool[j] += tempHistogramCool[j];
-                        histogramCount[j] += tempHistogramCount[j];
+                        // Create arrays of the right size
+                        histogramCool = new int[histogramSize];
+                        histogramCount = new int[histogramSize];
+                        histogramAll = new int[histogramSize];
 
-                        histogramAll[j] = histogramCool[j] + histogramCount[j];
 
-                    }
-
-                    // If the histogram for the current spectrum is larger than the existing histogram
-                    if (tempHistogramSize > histogramSize)
-                    {
-                        Array.Resize(ref histogramCool, tempHistogramSize);
-                        Array.Resize(ref histogramCount, tempHistogramSize);
-                        Array.Resize(ref histogramAll, tempHistogramSize);
-
-                        // Fill in the data into the new bins
-                        for (int j = histogramSize; j < tempHistogramSize; j++)
+                        // Loop through each histogram bin and populate arrays
+                        for (int j = 0; j < histogramSize; j++)
                         {
+                            // Populate arrays from temp histograms
+                            // NB cannot just use e.g. histogramCool = tempHistogram, this will cause errors
+                            // since arrays are a reference type. Need to manipulate each element individually
                             histogramCool[j] = tempHistogramCool[j];
                             histogramCount[j] = tempHistogramCount[j];
+
+                            // Calculate total data and store in another array (cool + count)
                             histogramAll[j] = histogramCool[j] + histogramCount[j];
                         }
 
-                        // Update size of list (could use tempHistogramSize, but recalculate just in case)
-                        histogramSize = histogramCool.Count();
                     }
+                    else
+                    {   // For subsequent spectra, go through and add the data to existing lists
+                        for (int j = 0; j < histogramSize; j++)
+                        {
+                            // Sum the data from each spectrum into the full list
+                            histogramCool[j] += tempHistogramCool[j];
+                            histogramCount[j] += tempHistogramCount[j];
+
+                            histogramAll[j] = histogramCool[j] + histogramCount[j];
+
+                        }
+
+                        // If the histogram for the current spectrum is larger than the existing histogram
+                        if (tempHistogramSize > histogramSize)
+                        {
+                            Array.Resize(ref histogramCool, tempHistogramSize);
+                            Array.Resize(ref histogramCount, tempHistogramSize);
+                            Array.Resize(ref histogramAll, tempHistogramSize);
+
+                            // Fill in the data into the new bins
+                            for (int j = histogramSize; j < tempHistogramSize; j++)
+                            {
+                                histogramCool[j] = tempHistogramCool[j];
+                                histogramCount[j] = tempHistogramCount[j];
+                                histogramAll[j] = histogramCool[j] + histogramCount[j];
+                            }
+
+                            // Update size of list (could use tempHistogramSize, but recalculate just in case)
+                            histogramSize = histogramCool.Count();
+                        }
+                    }
+
+                }       // End of loop which goes through spectra and creates histogram
+
+                //********************************//
+
+
+                // Store the data in a table for plotting to graph
+                // Try to create a data table with the lists as columns
+                DataSet histogramDataSet = new DataSet();
+                DataTable histogramTable = new DataTable();
+
+                histogramDataSet.Tables.Add(histogramTable);
+
+                // Create columns
+                histogramTable.Columns.Add(new DataColumn("Bin", typeof(int)));
+                histogramTable.Columns.Add(new DataColumn("Cool period", typeof(int)));
+                histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
+                histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
+
+                for (int i = 0; i < histogramSize; i++)
+                {
+                    DataRow myRow = histogramTable.NewRow();
+                    myRow["Bin"] = i;
+                    myRow["Cool period"] = histogramCool[i];
+                    myRow["Count period"] = histogramCount[i];
+                    myRow["All"] = histogramAll[i];
+                    histogramTable.Rows.Add(myRow);
                 }
 
-            }
+                //********************************//
+                // Plotting histogram data on graph
+                // Need to convert to an enumerable type to get it to dataBind properly
+                // Clear the chart first so that when we re-create the histogram it doesn't cause an error
+                this.histogramChart.DataBindings.Clear();
+                this.histogramChart.Series.Clear();
 
-            //********************************//
+                var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
+                this.histogramChart.DataBindTable(enumerableTable, "Bin");
 
+                // This line throws an error when chart already exists & update button is pressed
 
-            // Store the data in a table for plotting to graph
-            // Try to create a data table with the lists as columns
-            DataSet histogramDataSet = new DataSet();
-            DataTable histogramTable = new DataTable();
+                // Turn off ticks on x axis
+                histogramChart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
 
-            histogramDataSet.Tables.Add(histogramTable);
+                // Enable radio buttons to select display
+                histogramDisplayAll.Enabled = true;
+                histogramDisplayCool.Enabled = true;
+                histogramDisplayCount.Enabled = true;
 
-            // Create columns
-            histogramTable.Columns.Add(new DataColumn("Bin", typeof(int) ) );
-            histogramTable.Columns.Add(new DataColumn("Cool period", typeof(int)));
-            histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
-            histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
+                // Set interval to 1 so that the number will be displayed for each bin
+                histogramChart.ChartAreas[0].AxisX.Interval = 1;
 
-            for (int i = 0; i < histogramSize; i++)
-            {
-                DataRow myRow = histogramTable.NewRow();
-                myRow["Bin"] = i;
-                myRow["Cool period"] = histogramCool[i];
-                myRow["Count period"] = histogramCount[i];
-                myRow["All"] = histogramAll[i];
-                histogramTable.Rows.Add(myRow);
-            }
+                // Check which radio button is checked & plot correct series
+                this.radioButtonDisplay_CheckedChanged(sender, e);
 
-            //********************************//
-            // Plotting histogram data on graph
-            // Need to convert to an enumerable type to get it to dataBind properly
-            // Clear the chart first so that when we re-create the histogram it doesn't cause an error
-            this.histogramChart.DataBindings.Clear();
-            this.histogramChart.Series.Clear();
-
-            var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
-            this.histogramChart.DataBindTable(enumerableTable, "Bin");
-
-            // This line throws an error when chart already exists & update button is pressed
-
-            // Turn off ticks on x axis
-            histogramChart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-
-            // Enable radio buttons to select display
-            histogramDisplayAll.Enabled = true;
-            histogramDisplayCool.Enabled = true;
-            histogramDisplayCount.Enabled = true;
-
-            // Set interval to 1 so that the number will be displayed for each bin
-            histogramChart.ChartAreas[0].AxisX.Interval = 1;
-
-            // Check which radio button is checked & plot correct series
-            this.radioButtonDisplay_CheckedChanged(sender, e);
+            }   // End of if statement checking that data has been loaded
     
         }
 
@@ -487,27 +532,32 @@ namespace Spectroscopy_Viewer
         // Opens a dialogue to save histogram data independently for each displayed spectrum
         private void histogramExportData_Click(object sender, EventArgs e)
         {
-            // Configuring dialog to save file
-            saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
-            saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
-            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-
-            // Show new dialogue for each spectrum
-            for (int i = 0; i < numberOfSpectra; i++)
+            // Do not attempt to do anything if no spectra have been created
+            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            else
             {
-                saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
-                saveFileDialog.FileName = mySpectrum[i].getName() + " histogram data.txt";
+                // Configuring dialog to save file
+                saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
+                saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
-                // Show dialog to save file
-                // Check that user has not pressed cancel before continuing to save file
-                if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                // Show new dialogue for each spectrum
+                for (int i = 0; i < numberOfSpectra; i++)
                 {
-                    // Create streamwriter object to write to file
-                    // With filename given from user input
-                    TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
+                    saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
+                    saveFileDialog.FileName = mySpectrum[i].getName() + " histogram data.txt";
 
-                    // Call method in the spectrum class to write data to the file
-                    mySpectrum[i].writeHistogramData(ref histogramFile);
+                    // Show dialog to save file
+                    // Check that user has not pressed cancel before continuing to save file
+                    if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                    {
+                        // Create streamwriter object to write to file
+                        // With filename given from user input
+                        TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
+
+                        // Call method in the spectrum class to write data to the file
+                        mySpectrum[i].writeHistogramData(ref histogramFile);
+                    }
                 }
             }
 
@@ -515,31 +565,34 @@ namespace Spectroscopy_Viewer
 
         private void spectrumExportData_Click(object sender, EventArgs e)
         {
-            // Configuring dialog to save file
-            saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
-            saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
-            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-
-            // Show new dialogue for each spectrum
-            for (int i = 0; i < numberOfSpectra; i++)
+            // Do not attempt to do anything if no spectra have been created
+            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            else
             {
-                saveFileDialog.Title = "Save data for spectrum" + (i + 1);
-                saveFileDialog.FileName = mySpectrum[i].getName() + "_data.txt";
+                // Configuring dialog to save file
+                saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
+                saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
-                // Show dialog to save file
-                // Check that user has not pressed cancel before continuing to save file
-                if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                // Show new dialogue for each spectrum
+                for (int i = 0; i < numberOfSpectra; i++)
                 {
-                    // Create streamwriter object to write to file
-                    // With filename given from user input
-                    TextWriter myDataFile = new StreamWriter(saveFileDialog.FileName);
+                    saveFileDialog.Title = "Save data for spectrum" + (i + 1);
+                    saveFileDialog.FileName = mySpectrum[i].getName() + "_data.txt";
 
-                    // Call method in the spectrum class to write data to the file
-                    mySpectrum[i].writePlotData(ref myDataFile);
+                    // Show dialog to save file
+                    // Check that user has not pressed cancel before continuing to save file
+                    if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                    {
+                        // Create streamwriter object to write to file
+                        // With filename given from user input
+                        TextWriter myDataFile = new StreamWriter(saveFileDialog.FileName);
+
+                        // Call method in the spectrum class to write data to the file
+                        mySpectrum[i].writePlotData(ref myDataFile);
+                    }
                 }
             }
-
-
 
         }
 

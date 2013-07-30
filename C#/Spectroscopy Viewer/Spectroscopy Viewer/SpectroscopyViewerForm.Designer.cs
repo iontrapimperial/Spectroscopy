@@ -41,6 +41,7 @@
             this.plotDataButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSpectra = new System.Windows.Forms.TabPage();
+            this.spectrumExportData = new System.Windows.Forms.Button();
             this.tabPageHistogram = new System.Windows.Forms.TabPage();
             this.histogramExportData = new System.Windows.Forms.Button();
             this.groupBoxMaxBin = new System.Windows.Forms.GroupBox();
@@ -53,7 +54,6 @@
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.spectrumExportData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -87,10 +87,10 @@
             // 
             // loadDataButton
             // 
-            this.loadDataButton.Location = new System.Drawing.Point(640, 4);
+            this.loadDataButton.Location = new System.Drawing.Point(8, 5);
             this.loadDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadDataButton.Name = "loadDataButton";
-            this.loadDataButton.Size = new System.Drawing.Size(159, 25);
+            this.loadDataButton.Size = new System.Drawing.Size(163, 36);
             this.loadDataButton.TabIndex = 2;
             this.loadDataButton.Text = "Load data";
             this.loadDataButton.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@
             // 
             // coolingThresholdSelect
             // 
-            this.coolingThresholdSelect.Location = new System.Drawing.Point(5, 22);
+            this.coolingThresholdSelect.Location = new System.Drawing.Point(210, 22);
             this.coolingThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
             this.coolingThresholdSelect.Name = "coolingThresholdSelect";
             this.coolingThresholdSelect.Size = new System.Drawing.Size(90, 20);
@@ -112,7 +112,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 3);
+            this.label1.Location = new System.Drawing.Point(210, 3);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 13);
@@ -121,7 +121,7 @@
             // 
             // countThresholdSelect
             // 
-            this.countThresholdSelect.Location = new System.Drawing.Point(111, 22);
+            this.countThresholdSelect.Location = new System.Drawing.Point(316, 22);
             this.countThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
             this.countThresholdSelect.Name = "countThresholdSelect";
             this.countThresholdSelect.Size = new System.Drawing.Size(90, 20);
@@ -135,7 +135,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(111, 3);
+            this.label2.Location = new System.Drawing.Point(316, 3);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
@@ -144,10 +144,10 @@
             // 
             // plotDataButton
             // 
-            this.plotDataButton.Location = new System.Drawing.Point(221, 18);
+            this.plotDataButton.Location = new System.Drawing.Point(426, 5);
             this.plotDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.plotDataButton.Name = "plotDataButton";
-            this.plotDataButton.Size = new System.Drawing.Size(74, 24);
+            this.plotDataButton.Size = new System.Drawing.Size(116, 37);
             this.plotDataButton.TabIndex = 7;
             this.plotDataButton.Text = "Plot data";
             this.plotDataButton.UseVisualStyleBackColor = true;
@@ -165,6 +165,7 @@
             // 
             // tabPageSpectra
             // 
+            this.tabPageSpectra.Controls.Add(this.loadDataButton);
             this.tabPageSpectra.Controls.Add(this.spectrumExportData);
             this.tabPageSpectra.Controls.Add(this.zedGraphSpectra);
             this.tabPageSpectra.Controls.Add(this.plotDataButton);
@@ -179,6 +180,16 @@
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
+            // 
+            // spectrumExportData
+            // 
+            this.spectrumExportData.Location = new System.Drawing.Point(636, 5);
+            this.spectrumExportData.Name = "spectrumExportData";
+            this.spectrumExportData.Size = new System.Drawing.Size(137, 36);
+            this.spectrumExportData.TabIndex = 8;
+            this.spectrumExportData.Text = "Export spectrum data...";
+            this.spectrumExportData.UseVisualStyleBackColor = true;
+            this.spectrumExportData.Click += new System.EventHandler(this.spectrumExportData_Click);
             // 
             // tabPageHistogram
             // 
@@ -316,22 +327,11 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
-            // spectrumExportData
-            // 
-            this.spectrumExportData.Location = new System.Drawing.Point(634, 5);
-            this.spectrumExportData.Name = "spectrumExportData";
-            this.spectrumExportData.Size = new System.Drawing.Size(139, 36);
-            this.spectrumExportData.TabIndex = 8;
-            this.spectrumExportData.Text = "Export spectrum data...";
-            this.spectrumExportData.UseVisualStyleBackColor = true;
-            this.spectrumExportData.Click += new System.EventHandler(this.spectrumExportData_Click);
-            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(811, 550);
-            this.Controls.Add(this.loadDataButton);
             this.Controls.Add(this.tabControl1);
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";

@@ -30,8 +30,15 @@ namespace Spectroscopy_Viewer
         public int[] selectedSpectrum;        // Which spectrum is selected for each data set
         public List<string> spectrumNames = new List<string>();     // List of names
 
+        // Empty constructor - for when we need to initialise to avoid compiler errors
+        // but don't yet have the right data for creating the form
+        public spectrumSelect()
+        {
+
+        }
+
         // Constructor given a list of existing spectra
-        public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed, string myFileName)
+        public spectrumSelect(List<spectrum> mySpectrum, int numberInterleavedPassed, string myFileName, int numberOfFiles)
         {
             InitializeComponent();
 
@@ -72,6 +79,9 @@ namespace Spectroscopy_Viewer
             // Set defaults for text box
             newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
             
+            // Set text telling the user how many files have been opened
+            detectedFilesText.Text = numberOfFiles + " files opened";
+
             // Set text telling the user how many spectra have been detected
             detectedSpectraText.Text = "Valid file " + myFileName + " opened \nFile contains "
                                         + numberInterleaved + " interleaved spectra"

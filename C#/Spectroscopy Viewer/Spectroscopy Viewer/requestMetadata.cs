@@ -18,7 +18,7 @@ namespace Spectroscopy_Viewer
         public int repeats = new int();
         public int numberInterleaved = new int();
 
-        public requestMetadata()
+        public requestMetadata(ref string myFileName)
         {
             InitializeComponent();
 
@@ -27,6 +27,8 @@ namespace Spectroscopy_Viewer
             stepSizeBox.Text = "20";
             repeatsBox.Text = "100";
             numberInterleavedBox.Text = "1";
+
+            this.openingFileText.Text += myFileName;
         }
 
         // Respond to change in any of the values
