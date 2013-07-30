@@ -206,8 +206,8 @@ namespace Spectroscopy_Viewer
                 if (maxSize > histogramCool.Length)
                 {
                     // Extend arrays to add new bins
-                    Array.Resize(ref histogramCool, (existingSize + listSize));
-                    Array.Resize(ref histogramCount, (existingSize + listSize));
+                    Array.Resize(ref histogramCool, (maxSize));
+                    Array.Resize(ref histogramCount, (maxSize));
                 }
             }
             else
