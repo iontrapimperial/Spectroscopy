@@ -55,6 +55,12 @@ namespace Spectroscopy_Viewer
             // "File contains interleaved spectra:"
             // numberInterleaved
             // "Data:"
+
+
+            // Two "name" labels - one in file, one for displaying on graph
+            // Name spectra on creation rather than when loading file?
+            // Include notes section - parse & display in a window
+
             //*************************************//
 
             // String to temporarily store data from the file

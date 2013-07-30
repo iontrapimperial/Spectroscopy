@@ -54,7 +54,7 @@ namespace Spectroscopy_Viewer
         {
             myDataPoints = dataPointsPassed;        // Store list of data points
             dataSize = myDataPoints.Count;          // Count number of data points
-            this.createHistogram();                 // Create data for histogram
+            this.createHistogram(myDataPoints, false);      // Create data for histograms
 
         }
 
@@ -72,6 +72,9 @@ namespace Spectroscopy_Viewer
             beenInitialised = false;                // Flag to recalculate all data
             // NB this is slightly slower than just calculating the data that has been added
             // but it should be fast enough, and it is much easier/quicker to write!
+            
+            // Update histograms from new data points. 'True' flags that this is an update to existing histograms
+            createHistogram(dataPointsPassed, true);
         }
 
 
@@ -153,18 +156,42 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to create arrays of data for the histogram
-        private void createHistogram()
+        private void createHistogram(List<dataPoint> dataPointsPassed, bool update)
         {
-            // Variable to keep track of the maximum number of counts
-            int[] maxSizeDataPoint = new int[dataSize];
-            int maxSize = 0;
+            // Declare variables to be used in if statements (compiler complains if they haven't been initialised)
+            // listSize stores size of new data points to be processed - for update only
+            int listSize = new int();       
+            // existingSize stores size of existing array - for update only
+            int existingSize = new int();
+           
+
+            // To do whether we are updating or creating histogram
+            int maxSize = 0;            // Store maximum size overall
+            int[] maxSizeDataPoint;     // Store maximum size of each data point
+            int loopSize;               // Store length of the for loop (how many data points to process)  
+
+            // If we are updating the histogram
+            if (update)
+            {
+                listSize = dataPointsPassed.Count();
+                maxSizeDataPoint = new int[listSize];
+                existingSize = histogramCool.Length;
+                loopSize = listSize;            // Loop through new data points in the list
+            }
+            else
+            {   // Otherwise, we create for the first time
+                // Variable to keep track of the maximum number of counts
+                maxSizeDataPoint = new int[dataSize];
+                loopSize = dataSize;                // Loop through full length of myDataPoints
+            }
+            
 
             // For each data point
-            for (int i = 0; i < dataSize; i++)
+            for (int i = 0; i < loopSize; i++)
             {
                 // Use temp variable to store max count from each data point
                 // Avoids calling function getMax() twice
-                maxSizeDataPoint[i] = myDataPoints[i].getHistogramSize();
+                maxSizeDataPoint[i] = dataPointsPassed[i].getHistogramSize();
                 // If the max counts in this data point is larger than any found previously
                 if (maxSizeDataPoint[i] > maxSize)
                 {
@@ -172,15 +199,31 @@ namespace Spectroscopy_Viewer
                 }
             }
 
-            histogramCool = new int[maxSize];
-            histogramCount = new int[maxSize];
 
+            if (update)
+            {
+                // If the new max size is larger than the existing array
+                if (maxSize > histogramCool.Length)
+                {
+                    // Extend arrays to add new bins
+                    Array.Resize(ref histogramCool, (existingSize + listSize));
+                    Array.Resize(ref histogramCount, (existingSize + listSize));
+                }
+            }
+            else
+            {
+                histogramCool = new int[maxSize];
+                histogramCount = new int[maxSize];
+            }
+
+
+            // Add data to histogram
             // For each data point
-            for (int i = 0; i < dataSize; i++)
+            for (int i = 0; i < loopSize; i++)
             {
                 // Retrieve the histogram for this data point
-                int[] tempHistogramCool_DataPoint = myDataPoints[i].getHistogramCool();
-                int[] tempHistogramCount_DataPoint = myDataPoints[i].getHistogramCount();
+                int[] tempHistogramCool_DataPoint = dataPointsPassed[i].getHistogramCool();
+                int[] tempHistogramCount_DataPoint = dataPointsPassed[i].getHistogramCount();
 
                 // For each bin
                 for (int j = 0; j < maxSizeDataPoint[i]; j++)
@@ -190,28 +233,7 @@ namespace Spectroscopy_Viewer
                     histogramCount[j] += tempHistogramCount_DataPoint[j];
                 }
             }
-
-            /*
-            TextWriter testFile = new StreamWriter("C:/Users/localadmin/Documents/Histogram.txt");
-
-            for (int i = 0; i < maxSize; i++)
-            {
-                testFile.WriteLine("{0}, Cool: {1}, Count: {2}", i, histogramCool[i], histogramCount[i]);
-            }
-
-            testFile.Flush();
-            testFile.Close();
-            */
         }
-
-        // Method to update histogram (called only when new data points are added to spectrum)
-        private void updateHistogram(List<dataPoint> dataPointsPassed)
-        {
-            // Needs to be written!
-
-        }
-
-
 
         // Method to create data for plotting to graph
         // Also creates lists of bad counts
