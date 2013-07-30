@@ -49,12 +49,16 @@ namespace Spectroscopy_Viewer
             // Create new item in list for each existing spectrum
             for (int i = 0; i < existingSpectra; i++)
             {
-                spectrumNames.Add( mySpectrum[i].getName() );                     // Retrieve name of spectrum
-                myListOfSpectra[0].Add("Spectrum " + (i+1) + " (" + spectrumNames[i] + ")");    // Concatenate string with name & number
+                // Retrieve name of spectrum
+                spectrumNames.Add( mySpectrum[i].getName() );                     
+                // Concatenate string with name & number
+                myListOfSpectra[0].Add("Spectrum " + (i+1) + " (" + spectrumNames[i] + ")");    
             }
          
 
-            // Duplicate list - make sure you duplicate the ITEMS not the LIST
+            // Duplicate list - make sure you duplicate the ITEMS not the LIST (list points to a place in memory)
+            // Create a new list for each interleaved data set
+            // These lists will be used to populate the drop-down boxes for users to assign data to spectra
             for (int i = 1; i < numberInterleaved; i++)
             {
                 myListOfSpectra[i] = new BindingList<string>();
