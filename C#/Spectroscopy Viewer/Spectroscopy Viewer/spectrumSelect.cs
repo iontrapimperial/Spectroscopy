@@ -81,11 +81,13 @@ namespace Spectroscopy_Viewer
             newSpectrumNameBox.MaxLength = 100;          // Set a sensible maximum length for spectrum name
             
             // Set text telling the user how many files have been opened
-            detectedFilesText.Text = numberOfFiles + " files opened";
+            detectedFilesText.Text = numberOfFiles + " file";
+            if (numberOfFiles > 1) detectedFilesText.Text += "s";
+            detectedFilesText.Text += " opened";
 
             // Set text telling the user how many spectra have been detected
-            detectedSpectraText.Text = "Valid file " + myFileName + " opened \nFile contains "
-                                        + numberInterleaved + " interleaved spectra"
+            detectedSpectraText.Text = @"Valid file """ + myFileName.Replace(".txt", "") + @""" opened." + System.Environment.NewLine
+                                        + "File contains " + numberInterleaved + " interleaved spectra"
                                         + "\nPlease choose destinations:";
 
 

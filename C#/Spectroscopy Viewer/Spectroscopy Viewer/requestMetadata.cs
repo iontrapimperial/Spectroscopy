@@ -28,7 +28,7 @@ namespace Spectroscopy_Viewer
             repeatsBox.Text = "100";
             numberInterleavedBox.Text = "1";
 
-            this.openingFileText.Text += myFileName;
+            this.openingFileText.Text += myFileName.Replace(".txt", "") + @"""";
         }
 
         // Respond to change in any of the values
