@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -55,6 +55,7 @@
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.clearDataButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -93,9 +94,9 @@
             this.loadDataButton.Name = "loadDataButton";
             this.loadDataButton.Size = new System.Drawing.Size(163, 36);
             this.loadDataButton.TabIndex = 2;
-            this.loadDataButton.Text = "Load data";
+            this.loadDataButton.Text = "Load file...";
             this.loadDataButton.UseVisualStyleBackColor = true;
-            this.loadDataButton.Click += new System.EventHandler(this.loadDataButton_Click);
+            this.loadDataButton.Click += new System.EventHandler(this.loadFileButton_Click);
             // 
             // coolingThresholdSelect
             // 
@@ -152,7 +153,7 @@
             this.plotDataButton.TabIndex = 7;
             this.plotDataButton.Text = "Update thresholds";
             this.plotDataButton.UseVisualStyleBackColor = true;
-            this.plotDataButton.Click += new System.EventHandler(this.plotDataButton_Click);
+            this.plotDataButton.Click += new System.EventHandler(this.updateThresholdsButton_Click);
             // 
             // tabControl1
             // 
@@ -189,7 +190,7 @@
             this.userDisplayText.Multiline = true;
             this.userDisplayText.Name = "userDisplayText";
             this.userDisplayText.ReadOnly = true;
-            this.userDisplayText.Size = new System.Drawing.Size(352, 61);
+            this.userDisplayText.Size = new System.Drawing.Size(389, 61);
             this.userDisplayText.TabIndex = 9;
             // 
             // spectrumExportData
@@ -313,17 +314,17 @@
             // 
             // histogramChart
             // 
-            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea5.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea5.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea1);
+            chartArea5.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea5);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series5);
             this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
@@ -338,11 +339,22 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
+            // clearDataButton
+            // 
+            this.clearDataButton.Location = new System.Drawing.Point(834, 2);
+            this.clearDataButton.Name = "clearDataButton";
+            this.clearDataButton.Size = new System.Drawing.Size(158, 26);
+            this.clearDataButton.TabIndex = 9;
+            this.clearDataButton.Text = "Clear all data";
+            this.clearDataButton.UseVisualStyleBackColor = true;
+            this.clearDataButton.Click += new System.EventHandler(this.clearDataButton_Click);
+            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 628);
+            this.Controls.Add(this.clearDataButton);
             this.Controls.Add(this.tabControl1);
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
@@ -390,6 +402,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button spectrumExportData;
         public System.Windows.Forms.TextBox userDisplayText;
+        private System.Windows.Forms.Button clearDataButton;
 
     }
 }

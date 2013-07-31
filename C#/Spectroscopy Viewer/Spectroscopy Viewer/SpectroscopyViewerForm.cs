@@ -68,22 +68,24 @@ namespace Spectroscopy_Viewer
         // Method to build a list of colours for the graph
         private void initialiseColours()
         {
-            // 10 different colours
-            myColoursData.Add(Color.Crimson);
-            myColoursBadCounts.Add(Color.OrangeRed);
-
+            // 5 different colours
+            
             myColoursData.Add(Color.Blue);
-            myColoursBadCounts.Add(Color.LightBlue);
+            myColoursBadCounts.Add(Color.LightSkyBlue);
 
-            myColoursData.Add(Color.Green);
+            myColoursData.Add(Color.OrangeRed);
+            myColoursBadCounts.Add(Color.SandyBrown);
+
+            myColoursData.Add(Color.ForestGreen);
             myColoursBadCounts.Add(Color.PaleGreen);
 
             myColoursData.Add(Color.Magenta);
             myColoursBadCounts.Add(Color.Pink);
 
-            myColoursData.Add(Color.YellowGreen);
-            myColoursBadCounts.Add(Color.Yellow);
+            myColoursData.Add(Color.Teal);
+            myColoursBadCounts.Add(Color.PaleTurquoise);
 
+            
         }
 
         // Respond to form 'Load' event
@@ -138,6 +140,9 @@ namespace Spectroscopy_Viewer
             myPane.Title.Text = "";
             myPane.XAxis.Title.Text = "";
             myPane.YAxis.Title.Text = "";
+
+            // Hide legend
+            myPane.Legend.IsVisible = false; 
         }
 
 
@@ -173,23 +178,28 @@ namespace Spectroscopy_Viewer
                     this.graphControlGroup[i].Controls.Add(graphControlLabel[i]);
                     //
                     // Configure group box
+                    this.graphControlGroup[i].BackColor = myColoursBadCounts[i];
+                    this.graphControlGroup[i].ForeColor = myColoursData[i];
                     this.graphControlGroup[i].Location = new System.Drawing.Point(790, (6 + 115 * i));
                     this.graphControlGroup[i].Size = new System.Drawing.Size(176, 109);
                     this.graphControlGroup[i].TabIndex = 10 + i;
                     this.graphControlGroup[i].TabStop = false;
-                    this.graphControlGroup[i].Text = "Spectrum" + (i + 1);
+                    this.graphControlGroup[i].Text = mySpectrum[i].getName();
                     //
                     // Configure check box
                     this.graphControlCheckBox[i].AutoSize = false;
                     this.graphControlCheckBox[i].Checked = true;
-                    this.graphControlCheckBox[i].Location = new System.Drawing.Point(6, 14);
-                    this.graphControlCheckBox[i].Size = new System.Drawing.Size(150, 30);
+                    this.graphControlCheckBox[i].ForeColor = Color.Black;
+                    this.graphControlCheckBox[i].Location = new System.Drawing.Point(6, 17);
+                    this.graphControlCheckBox[i].Size = new System.Drawing.Size(150, 20);
                     this.graphControlCheckBox[i].TabIndex = 0;
-                    this.graphControlCheckBox[i].Text = "Show spectrum" + System.Environment.NewLine
-                        + @" """ + mySpectrum[i].getName() + @""" ";
+                    this.graphControlCheckBox[i].Text = "Show spectrum " + (i + 1);
+                    this.graphControlCheckBox[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph);
                     //
                     // Configure label to display text "Show bad counts:"
                     this.graphControlLabel[i].AutoSize = true;
+                    this.graphControlLabel[i].ForeColor = Color.Black;
                     this.graphControlLabel[i].Location = new System.Drawing.Point(6, 45);
                     this.graphControlLabel[i].Size = new System.Drawing.Size(61, 13);
                     this.graphControlLabel[i].TabIndex = 1;
@@ -197,6 +207,7 @@ namespace Spectroscopy_Viewer
                     //
                     // Configure radio button to display no bad counts
                     this.graphControlBadCountsNone[i].AutoSize = true;
+                    this.graphControlBadCountsNone[i].ForeColor = Color.Black;
                     this.graphControlBadCountsNone[i].Checked = true;
                     this.graphControlBadCountsNone[i].Location = new System.Drawing.Point(6, 62);
                     this.graphControlBadCountsNone[i].Size = new System.Drawing.Size(85, 17);
@@ -204,37 +215,40 @@ namespace Spectroscopy_Viewer
                     this.graphControlBadCountsNone[i].Text = "None";
                     this.graphControlBadCountsNone[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsNone[i].CheckedChanged +=
-                        new System.EventHandler(this.graphControlRadioButton_CheckedChanged);
+                        new System.EventHandler(this.updateGraph);
                     //
                     // Configure radio button to display all bad counts
                     this.graphControlBadCountsAll[i].AutoSize = true;
+                    this.graphControlBadCountsAll[i].ForeColor = Color.Black;
                     this.graphControlBadCountsAll[i].Location = new System.Drawing.Point(6, 85);
                     this.graphControlBadCountsAll[i].Size = new System.Drawing.Size(85, 17);
                     this.graphControlBadCountsAll[i].TabIndex = 3;
                     this.graphControlBadCountsAll[i].Text = "All";
                     this.graphControlBadCountsAll[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsAll[i].CheckedChanged +=
-                        new System.EventHandler(this.graphControlRadioButton_CheckedChanged);
+                        new System.EventHandler(this.updateGraph);
                     //
                     // Configure radio button to display bad counts due to error flags only
                     this.graphControlBadCountsLaser[i].AutoSize = true;
+                    this.graphControlBadCountsLaser[i].ForeColor = Color.Black;
                     this.graphControlBadCountsLaser[i].Location = new System.Drawing.Point(76, 62);
                     this.graphControlBadCountsLaser[i].Size = new System.Drawing.Size(85, 17);
                     this.graphControlBadCountsLaser[i].TabIndex = 4;
                     this.graphControlBadCountsLaser[i].Text = "Laser error";
                     this.graphControlBadCountsLaser[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsLaser[i].CheckedChanged +=
-                        new System.EventHandler(this.graphControlRadioButton_CheckedChanged);
+                        new System.EventHandler(this.updateGraph);
                     //
                     // Configure radio button to display bad counts due to threshold only
                     this.graphControlBadCountsThreshold[i].AutoSize = true;
+                    this.graphControlBadCountsThreshold[i].ForeColor = Color.Black;
                     this.graphControlBadCountsThreshold[i].Location = new System.Drawing.Point(76, 85);
                     this.graphControlBadCountsThreshold[i].Size = new System.Drawing.Size(85, 17);
                     this.graphControlBadCountsThreshold[i].TabIndex = 5;
                     this.graphControlBadCountsThreshold[i].Text = "Threshold error";
                     this.graphControlBadCountsThreshold[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsThreshold[i].CheckedChanged +=
-                        new System.EventHandler(this.graphControlRadioButton_CheckedChanged);
+                        new System.EventHandler(this.updateGraph);
 
                 }
 
@@ -264,72 +278,50 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to respond to user changing radio buttons in graph controls
-        private void graphControlRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void updateGraph(object sender, EventArgs e)
         {
-            // get a reference to the GraphPane
-            GraphPane myPane = this.zedGraphSpectra.GraphPane;
-            // Clear data
-            zedGraphSpectra.GraphPane.CurveList.Clear();
-            LineItem myCurve;
-
-            for (int i = 0; i < numberOfSpectra; i++)
+            if (mySpectrum.Count() != 0)
             {
-                // If the "show spectrum" checkBox is checked
-                if (graphControlCheckBox[i].Checked)
+
+                // get a reference to the GraphPane
+                GraphPane myPane = this.zedGraphSpectra.GraphPane;
+                // Clear data
+                zedGraphSpectra.GraphPane.CurveList.Clear();
+                LineItem myCurve;
+
+                for (int i = 0; i < numberOfSpectra; i++)
                 {
+                    // If the "show spectrum" checkBox is checked
+                    if (graphControlCheckBox[i].Checked)
+                    {
 
-                    myCurve = myPane.AddCurve(mySpectrum[i].getName(),
-                        dataPlot[i], myColoursData[i % 5], SymbolType.Diamond);
+                        myCurve = myPane.AddCurve(mySpectrum[i].getName(),
+                            dataPlot[i], myColoursData[i % 5], SymbolType.Diamond);
+                    }
+                    // NB if it is not checked, do nothing
+
+                    if (graphControlBadCountsAll[i].Checked)
+                    {
+                        myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
+                            mySpectrum[i].getBadCountsAll(), myColoursBadCounts[i % 5], SymbolType.Circle);
+                        myCurve.IsY2Axis = true;
+                    }
+                    //
+                    else if (graphControlBadCountsLaser[i].Checked)
+                    {
+                        myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
+                            mySpectrum[i].getBadCountsErrors(), myColoursBadCounts[i % 5], SymbolType.Circle);
+                        myCurve.IsY2Axis = true;
+                    }
+                    //
+                    else if (graphControlBadCountsThreshold[i].Checked)
+                    {
+                        myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
+                            mySpectrum[i].getBadCountsThreshold(), myColoursBadCounts[i % 5], SymbolType.Circle);
+                        myCurve.IsY2Axis = true;
+                    }
+
                 }
-                // NB if it is not checked, do nothing
-
-                if (graphControlBadCountsAll[i].Checked)
-                {
-                    myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
-                        mySpectrum[i].getBadCountsAll(), myColoursBadCounts[i % 5], SymbolType.Circle);
-                    myCurve.IsY2Axis = true;
-                }
-                //
-                else if (graphControlBadCountsLaser[i].Checked)
-                {
-                    myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
-                        mySpectrum[i].getBadCountsErrors(), myColoursBadCounts[i % 5], SymbolType.Circle);
-                    myCurve.IsY2Axis = true;
-                }
-                //
-                else if (graphControlBadCountsThreshold[i].Checked)
-                {
-                    myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
-                        mySpectrum[i].getBadCountsThreshold(), myColoursBadCounts[i % 5], SymbolType.Circle);
-                    myCurve.IsY2Axis = true;
-                }
-
-            }
-
-            // Tell ZedGraph to refigure the
-            // axes since the data have changed
-            zedGraphSpectra.AxisChange();
-            zedGraphSpectra.Invalidate();
-            // Force redraw of control
-
-        }
-
-
-        // Update the chart when data has been added/updated
-        private void updateGraph()
-        {
-            // get a reference to the GraphPane
-            GraphPane myPane = zedGraphSpectra.GraphPane;
-
-            // Clear data
-            zedGraphSpectra.GraphPane.CurveList.Clear();
-
-            for (int i = 0; i < mySpectrum.Count; i++)
-            {
-                // Generate a curve from the dataPlot[i] list of data, with colour
-                // determined by internal array of colours
-                LineItem myCurve = myPane.AddCurve(mySpectrum[i].getName(),
-                      dataPlot[i], myColoursData[i % 10], SymbolType.Diamond);
 
                 // Tell ZedGraph to refigure the
                 // axes since the data have changed
@@ -338,15 +330,15 @@ namespace Spectroscopy_Viewer
                 // Force redraw of control
             }
 
-            // Create the controls for the graph
-            this.createGraphControls();
         }
 
 
 
 
-        // Respond to 'Load data' button press
-        private void loadDataButton_Click(object sender, EventArgs e)
+
+
+        // Respond to 'Load file...' button press
+        private void loadFileButton_Click(object sender, EventArgs e)
         {
             // Configuring dialog to open a new data file
             openDataFile.InitialDirectory = "Z:/Data";      // Initialise to share drive
@@ -467,13 +459,24 @@ namespace Spectroscopy_Viewer
                     userDisplayText.ScrollToCaret();
 
                 } // End of for loop which goes through each file
+
+
+
+                // Create the controls for the graph
+                this.createGraphControls();
+
+                // Update thresholds & plot data
+                this.updateThresholdsButton_Click(sender, e);
+
+
             }
         }
         
 
 
-        // Method to respond to 'Plot data' button press
-        private void plotDataButton_Click(object sender, EventArgs e)
+        // Method to respond to 'Update thresholds' button press
+        // Calculates bad counts/dark ion probs based on thresholds & plots graph
+        private void updateThresholdsButton_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
@@ -488,7 +491,7 @@ namespace Spectroscopy_Viewer
                 }
 
                 // Setup the graph
-                updateGraph();
+                updateGraph(sender, e);
                 // Size the control to fill the form with a margin
                 SetSize();
             }
@@ -759,7 +762,7 @@ namespace Spectroscopy_Viewer
             this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
         }
 
-        // Method to respond to user clicking "Export histogram data..." button
+        // Method to respond to user clicking "Export histogram..." button
         // Opens a dialogue to save histogram data independently for each displayed spectrum
         private void histogramExportData_Click(object sender, EventArgs e)
         {
@@ -795,7 +798,7 @@ namespace Spectroscopy_Viewer
         }
 
 
-        // Method to respond to user clicking "Export spectrum data..." button
+        // Method to respond to user clicking "Export spectrum..." button
         // Opens a save file dialog for each spectrum, saves data in a text file (tab separated)
         // Might want to put some metadata into this file??
         private void spectrumExportData_Click(object sender, EventArgs e)
@@ -828,6 +831,14 @@ namespace Spectroscopy_Viewer
                     }
                 }
             }
+
+        }
+
+        // Method to respond to user clicking "Clear all data" button
+        private void clearDataButton_Click(object sender, EventArgs e)
+        {
+
+
 
         }
 
