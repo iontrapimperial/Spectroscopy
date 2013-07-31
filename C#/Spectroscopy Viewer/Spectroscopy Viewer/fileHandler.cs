@@ -128,8 +128,8 @@ namespace Spectroscopy_Viewer
                 // Keep reading lines 
                 while (myString[0] == '#')
                 {
-                    myString.Remove(0, 1);
-                    notes += myString;
+                    notes += myString.Substring(1);
+                    notes += System.Environment.NewLine;
                     myString = myFile.ReadLine(); 
                 }
 

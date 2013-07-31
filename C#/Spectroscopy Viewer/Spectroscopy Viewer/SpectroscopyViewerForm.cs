@@ -30,12 +30,35 @@ namespace Spectroscopy_Viewer
         private int[] histogramAll;
         private int histogramSize;
 
+        // Number of spectra loaded to graph
         private int numberOfSpectra = new int();
 
+        // List of colours to 
+        private List<Color> myColourList = new List<Color>();
 
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
+
+            initialiseColours();
+
+
+        }
+
+        // Method to build a list of colours for the graph
+        private void initialiseColours()
+        {
+            // 10 different colours
+            myColourList.Add(Color.Crimson);
+            myColourList.Add(Color.Blue);
+            myColourList.Add(Color.Green);
+            myColourList.Add(Color.Orange);
+            myColourList.Add(Color.Magenta);
+            myColourList.Add(Color.YellowGreen);
+            myColourList.Add(Color.Cyan);
+            myColourList.Add(Color.Lime);
+            myColourList.Add(Color.Violet);
+            myColourList.Add(Color.SlateGray);
         }
 
         // Respond to form 'Load' event
@@ -75,7 +98,7 @@ namespace Spectroscopy_Viewer
             zedGraphSpectra.Location = new Point(10, 60);
             // Leave a small margin around the outside of the control
             zedGraphSpectra.Size = new Size(ClientRectangle.Width - 40,
-                                    ClientRectangle.Height - 120);
+                                    ClientRectangle.Height - 180);
         }
 
 
@@ -93,6 +116,10 @@ namespace Spectroscopy_Viewer
         }
 
         
+
+
+
+
         // Update the chart when data has been added/updated
         private void updateGraph(ZedGraphControl zgcSpectrum)
         {
@@ -102,12 +129,13 @@ namespace Spectroscopy_Viewer
             // Clear data
             zgcSpectrum.GraphPane.CurveList.Clear();
 
+            
+
             for (int i = 0; i < mySpectrum.Count; i++)
             {
-                // Generate a red curve with diamond
-                // symbols
-                LineItem myCurve = myPane.AddCurve("Data Plot",
-                      dataPlot[i], Color.Red, SymbolType.Diamond);
+                // Generate a curve from the dataPlot[i] list of data, with 
+                LineItem myCurve = myPane.AddCurve(mySpectrum[i].getName(),
+                      dataPlot[i], myColourList[i%10], SymbolType.Diamond);
 
                 // Tell ZedGraph to refigure the
                 // axes since the data have changed
@@ -115,7 +143,14 @@ namespace Spectroscopy_Viewer
                 zgcSpectrum.Invalidate();
                 // Force redraw of control
             }
+
+
+
+
+
         }
+
+
 
 
         // Respond to 'Load data' button press
@@ -235,9 +270,14 @@ namespace Spectroscopy_Viewer
 
                     // .NET garbage collector should deal with reclaiming memory used by myFileHandler
 
+                    // Print out information to the user in the userDisplayText box
+                    userDisplayText.Text += @"File """ + myFileName.Replace(".txt", "") +@""" loaded" + System.Environment.NewLine;
+                    userDisplayText.Text += "Notes: " + myFilehandler.getNotes();
+                    userDisplayText.SelectionStart = userDisplayText.Text.Length;
+                    userDisplayText.ScrollToCaret();
+
                 } // End of for loop which goes through each file
             }
-            
         }
         
 
@@ -564,6 +604,10 @@ namespace Spectroscopy_Viewer
 
         }
 
+
+        // Method to respond to user clicking "Export spectrum data..." button
+        // Opens a save file dialog for each spectrum, saves data in a text file (tab separated)
+        // Might want to put some metadata into this file??
         private void spectrumExportData_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created

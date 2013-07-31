@@ -54,6 +54,7 @@
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.userDisplayText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -160,11 +161,12 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(787, 526);
+            this.tabControl1.Size = new System.Drawing.Size(787, 604);
             this.tabControl1.TabIndex = 8;
             // 
             // tabPageSpectra
             // 
+            this.tabPageSpectra.Controls.Add(this.userDisplayText);
             this.tabPageSpectra.Controls.Add(this.loadDataButton);
             this.tabPageSpectra.Controls.Add(this.spectrumExportData);
             this.tabPageSpectra.Controls.Add(this.zedGraphSpectra);
@@ -176,7 +178,7 @@
             this.tabPageSpectra.Location = new System.Drawing.Point(4, 22);
             this.tabPageSpectra.Name = "tabPageSpectra";
             this.tabPageSpectra.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSpectra.Size = new System.Drawing.Size(779, 500);
+            this.tabPageSpectra.Size = new System.Drawing.Size(779, 578);
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
@@ -327,6 +329,15 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
+            // userDisplayText
+            // 
+            this.userDisplayText.Location = new System.Drawing.Point(8, 511);
+            this.userDisplayText.Multiline = true;
+            this.userDisplayText.Name = "userDisplayText";
+            this.userDisplayText.ReadOnly = true;
+            this.userDisplayText.Size = new System.Drawing.Size(352, 61);
+            this.userDisplayText.TabIndex = 9;
+            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -378,6 +389,7 @@
         private System.Windows.Forms.Button histogramExportData;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button spectrumExportData;
+        public System.Windows.Forms.TextBox userDisplayText;
 
     }
 }

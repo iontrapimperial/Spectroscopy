@@ -147,9 +147,9 @@
             this.openingFileText.AutoSize = true;
             this.openingFileText.Location = new System.Drawing.Point(21, 35);
             this.openingFileText.Name = "openingFileText";
-            this.openingFileText.Size = new System.Drawing.Size(69, 13);
+            this.openingFileText.Size = new System.Drawing.Size(74, 13);
             this.openingFileText.TabIndex = 12;
-            this.openingFileText.Text = "Opening file: ";
+            this.openingFileText.Text = "Opening file: \"";
             // 
             // requestMetadata
             // 
