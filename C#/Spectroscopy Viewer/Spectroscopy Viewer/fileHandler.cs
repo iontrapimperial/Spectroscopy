@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace Spectroscopy_Viewer
 {
     // Class to open data files & create instances of dataPoint for each frequency
-    class fileHandler
+    class fileHandler : Object
     {
 
         // Create a list of arrays. Each array contains 4 integer values (i.e. the data for a single reading - cool, count & error flags)

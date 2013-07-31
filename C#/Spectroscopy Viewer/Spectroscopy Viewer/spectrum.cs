@@ -25,6 +25,8 @@ namespace Spectroscopy_Viewer
         private PointPairList badCountsThreshold = new PointPairList();
         // List for plotting bad counts due to error flags
         private PointPairList badCountsErrors = new PointPairList();
+        // List for plotting all bad counts
+        private PointPairList badCountsAll = new PointPairList();
 
         // Lists for plotting histogram of counts
         private PointPairList histogramCoolPlot = new PointPairList();
@@ -247,16 +249,22 @@ namespace Spectroscopy_Viewer
         {
             // Temporary variable for storing freq of each point
             int freq = new int();
+            int temp_badCountsThreshold = new int();
+            int temp_badCountsErrors = new int();
 
             // Loop through each data point
             for (int i = 0; i < dataSize; i++)
             {
                 freq = myDataPoints[i].getFreq();                    // Frequency
 
+                temp_badCountsErrors = myDataPoints[i].getBadCountsErrors();
+                temp_badCountsThreshold = myDataPoints[i].getBadCountsThreshold();
+
                 // Add correct data to all three lists
                 dataPlot.Add( freq, myDataPoints[i].getDarkProb() );
-                badCountsThreshold.Add( freq, myDataPoints[i].getBadCountsThreshold() );
-                badCountsErrors.Add( freq, myDataPoints[i].getBadCountsErrors() );
+                badCountsThreshold.Add(freq, temp_badCountsThreshold);
+                badCountsErrors.Add(freq, temp_badCountsErrors);
+                badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );
             }
 
         }
@@ -269,11 +277,18 @@ namespace Spectroscopy_Viewer
         {
             // Clear lists of data
             dataPlot.Clear();
-            // Only clear bad counts list if cooling threshold has changed
-            if (coolThresholdChanged != 2) badCountsThreshold.Clear();
 
-            // Temporary variable for frequency
+            // Only clear bad counts lists if cooling threshold has changed
+            if (coolThresholdChanged != 2)
+            {
+                badCountsThreshold.Clear();
+                badCountsAll.Clear();
+            }
+
+            // Temporary variables for frequency, bad counts due to threshold
             int freq = new int();
+            int temp_badCountsThreshold = new int();
+            int temp_badCountsErrors = new int();
 
             // Loop through each data point
             for (int i = 0; i < dataSize; i++)
@@ -286,7 +301,16 @@ namespace Spectroscopy_Viewer
                 // Only update bad counts list if cooling threshold has changed
                 if (coolThresholdChanged != 2)
                 {
-                    badCountsThreshold.Add(freq, myDataPoints[i].getBadCountsThreshold());
+                    // Retrive bad counts due to errors/threshold for this data point
+                    temp_badCountsThreshold = myDataPoints[i].getBadCountsThreshold();
+                    temp_badCountsErrors = (int) badCountsErrors[i].Y;
+
+                    // Add data to lists for plotting:
+                    // Bad counts due to threshold
+                    badCountsThreshold.Add(freq, temp_badCountsThreshold);
+                    // All bad counts
+                    badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );
+
                 }
             }
         }
@@ -394,6 +418,12 @@ namespace Spectroscopy_Viewer
         public PointPairList getBadCountsThreshold()
         {
             return badCountsThreshold;
+        }
+
+        // Method to return list of bad counts due to ALL errors
+        public PointPairList getBadCountsAll()
+        {
+            return badCountsAll;
         }
                       
         // Method to return name of spectrum

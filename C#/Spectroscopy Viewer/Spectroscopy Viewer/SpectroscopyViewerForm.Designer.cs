@@ -41,6 +41,7 @@
             this.plotDataButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSpectra = new System.Windows.Forms.TabPage();
+            this.userDisplayText = new System.Windows.Forms.TextBox();
             this.spectrumExportData = new System.Windows.Forms.Button();
             this.tabPageHistogram = new System.Windows.Forms.TabPage();
             this.histogramExportData = new System.Windows.Forms.Button();
@@ -54,7 +55,6 @@
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.userDisplayText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -150,7 +150,7 @@
             this.plotDataButton.Name = "plotDataButton";
             this.plotDataButton.Size = new System.Drawing.Size(116, 37);
             this.plotDataButton.TabIndex = 7;
-            this.plotDataButton.Text = "Plot data";
+            this.plotDataButton.Text = "Update thresholds";
             this.plotDataButton.UseVisualStyleBackColor = true;
             this.plotDataButton.Click += new System.EventHandler(this.plotDataButton_Click);
             // 
@@ -161,7 +161,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(787, 604);
+            this.tabControl1.Size = new System.Drawing.Size(980, 604);
             this.tabControl1.TabIndex = 8;
             // 
             // tabPageSpectra
@@ -178,10 +178,19 @@
             this.tabPageSpectra.Location = new System.Drawing.Point(4, 22);
             this.tabPageSpectra.Name = "tabPageSpectra";
             this.tabPageSpectra.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSpectra.Size = new System.Drawing.Size(779, 578);
+            this.tabPageSpectra.Size = new System.Drawing.Size(972, 578);
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
+            // 
+            // userDisplayText
+            // 
+            this.userDisplayText.Location = new System.Drawing.Point(8, 511);
+            this.userDisplayText.Multiline = true;
+            this.userDisplayText.Name = "userDisplayText";
+            this.userDisplayText.ReadOnly = true;
+            this.userDisplayText.Size = new System.Drawing.Size(352, 61);
+            this.userDisplayText.TabIndex = 9;
             // 
             // spectrumExportData
             // 
@@ -203,7 +212,7 @@
             this.tabPageHistogram.Location = new System.Drawing.Point(4, 22);
             this.tabPageHistogram.Name = "tabPageHistogram";
             this.tabPageHistogram.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHistogram.Size = new System.Drawing.Size(779, 500);
+            this.tabPageHistogram.Size = new System.Drawing.Size(972, 578);
             this.tabPageHistogram.TabIndex = 1;
             this.tabPageHistogram.Text = "Histogram";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
@@ -315,7 +324,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "seriesHistogram";
             this.histogramChart.Series.Add(series1);
-            this.histogramChart.Size = new System.Drawing.Size(767, 397);
+            this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
             // 
@@ -329,20 +338,11 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
-            // userDisplayText
-            // 
-            this.userDisplayText.Location = new System.Drawing.Point(8, 511);
-            this.userDisplayText.Multiline = true;
-            this.userDisplayText.Name = "userDisplayText";
-            this.userDisplayText.ReadOnly = true;
-            this.userDisplayText.Size = new System.Drawing.Size(352, 61);
-            this.userDisplayText.TabIndex = 9;
-            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 628);
+            this.ClientSize = new System.Drawing.Size(1004, 628);
             this.Controls.Add(this.tabControl1);
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
