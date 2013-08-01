@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dataPoint.cs" />
+    <Compile Include="experimentHandler.cs" />
     <Compile Include="fileHandler.cs" />
     <Compile Include="requestMetadata.cs">
       <SubType>Form</SubType>

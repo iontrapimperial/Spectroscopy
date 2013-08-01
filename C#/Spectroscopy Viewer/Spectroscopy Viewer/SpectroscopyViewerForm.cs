@@ -42,6 +42,10 @@ namespace Spectroscopy_Viewer
         private List<Color> myColoursData = new List<Color>();
         private List<Color> myColoursBadCounts = new List<Color>();
 
+        // Boolean to tell the form whether the experiment is running or not
+        // i.e. whether it is received live data
+        private bool isExperimentRunning = new bool();
+
 
         // Graph controls
         private static int maxGraphControl = 5;
