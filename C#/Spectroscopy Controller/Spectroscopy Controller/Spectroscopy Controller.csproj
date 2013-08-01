@@ -107,6 +107,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Spectroscopy Viewer\Spectroscopy Viewer\Spectroscopy Viewer.csproj">
+      <Project>{A0DC7E82-3691-484E-8360-7A5036E879BC}</Project>
+      <Name>Spectroscopy Viewer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

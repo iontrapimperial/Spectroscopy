@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
+
+
 namespace Spectroscopy_Controller
 {
     public partial class CoreForm : Form
@@ -428,10 +430,18 @@ namespace Spectroscopy_Controller
                 myExperimentDialog.ShowDialog();
                 if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                 {
+                    string[] metadata = new string[10];
+                    
+                    int isWindowed = this.SpecTypeBox.SelectedIndex;
+
                     // If "Continuous" experiment type has been selected
-                    if (this.SpecTypeBox.SelectedIndex == 0)
+                    if (isWindowed == 0)
                     {
                         // Create a single file and put all readings in there
+
+                        // Want an if statement to check whether an instance of viewer is already open
+                        // Create new instance of viewer
+                        Spectroscopy_Viewer.SpectroscopyViewerForm myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, isWindowed);
 
                         
 

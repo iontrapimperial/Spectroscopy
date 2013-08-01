@@ -77,7 +77,7 @@ namespace Spectroscopy_Viewer
         // 4: Number of repeats
         // 5: Number interleaved
         // 6 onwards: spectrum i name
-        public SpectroscopyViewerForm(ref string[] metadata, bool isWindowed)
+        public SpectroscopyViewerForm(ref string[] metadata, int isWindowed)
         {
             InitializeComponent();
             initialiseColours();
@@ -95,8 +95,6 @@ namespace Spectroscopy_Viewer
         }
 
 
-
-        private void 
 
 
         // Method to build a list of colours for the graph
