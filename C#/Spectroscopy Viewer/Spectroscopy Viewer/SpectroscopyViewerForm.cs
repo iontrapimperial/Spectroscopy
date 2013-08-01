@@ -56,6 +56,7 @@ namespace Spectroscopy_Viewer
         private RadioButton[] graphControlBadCountsAll = new RadioButton[maxGraphControl];
         private RadioButton[] graphControlBadCountsLaser = new RadioButton[maxGraphControl];
         private RadioButton[] graphControlBadCountsThreshold = new RadioButton[maxGraphControl];
+        private ContextMenu[] graphControlContextMenu = new ContextMenu[maxGraphControl];
 
         public SpectroscopyViewerForm()
         {
@@ -67,6 +68,35 @@ namespace Spectroscopy_Viewer
         }
 
 
+        // Constructor to be called from Spectroscopy Controller. Needs passing an array containing metadata, and a boolean for whether the 
+        // Metadata ordering in array:
+        // 0: Trap freq
+        // 1: Trap voltage
+        // 2: AOM start freq (MHz)
+        // 3: Step size (kHz)
+        // 4: Number of repeats
+        // 5: Number interleaved
+        // 6 onwards: spectrum i name
+        public SpectroscopyViewerForm(ref string[] metadata, bool isWindowed)
+        {
+            InitializeComponent();
+            initialiseColours();
+
+            // Save number of spectra
+            int existingSpectra = numberOfSpectra;
+            // Add number of spectra from new experiment
+            numberOfSpectra += int.Parse(metadata[5]);
+
+            for (int i = existingSpectra; i < numberOfSpectra; i++)
+            {
+
+            }
+
+        }
+
+
+
+        private void 
 
 
         // Method to build a list of colours for the graph
@@ -687,6 +717,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlCheckBox[i] = new CheckBox();
                     this.graphControlGroup[i] = new GroupBox();
                     this.graphControlLabel[i] = new System.Windows.Forms.Label();
+                    this.graphControlContextMenu[i] = new ContextMenu();
                     //
                     // Add group box to the spectrum tab page
                     this.tabPageSpectra.Controls.Add(graphControlGroup[i]);
@@ -697,6 +728,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlGroup[i].Controls.Add(graphControlBadCountsThreshold[i]);
                     this.graphControlGroup[i].Controls.Add(graphControlCheckBox[i]);
                     this.graphControlGroup[i].Controls.Add(graphControlLabel[i]);
+                    this.graphControlGroup[i].ContextMenu = graphControlContextMenu[i];
                     //
                     // Configure group box
                     this.graphControlGroup[i].BackColor = myColoursBadCounts[i];
@@ -770,6 +802,13 @@ namespace Spectroscopy_Viewer
                     this.graphControlBadCountsThreshold[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsThreshold[i].CheckedChanged +=
                         new System.EventHandler(this.updateGraph);
+                    //
+                    // Configure context menu
+                    MenuItem contextMenuRename = new MenuItem();
+                    contextMenuRename.Text = "Rename spectrum...";
+                    MenuItem contextMenuViewMetadata = new MenuItem();
+                    contextMenuViewMetadata.Text = "View spectrum metadata";
+                    // Not complete
 
                 }
 

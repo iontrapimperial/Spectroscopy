@@ -406,6 +406,85 @@ namespace Spectroscopy_Controller
             
         }
 
+        // Method to respond to user clicking start button
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            // Want to:
+            //- open dialog for user to specify file name (save file??) & put in metadata - no. of repeats and no. of spectra
+            //- open an instance of spectroscopy viewer (if not already open...!) and specify live mode
+            //- Pass metadata to viewer
+            //- write metadata to file
+            //- do all the things that the previous program did to start running the experiment
+
+            if (FPGA.bUSBPortIsOpen == false)
+            {
+                WriteMessage("Can't Send Start Signal to FPGA: USB port is not open", true);
+                return;
+            }
+            else
+            {
+                // Create new dialog to get data from user before starting the experiment
+                StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
+                myExperimentDialog.ShowDialog();
+                if (myExperimentDialog.DialogResult != DialogResult.Cancel)
+                {
+                    // If "Continuous" experiment type has been selected
+                    if (this.SpecTypeBox.SelectedIndex == 0)
+                    {
+                        // Create a single file and put all readings in there
+
+                        
+
+                    }
+                    else
+                    {
+                        // Create a file for each sideband with appropriate naming
+                    }
+
+
+
+                    // Start the experiment running
+                    // The following code has been copied from MainForm.cs (method sendStartSignalToolStripMenuItem_Click)
+                    /*
+                    bShouldQuitThread = false;
+
+                    int WindowSize = 0;
+                    int WindowGap = 0;
+
+                    if (FreqSelectForm.GetFreqGenEnable())
+                    {
+                        bIsFreqGenEnabled = true;
+                        float Amplitude = FreqSelectForm.GetAmplitude();
+                        GPIB.InitDevice(Amplitude);
+                        int Frequency = FreqSelectForm.GetInitialFrequency();
+                        GPIB.SetFrequency(Frequency);
+                        if (FreqSelectForm.GetWindowingEnable())
+                        {
+                            bIsWindowingEnabled = true;
+                            WindowSize = FreqSelectForm.GetWindowSize();
+                            WindowGap = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();
+                        }
+                        else bIsWindowingEnabled = false;
+                    }
+                    else
+                    {
+                        bIsFreqGenEnabled = false;
+                    }
+
+                    float FrequencyAmp = FreqSelectForm.GetAmplitude();
+                    int Frequencystep = FreqSelectForm.GetFreqStep();
+                    int Frequencystart = FreqSelectForm.GetInitialFrequency();
+
+                    
+                    SendSetupFinish();
+                    StartReadingData();
+                    */
+                }
+
+            }
+
+        }
+
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {

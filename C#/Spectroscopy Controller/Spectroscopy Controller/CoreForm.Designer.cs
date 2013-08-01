@@ -251,8 +251,8 @@
             this.AddChildButton.Text = "Add Child";
             this.AddChildButton.UseVisualStyleBackColor = true;
             this.AddChildButton.Click += new System.EventHandler(this.AddChildButton_Click);
-            this.AddChildButton.MouseLeave += new System.EventHandler(this.AddChildButton_MouseLeave);
             this.AddChildButton.MouseEnter += new System.EventHandler(this.AddChildButton_MouseEnter);
+            this.AddChildButton.MouseLeave += new System.EventHandler(this.AddChildButton_MouseLeave);
             // 
             // DeleteButton
             // 
@@ -291,8 +291,8 @@
             this.AddRootButton.Text = "Add";
             this.AddRootButton.UseVisualStyleBackColor = true;
             this.AddRootButton.Click += new System.EventHandler(this.AddRootButton_Click);
-            this.AddRootButton.MouseLeave += new System.EventHandler(this.AddRootButton_MouseLeave);
             this.AddRootButton.MouseEnter += new System.EventHandler(this.AddRootButton_MouseEnter);
+            this.AddRootButton.MouseLeave += new System.EventHandler(this.AddRootButton_MouseLeave);
             // 
             // SaveStateButton
             // 
@@ -302,7 +302,6 @@
             this.SaveStateButton.TabIndex = 48;
             this.SaveStateButton.Text = "Save Pulse";
             this.SaveStateButton.UseVisualStyleBackColor = true;
-
             // 
             // PulseTypeTabs
             // 
@@ -675,6 +674,7 @@
             this.StartButton.Size = new System.Drawing.Size(58, 58);
             this.StartButton.TabIndex = 59;
             this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // ResetButton
             // 

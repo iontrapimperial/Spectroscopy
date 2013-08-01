@@ -64,7 +64,7 @@ namespace Spectroscopy_Controller
             {
                 FPGAOutput.Text += text;
             }
-        }*/
+        }  */
 
 
         Thread FPGAReadThread;
@@ -73,13 +73,15 @@ namespace Spectroscopy_Controller
         Byte[] Data = new Byte[4];
         public void FPGAReadMethod()
         {
-          /*  
+           
             int Frequency = FreqSelectForm.GetInitialFrequency();
             int FrequencyStep = FreqSelectForm.GetFreqStep();
             int CurrentWindowStep = 0;
             int WindowSize = FreqSelectForm.GetWindowSize();
             int WindowSpace = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();//Distance from end of one window to start of next
             
+
+            // Need to pop up a dialog box asking for file name!
             TextWriter File = new StreamWriter(FilenameTextbox.Text);
             if (File != null)
             {
@@ -90,12 +92,17 @@ namespace Spectroscopy_Controller
                 WriteMessage("Couldn't Open File for Writing: " + FilenameTextbox.Text, true);
             }
 
+            // Create list for storing readings, get ready for 2000 data points
             List<int> Readings = new List<int>(2000);
 
-            ResultsForm.ClearData();
+            // clear results form
+            // not applicable to new code
+            //ResultsForm.ClearData();
+
 
             while (FPGAReadThread.IsAlive && bShouldQuitThread == false)
             {
+                // If flag is set to reset FPGA, do so
                 if (bResetFPGA)
                 {
                     FPGA.SendResetSignal();
@@ -104,6 +111,10 @@ namespace Spectroscopy_Controller
                     return;
                 }
 
+                // If there are exactly 4 bytes in the queue... do nothing?
+                // Might be able to restructure this bit. Don't quite understand - it seems to just write a message if there are 
+                // too many bytes, but otherwise continues as normal. Not sure where the continue statement skips to
+                // I think it skips the rest of this function...
 
                 if (FPGA.CheckQueue() == 4)
                 {
@@ -120,16 +131,26 @@ namespace Spectroscopy_Controller
                     }
                 }
 
+
+
+
+
+                // Fill array of bytes with however many are in the queue
                 byte[] Bytes = FPGA.ReadBytes();
 
 
+                // So long as there are some bytes there
+                // Statement above means that there should always be 4
                 if (Bytes != null && Bytes.Length != 0)
                 {
                     byte[] Data = Bytes;
 
+                    // Check for certain error codes
+                    // This if statement can be left as-is
                     if (Bytes[3] != 181 && Bytes[3] != 77 && Bytes[3] != 173)
                     {
-                        WriteOutput("Warning: Received corrupted data!\r\n");
+                        // Changed from WriteOutout to WriteMessage (just puts it in the messages box)
+                        WriteMessage("Warning: Received corrupted data!\r\n");
 
                         int Info1 = FPGA.InfoRequest();
                         int Info2 = FPGA.InfoRequest();
@@ -146,15 +167,19 @@ namespace Spectroscopy_Controller
 
                         Data = BitConverter.GetBytes(Info1);
 
-                        WriteOutput("Recovered successfully\r\n");
+                        // Changed from WriteOutout to WriteMessage
+                        WriteMessage("Recovered successfully\r\n");
                     }
 
-                    
+
+
+                    // Received data, need to deal with it
                     if (Data[3] == 181)
                     {
                         Data[3] = 0;
                         int NumReadings = BitConverter.ToInt32(Data, 0);
-                        WriteOutput("Found " + NumReadings.ToString() + " Readings\r\n");
+                        // Changed from WriteOutout to WriteMessage
+                        WriteMessage("Found " + NumReadings.ToString() + " Readings\r\n");
 
                         uint rxbytes = FPGA.CheckQueue();
                         uint NumRead = 0;
@@ -163,7 +188,8 @@ namespace Spectroscopy_Controller
                         if (rxbytes != 0) //clear out any bytes left in the buffer... shouldn't hit this
                         {
                             FPGA.USBPort.Read(buffer, rxbytes, ref NumRead);
-                            WriteOutput("Warning: Found extra bytes in FPGA output queue\r\n");
+                            // Changed from WriteOutout to WriteMessage
+                            WriteMessage("Warning: Found extra bytes in FPGA output queue\r\n");
                         }
 
                         FPGA.FinishInfoRequest();
@@ -211,7 +237,7 @@ namespace Spectroscopy_Controller
 
                         FPGA.SendReadingFinish();
                         //break; 
-                    }
+                    }       /*
                     else if (Data[3] == 77)
                     {
 

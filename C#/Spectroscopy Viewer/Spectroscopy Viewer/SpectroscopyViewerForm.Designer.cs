@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -314,17 +313,17 @@
             // 
             // histogramChart
             // 
-            chartArea5.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea5.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea3.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea3.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea5.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea5);
+            chartArea3.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea3);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series5.ChartArea = "ChartArea1";
-            series5.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series5);
+            series3.ChartArea = "ChartArea1";
+            series3.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series3);
             this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
