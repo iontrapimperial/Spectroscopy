@@ -143,6 +143,9 @@ namespace Spectroscopy_Viewer
 
             // Hide legend
             myPane.Legend.IsVisible = false; 
+
+            // Show Y2 (bad counts) axis
+            myPane.Y2Axis.IsVisible = true;
         }
 
 
@@ -280,7 +283,8 @@ namespace Spectroscopy_Viewer
         // Method to respond to user changing radio buttons in graph controls
         private void updateGraph(object sender, EventArgs e)
         {
-            if (mySpectrum.Count() != 0)
+            // Only try to update graph if some spectra have been loaded
+            if (numberOfSpectra != 0)
             {
 
                 // get a reference to the GraphPane
@@ -288,6 +292,12 @@ namespace Spectroscopy_Viewer
                 // Clear data
                 zedGraphSpectra.GraphPane.CurveList.Clear();
                 LineItem myCurve;
+
+                // Array of bad counts data for each spectrum
+                // This array will be filled with the appropriate data (laser errors, threshold errors or all)
+                // depending on the radio buttons
+                PointPairList[] badCountsData = new PointPairList[numberOfSpectra];
+
 
                 for (int i = 0; i < numberOfSpectra; i++)
                 {
@@ -300,28 +310,42 @@ namespace Spectroscopy_Viewer
                     }
                     // NB if it is not checked, do nothing
 
+
+                    // These if statements 
+
                     if (graphControlBadCountsAll[i].Checked)
                     {
-                        myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
-                            mySpectrum[i].getBadCountsAll(), myColoursBadCounts[i % 5], SymbolType.Circle);
-                        myCurve.IsY2Axis = true;
+                        // Add all bad counts to the list of data
+                        badCountsData[i] = mySpectrum[i].getBadCountsAll();
                     }
                     //
                     else if (graphControlBadCountsLaser[i].Checked)
                     {
-                        myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
-                            mySpectrum[i].getBadCountsErrors(), myColoursBadCounts[i % 5], SymbolType.Circle);
-                        myCurve.IsY2Axis = true;
+                        // Add bad counts from laser errors to the list of data
+                        badCountsData[i] = mySpectrum[i].getBadCountsErrors();
                     }
                     //
                     else if (graphControlBadCountsThreshold[i].Checked)
                     {
+                        // Add bad counts from threshold to the list of data
+                        badCountsData[i] = mySpectrum[i].getBadCountsThreshold();
+                    }
+                    // If "None" is checked, don't need to put anything in the array. There will just be a blank space at index i
+
+                    // So long as "None" is not checked, plot curve to the graph
+                    // badCountsData[i] will contain bad counts from laser errors, threshold errors or both
+                    if (!graphControlBadCountsNone[i].Checked)
+                    {
                         myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
-                            mySpectrum[i].getBadCountsThreshold(), myColoursBadCounts[i % 5], SymbolType.Circle);
+                            badCountsData[i], myColoursBadCounts[i % 5], SymbolType.Circle);
                         myCurve.IsY2Axis = true;
                     }
 
+
                 }
+
+                // Rescale bad counts axis
+                this.badCountsAxisRescale(badCountsData);
 
                 // Tell ZedGraph to refigure the
                 // axes since the data have changed
@@ -332,7 +356,54 @@ namespace Spectroscopy_Viewer
 
         }
 
+        // Method to rescale the bad counts axis on graph
+        private void badCountsAxisRescale(PointPairList[] badCountsData)
+        {
+            int maxData = 0;
 
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Only look at bad counts data if it is being displayed
+                if (!graphControlBadCountsNone[i].Checked)
+                {
+                    // Get array of y values only
+                    double[] yvalues = badCountsData[i].Select(PointPair => PointPair.Y).ToArray();
+                    // Save
+                    int maxData_Spectrum = (int) yvalues.Max();
+                    if (maxData_Spectrum > maxData)
+                    {
+                        maxData = maxData_Spectrum;
+                    }
+                }
+            }
+
+            // Always set minimum to zero
+            zedGraphSpectra.GraphPane.Y2Axis.Scale.Min = 0;
+
+            // Set maximum depending on data
+            if (maxData < 20)
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 20;
+            }
+            else if (maxData < 40)
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 40;
+            }
+            else if (maxData < 60)
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 60;
+            }
+            else if (maxData < 80)
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 80;
+            }
+            else
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 100;
+            }
+
+
+        }
 
 
 
@@ -503,28 +574,6 @@ namespace Spectroscopy_Viewer
             }
         }
 
-
-        // Function to output contents of spectra to file. For testing.
-        private void writeToFile_test()
-        {
-            TextWriter[] testFile = new StreamWriter[mySpectrum.Count];
-
-
-            // Write a separate file for each spectrum
-            for (int i = 0; i < numberOfSpectra; i++)
-            {
-                testFile[i] = new StreamWriter("C:/Users/localadmin/Documents/testFile_Spectrum" + i + ".txt");
-                testFile[i].WriteLine("Frequency\tDark ion prob");
-
-                // For each point pair in the list
-                for (int j = 0; j < dataPlot[i].Count; j++)
-                {
-                    testFile[i].WriteLine(dataPlot[i][j].X + "\t" + dataPlot[i][j].Y + "\n");
-                }
-                testFile[i].Flush();
-                testFile[i].Close();
-             }
-        }
 
 
         // Method to respond to user clicking "Update histogram" button
