@@ -381,82 +381,88 @@ namespace Spectroscopy_Viewer
                     // Check how many interleaved spectra there are
                     int numberInterleaved = myFilehandler.getNumberInterleaved();
 
-
-                    if (i == 0)
+                    // If numberInterleaved is zero, then trying to open spectrumSelect window will cause the progam to crash
+                    // It would also mean that the fileHandler was not able to process the data correctly
+                    if (numberInterleaved != 0)
                     {
-                        // Set number interleaved to compare other files to
-                        numberInterleavedMaster = numberInterleaved;
 
-                        //*************************************************************//
-                        // Pop up dialog box to select which spectrum to add data to, and save selections
-
-                        // Create spectrumSelect form, give it list of existing spectra, number of spectra in first file
-                        // file name of first file, and number of files opened
-                        string[] spectrumNamesFromFile = myFilehandler.getSpectrumNames();
-                        mySpectrumSelectBox = new spectrumSelect(mySpectrum, ref spectrumNamesFromFile, numberInterleaved,
-                                                                ref myFileName, numberOfFiles);
-                        mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
-
-                        // Make sure the user didn't press cancel or close the dialog box
-                        if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
+                        if (i == 0)
                         {
-                            // Get array of information about which data to add to which spectrum
-                            selectedSpectrum = new int[numberInterleaved];
-                            selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
-                            selectionMade = true;
-                        }   
+                            // Set number interleaved to compare other files to
+                            numberInterleavedMaster = numberInterleaved;
 
-                    } // End of if statement which checks if i == 0
+                            //*************************************************************//
+                            // Pop up dialog box to select which spectrum to add data to, and save selections
 
+                            // Create spectrumSelect form, give it list of existing spectra, number of spectra in first file
+                            // file name of first file, and number of files opened
+                            string[] spectrumNamesFromFile = myFilehandler.getSpectrumNames();
+                            mySpectrumSelectBox = new spectrumSelect(mySpectrum, ref spectrumNamesFromFile, numberInterleaved,
+                                                                    ref myFileName, numberOfFiles);
+                            mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
 
-                    // Check that number interleaved is correct
-                    if (numberInterleaved == numberInterleavedMaster)
-                    {
-                        // Check that user has selected destinations for all spectra
-                        if (selectionMade)
-                        {
-                            // For each interleaved spectrum, check where it is being assigned to
-                            // 
-                            for (int j = 0; j < numberInterleaved; j++)
+                            // Make sure the user didn't press cancel or close the dialog box
+                            if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
                             {
-                                // If the index >= number of existing spectra, new ones must have been added
-                                // (since for a list of N items, index runs from 0 to N-1)
-                                if (selectedSpectrum[j] >= numberOfSpectra)
-                                {
-                                    // Get the list filled with data points, add to list of spectra
-                                    mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
-                                                    selectedSpectrum[j],         // Spectrum number
-                                                    mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]]));  // Spectrum name
-
-                                    // Add blank PointPairList for storing plot data
-                                    dataPlot.Add(new PointPairList());
-                                }
-                                else
-                                {
-                                    // Add list of data points from file handler into existing spectrum
-                                    mySpectrum[selectedSpectrum[j]].addToSpectrum(myFilehandler.getDataPoints(j));
-                                }
+                                // Get array of information about which data to add to which spectrum
+                                selectedSpectrum = new int[numberInterleaved];
+                                selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
+                                selectionMade = true;
                             }
-                            // Update number of spectra
-                            numberOfSpectra = mySpectrum.Count();
-                            Console.WriteLine("{0} spectra", numberOfSpectra);
+
+                        } // End of if statement which checks if i == 0
+
+
+                        // Check that number interleaved is correct
+                        if (numberInterleaved == numberInterleavedMaster)
+                        {
+                            // Check that user has selected destinations for all spectra
+                            if (selectionMade)
+                            {
+                                // For each interleaved spectrum, check where it is being assigned to
+                                // 
+                                for (int j = 0; j < numberInterleaved; j++)
+                                {
+                                    // If the index >= number of existing spectra, new ones must have been added
+                                    // (since for a list of N items, index runs from 0 to N-1)
+                                    if (selectedSpectrum[j] >= numberOfSpectra)
+                                    {
+                                        // Get the list filled with data points, add to list of spectra
+                                        mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
+                                                        selectedSpectrum[j],         // Spectrum number
+                                                        mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]]));  // Spectrum name
+
+                                        // Add blank PointPairList for storing plot data
+                                        dataPlot.Add(new PointPairList());
+                                    }
+                                    else
+                                    {
+                                        // Add list of data points from file handler into existing spectrum
+                                        mySpectrum[selectedSpectrum[j]].addToSpectrum(myFilehandler.getDataPoints(j));
+                                    }
+                                }
+                                // Update number of spectra
+                                numberOfSpectra = mySpectrum.Count();
+                                Console.WriteLine("{0} spectra", numberOfSpectra);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Spectra destinations not assigned. Data not loaded.");
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("Spectra destinations not assigned. Data not loaded.");
+                            MessageBox.Show("Number of spectra interleaved in file " + myFileName +
+                                " (" + numberInterleaved + " spectra) does not match previous files. File skipped.");
                         }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Number of spectra interleaved in file " + myFileName +
-                            " (" + numberInterleaved + " spectra) does not match previous files. File skipped.");
-                    }
 
-                    // Print out information to the user in the userDisplayText box
-                    userDisplayText.Text += @"File """ + myFileName.Replace(".txt", "") +@""" loaded" + System.Environment.NewLine;
-                    userDisplayText.Text += "Notes: " + myFilehandler.getNotes();
-                    userDisplayText.SelectionStart = userDisplayText.Text.Length;
-                    userDisplayText.ScrollToCaret();
+                        // Print out information to the user in the userDisplayText box
+                        userDisplayText.Text += @"File """ + myFileName.Replace(".txt", "") + @""" loaded" + System.Environment.NewLine;
+                        userDisplayText.Text += "Notes: " + myFilehandler.getNotes();
+                        userDisplayText.SelectionStart = userDisplayText.Text.Length;
+                        userDisplayText.ScrollToCaret();
+
+                    }   // End of if statement which checks for number interleaved != 0
 
                 } // End of for loop which goes through each file
 
