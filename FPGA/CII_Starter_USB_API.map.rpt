@@ -1,5 +1,5 @@
 Analysis & Synthesis report for CII_Starter_USB_API
-Fri Jul 26 20:39:50 2013
+Tue Jul 30 21:38:40 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -86,16 +86,16 @@ applicable agreement for further details.
 +------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                       ;
 +------------------------------------+-----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri Jul 26 20:39:49 2013         ;
+; Analysis & Synthesis Status        ; Successful - Tue Jul 30 21:38:40 2013         ;
 ; Quartus II Version                 ; 11.0 Build 208 07/03/2011 SP 1 SJ Web Edition ;
 ; Revision Name                      ; CII_Starter_USB_API                           ;
 ; Top-level Entity Name              ; CPU                                           ;
 ; Family                             ; Cyclone II                                    ;
 ; Total logic elements               ; 1,894                                         ;
-;     Total combinational functions  ; 1,686                                         ;
+;     Total combinational functions  ; 1,685                                         ;
 ;     Dedicated logic registers      ; 1,110                                         ;
 ; Total registers                    ; 1110                                          ;
-; Total pins                         ; 173                                           ;
+; Total pins                         ; 171                                           ;
 ; Total virtual pins                 ; 0                                             ;
 ; Total memory bits                  ; 0                                             ;
 ; Embedded Multiplier 9-bit elements ; 0                                             ;
@@ -252,28 +252,28 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------+
 ; Estimated Total logic elements              ; 1,894    ;
 ;                                             ;          ;
-; Total combinational functions               ; 1686     ;
+; Total combinational functions               ; 1685     ;
 ; Logic element usage by number of LUT inputs ;          ;
 ;     -- 4 input functions                    ; 734      ;
 ;     -- 3 input functions                    ; 440      ;
-;     -- <=2 input functions                  ; 512      ;
+;     -- <=2 input functions                  ; 511      ;
 ;                                             ;          ;
 ; Logic elements by mode                      ;          ;
-;     -- normal mode                          ; 1378     ;
+;     -- normal mode                          ; 1377     ;
 ;     -- arithmetic mode                      ; 308      ;
 ;                                             ;          ;
 ; Total registers                             ; 1110     ;
 ;     -- Dedicated logic registers            ; 1110     ;
 ;     -- I/O registers                        ; 0        ;
 ;                                             ;          ;
-; I/O pins                                    ; 173      ;
+; I/O pins                                    ; 171      ;
 ; Total PLLs                                  ; 1        ;
 ;     -- PLLs                                 ; 1        ;
 ;                                             ;          ;
 ; Maximum fan-out node                        ; CLOCK_50 ;
 ; Maximum fan-out                             ; 881      ;
-; Total fan-out                               ; 9161     ;
-; Average fan-out                             ; 3.08     ;
+; Total fan-out                               ; 9158     ;
+; Average fan-out                             ; 3.09     ;
 +---------------------------------------------+----------+
 
 
@@ -282,7 +282,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                      ; Library Name ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------+--------------+
-; |CPU                                      ; 1686 (1)          ; 1110 (0)     ; 0           ; 0            ; 0       ; 0         ; 173  ; 0            ; |CPU                                                                                                     ;              ;
+; |CPU                                      ; 1685 (1)          ; 1110 (0)     ; 0           ; 0            ; 0       ; 0         ; 171  ; 0            ; |CPU                                                                                                     ;              ;
 ;    |CII_Starter_USB_API:inst|             ; 1254 (0)          ; 849 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst                                                                            ;              ;
 ;       |CMD_Decode:u5|                     ; 657 (657)         ; 458 (458)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5                                                              ;              ;
 ;       |Multi_Flash:u2|                    ; 152 (0)           ; 96 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2                                                             ;              ;
@@ -299,7 +299,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;       |Multi_Sram:u6|                     ; 52 (52)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sram:u6                                                              ;              ;
 ;       |uart:u1|                           ; 153 (153)         ; 74 (74)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|uart:u1                                                                    ;              ;
 ;    |LaserSwitch:inst3|                    ; 10 (10)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|LaserSwitch:inst3                                                                                   ;              ;
-;    |Laser_Controller:inst10|              ; 389 (389)         ; 229 (229)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|Laser_Controller:inst10                                                                             ;              ;
+;    |Laser_Controller:inst10|              ; 388 (388)         ; 229 (229)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|Laser_Controller:inst10                                                                             ;              ;
 ;    |lpm_counter0:inst1|                   ; 16 (0)            ; 16 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|lpm_counter0:inst1                                                                                  ;              ;
 ;       |lpm_counter:LPM_COUNTER_component| ; 16 (0)            ; 16 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component                                                ;              ;
 ;          |cntr_m7j:auto_generated|        ; 16 (16)           ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated                        ;              ;
@@ -697,74 +697,74 @@ Encoding Type:  One-Hot
 +---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-----------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                                                     ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------------------------------------------------------------------------------------------------+----------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered                                                                                           ; Example Multiplexer Output ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------------------------------------------------------------------------------------------------+----------------------------+
-; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[12]                                              ;                            ;
-; 3:1                ; 22 bits   ; 44 LEs        ; 22 LEs               ; 22 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[12]                                ;                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_ExperimentFinish                                       ;                            ;
-; 3:1                ; 24 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; |CPU|Laser_Controller:inst10|f_NumTimesLooped[23]                                                    ;                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|BA[1]              ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|command_done       ;                            ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|timer[3] ;                            ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[0]                                              ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[5]                                         ;                            ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                            ;                            ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]                                           ;                            ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                            ;                            ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[8]              ;                            ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[5]              ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[5]                                              ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[5]                                              ;                            ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[22]                                             ;                            ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[5]                                              ;                            ;
-; 5:1                ; 10 bits   ; 30 LEs        ; 20 LEs               ; 10 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_Lasers[9]                                              ;                            ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|rp_shift[0]        ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; |CPU|Laser_Controller:inst10|oCountReady                                                             ;                            ;
-; 6:1                ; 19 bits   ; 76 LEs        ; 19 LEs               ; 57 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[2]                                        ;                            ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_Transmit_Data[4]                                   ;                            ;
-; 5:1                ; 18 bits   ; 54 LEs        ; 18 LEs               ; 36 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[12]                                        ;                            ;
-; 6:1                ; 17 bits   ; 68 LEs        ; 17 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[2]                                              ;                            ;
-; 6:1                ; 46 bits   ; 184 LEs       ; 46 LEs               ; 138 LEs                ; |CPU|Laser_Controller:inst10|f_LoopCount[11]                                                         ;                            ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[0]                                          ;                            ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[1]                                                ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[3]                                                ;                            ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_bits_remaining[1]                                           ;                            ;
-; 7:1                ; 22 bits   ; 88 LEs        ; 22 LEs               ; 66 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[12]                                      ;                            ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|CMD[1]                              ;                            ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_bits_remaining[0]                                           ;                            ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InstructionBuffer[5]                                     ;                            ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[15]                                            ;                            ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[1]                                                ;                            ;
-; 9:1                ; 19 bits   ; 114 LEs       ; 19 LEs               ; 95 LEs                 ; |CPU|Laser_Controller:inst10|Ticks[17]                                                               ;                            ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 21 LEs               ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oInfo_TXD_DATA[1]                                        ;                            ;
-; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[2]                               ;                            ;
-; 7:1                ; 22 bits   ; 88 LEs        ; 44 LEs               ; 44 LEs                 ; |CPU|Laser_Controller:inst10|f_NextAddress[8]                                                        ;                            ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[0]                                                ;                            ;
-; 9:1                ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_data[2]                                                     ;                            ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; |CPU|Laser_Controller:inst10|ControlBits[2]                                                          ;                            ;
-; 10:1               ; 23 bits   ; 138 LEs       ; 0 LEs                ; 138 LEs                ; |CPU|Laser_Controller:inst10|TicksToRun[18]                                                          ;                            ;
-; 8:1                ; 21 bits   ; 105 LEs       ; 42 LEs               ; 63 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[12]                                            ;                            ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 14 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[18]                                           ;                            ;
-; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[16]                                           ;                            ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[0]                                              ;                            ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[4]                                              ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                  ;                            ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|f_DataState                                              ;                            ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_SDDataIO_ST                                            ;                            ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST                                                   ;                            ;
-; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Selector11                          ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_InstructionState                                                      ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_State                                                                 ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                  ;                            ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                  ;                            ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Final_state                                              ;                            ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|Selector6                                                      ;                            ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 6 LEs                ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                              ;                            ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                              ;                            ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------------------------------------------------------------------------------------------------+----------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+-------------------------------------------------------------------------------------------------------+----------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered                                                                                            ; Example Multiplexer Output ;
++--------------------+-----------+---------------+----------------------+------------------------+-------------------------------------------------------------------------------------------------------+----------------------------+
+; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[11]                                               ;                            ;
+; 3:1                ; 22 bits   ; 44 LEs        ; 22 LEs               ; 22 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[14]                                 ;                            ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_ExperimentFinish                                        ;                            ;
+; 3:1                ; 24 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; |CPU|Laser_Controller:inst10|f_NumTimesLooped[0]                                                      ;                            ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|BA[0]               ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|command_delay[6]    ;                            ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|timer[12] ;                            ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[2]                                               ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[0]                                          ;                            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                             ;                            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]                                            ;                            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]                                             ;                            ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[11]              ;                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[7]               ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[5]                                               ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[5]                                               ;                            ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[22]                                              ;                            ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[5]                                               ;                            ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 20 LEs               ; 10 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_Lasers[9]                                               ;                            ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|rp_shift[0]         ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; |CPU|Laser_Controller:inst10|oCountReady                                                              ;                            ;
+; 6:1                ; 19 bits   ; 76 LEs        ; 19 LEs               ; 57 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[2]                                         ;                            ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_Transmit_Data[4]                                    ;                            ;
+; 5:1                ; 18 bits   ; 54 LEs        ; 18 LEs               ; 36 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[12]                                         ;                            ;
+; 6:1                ; 17 bits   ; 68 LEs        ; 17 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[2]                                               ;                            ;
+; 6:1                ; 46 bits   ; 184 LEs       ; 46 LEs               ; 138 LEs                ; |CPU|Laser_Controller:inst10|f_LoopCount[11]                                                          ;                            ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[0]                                           ;                            ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[1]                                                 ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[3]                                                 ;                            ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_bits_remaining[1]                                            ;                            ;
+; 7:1                ; 22 bits   ; 88 LEs        ; 22 LEs               ; 66 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[12]                                       ;                            ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|CMD[1]                               ;                            ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_bits_remaining[0]                                            ;                            ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InstructionBuffer[5]                                      ;                            ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[15]                                             ;                            ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[1]                                                 ;                            ;
+; 9:1                ; 19 bits   ; 114 LEs       ; 19 LEs               ; 95 LEs                 ; |CPU|Laser_Controller:inst10|Ticks[17]                                                                ;                            ;
+; 8:1                ; 7 bits    ; 35 LEs        ; 21 LEs               ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oInfo_TXD_DATA[1]                                         ;                            ;
+; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[2]                                ;                            ;
+; 7:1                ; 22 bits   ; 88 LEs        ; 44 LEs               ; 44 LEs                 ; |CPU|Laser_Controller:inst10|f_NextAddress[8]                                                         ;                            ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[0]                                                 ;                            ;
+; 9:1                ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_data[2]                                                      ;                            ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; |CPU|Laser_Controller:inst10|ControlBits[2]                                                           ;                            ;
+; 10:1               ; 23 bits   ; 138 LEs       ; 0 LEs                ; 138 LEs                ; |CPU|Laser_Controller:inst10|TicksToRun[18]                                                           ;                            ;
+; 8:1                ; 21 bits   ; 105 LEs       ; 42 LEs               ; 63 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[12]                                             ;                            ;
+; 8:1                ; 7 bits    ; 35 LEs        ; 14 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[18]                                            ;                            ;
+; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[16]                                            ;                            ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[0]                                               ;                            ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[4]                                               ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                   ;                            ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|f_DataState                                               ;                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_SDDataIO_ST                                             ;                            ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST                                                    ;                            ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Selector11                           ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_InstructionState                                                       ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_State                                                                  ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                   ;                            ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                   ;                            ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Final_state                                               ;                            ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|Selector6                                                       ;                            ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 6 LEs                ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                               ;                            ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                               ;                            ;
++--------------------+-----------+---------------+----------------------+------------------------+-------------------------------------------------------------------------------------------------------+----------------------------+
 
 
 +-------------------------------------------------------------------------------+
@@ -1560,7 +1560,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:28     ;
+; Top            ; 00:00:27     ;
 +----------------+--------------+
 
 
@@ -1570,7 +1570,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
-    Info: Processing started: Fri Jul 26 20:39:25 2013
+    Info: Processing started: Tue Jul 30 21:38:16 2013
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
 Critical Warning: Setting INCREMENTAL_COMPILATION to "OFF" is no longer supported. Assignment is ignored. To disable partitions, set the IGNORE_PARTITIONS global assignment to "ON" instead.
 Warning: Parallel compilation is not licensed and has been disabled
@@ -1626,7 +1626,6 @@ Info: Elaborating entity "CPU" for the top level hierarchy
 Warning: Block or symbol "NOT" of instance "inst2" overlaps another block or symbol
 Warning: Block or symbol "NOT" of instance "inst6" overlaps another block or symbol
 Warning: Block or symbol "NOT" of instance "inst8" overlaps another block or symbol
-Warning: Block or symbol "NOT" of instance "inst12" overlaps another block or symbol
 Warning: Block or symbol "NOT" of instance "inst13" overlaps another block or symbol
 Warning: Block or symbol "NOT" of instance "inst15" overlaps another block or symbol
 Info: Elaborating entity "CII_Starter_USB_API" for hierarchy "CII_Starter_USB_API:inst"
@@ -1753,7 +1752,7 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "SRAM_LB_N" is stuck at GND
     Warning (13410): Pin "SRAM_CE_N" is stuck at GND
     Warning (13410): Pin "VOut" is stuck at VCC
-    Warning (13410): Pin "LEDG[2]" is stuck at VCC
+    Warning (13410): Pin "LEDG[0]" is stuck at VCC
 Info: 95 registers lost all their fanouts during netlist optimizations. The first 95 are displayed below.
     Info: Register "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[31]" lost all its fanouts during netlist optimizations.
     Info: Register "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[30]" lost all its fanouts during netlist optimizations.
@@ -1863,17 +1862,17 @@ Warning: Design contains 8 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[3]"
     Warning (15610): No output dependent on input pin "KEY[2]"
     Warning (15610): No output dependent on input pin "KEY[1]"
-Info: Implemented 2144 device resources after synthesis - the final resource count might be different
+Info: Implemented 2142 device resources after synthesis - the final resource count might be different
     Info: Implemented 18 input pins
-    Info: Implemented 115 output pins
+    Info: Implemented 113 output pins
     Info: Implemented 40 bidirectional pins
     Info: Implemented 1970 logic cells
     Info: Implemented 1 PLLs
-Info: Quartus II Analysis & Synthesis was successful. 0 errors, 85 warnings
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 84 warnings
     Info: Peak virtual memory: 312 megabytes
-    Info: Processing ended: Fri Jul 26 20:39:50 2013
-    Info: Elapsed time: 00:00:25
-    Info: Total CPU time (on all processors): 00:00:22
+    Info: Processing ended: Tue Jul 30 21:38:40 2013
+    Info: Elapsed time: 00:00:24
+    Info: Total CPU time (on all processors): 00:00:21
 
 
 +------------------------------------------+
