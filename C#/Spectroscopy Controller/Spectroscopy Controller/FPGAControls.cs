@@ -149,7 +149,7 @@ namespace Spectroscopy_Controller
                     // This if statement can be left as-is
                     if (Bytes[3] != 181 && Bytes[3] != 77 && Bytes[3] != 173)
                     {
-                        // Changed from WriteOutout to WriteMessage (just puts it in the messages box)
+                        // Changed from WriteOutout to WriteMessage
                         WriteMessage("Warning: Received corrupted data!\r\n");
 
                         int Info1 = FPGA.InfoRequest();
@@ -313,8 +313,8 @@ namespace Spectroscopy_Controller
                     {
                         WriteOutput("Received corrupted data (Unrecoverable)!\r\n");
                     }
-                }
-            }
+                }*/
+            }/*
 
             foreach (int i in Readings)  //this loop probably isn't needed now
             {

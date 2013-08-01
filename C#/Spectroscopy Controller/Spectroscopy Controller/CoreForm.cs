@@ -14,6 +14,8 @@ namespace Spectroscopy_Controller
 {
     public partial class CoreForm : Form
     {
+        // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
+        private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
 
         public bool RFSwitch1State = false;
         public bool RFSwitch2State = false;
@@ -432,23 +434,101 @@ namespace Spectroscopy_Controller
                 {
                     string[] metadata = new string[10];
                     
-                    int isWindowed = this.SpecTypeBox.SelectedIndex;
+                    // Save information about whether the spectrum is windowed or continuous
+                    int IsWindowed = this.SpecTypeBox.SelectedIndex;
+
+                    // Array of StreamWriter objects to write file(s)
+                    TextWriter[] myFile;
 
                     // If "Continuous" experiment type has been selected
-                    if (isWindowed == 0)
+                    if (IsWindowed == 0)
                     {
-                        // Create a single file and put all readings in there
+                        // Retrieve the folder path selected by the user
+                        string FolderPath = myExperimentDialog.getFilePath();
+                        // Make sure the 
+                        if (FolderPath != null)
+                        {
+                            // Create a single file and put all readings in there
+                            myFile = new TextWriter[1];
+                            myFile[0] = new StreamWriter(FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt");
+                            
+                            // Write the metadata to the file
+                            myFile[0].WriteLine("Spectroscopy data file");
+                            myFile[0].WriteLine(DateTime.Now.ToString("d/m/yyyy"));
+                            // I assume we want to store Axial, Modified Cyc & Magnetron freqs? Need to amend metadata template
+                            myFile[0].WriteLine("Trap Frequency:");
+                            myFile[0].WriteLine("");          
+                            //
+                            // Trap voltage
+                            myFile[0].WriteLine("Trap Voltage:");
+                            myFile[0].WriteLine(this.TrapVoltageBox.Value);
+                            // AOM start freq
+                            myFile[0].WriteLine("AOM Start Frequency (MHz):");
+                            myFile[0].WriteLine(this.StartFrequencyBox.Value);
+                            // Step size
+                            myFile[0].WriteLine("Step Size (kHz):");
+                            myFile[0].WriteLine(this.StepSizeBox.Value);
+                            // Number of repeats
+                            myFile[0].WriteLine("Number of repeats per frequency:");
+                            myFile[0].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                            // Number interleaved
+                            myFile[0].WriteLine("File contains interleaved spectra:");
+                            myFile[0].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
 
-                        // Want an if statement to check whether an instance of viewer is already open
-                        // Create new instance of viewer
-                        Spectroscopy_Viewer.SpectroscopyViewerForm myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, isWindowed);
+                            // Name for each spectrum
+                            for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
+                            {
+                                myFile[0].WriteLine("Spectrum " + i + " name:");
 
+                            }
+
+
+
+                            // If myViewer is not open
+                            if ( myViewer == null)
+                            {
+                            // Create new instance of viewer
+                                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error selecting folder. Please try again.");
+                        }
                         
 
                     }
                     else
                     {
                         // Create a file for each sideband with appropriate naming
+
+                        // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                        int numberOfFiles = (int) (2 * this.SidebandNumberBox.Value + 1);
+
+                        // Retrieve the folder path selected by the user
+                        string FolderPath = myExperimentDialog.getFilePath();
+                        // Make sure the 
+                        if (FolderPath != null)
+                        {
+
+                            myFile = new TextWriter[numberOfFiles];
+
+                            for (int i = 0; i < numberOfFiles; i++)
+                            {
+                                string myFileName = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
+
+                                // Some if statements here to figure out whether the sideband is R/B & which number it is...
+                                // Need to know the order of the sidebands to calculate this
+
+                                myFile[i] = new StreamWriter(myFileName);
+                                // Not sure what order the sidebands will be done in... need to find out before I can create files
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error selecting folder. Please try again.");
+                        }
                     }
 
 
