@@ -1,5 +1,5 @@
 Assembler report for CII_Starter_USB_API
-Mon Jul 15 19:31:51 2013
+Fri Jul 26 20:40:30 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -10,8 +10,8 @@ Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
   2. Assembler Summary
   3. Assembler Settings
   4. Assembler Generated Files
-  5. Assembler Device Options: Z:/Spectroscopy/FPGA/CII_Starter_USB_API.sof
-  6. Assembler Device Options: Z:/Spectroscopy/FPGA/CII_Starter_USB_API.pof
+  5. Assembler Device Options: C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.sof
+  6. Assembler Device Options: C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.pof
   7. Assembler Messages
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Mon Jul 15 19:31:51 2013 ;
+; Assembler Status      ; Successful - Fri Jul 26 20:40:30 2013 ;
 ; Revision Name         ; CII_Starter_USB_API                   ;
 ; Top-level Entity Name ; CPU                                   ;
 ; Family                ; Cyclone II                            ;
@@ -78,37 +78,37 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------+----------+---------------+
 
 
-+----------------------------------------------+
-; Assembler Generated Files                    ;
-+----------------------------------------------+
-; File Name                                    ;
-+----------------------------------------------+
-; Z:/Spectroscopy/FPGA/CII_Starter_USB_API.sof ;
-; Z:/Spectroscopy/FPGA/CII_Starter_USB_API.pof ;
-+----------------------------------------------+
++-----------------------------------------------------------------------+
+; Assembler Generated Files                                             ;
++-----------------------------------------------------------------------+
+; File Name                                                             ;
++-----------------------------------------------------------------------+
+; C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.sof ;
+; C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.pof ;
++-----------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------+
-; Assembler Device Options: Z:/Spectroscopy/FPGA/CII_Starter_USB_API.sof ;
-+----------------+-------------------------------------------------------+
-; Option         ; Setting                                               ;
-+----------------+-------------------------------------------------------+
-; Device         ; EP2C20F484C7                                          ;
-; JTAG usercode  ; 0xFFFFFFFF                                            ;
-; Checksum       ; 0x002FEA97                                            ;
-+----------------+-------------------------------------------------------+
++-------------------------------------------------------------------------------------------------+
+; Assembler Device Options: C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.sof ;
++----------------+--------------------------------------------------------------------------------+
+; Option         ; Setting                                                                        ;
++----------------+--------------------------------------------------------------------------------+
+; Device         ; EP2C20F484C7                                                                   ;
+; JTAG usercode  ; 0xFFFFFFFF                                                                     ;
+; Checksum       ; 0x002F62F0                                                                     ;
++----------------+--------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------+
-; Assembler Device Options: Z:/Spectroscopy/FPGA/CII_Starter_USB_API.pof ;
-+--------------------+---------------------------------------------------+
-; Option             ; Setting                                           ;
-+--------------------+---------------------------------------------------+
-; Device             ; EPCS4                                             ;
-; JTAG usercode      ; 0x00000000                                        ;
-; Checksum           ; 0x05D307D5                                        ;
-; Compression Ratio  ; 2                                                 ;
-+--------------------+---------------------------------------------------+
++-------------------------------------------------------------------------------------------------+
+; Assembler Device Options: C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.pof ;
++--------------------+----------------------------------------------------------------------------+
+; Option             ; Setting                                                                    ;
++--------------------+----------------------------------------------------------------------------+
+; Device             ; EPCS4                                                                      ;
+; JTAG usercode      ; 0x00000000                                                                 ;
+; Checksum           ; 0x05D0D3DB                                                                 ;
+; Compression Ratio  ; 2                                                                          ;
++--------------------+----------------------------------------------------------------------------+
 
 
 +--------------------+
@@ -117,15 +117,15 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Assembler
     Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Jul 15 19:31:47 2013
+    Info: Processing started: Fri Jul 26 20:40:25 2013
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
 Critical Warning: Setting INCREMENTAL_COMPILATION to "OFF" is no longer supported. Assignment is ignored. To disable partitions, set the IGNORE_PARTITIONS global assignment to "ON" instead.
 Info: Writing out detailed assembly data for power analysis
 Info: Assembler is generating device programming files
 Info: Quartus II Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 270 megabytes
-    Info: Processing ended: Mon Jul 15 19:31:51 2013
-    Info: Elapsed time: 00:00:04
-    Info: Total CPU time (on all processors): 00:00:03
+    Info: Peak virtual memory: 274 megabytes
+    Info: Processing ended: Fri Jul 26 20:40:30 2013
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:04
 
 

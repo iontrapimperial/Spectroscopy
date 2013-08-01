@@ -3,16 +3,16 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow Model Setup 'CLOCK_50'
-Slack : 7.387
+Slack : 7.220
 TNS   : 0.000
 
 Type  : Slow Model Setup 'CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0'
-Slack : 11.452
+Slack : 12.181
 TNS   : 0.000
 
 Type  : Slow Model Hold 'CLOCK_50'
-Slack : -2.142
-TNS   : -23.534
+Slack : -2.141
+TNS   : -35.863
 
 Type  : Slow Model Hold 'CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0'
 Slack : 0.445
@@ -27,16 +27,16 @@ Slack : 8.889
 TNS   : 0.000
 
 Type  : Fast Model Setup 'CLOCK_50'
-Slack : 15.425
+Slack : 15.334
 TNS   : 0.000
 
 Type  : Fast Model Setup 'CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0'
-Slack : 15.744
+Slack : 16.052
 TNS   : 0.000
 
 Type  : Fast Model Hold 'CLOCK_50'
 Slack : -1.821
-TNS   : -26.926
+TNS   : -31.682
 
 Type  : Fast Model Hold 'CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0'
 Slack : 0.215
