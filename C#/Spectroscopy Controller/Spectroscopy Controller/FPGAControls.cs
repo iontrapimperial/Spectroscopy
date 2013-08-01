@@ -81,7 +81,7 @@ namespace Spectroscopy_Controller
             int WindowSpace = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();//Distance from end of one window to start of next
             
 
-            // Need to pop up a dialog box asking for file name!
+            // Need to either pass TextWriter array or array of file names.. not sure which
             TextWriter File = new StreamWriter(FilenameTextbox.Text);
             if (File != null)
             {

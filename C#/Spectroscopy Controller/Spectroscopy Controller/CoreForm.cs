@@ -434,25 +434,32 @@ namespace Spectroscopy_Controller
                 {
                     string[] metadata = new string[10];
                     
-                    // Save information about whether the spectrum is windowed or continuous
-                    int IsWindowed = this.SpecTypeBox.SelectedIndex;
 
-                    // Array of StreamWriter objects to write file(s)
-                    TextWriter[] myFile;
-
-                    // If "Continuous" experiment type has been selected
-                    if (IsWindowed == 0)
+                    // Retrieve the folder path selected by the user
+                    string FolderPath = myExperimentDialog.getFilePath();
+                    // Make sure the 
+                    if (FolderPath != null)
                     {
-                        // Retrieve the folder path selected by the user
-                        string FolderPath = myExperimentDialog.getFilePath();
-                        // Make sure the 
-                        if (FolderPath != null)
+                    
+                        // Save information about whether the spectrum is windowed or continuous
+                        int IsWindowed = this.SpecTypeBox.SelectedIndex;
+
+                        // Array of StreamWriter objects to write file(s)
+                        TextWriter[] myFile;
+                        string[] myFileName;
+
+                        // If "Continuous" experiment type has been selected
+                        if (IsWindowed == 0)
                         {
+                        
                             // Create a single file and put all readings in there
+                            myFileName = new string[1];
+                            myFileName[0] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt";
                             myFile = new TextWriter[1];
-                            myFile[0] = new StreamWriter(FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt");
+                            myFile[0] = new StreamWriter(myFileName[0]);
                             
                             // Write the metadata to the file
+                            /////////////////////////////////////
                             myFile[0].WriteLine("Spectroscopy data file");
                             myFile[0].WriteLine(DateTime.Now.ToString("d/m/yyyy"));
                             // I assume we want to store Axial, Modified Cyc & Magnetron freqs? Need to amend metadata template
@@ -490,45 +497,32 @@ namespace Spectroscopy_Controller
                             // Create new instance of viewer
                                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
                             }
-
+                      
                         }
                         else
                         {
-                            MessageBox.Show("Error selecting folder. Please try again.");
-                        }
-                        
+                            // Create a file for each sideband with appropriate naming
 
-                    }
-                    else
-                    {
-                        // Create a file for each sideband with appropriate naming
+                            // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                            int numberOfFiles = (int) (2 * this.SidebandNumberBox.Value + 1);
 
-                        // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                        int numberOfFiles = (int) (2 * this.SidebandNumberBox.Value + 1);
-
-                        // Retrieve the folder path selected by the user
-                        string FolderPath = myExperimentDialog.getFilePath();
-                        // Make sure the 
-                        if (FolderPath != null)
-                        {
-
+                            myFileName = new string[numberOfFiles];    
                             myFile = new TextWriter[numberOfFiles];
 
                             for (int i = 0; i < numberOfFiles; i++)
                             {
-                                string myFileName = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
-
-                                // Some if statements here to figure out whether the sideband is R/B & which number it is...
+                                myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
+                                // Some if statements here to figure out whether the sideband is R/B & which number it is
+                                // so we can add this to the file name
                                 // Need to know the order of the sidebands to calculate this
 
-                                myFile[i] = new StreamWriter(myFileName);
-                                // Not sure what order the sidebands will be done in... need to find out before I can create files
-                            }
+                                myFile[i] = new StreamWriter(myFileName[i]);
                         }
-                        else
-                        {
-                            MessageBox.Show("Error selecting folder. Please try again.");
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error selecting folder. Please try again.");
                     }
 
 
