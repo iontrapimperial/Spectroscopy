@@ -137,6 +137,8 @@
             this.LiveLaserBox397B1 = new System.Windows.Forms.CheckBox();
             this.debugmessagebox = new System.Windows.Forms.GroupBox();
             this.MessagesBox = new System.Windows.Forms.ListView();
+            this.saveXMLFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openXMLFileDialog = new System.Windows.Forms.OpenFileDialog();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -248,6 +250,9 @@
             this.AddChildButton.TabIndex = 44;
             this.AddChildButton.Text = "Add Child";
             this.AddChildButton.UseVisualStyleBackColor = true;
+            this.AddChildButton.Click += new System.EventHandler(this.AddChildButton_Click);
+            this.AddChildButton.MouseLeave += new System.EventHandler(this.AddChildButton_MouseLeave);
+            this.AddChildButton.MouseEnter += new System.EventHandler(this.AddChildButton_MouseEnter);
             // 
             // DeleteButton
             // 
@@ -285,6 +290,9 @@
             this.AddRootButton.TabIndex = 40;
             this.AddRootButton.Text = "Add";
             this.AddRootButton.UseVisualStyleBackColor = true;
+            this.AddRootButton.Click += new System.EventHandler(this.AddRootButton_Click);
+            this.AddRootButton.MouseLeave += new System.EventHandler(this.AddRootButton_MouseLeave);
+            this.AddRootButton.MouseEnter += new System.EventHandler(this.AddRootButton_MouseEnter);
             // 
             // SaveStateButton
             // 
@@ -294,6 +302,7 @@
             this.SaveStateButton.TabIndex = 48;
             this.SaveStateButton.Text = "Save Pulse";
             this.SaveStateButton.UseVisualStyleBackColor = true;
+
             // 
             // PulseTypeTabs
             // 
@@ -547,6 +556,7 @@
             this.OpenXMLButton.Size = new System.Drawing.Size(105, 58);
             this.OpenXMLButton.TabIndex = 51;
             this.OpenXMLButton.UseVisualStyleBackColor = true;
+            this.OpenXMLButton.Click += new System.EventHandler(this.OpenXMLButton_Click);
             // 
             // SaveXMLButton
             // 
@@ -556,6 +566,7 @@
             this.SaveXMLButton.Size = new System.Drawing.Size(105, 58);
             this.SaveXMLButton.TabIndex = 52;
             this.SaveXMLButton.UseVisualStyleBackColor = true;
+            this.SaveXMLButton.Click += new System.EventHandler(this.SaveXMLButton_Click);
             // 
             // BinaryCompileButton
             // 
@@ -1554,6 +1565,10 @@
             this.MessagesBox.TabIndex = 0;
             this.MessagesBox.UseCompatibleStateImageBehavior = false;
             // 
+            // openXMLFileDialog
+            // 
+            this.openXMLFileDialog.FileName = "openFileDialog1";
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1717,6 +1732,8 @@
         private System.Windows.Forms.Button SetRFSpecButton;
         private System.Windows.Forms.GroupBox debugmessagebox;
         private System.Windows.Forms.ListView MessagesBox;
+        private System.Windows.Forms.SaveFileDialog saveXMLFileDialog;
+        private System.Windows.Forms.OpenFileDialog openXMLFileDialog;
     }
 }
 

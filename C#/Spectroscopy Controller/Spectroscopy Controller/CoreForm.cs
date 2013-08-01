@@ -80,21 +80,21 @@ namespace Spectroscopy_Controller
         private void LaserBoxChanged(object sender, EventArgs e)
         {
 
-            /*if (!FPGA.bUSBPortIsOpen)
+            if (!FPGA.bUSBPortIsOpen)
             {
                 MessageBox.Show("USB Port not open");
                 return;
-            }*/
+            }
            
             string RFtype = "Laser";
 
-           if (sender is System.Windows.Forms.CheckBox)     //this needs resolving
+           if (sender is System.Windows.Forms.CheckBox)
             {
                 RFtype = "Laser";
             }
-            else if (sender is System.Windows.Forms.RadioButton)       //this also needs resolving
+            else if (sender is System.Windows.Forms.RadioButton)
             {
-            RFtype = ((RadioButton)sender).Tag.ToString();    //So does this
+            RFtype = ((RadioButton)sender).Tag.ToString();
             }
 
             switch(RFtype)
@@ -233,13 +233,14 @@ namespace Spectroscopy_Controller
         private void ReadDataButton_Click(object sender, EventArgs e)
         {
             ReadData();  //defined in DebugTools.cs
-        }*/
+        }
 
-        /*#endregion
+        #endregion*/
 
         #region Methods defined in XMLFIleIO.cs
 
-        private void saveXMLFileToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void SaveXMLButton_Click(object sender, EventArgs e)
         {
             saveXMLFileDialog.ShowDialog();
         }
@@ -249,19 +250,19 @@ namespace Spectroscopy_Controller
             SaveXMLFile();
         }
 
+        private void OpenXMLButton_Click(object sender, EventArgs e)
+        {
+            openXMLFileDialog.ShowDialog();
+        }
+
         private void openXMLFileDialog_FileOk(object sender, CancelEventArgs e)
         {
             OpenXMLFile();
         }
 
-        private void openXMLFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            openXMLFileDialog.ShowDialog();
-        }
-
         #endregion*/
 
-        /*#region Methods defined in PulseTree.cs
+        #region Methods defined in PulseTree.cs
 
         private void AddRootButton_Click(object sender, EventArgs e)
         {
@@ -324,7 +325,7 @@ namespace Spectroscopy_Controller
             TimeLabel.Text = "Length: " + ((TicksBox.Value * 20) / (1000000)) + " ms";
         }
 
-        #endregion*/
+        #endregion
               
         /*#region Methods defined in HexFileIO.cs
 
@@ -404,6 +405,7 @@ namespace Spectroscopy_Controller
             }
             
         }
+
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
