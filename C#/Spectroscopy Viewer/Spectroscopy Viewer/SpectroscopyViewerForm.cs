@@ -48,7 +48,9 @@ namespace Spectroscopy_Viewer
         
         // Array to store metadata for live experiment, save passing it every single time we add data
         private string[] metadata;
-
+        // Store the number of spectra in the live experiment as an int for quick access
+        private int numberOfSpectraLive = new int();
+        
 
 
         // Graph controls
@@ -94,10 +96,12 @@ namespace Spectroscopy_Viewer
             // Disable loading saved data while running in live mode
             this.loadDataButton.Enabled = false;
 
+            numberOfSpectraLive = int.Parse(metadata[5]);
+
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
             // Add number of spectra from new experiment
-            numberOfSpectra += int.Parse(metadata[5]);
+            numberOfSpectra += numberOfSpectraLive;
 
             // Create new spectra, with no data points, just metadata
             for (int i = existingSpectra; i < numberOfSpectra; i++)
@@ -106,36 +110,45 @@ namespace Spectroscopy_Viewer
             }
 
 
-
-
-            
-
+            // Create the controls for the graph
+            this.createGraphControls();
+            // But since we haven't added any data yet, don't update thresholds or graph
         }
 
-        // Method to accept incoming data from Spectroscopy Controller from live experiment
+        // Method to accept incoming data from live experiment
         // Returns a bool which is set to false if there were any errors, otherwise true
-        public bool AddLiveData(ref int[] IncomingData, int NumberOfSpectraIncoming)
+        public void addLiveData(int[] incomingData)
         {
-            bool noErrors = true;
 
-            fileHandler myFileHandler = new fileHandler(ref IncomingData, ref metadata);
+            // Once the readings have been passed, the array is cleared, so we need to copy to new array
+            for (int i = 0; i < incomingData.Length; i++)
+            {
+
+            }
+
+
+            // Create fileHandler to process the incoming data
+            fileHandler myFileHandler = new fileHandler(ref incomingData, ref metadata);
 
             // How many spectra were loaded before we started running live
-            int existingSpectra = numberOfSpectra - NumberOfSpectraIncoming;
+            int existingSpectra = numberOfSpectra - numberOfSpectraLive;
 
             // Loop through the live spectra only
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
-
-
+                // Add data points to the spectrum
+                mySpectrum[i].addToSpectrum( myFileHandler.getDataPoints(i) );
             }
 
-            return noErrors;
-        }
+
+            // Update the data & plot graph
+            this.updateThresholds();
+         }
 
 
         public void StopRunningLive()
         {
+            IsExperimentRunning = false;
 
             // Enable loading live data now that we have stopped running in live mode
             this.loadDataButton.Enabled = true;
@@ -381,17 +394,22 @@ namespace Spectroscopy_Viewer
                 this.createGraphControls();
 
                 // Update thresholds & plot data
-                this.updateThresholdsButton_Click(sender, e);
+                this.updateThresholds();
 
 
             }
         }
-        
-
 
         // Method to respond to 'Update thresholds' button press
-        // Calculates bad counts/dark ion probs based on thresholds & plots graph
         private void updateThresholdsButton_Click(object sender, EventArgs e)
+        {
+            updateThresholds();
+        }
+
+
+        // Method to update the thresholds
+        // Calculates bad counts/dark ion probs based on thresholds & plots graph
+        private void updateThresholds()
         {
             // Do not attempt to do anything if no spectra have been created
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
@@ -406,7 +424,7 @@ namespace Spectroscopy_Viewer
                 }
 
                 // Setup the graph
-                updateGraph(sender, e);
+                updateGraph();
                 // Size the control to fill the form with a margin
                 SetSize();
             }
@@ -824,7 +842,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlCheckBox[i].TabIndex = 0;
                     this.graphControlCheckBox[i].Text = "Show spectrum " + (i + 1);
                     this.graphControlCheckBox[i].CheckedChanged +=
-                        new System.EventHandler(this.updateGraph);
+                        new System.EventHandler(this.updateGraph_Event);
                     //
                     // Configure label to display text "Show bad counts:"
                     this.graphControlLabel[i].AutoSize = true;
@@ -844,7 +862,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlBadCountsNone[i].Text = "None";
                     this.graphControlBadCountsNone[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsNone[i].CheckedChanged +=
-                        new System.EventHandler(this.updateGraph);
+                        new System.EventHandler(this.updateGraph_Event);
                     //
                     // Configure radio button to display all bad counts
                     this.graphControlBadCountsAll[i].AutoSize = true;
@@ -855,7 +873,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlBadCountsAll[i].Text = "All";
                     this.graphControlBadCountsAll[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsAll[i].CheckedChanged +=
-                        new System.EventHandler(this.updateGraph);
+                        new System.EventHandler(this.updateGraph_Event);
                     //
                     // Configure radio button to display bad counts due to error flags only
                     this.graphControlBadCountsLaser[i].AutoSize = true;
@@ -866,7 +884,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlBadCountsLaser[i].Text = "Laser error";
                     this.graphControlBadCountsLaser[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsLaser[i].CheckedChanged +=
-                        new System.EventHandler(this.updateGraph);
+                        new System.EventHandler(this.updateGraph_Event);
                     //
                     // Configure radio button to display bad counts due to threshold only
                     this.graphControlBadCountsThreshold[i].AutoSize = true;
@@ -877,7 +895,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlBadCountsThreshold[i].Text = "Threshold error";
                     this.graphControlBadCountsThreshold[i].UseVisualStyleBackColor = true;
                     this.graphControlBadCountsThreshold[i].CheckedChanged +=
-                        new System.EventHandler(this.updateGraph);
+                        new System.EventHandler(this.updateGraph_Event);
                     //
                     // Configure context menu
                     MenuItem contextMenuRename = new MenuItem();
@@ -913,8 +931,18 @@ namespace Spectroscopy_Viewer
             }
         }
 
+
+        // Method to update graph from an event
+        private void updateGraph_Event(object sender, EventArgs e)
+        {
+            updateGraph();
+        }
+
+
+
+
         // Method to respond to user changing radio buttons in graph controls
-        private void updateGraph(object sender, EventArgs e)
+        private void updateGraph()
         {
             // Only try to update graph if some spectra have been loaded
             if (numberOfSpectra != 0)

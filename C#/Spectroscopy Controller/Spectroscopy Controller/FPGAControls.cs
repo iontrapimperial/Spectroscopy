@@ -223,7 +223,7 @@ namespace Spectroscopy_Controller
                             File.WriteLine(j.ToString());
                         }
 
-                        ResultsForm.InputData(Readings.ToArray());
+                        myViewer.addLiveData(Readings.ToArray());
 
                         File.Flush();
                         Readings.Clear();
