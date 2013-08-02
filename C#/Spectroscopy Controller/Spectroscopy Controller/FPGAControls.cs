@@ -73,16 +73,18 @@ namespace Spectroscopy_Controller
         Byte[] Data = new Byte[4];
         public void FPGAReadMethod()
         {
-           
-            int Frequency = FreqSelectForm.GetInitialFrequency();
-            int FrequencyStep = FreqSelectForm.GetFreqStep();
+
+            int Frequency = (int) StartFrequencyBox.Value;      // This will be in MHz
+            float FrequencyStep = (float) StepSizeBox.Value;        // This will be in kHz
             int CurrentWindowStep = 0;
-            int WindowSize = FreqSelectForm.GetWindowSize();
-            int WindowSpace = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();//Distance from end of one window to start of next
+            int WindowSize = (int)SidebandWidthBox.Value;           // This will be in number of steps
+            //Distance from end of one window to start of next
+            int WindowSpace = 0;        // need to work out how to calculate this
+            
             
             int numberOfFiles = this.myFile.Length;
 
-            
+            /*
             TextWriter File = new StreamWriter(FilenameTextbox.Text);
             if (File != null)
             {
@@ -91,7 +93,7 @@ namespace Spectroscopy_Controller
             else
             {
                 WriteMessage("Couldn't Open File for Writing: " + FilenameTextbox.Text, true);
-            }
+            }*/
 
             // Create list for storing readings, get ready for 2000 data points
             List<int> Readings = new List<int>(2000);
