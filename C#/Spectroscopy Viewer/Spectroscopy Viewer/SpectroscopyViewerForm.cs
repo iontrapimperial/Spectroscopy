@@ -64,6 +64,8 @@ namespace Spectroscopy_Viewer
 
             initialiseColours();
 
+            Test_WriteToMultipleFiles();
+
 
         }
 
@@ -90,6 +92,36 @@ namespace Spectroscopy_Viewer
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
 
+            }
+
+        }
+
+
+        private void Test_WriteToMultipleFiles()
+        {
+            TextWriter[] myFile = new TextWriter[2];
+
+            myFile[0] = new StreamWriter("C:/Users/localadmin/Documents/test1.txt");
+            myFile[1] = new StreamWriter("C:/Users/localadmin/Documents/test2.txt");
+
+            myFile[0].WriteLine("Test file 1 opened for writing");
+            myFile[1].WriteLine("Test file 2 opened for writing");
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    int x = i * (j + 1);
+                    myFile[j].WriteLine(x);
+                }
+
+
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                myFile[i].Flush();
+                myFile[i].Close();
             }
 
         }
