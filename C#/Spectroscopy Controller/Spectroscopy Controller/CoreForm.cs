@@ -17,6 +17,13 @@ namespace Spectroscopy_Controller
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
         private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
 
+        // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
+        // Array of StreamWriter objects to write file(s)
+        // this is accessed by FPGAReadMethod and StartButton_Click
+        TextWriter[] myFile;
+        
+
+
         public bool RFSwitch1State = false;
         public bool RFSwitch2State = false;
 
@@ -444,14 +451,16 @@ namespace Spectroscopy_Controller
                         // Save information about whether the spectrum is windowed or continuous
                         int IsWindowed = this.SpecTypeBox.SelectedIndex;
 
-                        // Array of StreamWriter objects to write file(s)
-                        TextWriter[] myFile;
+                        
                         string[] myFileName;
 
                         // If "Continuous" experiment type has been selected
                         if (IsWindowed == 0)
                         {
-                        
+                            // Put the metadata into array to pass to viewer
+                            // Need to check about trap freq...
+
+
                             // Create a single file and put all readings in there
                             myFileName = new string[1];
                             myFileName[0] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt";
@@ -486,10 +495,18 @@ namespace Spectroscopy_Controller
                             for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
                             {
                                 myFile[0].WriteLine("Spectrum " + i + " name:");
-
+                                myFile[0].WriteLine(myExperimentDialog.SpectrumNames[i].Text);
                             }
 
+                            // Notes section
+                            myFile[0].WriteLine("Notes:");
+                            myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
 
+                            // Title for data
+                            myFile[0].WriteLine("Data:");
+
+
+                            
 
                             // If myViewer is not open
                             if ( myViewer == null)

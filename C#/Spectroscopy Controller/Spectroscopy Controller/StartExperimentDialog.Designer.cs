@@ -39,50 +39,43 @@
             this.CancelButton = new System.Windows.Forms.Button();
             this.ChooseFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.NotesBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfRepeats)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfSpectra)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 11);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(15, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 17);
+            this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Please specify:";
             // 
             // ExperimentName
             // 
-            this.ExperimentName.Location = new System.Drawing.Point(149, 46);
-            this.ExperimentName.Margin = new System.Windows.Forms.Padding(4);
+            this.ExperimentName.Location = new System.Drawing.Point(112, 37);
             this.ExperimentName.Name = "ExperimentName";
-            this.ExperimentName.Size = new System.Drawing.Size(152, 22);
+            this.ExperimentName.Size = new System.Drawing.Size(115, 20);
             this.ExperimentName.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 46);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(15, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 17);
+            this.label2.Size = new System.Drawing.Size(91, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Experiment name:";
             // 
             // NumberOfRepeats
             // 
-            this.NumberOfRepeats.Location = new System.Drawing.Point(149, 88);
-            this.NumberOfRepeats.Margin = new System.Windows.Forms.Padding(4);
+            this.NumberOfRepeats.Location = new System.Drawing.Point(112, 72);
             this.NumberOfRepeats.Name = "NumberOfRepeats";
-            this.NumberOfRepeats.Size = new System.Drawing.Size(153, 22);
+            this.NumberOfRepeats.Size = new System.Drawing.Size(115, 20);
             this.NumberOfRepeats.TabIndex = 3;
             this.NumberOfRepeats.Value = new decimal(new int[] {
             100,
@@ -93,19 +86,17 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 88);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(15, 72);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 17);
+            this.label3.Size = new System.Drawing.Size(50, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Repeats:";
             // 
             // NumberOfSpectra
             // 
-            this.NumberOfSpectra.Location = new System.Drawing.Point(149, 126);
-            this.NumberOfSpectra.Margin = new System.Windows.Forms.Padding(4);
+            this.NumberOfSpectra.Location = new System.Drawing.Point(112, 102);
             this.NumberOfSpectra.Name = "NumberOfSpectra";
-            this.NumberOfSpectra.Size = new System.Drawing.Size(153, 22);
+            this.NumberOfSpectra.Size = new System.Drawing.Size(115, 20);
             this.NumberOfSpectra.TabIndex = 5;
             this.NumberOfSpectra.Value = new decimal(new int[] {
             1,
@@ -117,19 +108,17 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 126);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(15, 102);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(129, 17);
+            this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 6;
             this.label4.Text = "Number of spectra:";
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(146, 189);
-            this.OKButton.Margin = new System.Windows.Forms.Padding(4);
+            this.OKButton.Location = new System.Drawing.Point(233, 157);
             this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(100, 28);
+            this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 8;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
@@ -138,10 +127,9 @@
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(328, 189);
-            this.CancelButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CancelButton.Location = new System.Drawing.Point(358, 157);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(100, 28);
+            this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 9;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
@@ -153,58 +141,39 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox5);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(328, 12);
+            this.groupBox1.Location = new System.Drawing.Point(246, 10);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(217, 170);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(163, 138);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Spectrum names";
             // 
-            // textBox5
+            // groupBox2
             // 
-            this.textBox5.Location = new System.Drawing.Point(7, 138);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(204, 22);
-            this.textBox5.TabIndex = 4;
+            this.groupBox2.Controls.Add(this.NotesBox);
+            this.groupBox2.Location = new System.Drawing.Point(417, 10);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 138);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Notes";
             // 
-            // textBox4
+            // NotesBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(7, 109);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(204, 22);
-            this.textBox4.TabIndex = 3;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(7, 80);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(204, 22);
-            this.textBox3.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(7, 51);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(204, 22);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(7, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(204, 22);
-            this.textBox1.TabIndex = 0;
+            this.NotesBox.Location = new System.Drawing.Point(7, 18);
+            this.NotesBox.Multiline = true;
+            this.NotesBox.Name = "NotesBox";
+            this.NotesBox.Size = new System.Drawing.Size(187, 114);
+            this.NotesBox.TabIndex = 0;
             // 
             // StartExperimentDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 227);
+            this.ClientSize = new System.Drawing.Size(629, 192);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OKButton);
@@ -215,13 +184,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ExperimentName);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "StartExperimentDialog";
             this.Text = "Starting experiment...";
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfRepeats)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfSpectra)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,10 +208,7 @@
         public System.Windows.Forms.NumericUpDown NumberOfRepeats;
         public System.Windows.Forms.NumericUpDown NumberOfSpectra;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.TextBox NotesBox;
     }
 }

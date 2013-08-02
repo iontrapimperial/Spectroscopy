@@ -44,7 +44,11 @@ namespace Spectroscopy_Viewer
 
         // Boolean to tell the form whether the experiment is running or not
         // i.e. whether it is received live data
-        private bool isExperimentRunning = new bool();
+        private bool IsExperimentRunning = new bool();
+        
+        // Array to store metadata for live experiment, save passing it every single time we add data
+        private string[] metadata;
+
 
 
         // Graph controls
@@ -79,22 +83,64 @@ namespace Spectroscopy_Viewer
         // 4: Number of repeats
         // 5: Number interleaved
         // 6 onwards: spectrum i name
-        public SpectroscopyViewerForm(ref string[] metadata, int isWindowed)
+        public SpectroscopyViewerForm(ref string[] metadataPassed, int isWindowed)
         {
             InitializeComponent();
             initialiseColours();
+
+            // Store metadata... might need to do this element by element, don't think so though
+            metadata = metadataPassed;
+
+            // Disable loading saved data while running in live mode
+            this.loadDataButton.Enabled = false;
 
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
             // Add number of spectra from new experiment
             numberOfSpectra += int.Parse(metadata[5]);
 
+            // Create new spectra, with no data points, just metadata
+            for (int i = existingSpectra; i < numberOfSpectra; i++)
+            {
+                mySpectrum.Add(new spectrum(ref metadata));
+            }
+
+
+
+
+            
+
+        }
+
+        // Method to accept incoming data from Spectroscopy Controller from live experiment
+        // Returns a bool which is set to false if there were any errors, otherwise true
+        public bool AddLiveData(ref int[] IncomingData, int NumberOfSpectraIncoming)
+        {
+            bool noErrors = true;
+
+            fileHandler myFileHandler = new fileHandler(ref IncomingData, ref metadata);
+
+            // How many spectra were loaded before we started running live
+            int existingSpectra = numberOfSpectra - NumberOfSpectraIncoming;
+
+            // Loop through the live spectra only
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
 
+
             }
 
+            return noErrors;
         }
+
+
+        public void StopRunningLive()
+        {
+
+            // Enable loading live data now that we have stopped running in live mode
+            this.loadDataButton.Enabled = true;
+        }
+
 
 
         private void Test_WriteToMultipleFiles()

@@ -64,6 +64,16 @@ namespace Spectroscopy_Viewer
             this.createHistogram(myDataPoints, false);      // Create data for histograms
         }
 
+        // Constructor given just metadata
+        public spectrum(ref string[] metadata)
+        {
+            // Fill in metadata
+
+            // Create empty list of data points
+            myDataPoints = new List<dataPoint>();
+        }
+
+
 
         // Methods
         //**************************//

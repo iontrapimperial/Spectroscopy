@@ -35,6 +35,70 @@ namespace Spectroscopy_Viewer
             System.Windows.Forms.MessageBox.Show("No file selected");
         }
 
+        // Constructor given an array of data and an array of metadata (for live mode)
+        public fileHandler(ref int[] IncomingData, ref string[] metadata)
+        {
+            // Need to convert the array of incoming data into a List<int[]>[]
+            // Each list is for a separate spectrum
+            // Each int[] is an array of 4 ints (one reading, inc cooling, counts & error flags)
+
+            // Check that the number interleaved & number of repeats are valid ints, if not then we can't handle the data
+            // TryParse method converts the string (1st argument) to an int, stores it in the int (2nd argument)
+            // and returns true if the process was successful, false if not
+            if( int.TryParse(metadata[5], out numberInterleaved) && int.TryParse(metadata[4], out repeats) )
+            {
+
+                // Initialise arrays for storing Lists of raw data & dataPoints
+                fullData = new List<int[]>[numberInterleaved];
+                dataPoints = new List<dataPoint>[numberInterleaved];
+
+                // Have to initialise the array and then each List in the array individually... tedious!!
+                for (int i = 0; i < numberInterleaved; i++)
+                {
+                    fullData[i] = new List<int[]>();
+                    dataPoints[i] = new List<dataPoint>();
+                }
+
+
+
+                // row counter to keep track of which array of 4 readings within the list we are filling
+                int j = 0;
+
+                // Loop through incoming data array
+                for (int m = 0; m < IncomingData.Length; m++)
+                {
+                    // Fill a separate list for each interleaved spectrum
+                    for (int k = 0; k < numberInterleaved; k++)
+                    {
+                        // This MUST be a new int, cannot add any other array!!!!
+                        fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
+
+                        // Loop through the 4 readings
+                        for (int i = 0; i < 4; i++)
+                        {
+                            //
+                            fullData[k][j][i] = IncomingData[m];
+                            // Move to the next element in the array of incoming data
+                            m++;
+                        }
+                    }
+                    // Once we have filled one array of 4 readings, increment the row counter
+                    j++;
+                }
+
+                // Create array of data point lists
+                for (int i = 0; i < numberInterleaved; i++)
+                {
+                    this.constructDataPoints(i);
+                }
+
+            }   // End of if statement checking that repeats & numberInterleaved are valid numbers
+
+
+
+        }
+
+
         // Constructor given a file (pass by reference!)
         public fileHandler(ref System.IO.StreamReader myFile, string myFileName)
         {

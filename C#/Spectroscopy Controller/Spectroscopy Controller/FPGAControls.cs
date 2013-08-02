@@ -80,8 +80,9 @@ namespace Spectroscopy_Controller
             int WindowSize = FreqSelectForm.GetWindowSize();
             int WindowSpace = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();//Distance from end of one window to start of next
             
+            int numberOfFiles = this.myFile.Length;
 
-            // Need to either pass TextWriter array or array of file names.. not sure which
+            
             TextWriter File = new StreamWriter(FilenameTextbox.Text);
             if (File != null)
             {
@@ -312,8 +313,8 @@ namespace Spectroscopy_Controller
                     else
                     {
                         WriteOutput("Received corrupted data (Unrecoverable)!\r\n");
-                    }
-                }*/
+                    }*/
+                }
             }/*
 
             foreach (int i in Readings)  //this loop probably isn't needed now
@@ -327,7 +328,7 @@ namespace Spectroscopy_Controller
         }
 
 
-        private void StartReadingData()
+        private void StartReadingData(ref TextWriter[] myFile)
         {    
             if ((FPGAReadThread != null) && (FPGAReadThread.IsAlive))
             {
@@ -335,7 +336,7 @@ namespace Spectroscopy_Controller
                 FPGAReadThread.Join();
             }
 
-            FPGAReadThread = new Thread(new ThreadStart(this.FPGAReadMethod));
+            FPGAReadThread = new Thread(new ThreadStart(this.FPGAReadMethod()));
             FPGAReadThread.Name = "FPGACommThread";
             FPGAReadThread.Start();
         }
