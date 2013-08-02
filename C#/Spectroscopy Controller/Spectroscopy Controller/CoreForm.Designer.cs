@@ -74,30 +74,30 @@
             this.ResetButton = new System.Windows.Forms.Button();
             this.OpenUSBButton = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.magFreqBox = new System.Windows.Forms.NumericUpDown();
             this.UploadButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.modcycFreqBox = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
-            this.RFAmplitudeBox = new System.Windows.Forms.NumericUpDown();
+            this.rfAmpBox = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
-            this.SidebandWidthBox = new System.Windows.Forms.NumericUpDown();
+            this.sbWidthBox = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
-            this.SidebandNumberBox = new System.Windows.Forms.NumericUpDown();
+            this.sbToScanBox = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
-            this.StepSizeBox = new System.Windows.Forms.NumericUpDown();
+            this.stepSizeBox = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            this.CarrierFrequencyBox = new System.Windows.Forms.NumericUpDown();
+            this.carFreqBox = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.StartFrequencyBox = new System.Windows.Forms.NumericUpDown();
+            this.startFreqBox = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
-            this.TrapFrequencyBox = new System.Windows.Forms.NumericUpDown();
+            this.axFreqBox = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.AxialRadialBox = new System.Windows.Forms.ComboBox();
-            this.TrapVoltageBox = new System.Windows.Forms.NumericUpDown();
+            this.specDirBox = new System.Windows.Forms.ComboBox();
+            this.trapVBox = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.SpecTypeBox = new System.Windows.Forms.ComboBox();
+            this.specTypeBox = new System.Windows.Forms.ComboBox();
             this.LaserControl = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.SetRFSB3Button = new System.Windows.Forms.Button();
@@ -153,16 +153,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.TicksBox)).BeginInit();
             this.DesignerGroup.SuspendLayout();
             this.SpectroGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RFAmplitudeBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SidebandWidthBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SidebandNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.StepSizeBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CarrierFrequencyBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.StartFrequencyBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrapFrequencyBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrapVoltageBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.magFreqBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modcycFreqBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rfAmpBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sbWidthBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sbToScanBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stepSizeBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.carFreqBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.startFreqBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axFreqBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trapVBox)).BeginInit();
             this.LaserControl.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SB3RFFreq)).BeginInit();
@@ -320,7 +320,7 @@
             this.LoopTabPage.Controls.Add(this.LoopNumberBox);
             this.LoopTabPage.Location = new System.Drawing.Point(4, 22);
             this.LoopTabPage.Name = "LoopTabPage";
-            this.LoopTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.LoopTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.LoopTabPage.Size = new System.Drawing.Size(208, 219);
             this.LoopTabPage.TabIndex = 0;
             this.LoopTabPage.Text = "Create Loop";
@@ -377,7 +377,7 @@
             this.PulseTabPage.Controls.Add(this.LaserBox397B1);
             this.PulseTabPage.Location = new System.Drawing.Point(4, 22);
             this.PulseTabPage.Name = "PulseTabPage";
-            this.PulseTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.PulseTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.PulseTabPage.Size = new System.Drawing.Size(208, 219);
             this.PulseTabPage.TabIndex = 1;
             this.PulseTabPage.Text = "Create Laser Pulse";
@@ -616,31 +616,31 @@
             this.SpectroGroup.Controls.Add(this.ResetButton);
             this.SpectroGroup.Controls.Add(this.OpenUSBButton);
             this.SpectroGroup.Controls.Add(this.label15);
-            this.SpectroGroup.Controls.Add(this.numericUpDown2);
+            this.SpectroGroup.Controls.Add(this.magFreqBox);
             this.SpectroGroup.Controls.Add(FileSendBox);
             this.SpectroGroup.Controls.Add(this.UploadButton);
             this.SpectroGroup.Controls.Add(this.label14);
-            this.SpectroGroup.Controls.Add(this.numericUpDown1);
+            this.SpectroGroup.Controls.Add(this.modcycFreqBox);
             this.SpectroGroup.Controls.Add(this.label13);
-            this.SpectroGroup.Controls.Add(this.RFAmplitudeBox);
+            this.SpectroGroup.Controls.Add(this.rfAmpBox);
             this.SpectroGroup.Controls.Add(this.label12);
-            this.SpectroGroup.Controls.Add(this.SidebandWidthBox);
+            this.SpectroGroup.Controls.Add(this.sbWidthBox);
             this.SpectroGroup.Controls.Add(this.label11);
-            this.SpectroGroup.Controls.Add(this.SidebandNumberBox);
+            this.SpectroGroup.Controls.Add(this.sbToScanBox);
             this.SpectroGroup.Controls.Add(this.label10);
-            this.SpectroGroup.Controls.Add(this.StepSizeBox);
+            this.SpectroGroup.Controls.Add(this.stepSizeBox);
             this.SpectroGroup.Controls.Add(this.label9);
-            this.SpectroGroup.Controls.Add(this.CarrierFrequencyBox);
+            this.SpectroGroup.Controls.Add(this.carFreqBox);
             this.SpectroGroup.Controls.Add(this.label8);
-            this.SpectroGroup.Controls.Add(this.StartFrequencyBox);
+            this.SpectroGroup.Controls.Add(this.startFreqBox);
             this.SpectroGroup.Controls.Add(this.label7);
-            this.SpectroGroup.Controls.Add(this.TrapFrequencyBox);
+            this.SpectroGroup.Controls.Add(this.axFreqBox);
             this.SpectroGroup.Controls.Add(this.label6);
             this.SpectroGroup.Controls.Add(this.label5);
-            this.SpectroGroup.Controls.Add(this.AxialRadialBox);
-            this.SpectroGroup.Controls.Add(this.TrapVoltageBox);
+            this.SpectroGroup.Controls.Add(this.specDirBox);
+            this.SpectroGroup.Controls.Add(this.trapVBox);
             this.SpectroGroup.Controls.Add(this.label3);
-            this.SpectroGroup.Controls.Add(this.SpecTypeBox);
+            this.SpectroGroup.Controls.Add(this.specTypeBox);
             this.SpectroGroup.Location = new System.Drawing.Point(520, 5);
             this.SpectroGroup.Name = "SpectroGroup";
             this.SpectroGroup.Size = new System.Drawing.Size(262, 474);
@@ -705,24 +705,24 @@
             this.label15.TabIndex = 24;
             this.label15.Text = "Magnetron Freq (kHz)";
             // 
-            // numericUpDown2
+            // magFreqBox
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Increment = new decimal(new int[] {
+            this.magFreqBox.DecimalPlaces = 1;
+            this.magFreqBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown2.Location = new System.Drawing.Point(150, 153);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.magFreqBox.Location = new System.Drawing.Point(150, 153);
+            this.magFreqBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(104, 20);
-            this.numericUpDown2.TabIndex = 23;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.magFreqBox.Name = "magFreqBox";
+            this.magFreqBox.Size = new System.Drawing.Size(104, 20);
+            this.magFreqBox.TabIndex = 23;
+            this.magFreqBox.Value = new decimal(new int[] {
             40,
             0,
             0,
@@ -746,24 +746,24 @@
             this.label14.TabIndex = 22;
             this.label14.Text = "Modified Cyc Freq (kHz)";
             // 
-            // numericUpDown1
+            // modcycFreqBox
             // 
-            this.numericUpDown1.DecimalPlaces = 1;
-            this.numericUpDown1.Increment = new decimal(new int[] {
+            this.modcycFreqBox.DecimalPlaces = 1;
+            this.modcycFreqBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(150, 127);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.modcycFreqBox.Location = new System.Drawing.Point(150, 127);
+            this.modcycFreqBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(104, 20);
-            this.numericUpDown1.TabIndex = 21;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.modcycFreqBox.Name = "modcycFreqBox";
+            this.modcycFreqBox.Size = new System.Drawing.Size(104, 20);
+            this.modcycFreqBox.TabIndex = 21;
+            this.modcycFreqBox.Value = new decimal(new int[] {
             670,
             0,
             0,
@@ -778,29 +778,29 @@
             this.label13.TabIndex = 20;
             this.label13.Text = "729 RF Amplitude (dBm)";
             // 
-            // RFAmplitudeBox
+            // rfAmpBox
             // 
-            this.RFAmplitudeBox.DecimalPlaces = 1;
-            this.RFAmplitudeBox.Increment = new decimal(new int[] {
+            this.rfAmpBox.DecimalPlaces = 1;
+            this.rfAmpBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.RFAmplitudeBox.Location = new System.Drawing.Point(150, 309);
-            this.RFAmplitudeBox.Maximum = new decimal(new int[] {
+            this.rfAmpBox.Location = new System.Drawing.Point(150, 309);
+            this.rfAmpBox.Maximum = new decimal(new int[] {
             13,
             0,
             0,
             0});
-            this.RFAmplitudeBox.Minimum = new decimal(new int[] {
+            this.rfAmpBox.Minimum = new decimal(new int[] {
             20,
             0,
             0,
             -2147483648});
-            this.RFAmplitudeBox.Name = "RFAmplitudeBox";
-            this.RFAmplitudeBox.Size = new System.Drawing.Size(104, 20);
-            this.RFAmplitudeBox.TabIndex = 19;
-            this.RFAmplitudeBox.Value = new decimal(new int[] {
+            this.rfAmpBox.Name = "rfAmpBox";
+            this.rfAmpBox.Size = new System.Drawing.Size(104, 20);
+            this.rfAmpBox.TabIndex = 19;
+            this.rfAmpBox.Value = new decimal(new int[] {
             13,
             0,
             0,
@@ -815,18 +815,18 @@
             this.label12.TabIndex = 18;
             this.label12.Text = "Sideband Width (Steps)";
             // 
-            // SidebandWidthBox
+            // sbWidthBox
             // 
-            this.SidebandWidthBox.Location = new System.Drawing.Point(150, 283);
-            this.SidebandWidthBox.Maximum = new decimal(new int[] {
+            this.sbWidthBox.Location = new System.Drawing.Point(150, 283);
+            this.sbWidthBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.SidebandWidthBox.Name = "SidebandWidthBox";
-            this.SidebandWidthBox.Size = new System.Drawing.Size(104, 20);
-            this.SidebandWidthBox.TabIndex = 17;
-            this.SidebandWidthBox.Value = new decimal(new int[] {
+            this.sbWidthBox.Name = "sbWidthBox";
+            this.sbWidthBox.Size = new System.Drawing.Size(104, 20);
+            this.sbWidthBox.TabIndex = 17;
+            this.sbWidthBox.Value = new decimal(new int[] {
             20,
             0,
             0,
@@ -841,13 +841,13 @@
             this.label11.TabIndex = 16;
             this.label11.Text = "Sidebands to scan/side";
             // 
-            // SidebandNumberBox
+            // sbToScanBox
             // 
-            this.SidebandNumberBox.Location = new System.Drawing.Point(150, 257);
-            this.SidebandNumberBox.Name = "SidebandNumberBox";
-            this.SidebandNumberBox.Size = new System.Drawing.Size(104, 20);
-            this.SidebandNumberBox.TabIndex = 15;
-            this.SidebandNumberBox.Value = new decimal(new int[] {
+            this.sbToScanBox.Location = new System.Drawing.Point(150, 257);
+            this.sbToScanBox.Name = "sbToScanBox";
+            this.sbToScanBox.Size = new System.Drawing.Size(104, 20);
+            this.sbToScanBox.TabIndex = 15;
+            this.sbToScanBox.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -862,24 +862,24 @@
             this.label10.TabIndex = 14;
             this.label10.Text = "Step Size (kHz)";
             // 
-            // StepSizeBox
+            // stepSizeBox
             // 
-            this.StepSizeBox.DecimalPlaces = 1;
-            this.StepSizeBox.Increment = new decimal(new int[] {
+            this.stepSizeBox.DecimalPlaces = 1;
+            this.stepSizeBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.StepSizeBox.Location = new System.Drawing.Point(150, 231);
-            this.StepSizeBox.Maximum = new decimal(new int[] {
+            this.stepSizeBox.Location = new System.Drawing.Point(150, 231);
+            this.stepSizeBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.StepSizeBox.Name = "StepSizeBox";
-            this.StepSizeBox.Size = new System.Drawing.Size(104, 20);
-            this.StepSizeBox.TabIndex = 13;
-            this.StepSizeBox.Value = new decimal(new int[] {
+            this.stepSizeBox.Name = "stepSizeBox";
+            this.stepSizeBox.Size = new System.Drawing.Size(104, 20);
+            this.stepSizeBox.TabIndex = 13;
+            this.stepSizeBox.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -894,24 +894,24 @@
             this.label9.TabIndex = 12;
             this.label9.Text = "Carrier Frequency (MHz)";
             // 
-            // CarrierFrequencyBox
+            // carFreqBox
             // 
-            this.CarrierFrequencyBox.DecimalPlaces = 3;
-            this.CarrierFrequencyBox.Increment = new decimal(new int[] {
+            this.carFreqBox.DecimalPlaces = 3;
+            this.carFreqBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             196608});
-            this.CarrierFrequencyBox.Location = new System.Drawing.Point(150, 205);
-            this.CarrierFrequencyBox.Maximum = new decimal(new int[] {
+            this.carFreqBox.Location = new System.Drawing.Point(150, 205);
+            this.carFreqBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.CarrierFrequencyBox.Name = "CarrierFrequencyBox";
-            this.CarrierFrequencyBox.Size = new System.Drawing.Size(104, 20);
-            this.CarrierFrequencyBox.TabIndex = 11;
-            this.CarrierFrequencyBox.Value = new decimal(new int[] {
+            this.carFreqBox.Name = "carFreqBox";
+            this.carFreqBox.Size = new System.Drawing.Size(104, 20);
+            this.carFreqBox.TabIndex = 11;
+            this.carFreqBox.Value = new decimal(new int[] {
             230000000,
             0,
             0,
@@ -926,24 +926,24 @@
             this.label8.TabIndex = 10;
             this.label8.Text = "Start Frequency (MHz)";
             // 
-            // StartFrequencyBox
+            // startFreqBox
             // 
-            this.StartFrequencyBox.DecimalPlaces = 3;
-            this.StartFrequencyBox.Increment = new decimal(new int[] {
+            this.startFreqBox.DecimalPlaces = 3;
+            this.startFreqBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             196608});
-            this.StartFrequencyBox.Location = new System.Drawing.Point(150, 179);
-            this.StartFrequencyBox.Maximum = new decimal(new int[] {
+            this.startFreqBox.Location = new System.Drawing.Point(150, 179);
+            this.startFreqBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.StartFrequencyBox.Name = "StartFrequencyBox";
-            this.StartFrequencyBox.Size = new System.Drawing.Size(104, 20);
-            this.StartFrequencyBox.TabIndex = 9;
-            this.StartFrequencyBox.Value = new decimal(new int[] {
+            this.startFreqBox.Name = "startFreqBox";
+            this.startFreqBox.Size = new System.Drawing.Size(104, 20);
+            this.startFreqBox.TabIndex = 9;
+            this.startFreqBox.Value = new decimal(new int[] {
             230000000,
             0,
             0,
@@ -958,24 +958,24 @@
             this.label7.TabIndex = 8;
             this.label7.Text = "Axial Freq (kHz)";
             // 
-            // TrapFrequencyBox
+            // axFreqBox
             // 
-            this.TrapFrequencyBox.DecimalPlaces = 1;
-            this.TrapFrequencyBox.Increment = new decimal(new int[] {
+            this.axFreqBox.DecimalPlaces = 1;
+            this.axFreqBox.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.TrapFrequencyBox.Location = new System.Drawing.Point(150, 101);
-            this.TrapFrequencyBox.Maximum = new decimal(new int[] {
+            this.axFreqBox.Location = new System.Drawing.Point(150, 101);
+            this.axFreqBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.TrapFrequencyBox.Name = "TrapFrequencyBox";
-            this.TrapFrequencyBox.Size = new System.Drawing.Size(104, 20);
-            this.TrapFrequencyBox.TabIndex = 7;
-            this.TrapFrequencyBox.Value = new decimal(new int[] {
+            this.axFreqBox.Name = "axFreqBox";
+            this.axFreqBox.Size = new System.Drawing.Size(104, 20);
+            this.axFreqBox.TabIndex = 7;
+            this.axFreqBox.Value = new decimal(new int[] {
             240,
             0,
             0,
@@ -999,31 +999,31 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "729 Direction";
             // 
-            // AxialRadialBox
+            // specDirBox
             // 
-            this.AxialRadialBox.FormattingEnabled = true;
-            this.AxialRadialBox.Items.AddRange(new object[] {
+            this.specDirBox.FormattingEnabled = true;
+            this.specDirBox.Items.AddRange(new object[] {
             "Axial",
             "Radial"});
-            this.AxialRadialBox.Location = new System.Drawing.Point(150, 48);
-            this.AxialRadialBox.Name = "AxialRadialBox";
-            this.AxialRadialBox.Size = new System.Drawing.Size(104, 21);
-            this.AxialRadialBox.TabIndex = 4;
-            this.AxialRadialBox.Text = "Select";
+            this.specDirBox.Location = new System.Drawing.Point(150, 48);
+            this.specDirBox.Name = "specDirBox";
+            this.specDirBox.Size = new System.Drawing.Size(104, 21);
+            this.specDirBox.TabIndex = 4;
+            this.specDirBox.Text = "Select";
             // 
-            // TrapVoltageBox
+            // trapVBox
             // 
-            this.TrapVoltageBox.DecimalPlaces = 3;
-            this.TrapVoltageBox.Location = new System.Drawing.Point(150, 75);
-            this.TrapVoltageBox.Maximum = new decimal(new int[] {
+            this.trapVBox.DecimalPlaces = 3;
+            this.trapVBox.Location = new System.Drawing.Point(150, 75);
+            this.trapVBox.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.TrapVoltageBox.Name = "TrapVoltageBox";
-            this.TrapVoltageBox.Size = new System.Drawing.Size(104, 20);
-            this.TrapVoltageBox.TabIndex = 3;
-            this.TrapVoltageBox.Value = new decimal(new int[] {
+            this.trapVBox.Name = "trapVBox";
+            this.trapVBox.Size = new System.Drawing.Size(104, 20);
+            this.trapVBox.TabIndex = 3;
+            this.trapVBox.Value = new decimal(new int[] {
             80,
             0,
             0,
@@ -1038,17 +1038,17 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Spectrum Type";
             // 
-            // SpecTypeBox
+            // specTypeBox
             // 
-            this.SpecTypeBox.FormattingEnabled = true;
-            this.SpecTypeBox.Items.AddRange(new object[] {
+            this.specTypeBox.FormattingEnabled = true;
+            this.specTypeBox.Items.AddRange(new object[] {
             "Continuous",
             "Windowed"});
-            this.SpecTypeBox.Location = new System.Drawing.Point(150, 21);
-            this.SpecTypeBox.Name = "SpecTypeBox";
-            this.SpecTypeBox.Size = new System.Drawing.Size(104, 21);
-            this.SpecTypeBox.TabIndex = 1;
-            this.SpecTypeBox.Text = "Select";
+            this.specTypeBox.Location = new System.Drawing.Point(150, 21);
+            this.specTypeBox.Name = "specTypeBox";
+            this.specTypeBox.Size = new System.Drawing.Size(104, 21);
+            this.specTypeBox.TabIndex = 1;
+            this.specTypeBox.Text = "Select";
             // 
             // LaserControl
             // 
@@ -1574,7 +1574,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 662);
+            this.ClientSize = new System.Drawing.Size(1060, 662);
             this.Controls.Add(this.debugmessagebox);
             this.Controls.Add(this.LaserControl);
             this.Controls.Add(this.SpectroGroup);
@@ -1595,16 +1595,16 @@
             this.DesignerGroup.PerformLayout();
             this.SpectroGroup.ResumeLayout(false);
             this.SpectroGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RFAmplitudeBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SidebandWidthBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SidebandNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.StepSizeBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CarrierFrequencyBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.StartFrequencyBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrapFrequencyBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrapVoltageBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.magFreqBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modcycFreqBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rfAmpBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sbWidthBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sbToScanBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stepSizeBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.carFreqBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.startFreqBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axFreqBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trapVBox)).EndInit();
             this.LaserControl.ResumeLayout(false);
             this.LaserControl.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -1664,33 +1664,33 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox DesignerGroup;
         private System.Windows.Forms.GroupBox SpectroGroup;
-        private System.Windows.Forms.ComboBox SpecTypeBox;
+        private System.Windows.Forms.ComboBox specTypeBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox AxialRadialBox;
-        private System.Windows.Forms.NumericUpDown TrapVoltageBox;
+        private System.Windows.Forms.ComboBox specDirBox;
+        private System.Windows.Forms.NumericUpDown trapVBox;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.NumericUpDown RFAmplitudeBox;
+        private System.Windows.Forms.NumericUpDown rfAmpBox;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.NumericUpDown SidebandWidthBox;
+        private System.Windows.Forms.NumericUpDown sbWidthBox;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.NumericUpDown SidebandNumberBox;
+        private System.Windows.Forms.NumericUpDown sbToScanBox;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown StepSizeBox;
+        private System.Windows.Forms.NumericUpDown stepSizeBox;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown CarrierFrequencyBox;
+        private System.Windows.Forms.NumericUpDown carFreqBox;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown StartFrequencyBox;
+        private System.Windows.Forms.NumericUpDown startFreqBox;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown TrapFrequencyBox;
+        private System.Windows.Forms.NumericUpDown axFreqBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button PauseButton;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button ResetButton;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown magFreqBox;
         private System.Windows.Forms.Button UploadButton;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown modcycFreqBox;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button OpenUSBButton;
         private System.Windows.Forms.GroupBox LaserControl;

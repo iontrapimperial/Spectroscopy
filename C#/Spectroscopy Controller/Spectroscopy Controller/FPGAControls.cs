@@ -74,10 +74,10 @@ namespace Spectroscopy_Controller
         public void FPGAReadMethod()
         {
 
-            int Frequency = (int) StartFrequencyBox.Value;      // This will be in MHz
-            float FrequencyStep = (float) StepSizeBox.Value;        // This will be in kHz
+            int Frequency = (int) startFreqBox.Value;      // This will be in MHz
+            float FrequencyStep = (float) stepSizeBox.Value;        // This will be in kHz
             int CurrentWindowStep = 0;
-            int WindowSize = (int)SidebandWidthBox.Value;           // This will be in number of steps
+            int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
             //Distance from end of one window to start of next
             int WindowSpace = 0;        // need to work out how to calculate this
             

@@ -24,9 +24,18 @@ namespace Spectroscopy_Controller
 
         private bool PauseExperiment = false;
 
+        //Logic to select which source is used for 729 via RF switches
+        private bool RFSwitch1State = false;
+        private bool RFSwitch2State = false;
 
-        public bool RFSwitch1State = false;
-        public bool RFSwitch2State = false;
+        //Trap and ion parameters
+        private float dnought, bField, massunits, truecycfreq;
+        //Scan parameters for given run (taken from user selected values on form)
+        private string specType, specDir;
+        private int trapV, axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth;
+        private float rfAmp;
+
+        private int[] startFreqArray;
 
         public CoreForm()
         {
@@ -443,6 +452,20 @@ namespace Spectroscopy_Controller
                 }
                 else
                 {
+                    //Grab all scan and trap parameters from form:
+                    specType = specTypeBox.SelectedValue.ToString();
+                    specDir = specDirBox.SelectedValue.ToString();
+                    trapV = (int)(1000000 * trapVBox.Value);
+                    axFreq = (int)(1000 * axFreqBox.Value);
+                    modcycFreq = (int)(1000 * modcycFreqBox.Value);
+                    magFreq = (int)(1000 * magFreqBox.Value);
+                    startFreq = (int)(10000000 * startFreqBox.Value);
+                    carFreq = (int)(10000000 * carFreqBox.Value);
+                    stepSize = (int)(1000 * stepSizeBox.Value);
+                    sbToScan = (int)sbToScanBox.Value;
+                    sbWidth = (int)(1000 * sbWidthBox.Value);
+                    rfAmp = (float)rfAmpBox.Value;
+                    
                     // Create new dialog to get data from user before starting the experiment
                     StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
                     myExperimentDialog.ShowDialog();
@@ -456,19 +479,18 @@ namespace Spectroscopy_Controller
                         // Make sure the 
                         if (FolderPath != null)
                         {
-
-                            // Save information about whether the spectrum is windowed or continuous
-                            int IsWindowed = this.SpecTypeBox.SelectedIndex;
-
-
+                                                
                             string[] myFileName;
 
                             // If "Continuous" experiment type has been selected
-                            if (IsWindowed == 0)
+                            if (specType == "Continuous")
                             {
                                 // Put the metadata into array to pass to viewer
                                 // Need to check about trap freq...
 
+                                //Start frequency is the value taken directly from the form, no windowing
+                                startFreqArray = new int[1];
+                                startFreqArray[0] = startFreq;
 
                                 // Create a single file and put all readings in there
                                 myFileName = new string[1];
@@ -486,13 +508,13 @@ namespace Spectroscopy_Controller
                                 //
                                 // Trap voltage
                                 myFile[0].WriteLine("Trap Voltage:");
-                                myFile[0].WriteLine(this.TrapVoltageBox.Value);
+                                myFile[0].WriteLine(this.trapVBox.Value);
                                 // AOM start freq
                                 myFile[0].WriteLine("AOM Start Frequency (MHz):");
-                                myFile[0].WriteLine(this.StartFrequencyBox.Value);
+                                myFile[0].WriteLine(this.startFreqBox.Value);
                                 // Step size
                                 myFile[0].WriteLine("Step Size (kHz):");
-                                myFile[0].WriteLine(this.StepSizeBox.Value);
+                                myFile[0].WriteLine(this.stepSizeBox.Value);
                                 // Number of repeats
                                 myFile[0].WriteLine("Number of repeats per frequency:");
                                 myFile[0].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
@@ -525,12 +547,26 @@ namespace Spectroscopy_Controller
                                 }
 
                             }
-                            else
+                            else if (specType == "Windowed")
                             {
+                                //Calculate frequency offset of sideband start frequencies from sideband centres
+                                int offsetFreq = (int)stepSize*sbWidth/2;
+                                //Determine window spacing from trap frequencys and the type of spectrum selected
+                                int windowSpace;
+                                if (specDir == "Axial") windowSpace = axFreq;
+                                else if (specDir == "Radial") windowSpace = modcycFreq;
+
+                                //Array of start frequencies for each sideband (from furthest red to furthest blue)            
+                                startFreqArray = new int[sbToScan * 2 + 1];
+                                for (int sb = 0; sb < (sbToScan * 2 + 1); sb++)
+                                {
+                                    startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
+                                }
+
                                 // Create a file for each sideband with appropriate naming
 
                                 // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                                int numberOfFiles = (int)(2 * this.SidebandNumberBox.Value + 1);
+                                int numberOfFiles = (int)(2 * this.sbToScanBox.Value + 1);
 
                                 myFileName = new string[numberOfFiles];
                                 myFile = new TextWriter[numberOfFiles];
