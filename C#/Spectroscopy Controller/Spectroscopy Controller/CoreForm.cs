@@ -21,7 +21,8 @@ namespace Spectroscopy_Controller
         // Array of StreamWriter objects to write file(s)
         // this is accessed by FPGAReadMethod and StartButton_Click
         TextWriter[] myFile;
-        
+
+        private bool PauseExperiment = false;
 
 
         public bool RFSwitch1State = false;
@@ -420,170 +421,187 @@ namespace Spectroscopy_Controller
         // Method to respond to user clicking start button
         private void StartButton_Click(object sender, EventArgs e)
         {
-            // Want to:
-            //- open dialog for user to specify file name (save file??) & put in metadata - no. of repeats and no. of spectra
-            //- open an instance of spectroscopy viewer (if not already open...!) and specify live mode
-            //- Pass metadata to viewer
-            //- write metadata to file
-            //- do all the things that the previous program did to start running the experiment
-
-            if (FPGA.bUSBPortIsOpen == false)
+            // If we are restarting the experiment after it being paused, just reset the PauseExperiment flag
+            if (PauseExperiment == true)
             {
-                WriteMessage("Can't Send Start Signal to FPGA: USB port is not open", true);
-                return;
+                PauseExperiment = false;
             }
             else
-            {
-                // Create new dialog to get data from user before starting the experiment
-                StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
-                myExperimentDialog.ShowDialog();
-                if (myExperimentDialog.DialogResult != DialogResult.Cancel)
+            {   // Otherwise, start experiment
+
+                // Want to:
+                //- open dialog for user to specify file name (save file??) & put in metadata - no. of repeats and no. of spectra
+                //- open an instance of spectroscopy viewer (if not already open...!) and specify live mode
+                //- Pass metadata to viewer
+                //- write metadata to file
+                //- do all the things that the previous program did to start running the experiment
+
+                if (FPGA.bUSBPortIsOpen == false)
                 {
-                    string[] metadata = new string[10];
-                    
-
-                    // Retrieve the folder path selected by the user
-                    string FolderPath = myExperimentDialog.getFilePath();
-                    // Make sure the 
-                    if (FolderPath != null)
+                    WriteMessage("Can't Send Start Signal to FPGA: USB port is not open", true);
+                    return;
+                }
+                else
+                {
+                    // Create new dialog to get data from user before starting the experiment
+                    StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
+                    myExperimentDialog.ShowDialog();
+                    if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                     {
-                    
-                        // Save information about whether the spectrum is windowed or continuous
-                        int IsWindowed = this.SpecTypeBox.SelectedIndex;
+                        string[] metadata = new string[10];
 
-                        
-                        string[] myFileName;
 
-                        // If "Continuous" experiment type has been selected
-                        if (IsWindowed == 0)
+                        // Retrieve the folder path selected by the user
+                        string FolderPath = myExperimentDialog.getFilePath();
+                        // Make sure the 
+                        if (FolderPath != null)
                         {
-                            // Put the metadata into array to pass to viewer
-                            // Need to check about trap freq...
+
+                            // Save information about whether the spectrum is windowed or continuous
+                            int IsWindowed = this.SpecTypeBox.SelectedIndex;
 
 
-                            // Create a single file and put all readings in there
-                            myFileName = new string[1];
-                            myFileName[0] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt";
-                            myFile = new TextWriter[1];
-                            myFile[0] = new StreamWriter(myFileName[0]);
-                            
-                            // Write the metadata to the file
-                            /////////////////////////////////////
-                            myFile[0].WriteLine("Spectroscopy data file");
-                            myFile[0].WriteLine(DateTime.Now.ToString("d/m/yyyy"));
-                            // I assume we want to store Axial, Modified Cyc & Magnetron freqs? Need to amend metadata template
-                            myFile[0].WriteLine("Trap Frequency:");
-                            myFile[0].WriteLine("");          
-                            //
-                            // Trap voltage
-                            myFile[0].WriteLine("Trap Voltage:");
-                            myFile[0].WriteLine(this.TrapVoltageBox.Value);
-                            // AOM start freq
-                            myFile[0].WriteLine("AOM Start Frequency (MHz):");
-                            myFile[0].WriteLine(this.StartFrequencyBox.Value);
-                            // Step size
-                            myFile[0].WriteLine("Step Size (kHz):");
-                            myFile[0].WriteLine(this.StepSizeBox.Value);
-                            // Number of repeats
-                            myFile[0].WriteLine("Number of repeats per frequency:");
-                            myFile[0].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
-                            // Number interleaved
-                            myFile[0].WriteLine("File contains interleaved spectra:");
-                            myFile[0].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+                            string[] myFileName;
 
-                            // Name for each spectrum
-                            for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
+                            // If "Continuous" experiment type has been selected
+                            if (IsWindowed == 0)
                             {
-                                myFile[0].WriteLine("Spectrum " + i + " name:");
-                                myFile[0].WriteLine(myExperimentDialog.SpectrumNames[i].Text);
+                                // Put the metadata into array to pass to viewer
+                                // Need to check about trap freq...
+
+
+                                // Create a single file and put all readings in there
+                                myFileName = new string[1];
+                                myFileName[0] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt";
+                                myFile = new TextWriter[1];
+                                myFile[0] = new StreamWriter(myFileName[0]);
+
+                                // Write the metadata to the file
+                                /////////////////////////////////////
+                                myFile[0].WriteLine("Spectroscopy data file");
+                                myFile[0].WriteLine(DateTime.Now.ToString("d/m/yyyy"));
+                                // I assume we want to store Axial, Modified Cyc & Magnetron freqs? Need to amend metadata template
+                                myFile[0].WriteLine("Trap Frequency:");
+                                myFile[0].WriteLine("");
+                                //
+                                // Trap voltage
+                                myFile[0].WriteLine("Trap Voltage:");
+                                myFile[0].WriteLine(this.TrapVoltageBox.Value);
+                                // AOM start freq
+                                myFile[0].WriteLine("AOM Start Frequency (MHz):");
+                                myFile[0].WriteLine(this.StartFrequencyBox.Value);
+                                // Step size
+                                myFile[0].WriteLine("Step Size (kHz):");
+                                myFile[0].WriteLine(this.StepSizeBox.Value);
+                                // Number of repeats
+                                myFile[0].WriteLine("Number of repeats per frequency:");
+                                myFile[0].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                                // Number interleaved
+                                myFile[0].WriteLine("File contains interleaved spectra:");
+                                myFile[0].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+
+                                // Name for each spectrum
+                                for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
+                                {
+                                    myFile[0].WriteLine("Spectrum " + i + " name:");
+                                    myFile[0].WriteLine(myExperimentDialog.SpectrumNames[i].Text);
+                                }
+
+                                // Notes section
+                                myFile[0].WriteLine("Notes:");
+                                myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
+
+                                // Title for data
+                                myFile[0].WriteLine("Data:");
+
+
+
+
+                                // If myViewer is not open
+                                if (myViewer == null)
+                                {
+                                    // Create new instance of viewer
+                                    myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
+                                }
+
                             }
-
-                            // Notes section
-                            myFile[0].WriteLine("Notes:");
-                            myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
-
-                            // Title for data
-                            myFile[0].WriteLine("Data:");
-
-
-                            
-
-                            // If myViewer is not open
-                            if ( myViewer == null)
+                            else
                             {
-                            // Create new instance of viewer
-                                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
+                                // Create a file for each sideband with appropriate naming
+
+                                // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                                int numberOfFiles = (int)(2 * this.SidebandNumberBox.Value + 1);
+
+                                myFileName = new string[numberOfFiles];
+                                myFile = new TextWriter[numberOfFiles];
+
+                                for (int i = 0; i < numberOfFiles; i++)
+                                {
+                                    myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
+                                    // Some if statements here to figure out whether the sideband is R/B & which number it is
+                                    // so we can add this to the file name
+                                    // Need to know the order of the sidebands to calculate this
+
+                                    myFile[i] = new StreamWriter(myFileName[i]);
+                                }
                             }
-                      
                         }
                         else
                         {
-                            // Create a file for each sideband with appropriate naming
-
-                            // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                            int numberOfFiles = (int) (2 * this.SidebandNumberBox.Value + 1);
-
-                            myFileName = new string[numberOfFiles];    
-                            myFile = new TextWriter[numberOfFiles];
-
-                            for (int i = 0; i < numberOfFiles; i++)
-                            {
-                                myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
-                                // Some if statements here to figure out whether the sideband is R/B & which number it is
-                                // so we can add this to the file name
-                                // Need to know the order of the sidebands to calculate this
-
-                                myFile[i] = new StreamWriter(myFileName[i]);
+                            MessageBox.Show("Error selecting folder. Please try again.");
                         }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error selecting folder. Please try again.");
-                    }
 
 
 
-                    // Start the experiment running
-                    // The following code has been copied from MainForm.cs (method sendStartSignalToolStripMenuItem_Click)
-                    /*
-                    bShouldQuitThread = false;
+                        // Start the experiment running
+                        // The following code has been copied from MainForm.cs (method sendStartSignalToolStripMenuItem_Click)
+                        /*
+                        bShouldQuitThread = false;
 
-                    int WindowSize = 0;
-                    int WindowGap = 0;
+                        int WindowSize = 0;
+                        int WindowGap = 0;
 
-                    if (FreqSelectForm.GetFreqGenEnable())
-                    {
-                        bIsFreqGenEnabled = true;
-                        float Amplitude = FreqSelectForm.GetAmplitude();
-                        GPIB.InitDevice(Amplitude);
-                        int Frequency = FreqSelectForm.GetInitialFrequency();
-                        GPIB.SetFrequency(Frequency);
-                        if (FreqSelectForm.GetWindowingEnable())
+                        if (FreqSelectForm.GetFreqGenEnable())
                         {
-                            bIsWindowingEnabled = true;
-                            WindowSize = FreqSelectForm.GetWindowSize();
-                            WindowGap = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();
+                            bIsFreqGenEnabled = true;
+                            float Amplitude = FreqSelectForm.GetAmplitude();
+                            GPIB.InitDevice(Amplitude);
+                            int Frequency = FreqSelectForm.GetInitialFrequency();
+                            GPIB.SetFrequency(Frequency);
+                            if (FreqSelectForm.GetWindowingEnable())
+                            {
+                                bIsWindowingEnabled = true;
+                                WindowSize = FreqSelectForm.GetWindowSize();
+                                WindowGap = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();
+                            }
+                            else bIsWindowingEnabled = false;
                         }
-                        else bIsWindowingEnabled = false;
-                    }
-                    else
-                    {
-                        bIsFreqGenEnabled = false;
-                    }
+                        else
+                        {
+                            bIsFreqGenEnabled = false;
+                        }
 
-                    float FrequencyAmp = FreqSelectForm.GetAmplitude();
-                    int Frequencystep = FreqSelectForm.GetFreqStep();
-                    int Frequencystart = FreqSelectForm.GetInitialFrequency();
+                        float FrequencyAmp = FreqSelectForm.GetAmplitude();
+                        int Frequencystep = FreqSelectForm.GetFreqStep();
+                        int Frequencystart = FreqSelectForm.GetInitialFrequency();
 
                     
-                    SendSetupFinish();
-                    StartReadingData();
-                    */
+                        SendSetupFinish();
+                        StartReadingData();
+                        */
+                    }
+
                 }
 
             }
 
+        }
+
+        // Method to respond to using clicking Pause button
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
+            PauseExperiment = true;
         }
 
 

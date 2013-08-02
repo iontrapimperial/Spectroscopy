@@ -223,14 +223,15 @@ namespace Spectroscopy_Controller
                             File.WriteLine(j.ToString());
                         }
 
-                        myViewer.addLiveData(Readings.ToArray());
+                        myViewer.addLiveData(Readings);
 
                         File.Flush();
                         Readings.Clear();
 
                         FPGA.ResetDevice();
 
-                        while (PauseExperimentSelect.Checked)
+                        // If the Pause flag is set
+                        while (PauseExperiment)
                         {
                             //sleep for 1ms so we don't use all the CPU cycles
                             System.Threading.Thread.Sleep(1000);

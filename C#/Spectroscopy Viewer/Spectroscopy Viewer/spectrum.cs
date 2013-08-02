@@ -41,8 +41,17 @@ namespace Spectroscopy_Viewer
         private int coolThreshold;      // Cooling threshold
         private int countThreshold;     // Count threshold
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
+        
+
+        // Metadata
+        private string date = "";
+        private float trapFrequency = new float();
+        private float trapVoltage = new float();
         private string spectrumName = "Default";
         private int spectrumNumber = new int();
+        private int repeats = new int();
+
+
 
         // Internal variables
         private int coolThresholdChanged = new int();       // Which direction cooling threshold has moved

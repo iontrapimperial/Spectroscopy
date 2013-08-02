@@ -85,6 +85,7 @@ namespace Spectroscopy_Viewer
         // 4: Number of repeats
         // 5: Number interleaved
         // 6 onwards: spectrum i name
+        // NB not sure we need to pass IsWindowed
         public SpectroscopyViewerForm(ref string[] metadataPassed, int isWindowed)
         {
             InitializeComponent();
@@ -117,18 +118,14 @@ namespace Spectroscopy_Viewer
 
         // Method to accept incoming data from live experiment
         // Returns a bool which is set to false if there were any errors, otherwise true
-        public void addLiveData(int[] incomingData)
+        public void addLiveData(List<int> readings)
         {
-
-            // Once the readings have been passed, the array is cleared, so we need to copy to new array
-            for (int i = 0; i < incomingData.Length; i++)
-            {
-
-            }
+            // Copy data from readings into local array
+            int[] myData = readings.ToArray();
 
 
             // Create fileHandler to process the incoming data
-            fileHandler myFileHandler = new fileHandler(ref incomingData, ref metadata);
+            fileHandler myFileHandler = new fileHandler(ref myData, ref metadata);
 
             // How many spectra were loaded before we started running live
             int existingSpectra = numberOfSpectra - numberOfSpectraLive;
