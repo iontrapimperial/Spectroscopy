@@ -80,20 +80,19 @@ namespace Spectroscopy_Controller
             int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
             //Distance from end of one window to start of next
             int WindowSpace = 0;        // need to work out how to calculate this
-            
-            
-            int numberOfFiles = this.myFile.Length;
 
-            /*
-            TextWriter File = new StreamWriter(FilenameTextbox.Text);
-            if (File != null)
+
+            int numberOfFiles = this.myFileName.Length;
+
+            TextWriter myFile = new StreamWriter(myFileName[0]);
+            if (myFile != null)
             {
-                WriteMessage("Opened File for Writing: " + FilenameTextbox.Text);
+                WriteMessage("Opened first file for writing");
             }
             else
             {
-                WriteMessage("Couldn't Open File for Writing: " + FilenameTextbox.Text, true);
-            }*/
+                WriteMessage("Couldn't open first file for writing", true);
+            }
 
             // Create list for storing readings, get ready for 2000 data points
             List<int> Readings = new List<int>(2000);
@@ -110,7 +109,7 @@ namespace Spectroscopy_Controller
                 {
                     FPGA.SendResetSignal();
                     bResetFPGA = false;
-                    File.Close();
+                    myFile.Close();
                     return;
                 }
 
@@ -222,12 +221,12 @@ namespace Spectroscopy_Controller
 
                         foreach (int j in Readings)
                         {
-                            File.WriteLine(j.ToString());
+                            myFile.WriteLine(j.ToString());
                         }
 
                         myViewer.addLiveData(Readings);
 
-                        File.Flush();
+                        myFile.Flush();
                         Readings.Clear();
 
                         FPGA.ResetDevice();

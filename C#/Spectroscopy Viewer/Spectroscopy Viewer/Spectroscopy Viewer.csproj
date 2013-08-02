@@ -56,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dataPoint.cs" />
+    <Compile Include="displayMetadata.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="displayMetadata.Designer.cs">
+      <DependentUpon>displayMetadata.cs</DependentUpon>
+    </Compile>
     <Compile Include="fileHandler.cs" />
     <Compile Include="requestMetadata.cs">
       <SubType>Form</SubType>
@@ -78,6 +84,9 @@
     <Compile Include="spectrumSelect.Designer.cs">
       <DependentUpon>spectrumSelect.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="displayMetadata.resx">
+      <DependentUpon>displayMetadata.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="requestMetadata.resx">
       <DependentUpon>requestMetadata.cs</DependentUpon>
     </EmbeddedResource>

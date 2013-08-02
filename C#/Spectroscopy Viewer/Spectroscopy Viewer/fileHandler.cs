@@ -36,18 +36,20 @@ namespace Spectroscopy_Viewer
         }
 
         // Constructor given an array of data and an array of metadata (for live mode)
-        public fileHandler(ref int[] IncomingData, ref string[] metadata)
+        public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed)
         {
             // Need to convert the array of incoming data into a List<int[]>[]
             // Each list is for a separate spectrum
             // Each int[] is an array of 4 ints (one reading, inc cooling, counts & error flags)
 
-            // Check that the number interleaved & number of repeats are valid ints, if not then we can't handle the data
-            // TryParse method converts the string (1st argument) to an int, stores it in the int (2nd argument)
-            // and returns true if the process was successful, false if not
-            if( int.TryParse(metadata[5], out numberInterleaved) && int.TryParse(metadata[4], out repeats) )
-            {
+            // Store crucial numbers
+            repeats = repeatsPassed;
+            stepSize = stepSizePassed;
+            numberInterleaved = numberInterleavedPassed;
 
+            // Check that the important numbers are not zero (otherwise data will not process correctly)
+            if( stepSize != 0 && repeats != 0 && numberInterleaved != 0)
+            {
                 // Initialise arrays for storing Lists of raw data & dataPoints
                 fullData = new List<int[]>[numberInterleaved];
                 dataPoints = new List<dataPoint>[numberInterleaved];
@@ -141,68 +143,52 @@ namespace Spectroscopy_Viewer
             {
                 //******************************//
                 // Processing metadata
-                date = myFile.ReadLine();                   // Next line is the date
+                // Just dump it into an array of strings
 
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
-                myString = myFile.ReadLine();               // Next line is trap frequency
-                Console.WriteLine("Trap freq {0}", myString);
-                if (myString != "N/A") trapFrequency = float.Parse(myString);      // Convert to float and save
+                string[] metadata = new string[23];
 
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
-                myString = myFile.ReadLine();               // Next line is trap voltage
-                Console.WriteLine("Trap voltage {0}", myString);
-                if (myString != "N/A") trapVoltage = float.Parse(myString);        // Convert to float and save
-
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
-                myString = myFile.ReadLine();               // Next line is AOM start frequency
-                Console.WriteLine("Start freq {0}", myString);
-                if (myString != "N/A") startFrequency = int.Parse(myString);       // Convert to int and save
-
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
-                myString = myFile.ReadLine();               // Next line is step size
-                Console.WriteLine("Step size {0}", myString);
-                if (myString != "N/A") stepSize = int.Parse(myString);              // Convert to int and save
-
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
-                myString = myFile.ReadLine();               // Next line is number of repeats
-                Console.WriteLine("Repeats {0}", myString);
-                if (myString != "N/A") repeats = int.Parse(myString);              // Convert to int and save
-
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
-                myString = myFile.ReadLine();               // Next line is number of interleaved spectra
-                Console.WriteLine("N interleaved {0}", myString);
-                if (myString != "N/A") numberInterleaved = int.Parse(myString);    // Convert to int and save
-
-                spectrumNames = new string[numberInterleaved];
-
-                Console.WriteLine("Found {0} interleaved spectra", numberInterleaved);
-
-                // Next we have a pair of lines for each interleaved spectrum, giving the spectrum name
-                for (int i = 0; i < numberInterleaved; i++)
+                // Next 28 lines are misc metadata with titles
+                for (int i = 0; i < 14; i++)
                 {
-                    myString = myFile.ReadLine();               // Next line is a title (throw away)
-                    Console.WriteLine(myString);
-                    spectrumNames[i] = myFile.ReadLine();        // Next line is the spectrum name
-                    Console.WriteLine("Spectrum name: {0}", spectrumNames[i]);
+                    metadata[i] = myFile.ReadLine();               // First line is actual metadata
+                    myString = myFile.ReadLine();                  // Alternating lines are just a title (throw away)
+
                 }
 
-                myString = myFile.ReadLine();               // Next line is a title (throw away)
+                // Store number of repeats & number of interleaved spectra
+                repeats = int.Parse(metadata[13]);
+                numberInterleaved = int.Parse(metadata[14]);
+
+                // Depending on number of interleaved spectra, store the names in the array
+                for (int i = 15; i < 15 + numberInterleaved; i++)
+                {
+                    if (i < 22) // Make sure we don't go beyond the bounds of the array we initialised
+                    {
+                        metadata[i] = myFile.ReadLine();
+                        myString = myFile.ReadLine();
+                    }
+                }
 
                 myString = myFile.ReadLine();               // Read first line of notes section
-                // Keep reading lines 
+                // Keep reading lines while each line begins with a #
                 while (myString[0] == '#')
                 {
                     notes += myString.Substring(1);
                     notes += System.Environment.NewLine;
-                    myString = myFile.ReadLine(); 
+                    myString = myFile.ReadLine();
                 }
+
 
                 // NB this will read one line PAST the end of the notes section. This is ok since
                 // the line after is a title to be thrown away
-                
-                //******************************//
 
+                // Store in array of metadata
+                if (14 + numberInterleaved < 23) metadata[14 + numberInterleaved] = notes;
+                else Console.WriteLine("Too many interleaved spectra - gone beyond the bounds of metadata array (line 184 fileHandler.cs)");
+
+                // Process the actual numerical data
                 this.processData(ref myFile);
+
 
             }   // If there is no metadata
             else if (myString == "Spectroscopy data file (no metadata)")
@@ -252,13 +238,13 @@ namespace Spectroscopy_Viewer
             }
 
 
-            string myString = myFile.ReadLine();                       // Read first line of data
+            string myString = myFile.ReadLine();                // Read first line of data
             int j = 0;                                          // Counter for data points
             while (myString != null)                            // Only read further lines until end is reached
             {
                 for (int k = 0; k < numberInterleaved; k++)
                 {
-                    // This MUST be a new int, cannot add any other array!!!!
+                    // This MUST be a new int, cannot add an existing array!!!!
                     fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
 
                     // Extract blocks of 4 data points (each reading)

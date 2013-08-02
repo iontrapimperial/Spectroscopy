@@ -41,16 +41,14 @@ namespace Spectroscopy_Viewer
         private int coolThreshold;      // Cooling threshold
         private int countThreshold;     // Count threshold
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
-        
 
-        // Metadata
-        private string date = "";
-        private float trapFrequency = new float();
-        private float trapVoltage = new float();
-        private string spectrumName = "Default";
-        private int spectrumNumber = new int();
+        // Metadata from file / live experiment
+        private string[] metadata;
         private int repeats = new int();
 
+        // Spectrum number/name stored in Viewer only
+        private string spectrumName = "Default";
+        private int spectrumNumber = new int();
 
 
         // Internal variables
@@ -61,7 +59,8 @@ namespace Spectroscopy_Viewer
         //**************************//
 
         // Constructor given a list of data points
-        public spectrum(List<dataPoint> dataPointsPassed, int spectrumNumberPassed, string spectrumNamePassed)
+        public spectrum(List<dataPoint> dataPointsPassed, int spectrumNumberPassed,
+                        string spectrumNamePassed, ref string[] metadataPassed)
         {
             myDataPoints = dataPointsPassed;        // Store list of data points
             dataSize = myDataPoints.Count;          // Count number of data points
@@ -71,13 +70,29 @@ namespace Spectroscopy_Viewer
             spectrumName = spectrumNamePassed;
 
             this.createHistogram(myDataPoints, false);      // Create data for histograms
+
+            // Fill in metadata
+            metadata = new string[metadataPassed.Length];
+            for (int i = 0; i < metadataPassed.Length; i++)
+            {
+                metadata[i] = metadataPassed[i];
+            }
+
         }
 
-        // Constructor given just metadata
-        public spectrum(ref string[] metadata)
+        // Constructor given metadata and spectrum number
+        public spectrum(ref string[] metadataPassed, int spectrumNumberPassed)
         {
+            metadata = new string[metadataPassed.Length];
             // Fill in metadata
+            for (int i = 0; i < metadataPassed.Length; i++)
+            {
+                metadata[i] = metadataPassed[i];
+            }
 
+            // Set spectrum number & name
+            this.spectrumNumber = spectrumNumberPassed;
+            this.spectrumName = metadata[15 + spectrumNumber];
             // Create empty list of data points
             myDataPoints = new List<dataPoint>();
         }
