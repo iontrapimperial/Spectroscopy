@@ -22,12 +22,18 @@ namespace Spectroscopy_Controller
         // this is accessed by FPGAReadMethod and StartButton_Click
         TextWriter[] myFile;
 
+
+        TreeNode PreviewNode = new TreeNode();
+        //TemplateSelector TemplateForm;
+
         private bool PauseExperiment = false;
+
+        private bool bIsFreqGenEnabled = false;
 
         //Logic to select which source is used for 729 via RF switches
         private bool RFSwitch1State = false;
         private bool RFSwitch2State = false;
-
+        
         //Trap and ion parameters
         private float dnought, bField, massunits, truecycfreq;
         //Scan parameters for given run (taken from user selected values on form)
@@ -122,15 +128,13 @@ namespace Spectroscopy_Controller
             {
                case "Laser":
                     SetOutputs();
-                    Console.WriteLine("Laser");
                     break; 
                case "Spec":
                     RFSwitch1State = false;
                     RFSwitch2State = false;
                     SB1RFSourceButton.Checked = false;
                     SB2RFSourceButton.Checked = false;
-                    SB3RFSourceButton.Checked = false;              
-                    Console.WriteLine("Spec");
+                    SB3RFSourceButton.Checked = false;                              
                     SetOutputs();
                     break; 
                case "SB1":
@@ -139,7 +143,6 @@ namespace Spectroscopy_Controller
                     SpecRFSourceButton.Checked = false;
                     SB2RFSourceButton.Checked = false;
                     SB3RFSourceButton.Checked = false;
-                    Console.WriteLine("SB1");
                     SetOutputs();
                     break; 
                case "SB2":
@@ -148,7 +151,6 @@ namespace Spectroscopy_Controller
                     SpecRFSourceButton.Checked = false;
                     SB1RFSourceButton.Checked = false;
                     SB3RFSourceButton.Checked = false;
-                    Console.WriteLine("SB2");
                     SetOutputs();
                     break; 
                case "SB3":
@@ -157,7 +159,6 @@ namespace Spectroscopy_Controller
                     SpecRFSourceButton.Checked = false;
                     SB1RFSourceButton.Checked = false;
                     SB2RFSourceButton.Checked = false;
-                    Console.WriteLine("SB3");
                     SetOutputs();
                     break; 
             }
@@ -340,10 +341,22 @@ namespace Spectroscopy_Controller
             ManagePreviewNode(false, false);
         }
 
+        private int tickRounder()
+        {
+            //Find nearest number of integer ticks (640ns per tick) to desired pulse length
+            int roundedTicks = (int)(TicksBox.Value * 1000 / 640);
+
+            //Calculate rounded pulse length and display on form
+            float roundedLength = (float)(roundedTicks * 0.64);
+            string roundedLengthString = roundedLength.ToString("0.##");
+            TimeLabel.Text = "Length = " + roundedLengthString + "us";
+
+            return roundedTicks;
+        }
 
         private void TicksBox_ValueChanged(object sender, EventArgs e)
         {
-            TimeLabel.Text = "Length: " + ((TicksBox.Value * 20) / (1000000)) + " ms";
+            tickRounder();
         }
 
         #endregion
@@ -485,6 +498,9 @@ namespace Spectroscopy_Controller
                             // If "Continuous" experiment type has been selected
                             if (specType == "Continuous")
                             {
+                                //Turn on frequency generator
+                                bIsFreqGenEnabled = true;
+
                                 // Put the metadata into array to pass to viewer
                                 // Need to check about trap freq...
 
@@ -543,16 +559,19 @@ namespace Spectroscopy_Controller
                                 if (myViewer == null)
                                 {
                                     // Create new instance of viewer
-                                    myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
+                                    //myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
                                 }
 
                             }
                             else if (specType == "Windowed")
                             {
+                                //Turn on frequency generator
+                                bIsFreqGenEnabled = true;
+
                                 //Calculate frequency offset of sideband start frequencies from sideband centres
                                 int offsetFreq = (int)stepSize*sbWidth/2;
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
-                                int windowSpace;
+                                int windowSpace = 0;
                                 if (specDir == "Axial") windowSpace = axFreq;
                                 else if (specDir == "Radial") windowSpace = modcycFreq;
 
@@ -580,6 +599,10 @@ namespace Spectroscopy_Controller
 
                                     myFile[i] = new StreamWriter(myFileName[i]);
                                 }
+                            }
+                            else if (specType == "Fixed")
+                            {
+                                bIsFreqGenEnabled = false;
                             }
                         }
                         else

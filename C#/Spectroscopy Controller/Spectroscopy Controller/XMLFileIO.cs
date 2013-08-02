@@ -80,11 +80,17 @@ namespace Spectroscopy_Controller
         {
             Writer.WriteStartElement("Pulse");
 
-            Writer.WriteAttributeString("Laser397a", GetStringFromBool(State.Laser397a));
-            Writer.WriteAttributeString("Laser397b", GetStringFromBool(State.Laser397b));
-            Writer.WriteAttributeString("Laser866", GetStringFromBool(State.Laser866));
-            Writer.WriteAttributeString("Laser854", GetStringFromBool(State.Laser854));
+            Writer.WriteAttributeString("Laser397B1", GetStringFromBool(State.Laser397B1));
+            Writer.WriteAttributeString("Laser397B2", GetStringFromBool(State.Laser397B2));
             Writer.WriteAttributeString("Laser729", GetStringFromBool(State.Laser729));
+            Writer.WriteAttributeString("Laser854", GetStringFromBool(State.Laser854));
+            Writer.WriteAttributeString("Laser729RF1", GetStringFromBool(State.Laser729RF1));
+            Writer.WriteAttributeString("Laser729RF2", GetStringFromBool(State.Laser729RF2));
+            Writer.WriteAttributeString("Laser854POWER", GetStringFromBool(State.Laser854POWER));
+            Writer.WriteAttributeString("Laser854FREQ", GetStringFromBool(State.Laser854FREQ));
+            Writer.WriteAttributeString("LaserAux1", GetStringFromBool(State.LaserAux1));
+            Writer.WriteAttributeString("LaserAux2", GetStringFromBool(State.LaserAux2));
+
 
             if (State.StateType == LaserState.PulseType.STARTLOOP)
             {
@@ -116,6 +122,7 @@ namespace Spectroscopy_Controller
             }
 
             Writer.WriteAttributeString("Ticks", State.Ticks.ToString());
+            Writer.WriteAttributeString("TargetLength", State.TargetLength.ToString());
             Writer.WriteAttributeString("Name", State.Name);
             Writer.WriteEndElement();
         }
@@ -260,37 +267,41 @@ namespace Spectroscopy_Controller
                 {
                     State.Ticks = System.Int32.Parse(XMLFile.Value);
                 }
-                else if (XMLFile.Name.ToUpper() == "Laser397a".ToUpper())
+                else if (XMLFile.Name.ToUpper() == "TargetLength".ToUpper())
+                {
+                    State.TargetLength = System.Int32.Parse(XMLFile.Value);
+                }
+                else if (XMLFile.Name.ToUpper() == "Laser397B1".ToUpper())
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.Laser397a = true;
+                        State.Laser397B1 = true;
                     }
                     else
                     {
-                        State.Laser397a = false;
+                        State.Laser397B1 = false;
                     }
                 }
-                else if (XMLFile.Name.ToUpper() == "Laser397b".ToUpper())
+                else if (XMLFile.Name.ToUpper() == "Laser397B2".ToUpper())
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.Laser397b = true;
+                        State.Laser397B2 = true;
                     }
                     else
                     {
-                        State.Laser397b = false;
+                        State.Laser397B2 = false;
                     }
                 }
-                else if (XMLFile.Name.ToUpper() == "Laser866".ToUpper())
+                else if (XMLFile.Name.ToUpper() == "Laser729".ToUpper())
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.Laser866 = true;
+                        State.Laser729 = true;
                     }
                     else
                     {
-                        State.Laser866 = false;
+                        State.Laser729 = false;
                     }
                 }
                 else if (XMLFile.Name.ToUpper() == "Laser854".ToUpper())
@@ -304,15 +315,70 @@ namespace Spectroscopy_Controller
                         State.Laser854 = false;
                     }
                 }
-                else if (XMLFile.Name.ToUpper() == "Laser729".ToUpper())
+                else if (XMLFile.Name.ToUpper() == "Laser729RF1".ToUpper())
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.Laser729 = true;
+                        State.Laser729RF1 = true;
                     }
                     else
                     {
-                        State.Laser729 = false;
+                        State.Laser729RF1 = false;
+                    }
+                }
+                else if (XMLFile.Name.ToUpper() == "Laser729RF2".ToUpper())
+                {
+                    if (XMLFile.Value.ToUpper() == "on".ToUpper())
+                    {
+                        State.Laser729RF2 = true;
+                    }
+                    else
+                    {
+                        State.Laser729RF2 = false;
+                    }
+                }
+                else if (XMLFile.Name.ToUpper() == "Laser854POWER".ToUpper())
+                {
+                    if (XMLFile.Value.ToUpper() == "on".ToUpper())
+                    {
+                        State.Laser854POWER = true;
+                    }
+                    else
+                    {
+                        State.Laser854POWER = false;
+                    }
+                }
+                else if (XMLFile.Name.ToUpper() == "Laser854FREQ".ToUpper())
+                {
+                    if (XMLFile.Value.ToUpper() == "on".ToUpper())
+                    {
+                        State.Laser854FREQ = true;
+                    }
+                    else
+                    {
+                        State.Laser854FREQ = false;
+                    }
+                }
+                else if (XMLFile.Name.ToUpper() == "LaserAux1".ToUpper())
+                {
+                    if (XMLFile.Value.ToUpper() == "on".ToUpper())
+                    {
+                        State.LaserAux1 = true;
+                    }
+                    else
+                    {
+                        State.LaserAux1 = false;
+                    }
+                }
+                else if (XMLFile.Name.ToUpper() == "LaserAux2".ToUpper())
+                {
+                    if (XMLFile.Value.ToUpper() == "on".ToUpper())
+                    {
+                        State.LaserAux2 = true;
+                    }
+                    else
+                    {
+                        State.LaserAux2 = false;
                     }
                 }
                 else if (XMLFile.Name.ToUpper() == "Type".ToUpper())

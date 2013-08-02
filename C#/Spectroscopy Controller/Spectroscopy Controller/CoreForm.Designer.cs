@@ -51,11 +51,11 @@
             this.SourceSelect729 = new System.Windows.Forms.NumericUpDown();
             this.LaserBoxAux2 = new System.Windows.Forms.CheckBox();
             this.LaserBoxAux1 = new System.Windows.Forms.CheckBox();
-            this.LaserBox854POWER = new System.Windows.Forms.CheckBox();
+            this.LaserBox854FREQ = new System.Windows.Forms.CheckBox();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.TicksBox = new System.Windows.Forms.NumericUpDown();
             this.PulseTypeBox = new System.Windows.Forms.ComboBox();
-            this.LaserBox854FREQ = new System.Windows.Forms.CheckBox();
+            this.LaserBox854POWER = new System.Windows.Forms.CheckBox();
             this.LaserBox854 = new System.Windows.Forms.CheckBox();
             this.LaserBox729 = new System.Windows.Forms.CheckBox();
             this.LaserBox397B2 = new System.Windows.Forms.CheckBox();
@@ -139,6 +139,8 @@
             this.MessagesBox = new System.Windows.Forms.ListView();
             this.saveXMLFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openXMLFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openHexFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveHexFileDialog = new System.Windows.Forms.SaveFileDialog();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -211,16 +213,16 @@
             // DesiredLengthLabel
             // 
             DesiredLengthLabel.AutoSize = true;
-            DesiredLengthLabel.Location = new System.Drawing.Point(78, 51);
+            DesiredLengthLabel.Location = new System.Drawing.Point(84, 47);
             DesiredLengthLabel.Name = "DesiredLengthLabel";
-            DesiredLengthLabel.Size = new System.Drawing.Size(128, 13);
+            DesiredLengthLabel.Size = new System.Drawing.Size(123, 13);
             DesiredLengthLabel.TabIndex = 39;
-            DesiredLengthLabel.Text = "Desired Pulse Length (us)";
+            DesiredLengthLabel.Text = "Target Pulse Length (us)";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(78, 10);
+            label4.Location = new System.Drawing.Point(84, 8);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(31, 13);
             label4.TabIndex = 38;
@@ -241,6 +243,7 @@
             this.PulseTree.Name = "PulseTree";
             this.PulseTree.Size = new System.Drawing.Size(254, 415);
             this.PulseTree.TabIndex = 0;
+            this.PulseTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.PulseTree_AfterSelect);
             // 
             // AddChildButton
             // 
@@ -262,6 +265,8 @@
             this.DeleteButton.TabIndex = 43;
             this.DeleteButton.Text = "Delete";
             this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            
             // 
             // MoveDownButton
             // 
@@ -271,6 +276,7 @@
             this.MoveDownButton.TabIndex = 42;
             this.MoveDownButton.Text = "↓";
             this.MoveDownButton.UseVisualStyleBackColor = true;
+            this.MoveDownButton.Click += new System.EventHandler(this.MoveDownButton_Click);
             // 
             // MoveUpButton
             // 
@@ -281,6 +287,7 @@
             this.MoveUpButton.TabIndex = 41;
             this.MoveUpButton.Text = "↑";
             this.MoveUpButton.UseVisualStyleBackColor = true;
+            this.MoveUpButton.Click += new System.EventHandler(this.MoveUpButton_Click);
             // 
             // AddRootButton
             // 
@@ -302,6 +309,7 @@
             this.SaveStateButton.TabIndex = 48;
             this.SaveStateButton.Text = "Save Pulse";
             this.SaveStateButton.UseVisualStyleBackColor = true;
+            this.SaveStateButton.Click += new System.EventHandler(this.SaveStateButton_Click);
             // 
             // PulseTypeTabs
             // 
@@ -364,13 +372,13 @@
             this.PulseTabPage.Controls.Add(this.SourceSelect729);
             this.PulseTabPage.Controls.Add(this.LaserBoxAux2);
             this.PulseTabPage.Controls.Add(this.LaserBoxAux1);
-            this.PulseTabPage.Controls.Add(this.LaserBox854POWER);
+            this.PulseTabPage.Controls.Add(this.LaserBox854FREQ);
             this.PulseTabPage.Controls.Add(this.TimeLabel);
             this.PulseTabPage.Controls.Add(DesiredLengthLabel);
             this.PulseTabPage.Controls.Add(label4);
             this.PulseTabPage.Controls.Add(this.TicksBox);
             this.PulseTabPage.Controls.Add(this.PulseTypeBox);
-            this.PulseTabPage.Controls.Add(this.LaserBox854FREQ);
+            this.PulseTabPage.Controls.Add(this.LaserBox854POWER);
             this.PulseTabPage.Controls.Add(this.LaserBox854);
             this.PulseTabPage.Controls.Add(this.LaserBox729);
             this.PulseTabPage.Controls.Add(this.LaserBox397B2);
@@ -419,9 +427,9 @@
             this.LaserBoxAux2.AutoSize = true;
             this.LaserBoxAux2.Location = new System.Drawing.Point(8, 168);
             this.LaserBoxAux2.Name = "LaserBoxAux2";
-            this.LaserBoxAux2.Size = new System.Drawing.Size(53, 17);
+            this.LaserBoxAux2.Size = new System.Drawing.Size(75, 17);
             this.LaserBoxAux2.TabIndex = 43;
-            this.LaserBoxAux2.Text = "Aux-2";
+            this.LaserBoxAux2.Text = "Auxilliary 2";
             this.LaserBoxAux2.UseVisualStyleBackColor = true;
             // 
             // LaserBoxAux1
@@ -429,41 +437,42 @@
             this.LaserBoxAux1.AutoSize = true;
             this.LaserBoxAux1.Location = new System.Drawing.Point(8, 145);
             this.LaserBoxAux1.Name = "LaserBoxAux1";
-            this.LaserBoxAux1.Size = new System.Drawing.Size(53, 17);
+            this.LaserBoxAux1.Size = new System.Drawing.Size(75, 17);
             this.LaserBoxAux1.TabIndex = 42;
-            this.LaserBoxAux1.Text = "Aux-1";
+            this.LaserBoxAux1.Text = "Auxilliary 1";
             this.LaserBoxAux1.UseVisualStyleBackColor = true;
             // 
-            // LaserBox854POWER
+            // LaserBox854FREQ
             // 
-            this.LaserBox854POWER.AutoSize = true;
-            this.LaserBox854POWER.Location = new System.Drawing.Point(8, 122);
-            this.LaserBox854POWER.Name = "LaserBox854POWER";
-            this.LaserBox854POWER.Size = new System.Drawing.Size(77, 17);
-            this.LaserBox854POWER.TabIndex = 41;
-            this.LaserBox854POWER.Text = "854 Power";
-            this.LaserBox854POWER.UseVisualStyleBackColor = true;
+            this.LaserBox854FREQ.AutoSize = true;
+            this.LaserBox854FREQ.Location = new System.Drawing.Point(8, 122);
+            this.LaserBox854FREQ.Name = "LaserBox854FREQ";
+            this.LaserBox854FREQ.Size = new System.Drawing.Size(68, 17);
+            this.LaserBox854FREQ.TabIndex = 41;
+            this.LaserBox854FREQ.Text = "854 Freq";
+            this.LaserBox854FREQ.UseVisualStyleBackColor = true;
             // 
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(80, 90);
+            this.TimeLabel.Location = new System.Drawing.Point(112, 86);
             this.TimeLabel.Name = "TimeLabel";
-            this.TimeLabel.Size = new System.Drawing.Size(96, 13);
+            this.TimeLabel.Size = new System.Drawing.Size(93, 13);
             this.TimeLabel.TabIndex = 40;
-            this.TimeLabel.Text = "Exact Length: 0 us";
+            this.TimeLabel.Text = "Exact Length: 0us";
             // 
             // TicksBox
             // 
-            this.TicksBox.Location = new System.Drawing.Point(81, 67);
+            this.TicksBox.Location = new System.Drawing.Point(87, 63);
             this.TicksBox.Maximum = new decimal(new int[] {
             333334,
             0,
             0,
             0});
             this.TicksBox.Name = "TicksBox";
-            this.TicksBox.Size = new System.Drawing.Size(120, 20);
+            this.TicksBox.Size = new System.Drawing.Size(117, 20);
             this.TicksBox.TabIndex = 37;
+            this.TicksBox.ValueChanged += new System.EventHandler(this.TicksBox_ValueChanged);
             // 
             // PulseTypeBox
             // 
@@ -475,20 +484,20 @@
             "Count",
             "Stop",
             "Send Data"});
-            this.PulseTypeBox.Location = new System.Drawing.Point(81, 26);
+            this.PulseTypeBox.Location = new System.Drawing.Point(87, 24);
             this.PulseTypeBox.Name = "PulseTypeBox";
-            this.PulseTypeBox.Size = new System.Drawing.Size(121, 21);
+            this.PulseTypeBox.Size = new System.Drawing.Size(117, 21);
             this.PulseTypeBox.TabIndex = 36;
             // 
-            // LaserBox854FREQ
+            // LaserBox854POWER
             // 
-            this.LaserBox854FREQ.AutoSize = true;
-            this.LaserBox854FREQ.Location = new System.Drawing.Point(8, 99);
-            this.LaserBox854FREQ.Name = "LaserBox854FREQ";
-            this.LaserBox854FREQ.Size = new System.Drawing.Size(68, 17);
-            this.LaserBox854FREQ.TabIndex = 35;
-            this.LaserBox854FREQ.Text = "854 Freq";
-            this.LaserBox854FREQ.UseVisualStyleBackColor = true;
+            this.LaserBox854POWER.AutoSize = true;
+            this.LaserBox854POWER.Location = new System.Drawing.Point(8, 99);
+            this.LaserBox854POWER.Name = "LaserBox854POWER";
+            this.LaserBox854POWER.Size = new System.Drawing.Size(77, 17);
+            this.LaserBox854POWER.TabIndex = 35;
+            this.LaserBox854POWER.Text = "854 Power";
+            this.LaserBox854POWER.UseVisualStyleBackColor = true;
             // 
             // LaserBox854
             // 
@@ -1043,7 +1052,8 @@
             this.specTypeBox.FormattingEnabled = true;
             this.specTypeBox.Items.AddRange(new object[] {
             "Continuous",
-            "Windowed"});
+            "Windowed",
+            "Fixed"});
             this.specTypeBox.Location = new System.Drawing.Point(150, 21);
             this.specTypeBox.Name = "specTypeBox";
             this.specTypeBox.Size = new System.Drawing.Size(104, 21);
@@ -1570,6 +1580,10 @@
             // 
             this.openXMLFileDialog.FileName = "openFileDialog1";
             // 
+            // openHexFileDialog
+            // 
+            this.openHexFileDialog.FileName = "openHexFileDialog";
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1646,7 +1660,7 @@
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.NumericUpDown TicksBox;
         private System.Windows.Forms.ComboBox PulseTypeBox;
-        private System.Windows.Forms.CheckBox LaserBox854FREQ;
+        private System.Windows.Forms.CheckBox LaserBox854POWER;
         private System.Windows.Forms.CheckBox LaserBox854;
         private System.Windows.Forms.CheckBox LaserBox729;
         private System.Windows.Forms.CheckBox LaserBox397B2;
@@ -1654,7 +1668,7 @@
         private System.Windows.Forms.TextBox NameBox;
         private System.Windows.Forms.CheckBox LaserBoxAux2;
         private System.Windows.Forms.CheckBox LaserBoxAux1;
-        private System.Windows.Forms.CheckBox LaserBox854POWER;
+        private System.Windows.Forms.CheckBox LaserBox854FREQ;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown SourceSelect729;
         private System.Windows.Forms.Button CreateFromTemplateButton;
@@ -1735,6 +1749,8 @@
         private System.Windows.Forms.ListView MessagesBox;
         private System.Windows.Forms.SaveFileDialog saveXMLFileDialog;
         private System.Windows.Forms.OpenFileDialog openXMLFileDialog;
+        private System.Windows.Forms.OpenFileDialog openHexFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveHexFileDialog;
     }
 }
 
