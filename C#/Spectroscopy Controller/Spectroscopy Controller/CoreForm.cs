@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+//using System.Math;
 
 
 
@@ -30,23 +31,34 @@ namespace Spectroscopy_Controller
 
         private bool bIsFreqGenEnabled = false;
 
+        public bool updating = false;
+
         //Logic to select which source is used for 729 via RF switches
         private bool RFSwitch1State = false;
         private bool RFSwitch2State = false;
         
         //Trap and ion parameters
-        private float dnought, bField, massunits, truecycfreq;
+        private float dnought = 0.0189F;
+        private float bField = 1.845F;
+        private float ionmass = 40;
+        private float ioncharge = 1;
+        private float truecycFreq;
+        private float pi = 3.1415927F;
+        private float emratio = 0.9648533E8F;//(=1/1.036427E-8F);
+ 
         //Scan parameters for given run (taken from user selected values on form)
         private string specType, specDir;
-        private int trapV, axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth;
-        private float rfAmp;
+        private int startFreq, carFreq, stepSize, sbToScan, sbWidth;
+        private float trapV, axFreq, modcycFreq, magFreq, rfAmp;
 
         private int[] startFreqArray;
 
         public CoreForm()
         {
             InitializeComponent();
-            this.LiveLaserBox397B1.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
+
+            //The following moved to the designer code, where it presumably belongs
+            /*this.LiveLaserBox397B1.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             this.LiveLaserBox397B2.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             this.LiveLaserBox729.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             this.LiveLaserBox854.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
@@ -57,7 +69,10 @@ namespace Spectroscopy_Controller
             this.SpecRFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
             this.SB1RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
             this.SB2RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
-            this.SB3RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
+            this.SB3RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);*/
+
+            truecycFreq = (emratio * ioncharge * bField / ionmass);
+            Console.WriteLine(truecycFreq/2/pi);
         }
 
         private void SetRFSpecButton_Click(object sender, EventArgs e)
@@ -468,10 +483,10 @@ namespace Spectroscopy_Controller
                     //Grab all scan and trap parameters from form:
                     specType = specTypeBox.SelectedValue.ToString();
                     specDir = specDirBox.SelectedValue.ToString();
-                    trapV = (int)(1000000 * trapVBox.Value);
-                    axFreq = (int)(1000 * axFreqBox.Value);
-                    modcycFreq = (int)(1000 * modcycFreqBox.Value);
-                    magFreq = (int)(1000 * magFreqBox.Value);
+                    trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
+                    axFreq = (float)(1000 * axFreqBox.Value);
+                    modcycFreq = (float)(1000 * modcycFreqBox.Value);
+                    magFreq = (float)(1000 * magFreqBox.Value);
                     startFreq = (int)(10000000 * startFreqBox.Value);
                     carFreq = (int)(10000000 * carFreqBox.Value);
                     stepSize = (int)(1000 * stepSizeBox.Value);
@@ -523,7 +538,7 @@ namespace Spectroscopy_Controller
                                 myFile[0].WriteLine("");
                                 //
                                 // Trap voltage
-                                myFile[0].WriteLine("Trap Voltage:");
+                                myFile[0].WriteLine("Trap Voltage (mV):");
                                 myFile[0].WriteLine(this.trapVBox.Value);
                                 // AOM start freq
                                 myFile[0].WriteLine("AOM Start Frequency (MHz):");
@@ -572,8 +587,8 @@ namespace Spectroscopy_Controller
                                 int offsetFreq = (int)stepSize*sbWidth/2;
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
                                 int windowSpace = 0;
-                                if (specDir == "Axial") windowSpace = axFreq;
-                                else if (specDir == "Radial") windowSpace = modcycFreq;
+                                if (specDir == "Axial") windowSpace = (int)axFreq;
+                                else if (specDir == "Radial") windowSpace = (int)modcycFreq;
 
                                 //Array of start frequencies for each sideband (from furthest red to furthest blue)            
                                 startFreqArray = new int[sbToScan * 2 + 1];
@@ -661,6 +676,75 @@ namespace Spectroscopy_Controller
         {
             // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
             PauseExperiment = true;
+        }
+
+        private void trapVBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (updating == false)
+            {
+                trapV = (float)(1000 * trapVBox.Value);
+                //DEBUGGING
+                /*Console.WriteLine("On Read");
+                Console.WriteLine(trapVBox.Value);
+                Console.WriteLine(trapV);*/
+                UpdateTrapFreqs();
+            }
+        }
+
+        private void axFreqBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (updating == false)
+            {
+                axFreq = 2 * pi * 1000 * (float)axFreqBox.Value;
+                trapV = (float)(1000 * Math.Pow(axFreq, 2) * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 4);
+                Console.WriteLine(axFreq);
+                Console.WriteLine(trapV);
+                UpdateTrapFreqs();
+            }
+        }
+
+        private void modcycFreqBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (updating == false)
+            {
+                modcycFreq = 2 * pi * 1000 * (float)modcycFreqBox.Value;
+                trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (truecycFreq * modcycFreq - Math.Pow(modcycFreq, 2)));
+                UpdateTrapFreqs();
+            }
+        }
+
+        private void magFreqBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (updating == false)
+            {
+               magFreq = (float)(2 * pi * (float)(1000 * magFreqBox.Value));
+               trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (truecycFreq * magFreq - Math.Pow(magFreq, 2)));
+               UpdateTrapFreqs();
+            }
+        }
+
+        private void UpdateTrapFreqs()
+        {
+            updating = true;
+            Console.WriteLine(ioncharge + "+" + trapV/1000 + "+" + ionmass + "+" + dnought);
+            axFreq = (float)(Math.Sqrt(4 * emratio * ioncharge * trapV / 1000 / ionmass / Math.Pow(dnought,2) ) );
+            magFreq = (float)((truecycFreq - Math.Sqrt(Math.Pow(truecycFreq,2) - 2 * Math.Pow(axFreq,2) ) ) / 2);
+            modcycFreq = (float)((truecycFreq + Math.Sqrt(Math.Pow(truecycFreq, 2) - 2 * Math.Pow(axFreq,2) ) ) / 2);
+            axFreqBox.Value = (decimal)(axFreq/1000/2/pi);
+            magFreqBox.Value = (decimal)(magFreq/1000/2/pi);
+            modcycFreqBox.Value = (decimal)(modcycFreq/1000/2/pi);
+            //DEBUGGING
+            /*Console.WriteLine("Before Write");
+            Console.WriteLine(trapVBox.Value);
+            Console.WriteLine(trapV/1000);
+            Console.WriteLine(axFreq/1000/2/pi);
+            Console.WriteLine(modcycFreq/1000/2/pi);
+            Console.WriteLine(magFreq/1000/2/pi);*/
+            trapVBox.Value = ((decimal)trapV)/1000;
+            /*Console.WriteLine("After Write");
+            Console.WriteLine(trapVBox.Value);
+            Console.WriteLine(trapV);*/
+            updating = false;
         }
 
 

@@ -266,7 +266,6 @@
             this.DeleteButton.Text = "Delete";
             this.DeleteButton.UseVisualStyleBackColor = true;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
-            
             // 
             // MoveDownButton
             // 
@@ -736,6 +735,7 @@
             0,
             0,
             0});
+            this.magFreqBox.ValueChanged += new System.EventHandler(this.magFreqBox_ValueChanged);
             // 
             // UploadButton
             // 
@@ -777,6 +777,7 @@
             0,
             0,
             0});
+            this.modcycFreqBox.ValueChanged += new System.EventHandler(this.modcycFreqBox_ValueChanged);
             // 
             // label13
             // 
@@ -989,6 +990,7 @@
             0,
             0,
             0});
+            this.axFreqBox.ValueChanged += new System.EventHandler(this.axFreqBox_ValueChanged);
             // 
             // label6
             // 
@@ -1023,6 +1025,11 @@
             // trapVBox
             // 
             this.trapVBox.DecimalPlaces = 3;
+            this.trapVBox.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.trapVBox.Location = new System.Drawing.Point(150, 75);
             this.trapVBox.Maximum = new decimal(new int[] {
             1000,
@@ -1037,6 +1044,7 @@
             0,
             0,
             0});
+            this.trapVBox.ValueChanged += new System.EventHandler(this.trapVBox_ValueChanged);
             // 
             // label3
             // 
@@ -1179,6 +1187,7 @@
             this.SB3RFSourceButton.Tag = "SB3";
             this.SB3RFSourceButton.Text = "729nm Sideband RF Source 3";
             this.SB3RFSourceButton.UseVisualStyleBackColor = true;
+            this.SB3RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // panel3
             // 
@@ -1278,6 +1287,7 @@
             this.SB2RFSourceButton.Tag = "SB2";
             this.SB2RFSourceButton.Text = "729nm Sideband RF Source 2";
             this.SB2RFSourceButton.UseVisualStyleBackColor = true;
+            this.SB2RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // panel2
             // 
@@ -1377,6 +1387,7 @@
             this.SB1RFSourceButton.Tag = "SB1";
             this.SB1RFSourceButton.Text = "729nm Sideband RF Source 1";
             this.SB1RFSourceButton.UseVisualStyleBackColor = true;
+            this.SB1RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // panel1
             // 
@@ -1477,6 +1488,7 @@
             this.SpecRFSourceButton.Tag = "Spec";
             this.SpecRFSourceButton.Text = "729nm Spectroscopy RF Source";
             this.SpecRFSourceButton.UseVisualStyleBackColor = true;
+            this.SpecRFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBoxAux2
             // 
@@ -1487,6 +1499,7 @@
             this.LiveLaserBoxAux2.TabIndex = 7;
             this.LiveLaserBoxAux2.Text = "Auxilliary 2";
             this.LiveLaserBoxAux2.UseVisualStyleBackColor = true;
+            this.LiveLaserBoxAux2.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBoxAux1
             // 
@@ -1497,6 +1510,7 @@
             this.LiveLaserBoxAux1.TabIndex = 6;
             this.LiveLaserBoxAux1.Text = "Auxilliary 1";
             this.LiveLaserBoxAux1.UseVisualStyleBackColor = true;
+            this.LiveLaserBoxAux1.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox854FREQ
             // 
@@ -1507,6 +1521,7 @@
             this.LiveLaserBox854FREQ.TabIndex = 5;
             this.LiveLaserBox854FREQ.Text = "854nm Frequency";
             this.LiveLaserBox854FREQ.UseVisualStyleBackColor = true;
+            this.LiveLaserBox854FREQ.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox854POWER
             // 
@@ -1517,6 +1532,7 @@
             this.LiveLaserBox854POWER.TabIndex = 4;
             this.LiveLaserBox854POWER.Text = "854nm Power";
             this.LiveLaserBox854POWER.UseVisualStyleBackColor = true;
+            this.LiveLaserBox854POWER.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox854
             // 
@@ -1527,6 +1543,7 @@
             this.LiveLaserBox854.TabIndex = 3;
             this.LiveLaserBox854.Text = "854nm";
             this.LiveLaserBox854.UseVisualStyleBackColor = true;
+            this.LiveLaserBox854.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox729
             // 
@@ -1537,6 +1554,7 @@
             this.LiveLaserBox729.TabIndex = 2;
             this.LiveLaserBox729.Text = "729nm";
             this.LiveLaserBox729.UseVisualStyleBackColor = true;
+            this.LiveLaserBox729.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox397B2
             // 
@@ -1547,6 +1565,7 @@
             this.LiveLaserBox397B2.TabIndex = 1;
             this.LiveLaserBox397B2.Text = "397nm B2";
             this.LiveLaserBox397B2.UseVisualStyleBackColor = true;
+            this.LiveLaserBox397B2.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox397B1
             // 
@@ -1557,6 +1576,7 @@
             this.LiveLaserBox397B1.TabIndex = 0;
             this.LiveLaserBox397B1.Text = "397nm B1";
             this.LiveLaserBox397B1.UseVisualStyleBackColor = true;
+            this.LiveLaserBox397B1.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // debugmessagebox
             // 
