@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 //using System.Math;
+using Spectroscopy_Viewer;
 
 
 
@@ -16,7 +17,7 @@ namespace Spectroscopy_Controller
     public partial class CoreForm : Form
     {
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
-        private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
+        private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm(false);
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
@@ -58,6 +59,10 @@ namespace Spectroscopy_Controller
 
             truecycFreq = (emratio * ioncharge * bField / ionmass);
             //Console.WriteLine(truecycFreq/2/pi);
+
+            // Set up event handler to deal with viewer form closing
+            myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+            
         }
 
         
@@ -561,13 +566,6 @@ namespace Spectroscopy_Controller
 
                                 // Create the file with appropriate name & write metadata to it
                                 writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
-
-                                // If myViewer is not open
-                                if (myViewer == null)
-                                {
-                                    // Create new instance of viewer
-                                    myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
-                                }
                             }
                             else if (specType == "Windowed")
                             {
@@ -601,6 +599,14 @@ namespace Spectroscopy_Controller
                             else if (specType == "Fixed")
                             {
                                 bIsFreqGenEnabled = false;
+                            }
+
+                            // If myViewer is not open
+                            if (!myViewer.IsFormOpened)
+                            {
+                                // Create new instance of viewer
+                                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
+                                myViewer.Show();
                             }
                         }
                         else
@@ -680,7 +686,7 @@ namespace Spectroscopy_Controller
             char sbRedOrBlue = 'R';
             //*****************//
 
-            // Go through each file
+            // Go through each file (this will only be run once for continuous files)
             for (int i = 0; i < numberOfFiles; i++)
             {
                 // Generating the current filename:
@@ -796,7 +802,6 @@ namespace Spectroscopy_Controller
                 }
 
             } //End of loop which goes through each file
-
         }
 
 
@@ -854,6 +859,22 @@ namespace Spectroscopy_Controller
             trapVBox.Value = ((decimal)trapV/1000);
             updating = false;
         }
+
+        private void OpenViewerButton_Click(object sender, EventArgs e)
+        {
+            if (!myViewer.IsFormOpened)
+            {
+                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
+                myViewer.Show();
+            }
+        }
+
+        private void myViewer_FormClosing(object sender, EventArgs e)
+        {
+            myViewer.IsFormOpened = false;
+            myViewer.Dispose();
+        }
+
 
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running

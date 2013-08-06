@@ -141,6 +141,7 @@
             this.openXMLFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.openHexFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveHexFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.OpenViewerButton = new System.Windows.Forms.Button();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -1604,11 +1605,22 @@
             // 
             this.openHexFileDialog.FileName = "openHexFileDialog";
             // 
+            // OpenViewerButton
+            // 
+            this.OpenViewerButton.Location = new System.Drawing.Point(1054, 10);
+            this.OpenViewerButton.Name = "OpenViewerButton";
+            this.OpenViewerButton.Size = new System.Drawing.Size(91, 37);
+            this.OpenViewerButton.TabIndex = 59;
+            this.OpenViewerButton.Text = "Open Viewer";
+            this.OpenViewerButton.UseVisualStyleBackColor = true;
+            this.OpenViewerButton.Click += new System.EventHandler(this.OpenViewerButton_Click);
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1060, 662);
+            this.ClientSize = new System.Drawing.Size(1153, 662);
+            this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
             this.Controls.Add(this.LaserControl);
             this.Controls.Add(this.SpectroGroup);
@@ -1771,6 +1783,7 @@
         private System.Windows.Forms.OpenFileDialog openXMLFileDialog;
         private System.Windows.Forms.OpenFileDialog openHexFileDialog;
         private System.Windows.Forms.SaveFileDialog saveHexFileDialog;
+        private System.Windows.Forms.Button OpenViewerButton;
     }
 }
 
