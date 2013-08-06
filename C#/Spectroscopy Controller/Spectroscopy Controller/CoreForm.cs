@@ -17,7 +17,7 @@ namespace Spectroscopy_Controller
     public partial class CoreForm : Form
     {
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
-        private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm(false);
+        private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm();
 
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
@@ -31,6 +31,8 @@ namespace Spectroscopy_Controller
         private bool PauseExperiment = false;
 
         private bool bIsFreqGenEnabled = false;
+
+        private bool IsViewerOpen = false;
 
         public bool updating = false;
 
@@ -58,7 +60,6 @@ namespace Spectroscopy_Controller
         public CoreForm()
         {   
             InitializeComponent();
-
 
 
             specTypeBox.SelectedItem = "Continuous";
@@ -194,7 +195,7 @@ namespace Spectroscopy_Controller
         }
 
         // Method to handle form closing
-        // Clean up any threads left running
+        //Clean up any threads left running
         private void OnFormClosing(object sender, EventArgs e) 
         {
             if ((BinarySendThread != null) && (BinarySendThread.IsAlive))
@@ -218,21 +219,7 @@ namespace Spectroscopy_Controller
         }
 
         #endregion
-
-        /*#region Methods defined in DebugTools.cs
-
-        private void SendDataButton_Click(object sender, EventArgs e)
-        {
-            SendData();   //defined in DebugTools.cs  
-        }
-
-        private void ReadDataButton_Click(object sender, EventArgs e)
-        {
-            ReadData();  //defined in DebugTools.cs
-        }
-
-        #endregion*/
-
+      
         #region Methods defined in XMLFIleIO.cs
 
 
@@ -371,17 +358,7 @@ namespace Spectroscopy_Controller
 
         #endregion*/        
 
-        /*private void ChooseFileButton_Click(object sender, EventArgs e)
-        {
-            saveResultsFileDialog.ShowDialog();
-        }
-
-        private void saveResultsFileDialog_FileOk(object sender, CancelEventArgs e)
-        {
-            FilenameTextbox.Text = saveResultsFileDialog.FileName;
-        }
-
-        private void CreateFromTemplateButton_Click(object sender, EventArgs e)
+        /*private void CreateFromTemplateButton_Click(object sender, EventArgs e)
         {            
             TemplateForm.ShowDialog();            
         }*/
@@ -391,10 +368,6 @@ namespace Spectroscopy_Controller
             bShouldQuitThread = true;
         }*/
 
-        /*private void frequencyGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FreqSelectForm.ShowDialog();            
-        }*/
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
@@ -572,11 +545,12 @@ namespace Spectroscopy_Controller
                             }
 
                             // If myViewer is not open
-                            if (!myViewer.IsFormOpened)
+                            if (!IsViewerOpen)
                             {
                                 // Create new instance of viewer
                                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
                                 myViewer.Show();
+                                IsViewerOpen = true;
                             }
                         }
                         else
@@ -609,7 +583,7 @@ namespace Spectroscopy_Controller
         private void PauseButton_Click(object sender, EventArgs e)
         {
             // Only let it pause if the experiment is running (need to check this)
-            if (FPGAReadThread.IsAlive)
+            if (FPGAReadThread != null && FPGAReadThread.IsAlive)
             {
                 // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
                 PauseExperiment = true;
@@ -869,23 +843,19 @@ namespace Spectroscopy_Controller
 
         private void OpenViewerButton_Click(object sender, EventArgs e)
         {
-            if (!myViewer.IsFormOpened)
+            if (!IsViewerOpen)
             {
                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
                 myViewer.Show();
+                IsViewerOpen = true;
             }
         }
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
-            myViewer.IsFormOpened = false;
             myViewer.Dispose();
+            IsViewerOpen = false;
         }
-
-
-
-
-
 
         private void updateWindowParam()
         {
@@ -902,8 +872,7 @@ namespace Spectroscopy_Controller
             }
 
         }
-                 
-       
+
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
             if (FPGAReadThread != null && FPGAReadThread.IsAlive)

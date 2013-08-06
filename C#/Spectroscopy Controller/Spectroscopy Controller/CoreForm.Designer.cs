@@ -1606,12 +1606,16 @@
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "Z:\\";
+            this.saveXMLFileDialog.InitialDirectory = @"C:\Users\localadmin\Desktop\";
             this.saveXMLFileDialog.RestoreDirectory = true;
+            this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
-            // 
-            this.openXMLFileDialog.FileName = "openFileDialog1";
+            //
+            this.openXMLFileDialog.Filter = "Xml File|*.xml";
+            this.openXMLFileDialog.InitialDirectory = @"C:\Users\localadmin\Desktop\";
+            this.openXMLFileDialog.RestoreDirectory = true;
+            this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
