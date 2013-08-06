@@ -306,7 +306,7 @@ namespace Spectroscopy_Controller
         {
             //Find nearest number of integer ticks (640ns per tick) to desired pulse length
             int roundedTicks = (int)(TicksBox.Value * 1000 / 640);
-
+            Console.WriteLine(roundedTicks);
             //Calculate rounded pulse length and display on form
             float roundedLength = (float)(roundedTicks * 0.64);
             string roundedLengthString = roundedLength.ToString("0.##");
@@ -548,6 +548,13 @@ namespace Spectroscopy_Controller
                                 // Create a single file and put all readings in there
                                 myFileName = new string[1];
                                 myFileName[0] = "Not really a file";
+                                myFile = new TextWriter[1];
+
+                                myFile[0] = new StreamWriter(FolderPath + @"\" + myFileName[0] + ".txt");
+                                myFile[0].WriteLine("File created");
+                                myFile[0].Flush();
+                                myFile[0].Close();
+
 
                                 bIsFreqGenEnabled = false;
                             }

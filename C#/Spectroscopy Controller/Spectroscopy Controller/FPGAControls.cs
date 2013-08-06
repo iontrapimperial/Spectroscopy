@@ -93,11 +93,6 @@ namespace Spectroscopy_Controller
             // Create list for storing readings, get ready for 2000 data points
             List<int> Readings = new List<int>(2000);
 
-            // clear results form
-            // not applicable to new code
-            //ResultsForm.ClearData();
-
-
             while (FPGAReadThread.IsAlive && bShouldQuitThread == false)
             {
                 // If flag is set to reset FPGA, do so

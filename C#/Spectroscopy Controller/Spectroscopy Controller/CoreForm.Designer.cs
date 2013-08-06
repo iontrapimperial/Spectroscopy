@@ -455,7 +455,7 @@
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(112, 86);
+            this.TimeLabel.Location = new System.Drawing.Point(88, 86);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(93, 13);
             this.TimeLabel.TabIndex = 40;

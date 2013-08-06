@@ -263,10 +263,7 @@ namespace Spectroscopy_Controller
                     {
                         SourceSelect729.Value = 4;
                     }
-                    //Update RF source based on RF logic states
-                    //THIS ISN'T WORKING!!        *****************************************************************************
-                    //SourceSelect729.Value = (decimal)(GetIntFromBool(((LaserState)P).Laser729RF1) + (GetIntFromBool(((LaserState)P).Laser729RF2) << 1));
-
+                    
                     //Update tick box to target length, and call tickRounder to update rounded length display
                     TicksBox.Value = ((LaserState)P).TargetLength;
                     tickRounder();
