@@ -75,20 +75,24 @@ namespace Spectroscopy_Controller
         {
             int Frequency = startFreq;
             int CurrentWindowStep = 0;
-            int CurrentSideband = 0;
-                  
-            int numberOfFiles = this.myFile.Length;
 
-            /*
-            TextWriter File = new StreamWriter(FilenameTextbox.Text);
-            if (File != null)
+            int CurrentSideband = 0;
+
+            int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
+            //Distance from end of one window to start of next
+            int WindowSpace = 0;        // need to work out how to calculate this
+
+            int numberOfFiles = this.myFileName.Length;
+
+            TextWriter myFile = new StreamWriter(myFileName[0]);
+            if (myFile != null)
             {
-                WriteMessage("Opened File for Writing: " + FilenameTextbox.Text);
+                WriteMessage("Opened first file for writing");
             }
             else
             {
-                WriteMessage("Couldn't Open File for Writing: " + FilenameTextbox.Text, true);
-            }*/
+                WriteMessage("Couldn't open first file for writing", true);
+            }
 
             // Create list for storing readings, get ready for 2000 data points
             List<int> Readings = new List<int>(2000);
@@ -105,7 +109,9 @@ namespace Spectroscopy_Controller
                 {
                     FPGA.SendResetSignal();
                     bResetFPGA = false;
-                    //File.Close();
+
+                    myFile.Close();
+
                     return;
                 }
 
@@ -217,12 +223,16 @@ namespace Spectroscopy_Controller
 
                         foreach (int j in Readings)
                         {
-                            //File.WriteLine(j.ToString());
+
+                            myFile.WriteLine(j.ToString());
+
                         }
 
                         myViewer.addLiveData(Readings);
 
-                        //File.Flush();
+
+                        myFile.Flush();
+
                         Readings.Clear();
 
                         FPGA.ResetDevice();
@@ -267,46 +277,35 @@ namespace Spectroscopy_Controller
                                             GPIB.SetFrequency(Frequency);
                                             CurrentWindowStep = 0;
                                         }
-                                            //if we reach end of final sideband, stop experiment (need to test this section)
+                                        //if we reach end of final sideband, stop experiment (need to test this section)
                                         else
                                         {
-                                            FPGA.FinishInfoRequest();
 
-                                            Data[3] = 0;
-                                            int joesExtraData = BitConverter.ToInt32(Data, 0);
-                                            if (joesExtraData == 0xFC32DA)
-                                            {
-                                                WriteMessage("Received experiment stop command!\r\n");
-                                                MessageBox.Show("Experiment Finished!", "Bang");
-                                                bShouldQuitThread = true;
-                                            }
-                                            else
-                                            {
-                                                WriteMessage("Received corrupted experiment stop command!\r\n");
-                                            }
-                                            break;
+                                            MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
+                                            bShouldQuitThread = true;
+                                            // break;       // might need this??
                                         }
 
                                     }
 
                                 }
-                                else
+                                else if (specType == "Continuous")
                                 {
                                     Frequency += stepSize;
                                     GPIB.SetFrequency(Frequency);
                                 }
+                                
                             }
                             else
                             {
                                 WriteMessage("Frequency Generator not enabled!\r\n");
                             }
 
-                            //need to replace this check box with a bool/warning light on the form that is switched by the pause button
-                            /*while (PauseExperimentSelect.Checked)
+                            while (PauseExperiment)
                             {
                                 //sleep for 1ms so we don't use all the CPU cycles
                                 System.Threading.Thread.Sleep(1000);
-                            }*/
+                            }
 
                             FPGA.SendFreqChangeFinish();
                         }

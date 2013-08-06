@@ -19,9 +19,8 @@ namespace Spectroscopy_Controller
         private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
-        // Array of StreamWriter objects to write file(s)
-        // this is accessed by FPGAReadMethod and StartButton_Click
-        TextWriter[] myFile;
+        // Array of file names for data files
+        string[] myFileName;
 
 
         TreeNode PreviewNode = new TreeNode();
@@ -57,24 +56,11 @@ namespace Spectroscopy_Controller
         {
             InitializeComponent();
 
-            //The following moved to the designer code, where it presumably belongs
-            /*this.LiveLaserBox397B1.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBox397B2.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBox729.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBox854.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBox854POWER.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBox854FREQ.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBoxAux1.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.LiveLaserBoxAux2.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
-            this.SpecRFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
-            this.SB1RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
-            this.SB2RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);
-            this.SB3RFSourceButton.Click += new System.EventHandler(this.LaserBoxChanged);*/
-
             truecycFreq = (emratio * ioncharge * bField / ionmass);
-            Console.WriteLine(truecycFreq/2/pi);
+            //Console.WriteLine(truecycFreq/2/pi);
         }
 
+        
         private void SetRFSpecButton_Click(object sender, EventArgs e)
         {
             int Frequency = (int)SpecRFFreq.Value;
@@ -461,7 +447,8 @@ namespace Spectroscopy_Controller
             // If we are restarting the experiment after it being paused, just reset the PauseExperiment flag
             if (PauseExperiment == true)
             {
-                PauseExperiment = false;
+                PauseExperiment = false;        // Set flag
+                PauseButton.Enabled = true;     // Re-enable pause button
             }
             else
             {   // Otherwise, start experiment
@@ -494,12 +481,63 @@ namespace Spectroscopy_Controller
                     sbWidth = (int)(1000 * sbWidthBox.Value);
                     rfAmp = (float)rfAmpBox.Value;
                     
+                    // Metadata ordering in array:
+                    // 0: Date
+                    // 1: Spectrum type
+                    // 2: 729 direction
+                    // 3: Trap voltage
+                    // 4: Axial freq
+                    // 5: Modified cyc freq
+                    // 6: Magnetron freq
+                    // 7: AOM start freq (MHz)
+                    // 8: Carrier freq (MHz)
+                    // 9: Step size (kHz)
+                    // 10: Sidebands/side
+                    // 11: Sideband width (steps)
+                    // 12: 729 RF amplitude
+                    // 13: Number of repeats
+                    // 14: Number interleaved
+                    // 15: Which sideband
+                    // 16 + i: spectrum i name
+
+
+                    
+
                     // Create new dialog to get data from user before starting the experiment
                     StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
                     myExperimentDialog.ShowDialog();
                     if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                     {
-                        string[] metadata = new string[10];
+                        // Create & fill in metadata
+                        string[] metadata = new string[23];
+
+
+                        metadata[0] = DateTime.UtcNow.ToString("d/m/yyyy HH:MM:SS");
+                        metadata[1] = specType;
+                        metadata[2] = specDir;
+                        metadata[3] = this.trapVBox.Value.ToString();
+                        metadata[4] = this.axFreqBox.Value.ToString();
+                        metadata[5] = this.modcycFreqBox.Value.ToString();
+                        metadata[6] = this.magFreqBox.Value.ToString();
+                        metadata[7] = this.startFreqBox.Value.ToString();
+                        metadata[8] = this.carFreqBox.Value.ToString();
+                        metadata[9] = this.stepSizeBox.Value.ToString();
+                        metadata[10] = this.sbToScanBox.Value.ToString();
+                        metadata[11] = this.sbWidthBox.Value.ToString();
+                        metadata[12] = this.rfAmpBox.Value.ToString();
+                        
+                        // Fill in remaining metadata from form
+                        metadata[13] = myExperimentDialog.NumberOfRepeats.Value.ToString();
+                        metadata[14] = myExperimentDialog.NumberOfSpectra.Value.ToString();
+
+                        int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
+
+                        for (int i = 0; i < numberOfSpectra; i++)
+                        {
+                            metadata[i + 15] = myExperimentDialog.SpectrumNames[i].Text;
+                        }
+
+                        metadata[15 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
 
 
                         // Retrieve the folder path selected by the user
@@ -507,8 +545,9 @@ namespace Spectroscopy_Controller
                         // Make sure the 
                         if (FolderPath != null)
                         {
-                                                
-                            string[] myFileName;
+
+                            TextWriter[] myFile;
+                            
 
                             // If "Continuous" experiment type has been selected
                             if (specType == "Continuous")
@@ -532,26 +571,52 @@ namespace Spectroscopy_Controller
                                 // Write the metadata to the file
                                 /////////////////////////////////////
                                 myFile[0].WriteLine("Spectroscopy data file");
-                                myFile[0].WriteLine(DateTime.Now.ToString("d/m/yyyy"));
-                                // I assume we want to store Axial, Modified Cyc & Magnetron freqs? Need to amend metadata template
-                                myFile[0].WriteLine("Trap Frequency:");
-                                myFile[0].WriteLine("");
-                                //
+                                myFile[0].WriteLine(metadata[0]);
+                                // Spectrum type
+                                myFile[0].WriteLine("Spectrum Type:");
+                                myFile[0].WriteLine(metadata[1]);
+                                // 729 direction
+                                myFile[0].WriteLine("729 Direction:");
+                                myFile[0].WriteLine(metadata[2]);
                                 // Trap voltage
-                                myFile[0].WriteLine("Trap Voltage (mV):");
-                                myFile[0].WriteLine(this.trapVBox.Value);
+                                myFile[0].WriteLine("Trap Voltage (V):");
+                                myFile[0].WriteLine(metadata[3]);
+                                // Axial frequency
+                                myFile[0].WriteLine("Axial Frequency (kHz):");
+                                myFile[0].WriteLine(metadata[4]);
+                                // Modified cyc freq
+                                myFile[0].WriteLine("Modified Cyclotron Frequency (kHz):");
+                                myFile[0].WriteLine(metadata[5]);
+                                // Magnetron freq
+                                myFile[0].WriteLine("Magnetron Frequency (kHz):");
+                                myFile[0].WriteLine(metadata[6]);
                                 // AOM start freq
                                 myFile[0].WriteLine("AOM Start Frequency (MHz):");
-                                myFile[0].WriteLine(this.startFreqBox.Value);
+                                myFile[0].WriteLine(metadata[7]);
+                                // Carrier frequency
+                                myFile[0].WriteLine("Carrier Frequency (MHz):");
+                                myFile[0].WriteLine(metadata[8]);
                                 // Step size
                                 myFile[0].WriteLine("Step Size (kHz):");
-                                myFile[0].WriteLine(this.stepSizeBox.Value);
+                                myFile[0].WriteLine(metadata[9]);
+                                // Sidebands/side
+                                myFile[0].WriteLine("Sidebands to scan / side:");
+                                myFile[0].WriteLine(metadata[10]);
+                                // Sideband width
+                                myFile[0].WriteLine("Sideband Width (steps):");
+                                myFile[0].WriteLine(metadata[11]);
+                                // 729 RF amplitude
+                                myFile[0].WriteLine("729 RF Amplitude (dBm):");
+                                myFile[0].WriteLine(metadata[12]);
                                 // Number of repeats
                                 myFile[0].WriteLine("Number of repeats per frequency:");
-                                myFile[0].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                                myFile[0].WriteLine(metadata[13]);
                                 // Number interleaved
                                 myFile[0].WriteLine("File contains interleaved spectra:");
-                                myFile[0].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+                                myFile[0].WriteLine(metadata[14]);
+                                // Sideband number
+                                myFile[0].WriteLine("This is sideband:");
+                                myFile[0].WriteLine("N/A");
 
                                 // Name for each spectrum
                                 for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
@@ -568,13 +633,13 @@ namespace Spectroscopy_Controller
                                 myFile[0].WriteLine("Data:");
 
 
-
-
                                 // If myViewer is not open
                                 if (myViewer == null)
                                 {
                                     // Create new instance of viewer
-                                    //myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, IsWindowed);
+
+                                    myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
+
                                 }
 
                             }
@@ -586,9 +651,11 @@ namespace Spectroscopy_Controller
                                 //Calculate frequency offset of sideband start frequencies from sideband centres
                                 int offsetFreq = (int)stepSize*sbWidth/2;
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
+
                                 int windowSpace = 0;
                                 if (specDir == "Axial") windowSpace = (int)axFreq;
                                 else if (specDir == "Radial") windowSpace = (int)modcycFreq;
+
 
                                 //Array of start frequencies for each sideband (from furthest red to furthest blue)            
                                 startFreqArray = new int[sbToScan * 2 + 1];
@@ -600,19 +667,111 @@ namespace Spectroscopy_Controller
                                 // Create a file for each sideband with appropriate naming
 
                                 // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                                int numberOfFiles = (int)(2 * this.sbToScanBox.Value + 1);
+                                int numberOfFiles = (int)(sbToScan * 2 + 1);
 
                                 myFileName = new string[numberOfFiles];
                                 myFile = new TextWriter[numberOfFiles];
 
+                                // Store the number sideband we are on
+                                int sbCurrent = sbToScan;
+                                // Store whether we are on a red or blue sideband
+                                char sbRedOrBlue = 'R';
+
                                 for (int i = 0; i < numberOfFiles; i++)
                                 {
-                                    myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
-                                    // Some if statements here to figure out whether the sideband is R/B & which number it is
-                                    // so we can add this to the file name
-                                    // Need to know the order of the sidebands to calculate this
 
+                                    myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings_";
+
+                                    // Add preceding 0s to keep format of sideband number as XXX
+                                    if (sbCurrent < 10) myFileName[i] += "00";
+                                    else if (sbCurrent < 100) myFileName[i] += "0";
+                                    
+                                    // Add current sideband number to filename
+                                    myFileName[i] += sbCurrent;
+                                    // If not on carrier, add R or B
+                                    if (sbCurrent != 0) myFileName[i] += sbRedOrBlue;
+                                    myFileName[i] += ".txt";
+
+                                    // Create file with that filename
                                     myFile[i] = new StreamWriter(myFileName[i]);
+
+                                    //*********************************//
+                                    // Write the metadata to the file
+                                    //
+                                    myFile[i].WriteLine("Spectroscopy data file");
+                                    myFile[i].WriteLine(DateTime.Now.ToString("d/m/yyyy HH:MM:SS"));
+                                    // Spectrum type
+                                    myFile[i].WriteLine("Spectrum Type:");
+                                    myFile[i].WriteLine(specType);
+                                    // 729 direction
+                                    myFile[i].WriteLine("729 Direction:");
+                                    myFile[i].WriteLine(specDir);
+                                    // Trap voltage
+                                    myFile[i].WriteLine("Trap Voltage (V):");
+                                    myFile[i].WriteLine(this.trapVBox.Value);
+                                    // Axial frequency
+                                    myFile[i].WriteLine("Axial Frequency (kHz):");
+                                    myFile[i].WriteLine(this.axFreqBox.Value);
+                                    // Modified cyc freq
+                                    myFile[i].WriteLine("Modified Cyclotron Frequency (kHz):");
+                                    myFile[i].WriteLine(this.modcycFreqBox.Value);
+                                    // Magnetron freq
+                                    myFile[i].WriteLine("Magnetron Frequency (kHz):");
+                                    myFile[i].WriteLine(this.magFreqBox.Value);
+                                    // AOM start freq
+                                    myFile[i].WriteLine("AOM Start Frequency (MHz):");
+                                    myFile[i].WriteLine(startFreqArray[i]);
+                                    // Carrier frequency
+                                    myFile[i].WriteLine("Carrier Frequency (MHz):");
+                                    myFile[i].WriteLine(this.carFreqBox.Value);
+                                    // Step size
+                                    myFile[i].WriteLine("Step Size (kHz):");
+                                    myFile[i].WriteLine(this.stepSizeBox.Value);
+                                    // Sidebands/side
+                                    myFile[i].WriteLine("Sidebands to scan / side:");
+                                    myFile[i].WriteLine(sbToScan);
+                                    // Sideband width
+                                    myFile[i].WriteLine("Sideband Width (steps):");
+                                    myFile[i].WriteLine(sbWidth);
+                                    // 729 RF amplitude
+                                    myFile[i].WriteLine("729 RF Amplitude (dBm):");
+                                    myFile[i].WriteLine(rfAmp);
+                                    // Number of repeats
+                                    myFile[i].WriteLine("Number of repeats per frequency:");
+                                    myFile[i].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                                    // Number interleaved
+                                    myFile[i].WriteLine("File contains interleaved spectra:");
+                                    myFile[i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+                                    // Sideband number
+                                    myFile[i].WriteLine("This is sideband:");
+                                    myFile[i].WriteLine(sbCurrent + sbRedOrBlue);
+                                    // Name for each spectrum
+                                    for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
+                                    {
+                                        myFile[0].WriteLine("Spectrum " + j + " name:");
+                                        myFile[0].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
+                                    }
+                                    // Notes section
+                                    myFile[0].WriteLine("Notes:");
+                                    myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
+                                    // Title for data
+                                    myFile[0].WriteLine("Data:");
+                                    //*********************************//
+
+
+                                    // If we are still on the red side, just decrease the sideband number
+                                    if (i < sbToScan) sbCurrent--;
+                                    else if (i == sbToScan)
+                                    // If we have reached the carrier
+                                    {
+                                        // Change R to B
+                                        sbRedOrBlue = 'B';
+                                        // Increase sideband number
+                                        sbCurrent++;
+                                    }
+                                    // If we are on the blue side, just increase the sideband number
+                                    else sbCurrent++;
+
                                 }
                             }
                             else if (specType == "Fixed")
@@ -674,8 +833,13 @@ namespace Spectroscopy_Controller
         // Method to respond to using clicking Pause button
         private void PauseButton_Click(object sender, EventArgs e)
         {
-            // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
-            PauseExperiment = true;
+            // Only let it pause if the experiment is running (need to check this)
+            if (FPGAReadThread.IsAlive)
+            {
+                // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
+                PauseExperiment = true;
+                PauseButton.Enabled = false;
+            }
         }
 
         private void trapVBox_ValueChanged(object sender, EventArgs e)
@@ -683,10 +847,6 @@ namespace Spectroscopy_Controller
             if (updating == false)
             {
                 trapV = (float)(1000 * trapVBox.Value);
-                //DEBUGGING
-                /*Console.WriteLine("On Read");
-                Console.WriteLine(trapVBox.Value);
-                Console.WriteLine(trapV);*/
                 UpdateTrapFreqs();
             }
         }
@@ -726,24 +886,13 @@ namespace Spectroscopy_Controller
         private void UpdateTrapFreqs()
         {
             updating = true;
-            Console.WriteLine(ioncharge + "+" + trapV/1000 + "+" + ionmass + "+" + dnought);
             axFreq = (float)(Math.Sqrt(4 * emratio * ioncharge * trapV / 1000 / ionmass / Math.Pow(dnought,2) ) );
             magFreq = (float)((truecycFreq - Math.Sqrt(Math.Pow(truecycFreq,2) - 2 * Math.Pow(axFreq,2) ) ) / 2);
             modcycFreq = (float)((truecycFreq + Math.Sqrt(Math.Pow(truecycFreq, 2) - 2 * Math.Pow(axFreq,2) ) ) / 2);
             axFreqBox.Value = (decimal)(axFreq/1000/2/pi);
             magFreqBox.Value = (decimal)(magFreq/1000/2/pi);
             modcycFreqBox.Value = (decimal)(modcycFreq/1000/2/pi);
-            //DEBUGGING
-            /*Console.WriteLine("Before Write");
-            Console.WriteLine(trapVBox.Value);
-            Console.WriteLine(trapV/1000);
-            Console.WriteLine(axFreq/1000/2/pi);
-            Console.WriteLine(modcycFreq/1000/2/pi);
-            Console.WriteLine(magFreq/1000/2/pi);*/
-            trapVBox.Value = ((decimal)trapV)/1000;
-            /*Console.WriteLine("After Write");
-            Console.WriteLine(trapVBox.Value);
-            Console.WriteLine(trapV);*/
+            trapVBox.Value = ((decimal)trapV/1000);
             updating = false;
         }
 

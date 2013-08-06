@@ -50,6 +50,8 @@ namespace Spectroscopy_Viewer
         private string[] metadata;
         // Store the number of spectra in the live experiment as an int for quick access
         private int numberOfSpectraLive = new int();
+        private int repeatsLive = new int();
+        private int stepSizeLive = new int();
         
 
 
@@ -67,37 +69,49 @@ namespace Spectroscopy_Viewer
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
-
             initialiseColours();
-
-            Test_WriteToMultipleFiles();
-
 
         }
 
 
         // Constructor to be called from Spectroscopy Controller. Needs passing an array containing metadata, and a boolean for whether the 
         // Metadata ordering in array:
-        // 0: Trap freq
-        // 1: Trap voltage
-        // 2: AOM start freq (MHz)
-        // 3: Step size (kHz)
-        // 4: Number of repeats
-        // 5: Number interleaved
-        // 6 onwards: spectrum i name
-        // NB not sure we need to pass IsWindowed
-        public SpectroscopyViewerForm(ref string[] metadataPassed, int isWindowed)
+        // 0: Date
+        // 1: Spectrum type
+        // 2: 729 direction
+        // 3: Trap voltage
+        // 4: Axial freq
+        // 5: Modified cyc freq
+        // 6: Magnetron freq
+        // 7: AOM start freq (MHz)
+        // 8: Carrier freq (MHz)
+        // 9: Step size (kHz)
+        // 10: Sidebands/side
+        // 11: Sideband width (steps)
+        // 12: 729 RF amplitude
+        // 13: Number of repeats
+        // 14: Number interleaved
+        // 15: Which sideband
+        // 16 + i: sideband i name
+        // Notes
+
+        public SpectroscopyViewerForm(ref string[] metadataPassed)
         {
             InitializeComponent();
             initialiseColours();
 
-            // Store metadata... might need to do this element by element, don't think so though
-            metadata = metadataPassed;
-
             // Disable loading saved data while running in live mode
             this.loadDataButton.Enabled = false;
 
-            numberOfSpectraLive = int.Parse(metadata[5]);
+            // Store metadata... might need to do this element by element, don't think so though
+            // Metadata is passed element by element in spectrum constructor
+            metadata = metadataPassed;
+
+            // Extract ints that we need to pass to fileHandler
+            stepSizeLive = int.Parse(metadata[9]);
+            repeatsLive = int.Parse(metadata[13]);
+            numberOfSpectraLive = int.Parse(metadata[14]);
+
 
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
@@ -107,7 +121,7 @@ namespace Spectroscopy_Viewer
             // Create new spectra, with no data points, just metadata
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
-                mySpectrum.Add(new spectrum(ref metadata));
+                mySpectrum.Add(new spectrum(ref metadata, i));
             }
 
 
@@ -123,9 +137,8 @@ namespace Spectroscopy_Viewer
             // Copy data from readings into local array
             int[] myData = readings.ToArray();
 
-
-            // Create fileHandler to process the incoming data
-            fileHandler myFileHandler = new fileHandler(ref myData, ref metadata);
+            // Create fileHandler object to process the incoming data
+            fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive);
 
             // How many spectra were loaded before we started running live
             int existingSpectra = numberOfSpectra - numberOfSpectraLive;
@@ -136,7 +149,6 @@ namespace Spectroscopy_Viewer
                 // Add data points to the spectrum
                 mySpectrum[i].addToSpectrum( myFileHandler.getDataPoints(i) );
             }
-
 
             // Update the data & plot graph
             this.updateThresholds();
@@ -150,38 +162,6 @@ namespace Spectroscopy_Viewer
             // Enable loading live data now that we have stopped running in live mode
             this.loadDataButton.Enabled = true;
         }
-
-
-
-        private void Test_WriteToMultipleFiles()
-        {
-            TextWriter[] myFile = new TextWriter[2];
-
-            myFile[0] = new StreamWriter("C:/Users/localadmin/Documents/test1.txt");
-            myFile[1] = new StreamWriter("C:/Users/localadmin/Documents/test2.txt");
-
-            myFile[0].WriteLine("Test file 1 opened for writing");
-            myFile[1].WriteLine("Test file 2 opened for writing");
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    int x = i * (j + 1);
-                    myFile[j].WriteLine(x);
-                }
-
-
-            }
-
-            for (int i = 0; i < 2; i++)
-            {
-                myFile[i].Flush();
-                myFile[i].Close();
-            }
-
-        }
-
 
 
 
@@ -1033,7 +1013,7 @@ namespace Spectroscopy_Viewer
                 {
                     // Get array of y values only
                     double[] yvalues = badCountsData[i].Select(PointPair => PointPair.Y).ToArray();
-                    // Save
+                    // Save maximum y value
                     int maxData_Spectrum = (int)yvalues.Max();
                     if (maxData_Spectrum > maxData)
                     {
