@@ -566,8 +566,8 @@ namespace Spectroscopy_Controller
                                 myFileName = new string[1];
                                 myFileName[0] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings.txt";
                                 myFile = new TextWriter[1];
-                                myFile[0] = new StreamWriter(myFileName[0]);
 
+/*
                                 // Write the metadata to the file
                                 /////////////////////////////////////
                                 myFile[0].WriteLine("Spectroscopy data file");
@@ -617,21 +617,21 @@ namespace Spectroscopy_Controller
                                 // Sideband number
                                 myFile[0].WriteLine("This is sideband:");
                                 myFile[0].WriteLine("N/A");
-
                                 // Name for each spectrum
                                 for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
                                 {
                                     myFile[0].WriteLine("Spectrum " + i + " name:");
                                     myFile[0].WriteLine(myExperimentDialog.SpectrumNames[i].Text);
                                 }
-
                                 // Notes section
                                 myFile[0].WriteLine("Notes:");
                                 myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
-
                                 // Title for data
                                 myFile[0].WriteLine("Data:");
 
+                                // Flush & close file
+                                myFile[0].Flush();
+                                myFile[0].Close();*/
 
                                 // If myViewer is not open
                                 if (myViewer == null)
@@ -665,10 +665,9 @@ namespace Spectroscopy_Controller
                                 }
 
                                 // Create a file for each sideband with appropriate naming
-
                                 // Calculate how many files we will need - one for each R/B sideband plus one for carrier
                                 int numberOfFiles = (int)(sbToScan * 2 + 1);
-
+                                // Create array of filenames & array of files
                                 myFileName = new string[numberOfFiles];
                                 myFile = new TextWriter[numberOfFiles];
 
@@ -679,7 +678,8 @@ namespace Spectroscopy_Controller
 
                                 for (int i = 0; i < numberOfFiles; i++)
                                 {
-
+                                    // Generating the current filename:
+                                    //*******************************//
                                     myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings_";
 
                                     // Add preceding 0s to keep format of sideband number as XXX
@@ -690,75 +690,11 @@ namespace Spectroscopy_Controller
                                     myFileName[i] += sbCurrent;
                                     // If not on carrier, add R or B
                                     if (sbCurrent != 0) myFileName[i] += sbRedOrBlue;
-                                    myFileName[i] += ".txt";
+                                    myFileName[i] += ".txt";     
+                                    //*******************************//
 
-                                    // Create file with that filename
-                                    myFile[i] = new StreamWriter(myFileName[i]);
-
-                                    //*********************************//
-                                    // Write the metadata to the file
-                                    //
-                                    myFile[i].WriteLine("Spectroscopy data file");
-                                    myFile[i].WriteLine(DateTime.Now.ToString("d/m/yyyy HH:MM:SS"));
-                                    // Spectrum type
-                                    myFile[i].WriteLine("Spectrum Type:");
-                                    myFile[i].WriteLine(specType);
-                                    // 729 direction
-                                    myFile[i].WriteLine("729 Direction:");
-                                    myFile[i].WriteLine(specDir);
-                                    // Trap voltage
-                                    myFile[i].WriteLine("Trap Voltage (V):");
-                                    myFile[i].WriteLine(this.trapVBox.Value);
-                                    // Axial frequency
-                                    myFile[i].WriteLine("Axial Frequency (kHz):");
-                                    myFile[i].WriteLine(this.axFreqBox.Value);
-                                    // Modified cyc freq
-                                    myFile[i].WriteLine("Modified Cyclotron Frequency (kHz):");
-                                    myFile[i].WriteLine(this.modcycFreqBox.Value);
-                                    // Magnetron freq
-                                    myFile[i].WriteLine("Magnetron Frequency (kHz):");
-                                    myFile[i].WriteLine(this.magFreqBox.Value);
-                                    // AOM start freq
-                                    myFile[i].WriteLine("AOM Start Frequency (MHz):");
-                                    myFile[i].WriteLine(startFreqArray[i]);
-                                    // Carrier frequency
-                                    myFile[i].WriteLine("Carrier Frequency (MHz):");
-                                    myFile[i].WriteLine(this.carFreqBox.Value);
-                                    // Step size
-                                    myFile[i].WriteLine("Step Size (kHz):");
-                                    myFile[i].WriteLine(this.stepSizeBox.Value);
-                                    // Sidebands/side
-                                    myFile[i].WriteLine("Sidebands to scan / side:");
-                                    myFile[i].WriteLine(sbToScan);
-                                    // Sideband width
-                                    myFile[i].WriteLine("Sideband Width (steps):");
-                                    myFile[i].WriteLine(sbWidth);
-                                    // 729 RF amplitude
-                                    myFile[i].WriteLine("729 RF Amplitude (dBm):");
-                                    myFile[i].WriteLine(rfAmp);
-                                    // Number of repeats
-                                    myFile[i].WriteLine("Number of repeats per frequency:");
-                                    myFile[i].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
-                                    // Number interleaved
-                                    myFile[i].WriteLine("File contains interleaved spectra:");
-                                    myFile[i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
-                                    // Sideband number
-                                    myFile[i].WriteLine("This is sideband:");
-                                    myFile[i].WriteLine(sbCurrent + sbRedOrBlue);
-                                    // Name for each spectrum
-                                    for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
-                                    {
-                                        myFile[0].WriteLine("Spectrum " + j + " name:");
-                                        myFile[0].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
-                                    }
-                                    // Notes section
-                                    myFile[0].WriteLine("Notes:");
-                                    myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
-                                    // Title for data
-                                    myFile[0].WriteLine("Data:");
-                                    //*********************************//
-
-
+                                    // For the next filename:
+                                    //*********************//
                                     // If we are still on the red side, just decrease the sideband number
                                     if (i < sbToScan) sbCurrent--;
                                     else if (i == sbToScan)
@@ -771,7 +707,6 @@ namespace Spectroscopy_Controller
                                     }
                                     // If we are on the blue side, just increase the sideband number
                                     else sbCurrent++;
-
                                 }
                             }
                             else if (specType == "Fixed")
@@ -841,6 +776,87 @@ namespace Spectroscopy_Controller
                 PauseButton.Enabled = false;
             }
         }
+
+        // Method to write the metadata to files
+        // Gets filenames from private member myFileName
+        private void writeMetadataToFile(ref TextWriter[] myFile, int numberOfFiles)
+        {
+            
+
+            for (int i = 0; i < numberOfFiles; i++)
+            {
+                myFile[i] = new StreamWriter(myFileName[i]);
+
+                //*********************************//
+                // Write the metadata to the file
+                //
+                myFile[i].WriteLine("Spectroscopy data file");
+                myFile[i].WriteLine(DateTime.Now.ToString("d/m/yyyy HH:MM:SS"));
+                // Spectrum type
+                myFile[i].WriteLine("Spectrum Type:");
+                myFile[i].WriteLine(specType);
+                // 729 direction
+                myFile[i].WriteLine("729 Direction:");
+                myFile[i].WriteLine(specDir);
+                // Trap voltage
+                myFile[i].WriteLine("Trap Voltage (V):");
+                myFile[i].WriteLine(this.trapVBox.Value);
+                // Axial frequency
+                myFile[i].WriteLine("Axial Frequency (kHz):");
+                myFile[i].WriteLine(this.axFreqBox.Value);
+                // Modified cyc freq
+                myFile[i].WriteLine("Modified Cyclotron Frequency (kHz):");
+                myFile[i].WriteLine(this.modcycFreqBox.Value);
+                // Magnetron freq
+                myFile[i].WriteLine("Magnetron Frequency (kHz):");
+                myFile[i].WriteLine(this.magFreqBox.Value);
+                // AOM start freq
+                myFile[i].WriteLine("AOM Start Frequency (MHz):");
+                myFile[i].WriteLine(startFreqArray[i]);
+                // Carrier frequency
+                myFile[i].WriteLine("Carrier Frequency (MHz):");
+                myFile[i].WriteLine(this.carFreqBox.Value);
+                // Step size
+                myFile[i].WriteLine("Step Size (kHz):");
+                myFile[i].WriteLine(this.stepSizeBox.Value);
+                // Sidebands/side
+                myFile[i].WriteLine("Sidebands to scan / side:");
+                myFile[i].WriteLine(sbToScan);
+                // Sideband width
+                myFile[i].WriteLine("Sideband Width (steps):");
+                myFile[i].WriteLine(sbWidth);
+                // 729 RF amplitude
+                myFile[i].WriteLine("729 RF Amplitude (dBm):");
+                myFile[i].WriteLine(rfAmp);
+                // Number of repeats
+                myFile[i].WriteLine("Number of repeats per frequency:");
+                myFile[i].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                // Number interleaved
+                myFile[i].WriteLine("File contains interleaved spectra:");
+                myFile[i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+                // Sideband number
+                myFile[i].WriteLine("This is sideband:");
+                myFile[i].WriteLine(sbCurrent + sbRedOrBlue);
+                // Name for each spectrum
+                for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
+                {
+                    myFile[i].WriteLine("Spectrum " + j + " name:");
+                    myFile[i].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
+                }
+                // Notes section
+                myFile[i].WriteLine("Notes:");
+                myFile[i].WriteLine(myExperimentDialog.NotesBox.Text);
+                // Title for data
+                myFile[i].WriteLine("Data:");
+
+                myFile[i].Flush();
+                myFile[i].Close();
+                //*********************************//
+            }
+
+        }
+
+
 
         private void trapVBox_ValueChanged(object sender, EventArgs e)
         {
