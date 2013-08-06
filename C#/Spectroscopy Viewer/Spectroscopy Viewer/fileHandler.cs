@@ -149,7 +149,7 @@ namespace Spectroscopy_Viewer
                 metadata = new string[23];
 
                 // Next 28 lines are misc metadata with titles
-                for (int i = 0; i < 14; i++)
+                for (int i = 0; i < 16; i++)
                 {
                     metadata[i] = myFile.ReadLine();               // First line is actual metadata
                     myString = myFile.ReadLine();                  // Alternating lines are just a title (throw away)

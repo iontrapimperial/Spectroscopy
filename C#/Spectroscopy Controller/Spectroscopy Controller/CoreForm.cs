@@ -535,15 +535,15 @@ namespace Spectroscopy_Controller
                         // Fill in remaining metadata from form
                         metadata[13] = myExperimentDialog.NumberOfRepeats.Value.ToString();
                         metadata[14] = myExperimentDialog.NumberOfSpectra.Value.ToString();
+                        metadata[15] = "N/A";
 
                         int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
-
                         for (int i = 0; i < numberOfSpectra; i++)
                         {
-                            metadata[i + 15] = myExperimentDialog.SpectrumNames[i].Text;
+                            metadata[i + 16] = myExperimentDialog.SpectrumNames[i].Text;
                         }
 
-                        metadata[15 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
+                        metadata[16 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
 
 
                         // Retrieve the folder path selected by the user
