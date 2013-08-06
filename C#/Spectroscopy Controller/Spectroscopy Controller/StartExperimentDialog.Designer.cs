@@ -38,7 +38,7 @@
             this.OKButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.ChooseFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.spectrumNameGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.NotesBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfRepeats)).BeginInit();
@@ -116,6 +116,7 @@
             // 
             // OKButton
             // 
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OKButton.Location = new System.Drawing.Point(233, 157);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
@@ -139,16 +140,16 @@
             this.ChooseFolderDialog.Description = "Choose where to save readings file(s)";
             this.ChooseFolderDialog.SelectedPath = "Z:/Data";
             // 
-            // groupBox1
+            // spectrumNameGroupBox
             // 
-            this.groupBox1.Location = new System.Drawing.Point(246, 10);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(163, 138);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Spectrum names";
+            this.spectrumNameGroupBox.Location = new System.Drawing.Point(246, 10);
+            this.spectrumNameGroupBox.Margin = new System.Windows.Forms.Padding(2);
+            this.spectrumNameGroupBox.Name = "spectrumNameGroupBox";
+            this.spectrumNameGroupBox.Padding = new System.Windows.Forms.Padding(2);
+            this.spectrumNameGroupBox.Size = new System.Drawing.Size(163, 138);
+            this.spectrumNameGroupBox.TabIndex = 7;
+            this.spectrumNameGroupBox.TabStop = false;
+            this.spectrumNameGroupBox.Text = "Spectrum names";
             // 
             // groupBox2
             // 
@@ -174,7 +175,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 192);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.spectrumNameGroupBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.label4);
@@ -207,7 +208,7 @@
         public System.Windows.Forms.TextBox ExperimentName;
         public System.Windows.Forms.NumericUpDown NumberOfRepeats;
         public System.Windows.Forms.NumericUpDown NumberOfSpectra;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox spectrumNameGroupBox;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.TextBox NotesBox;
     }

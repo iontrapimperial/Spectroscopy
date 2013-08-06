@@ -223,7 +223,7 @@ end
 
 reg [21:0] f_NextAddress = 0; //the address of the next instruction we need (initially zero)
 reg [21:0] f_LoopStartAddress = 0; //Address of the start of the loop (instruction AFTER Startloop command)
-reg [23:0] f_LoopCount = 0; //Number of times to loop
+reg [18:0] f_LoopCount = 0; //Number of times to loop
 reg [23:0] f_NumTimesLooped = 0; //Number of times we've run through a loop
 
 //reg [31:0] x = 0;
@@ -262,15 +262,15 @@ begin
 						f_PrepNextInstruction <= 1;
 						f_State <= 2;
 						
-						// 10/07/13 Commented out code has NOT been changed to reflect new bit assignments
-						/*oSD_DATA_REQUEST <= 0;										
+						// 10/07/13 Commented out code has NOT been changed to reflect new bit assignments (uncommented 6/8/2013, has now been changed)
+						oSD_DATA_REQUEST <= 0;										
 						Ticks <= 24'd0;
-						TicksToRun <= iSD_DATA[31:8];
-						LaserState <= iSD_DATA[7:3];
+						TicksToRun <= iSD_DATA[31:13] << 5;
+						LaserState <= iSD_DATA[12:3];
 						ControlBits <= iSD_DATA[2:0];	
 						f_PrepNextInstruction <= 1; //load the next instruction
 						f_NextAddress <= f_NextAddress + 22'd1;
-						f_State <= 2;*/
+						f_State <= 2;
 				end
 			end		
 		else if(f_State == 2)
@@ -443,7 +443,7 @@ begin
 							if(iSD_DATA[2:0] == STARTLOOP) //if the next instruction coming in is the start of a loop
 							begin
 								f_LoopStartAddress <= f_NextAddress + 22'd1; //save loop info
-								f_LoopCount <= iSD_DATA[31:8];
+								f_LoopCount <= iSD_DATA[31:13];
 								
 								f_InstructionState <= 0; //load the next instruction in memory
 								f_PrepNextInstruction <= 1;

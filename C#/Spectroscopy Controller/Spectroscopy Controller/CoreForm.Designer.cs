@@ -455,7 +455,7 @@
             // TimeLabel
             // 
             this.TimeLabel.AutoSize = true;
-            this.TimeLabel.Location = new System.Drawing.Point(112, 86);
+            this.TimeLabel.Location = new System.Drawing.Point(88, 86);
             this.TimeLabel.Name = "TimeLabel";
             this.TimeLabel.Size = new System.Drawing.Size(93, 13);
             this.TimeLabel.TabIndex = 40;
@@ -584,6 +584,7 @@
             this.BinaryCompileButton.Size = new System.Drawing.Size(105, 58);
             this.BinaryCompileButton.TabIndex = 53;
             this.BinaryCompileButton.UseVisualStyleBackColor = true;
+            this.BinaryCompileButton.Click += new System.EventHandler(this.BinaryCompileButton_Click);
             // 
             // label2
             // 
@@ -746,6 +747,7 @@
             this.UploadButton.Size = new System.Drawing.Size(58, 58);
             this.UploadButton.TabIndex = 55;
             this.UploadButton.UseVisualStyleBackColor = true;
+            this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
             // 
             // label14
             // 
@@ -1606,16 +1608,30 @@
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "Z:\\";
+            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
             this.saveXMLFileDialog.RestoreDirectory = true;
+            this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
             // 
-            this.openXMLFileDialog.FileName = "openFileDialog1";
+            this.openXMLFileDialog.Filter = "Xml File|*.xml";
+            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.openXMLFileDialog.RestoreDirectory = true;
+            this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
-            this.openHexFileDialog.FileName = "openHexFileDialog";
+            this.openHexFileDialog.Filter = "Hex File|*.hex";
+            this.openHexFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.openHexFileDialog.RestoreDirectory = true;
+            this.openHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openHexFileDialog_FileOk);
+            // 
+            // saveHexFileDialog
+            // 
+            this.saveHexFileDialog.Filter = "Hex File|*.hex";
+            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.saveHexFileDialog.RestoreDirectory = true;
+            this.saveHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveHexFileDialog_FileOk);
             // 
             // OpenViewerButton
             // 

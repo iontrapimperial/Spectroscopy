@@ -199,39 +199,41 @@ namespace Spectroscopy_Controller
             }
             
             // Write 3 bytes of data for Ticks
+            byte[] Data = new byte[4];
             byte[] Ticks = BitConverter.GetBytes(State.Ticks);
             if (BitConverter.IsLittleEndian) //Least significant bits are at start of array
             {
                 for (int i = 2; i >= 0; i--)
                 {
-                    Writer.Write(Ticks[i]); //write most significant bits out first
+                    Data[i + 1] = Ticks[i];
                 }
             }
-            else
+            else MessageBox.Show("Byte Conversion Problem (Are you big endian?)");
+
+            //Fill last 5 bits of Data[1] with laser state logic
+            Data[1] += (byte)(GetIntFromBool(State.LaserAux2) << 4);
+            Data[1] += (byte)(GetIntFromBool(State.LaserAux1) << 3);
+            Data[1] += (byte)(GetIntFromBool(State.Laser854FREQ) << 2);
+            Data[1] += (byte)(GetIntFromBool(State.Laser854POWER) << 1);
+            Data[1] += (byte)(GetIntFromBool(State.Laser729RF2));
+
+            // Write one more byte (Data[0]) for lasers (bits 7:3)... 
+            Data[0] = 0;
+            Data[0] += (byte)(GetIntFromBool(State.Laser729RF1) << 7);
+            Data[0] += (byte)(GetIntFromBool(State.Laser854) << 6);
+            Data[0] += (byte)(GetIntFromBool(State.Laser729) << 5);
+            Data[0] += (byte)(GetIntFromBool(State.Laser397B2) << 4);
+            Data[0] += (byte)(GetIntFromBool(State.Laser397B1) << 3);
+            //...and pulse type (bits 2:0)
+            Data[0] += (byte)State.StateType;
+
+            //Write Data[] byte array to the hex file (in reverse order, MSB first)
+            for (int i = 3; i >= 0; i--)
             {
-                for (int i = 1; i <= 3; i++) //haven't been able to test this but this should mean the program works on any OS
-                {
-                    Writer.Write(Ticks[i]);
-                }
+                Writer.Write(Data[i]);
             }
 
-            // Write one byte of Data for lasers and pulse type.
-            byte Data = 0;
-            Data += (byte)(GetIntFromBool(State.Laser397B1) << 7);
-            Data += (byte)(GetIntFromBool(State.Laser397B2) << 6);
-            Data += (byte)(GetIntFromBool(State.Laser729) << 5);
-            Data += (byte)(GetIntFromBool(State.Laser854) << 4);
-            Data += (byte)(GetIntFromBool(State.Laser729RF1) << 3);
-            Data += (byte)(GetIntFromBool(State.Laser729RF1) << 2);
-            Data += (byte)(GetIntFromBool(State.Laser854POWER) << 1);
-            Data += (byte)(GetIntFromBool(State.Laser854FREQ) << 0);
-            //Data += (byte)(GetIntFromBool(State.LaserAux1) << 3);
-            //Data += (byte)(GetIntFromBool(State.LaserAux2) << 3);
-
-            Data += (byte)State.StateType;
-
-            Writer.Write(Data);            
-            InstructionsWritten++;            
+            InstructionsWritten++;
         }
 
         /// <summary>

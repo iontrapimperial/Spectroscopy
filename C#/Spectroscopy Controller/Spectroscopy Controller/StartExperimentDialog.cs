@@ -26,10 +26,12 @@ namespace Spectroscopy_Controller
             for (int i = 0; i < 5; i++)
             {
                 SpectrumNames[i] = new TextBox();
-                SpectrumNames[i].Location = new System.Drawing.Point(7, (22 + i * 39));
-                SpectrumNames[i].Size = new System.Drawing.Size(204, 22);
+                SpectrumNames[i].Location = new System.Drawing.Point(7, (22 + i * 23));
+                SpectrumNames[i].Size = new System.Drawing.Size(150, 20);
                 SpectrumNames[i].TabIndex = i;
+                this.spectrumNameGroupBox.Controls.Add(SpectrumNames[i]);
             }
+            this.SpectrumNameBoxEnable();
         }
 
         // Respond to user clicking OK
@@ -39,8 +41,10 @@ namespace Spectroscopy_Controller
             ChooseFolderDialog.SelectedPath = "Z:/Data";      // Initialise to share drive
             if (ChooseFolderDialog.ShowDialog() != DialogResult.Cancel)
             {
+                Console.WriteLine("Closed folder select");
                 FilePath = ChooseFolderDialog.SelectedPath;
             }
+            this.Close();
         }
 
         // Method to return the file path selected from the Choose Folder dialog
@@ -69,6 +73,11 @@ namespace Spectroscopy_Controller
         // Method to respond to number of spectra changing
         private void NumberOfSpectra_ValueChanged(object sender, EventArgs e)
         {
+            // Restrict to maximum of 5 spectra
+            if (NumberOfSpectra.Value > 5)
+            {
+                NumberOfSpectra.Value = 5;
+            }
             this.SpectrumNameBoxEnable();
         }
     }

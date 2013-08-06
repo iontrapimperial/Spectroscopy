@@ -18,10 +18,15 @@ namespace Spectroscopy_Controller
     {
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
 <<<<<<< HEAD
+<<<<<<< HEAD
         //private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
 =======
         private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm(false);
 >>>>>>> Sarah
+=======
+        private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm();
+
+>>>>>>> RetryMerge
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
@@ -34,6 +39,8 @@ namespace Spectroscopy_Controller
         private bool PauseExperiment = false;
 
         private bool bIsFreqGenEnabled = false;
+
+        private bool IsViewerOpen = false;
 
         public bool updating = false;
 
@@ -63,6 +70,9 @@ namespace Spectroscopy_Controller
             InitializeComponent();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> RetryMerge
 
             specTypeBox.SelectedItem = "Continuous";
             specDirBox.SelectedItem = "Axial";
@@ -71,16 +81,15 @@ namespace Spectroscopy_Controller
             stabilitylimit = dnought * dnought * bField * bField * ioncharge * emratio / 8 / ionmass;
             trapV = 80000;
             UpdateTrapFreqs();
-            //Console.WriteLine(angtruecycFreq);
-=======
-            truecycFreq = (emratio * ioncharge * bField / ionmass);
-            //Console.WriteLine(truecycFreq/2/pi);
 
             // Set up event handler to deal with viewer form & this form closing
             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
             this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);   
+<<<<<<< HEAD
             
 >>>>>>> Sarah
+=======
+>>>>>>> RetryMerge
         }
 
         
@@ -203,7 +212,7 @@ namespace Spectroscopy_Controller
         }
 
         // Method to handle form closing
-        // Clean up any threads left running
+        //Clean up any threads left running
         private void OnFormClosing(object sender, EventArgs e) 
         {
             if ((BinarySendThread != null) && (BinarySendThread.IsAlive))
@@ -227,21 +236,7 @@ namespace Spectroscopy_Controller
         }
 
         #endregion
-
-        /*#region Methods defined in DebugTools.cs
-
-        private void SendDataButton_Click(object sender, EventArgs e)
-        {
-            SendData();   //defined in DebugTools.cs  
-        }
-
-        private void ReadDataButton_Click(object sender, EventArgs e)
-        {
-            ReadData();  //defined in DebugTools.cs
-        }
-
-        #endregion*/
-
+      
         #region Methods defined in XMLFIleIO.cs
 
 
@@ -328,7 +323,7 @@ namespace Spectroscopy_Controller
         {
             //Find nearest number of integer ticks (640ns per tick) to desired pulse length
             int roundedTicks = (int)(TicksBox.Value * 1000 / 640);
-
+            Console.WriteLine(roundedTicks);
             //Calculate rounded pulse length and display on form
             float roundedLength = (float)(roundedTicks * 0.64);
             string roundedLengthString = roundedLength.ToString("0.##");
@@ -344,9 +339,9 @@ namespace Spectroscopy_Controller
 
         #endregion
               
-        /*#region Methods defined in HexFileIO.cs
+        #region Methods defined in HexFileIO.cs
 
-        private void compileToBinaryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BinaryCompileButton_Click(object sender, EventArgs e)
         {
             saveHexFileDialog.ShowDialog();
         }
@@ -356,7 +351,7 @@ namespace Spectroscopy_Controller
             SaveHexFile();
         }
 
-        private void sendBinaryFileOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UploadButton_Click(object sender, EventArgs e)
         {
             if (FPGA.bUSBPortIsOpen == false)
             {
@@ -371,26 +366,17 @@ namespace Spectroscopy_Controller
         {
             SendBinaryFile();
         }
-
+                   /*
         private void sendBinaryFileStartSignalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             sendBinaryFileOnlyToolStripMenuItem_Click(null, null);
             sendStartSignalToolStripMenuItem_Click(null, null);
-        }
+        }            */
 
-        #endregion*/        
 
-        /*private void ChooseFileButton_Click(object sender, EventArgs e)
-        {
-            saveResultsFileDialog.ShowDialog();
-        }
+        #endregion        
 
-        private void saveResultsFileDialog_FileOk(object sender, CancelEventArgs e)
-        {
-            FilenameTextbox.Text = saveResultsFileDialog.FileName;
-        }
-
-        private void CreateFromTemplateButton_Click(object sender, EventArgs e)
+        /*private void CreateFromTemplateButton_Click(object sender, EventArgs e)
         {            
             TemplateForm.ShowDialog();            
         }*/
@@ -400,10 +386,6 @@ namespace Spectroscopy_Controller
             bShouldQuitThread = true;
         }*/
 
-        /*private void frequencyGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FreqSelectForm.ShowDialog();            
-        }*/
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
@@ -452,14 +434,14 @@ namespace Spectroscopy_Controller
                 else
                 {
                     //Grab all scan and trap parameters from form:
-                    specType = specTypeBox.SelectedValue.ToString();
-                    specDir = specDirBox.SelectedValue.ToString();
+                    specType = specTypeBox.SelectedItem.ToString();
+                    specDir = specDirBox.SelectedItem.ToString();
                     trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
                     axFreq = (int)(1000 * axFreqBox.Value);
                     modcycFreq = (int)(1000 * modcycFreqBox.Value);
                     magFreq = (int)(1000 * magFreqBox.Value);
-                    startFreq = (int)(10000000 * startFreqBox.Value);
-                    carFreq = (int)(10000000 * carFreqBox.Value);
+                    startFreq = (int)(1000000 * startFreqBox.Value);
+                    carFreq = (int)(1000000 * carFreqBox.Value);
                     stepSize = (int)(1000 * stepSizeBox.Value);
                     sbToScan = (int)sbToScanBox.Value;
                     sbWidth = (int)sbWidthBox.Value;
@@ -492,6 +474,8 @@ namespace Spectroscopy_Controller
                     myExperimentDialog.ShowDialog();
                     if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                     {
+                        Console.WriteLine("Experiment Start Dialog closed - result OK");
+
                         // Create & fill in metadata
                         string[] metadata = new string[23];
                         metadata[0] = DateTime.UtcNow.ToString("d/m/yyyy HH:MM:SS");
@@ -542,6 +526,7 @@ namespace Spectroscopy_Controller
                                 // Create a single file and put all readings in there
                                 myFileName = new string[1];
                                 myFile = new TextWriter[1];
+<<<<<<< HEAD
 <<<<<<< HEAD
                                 myFile[0] = new StreamWriter(myFileName[0]);
 
@@ -620,6 +605,8 @@ namespace Spectroscopy_Controller
                                 } */
 =======
 >>>>>>> Sarah
+=======
+>>>>>>> RetryMerge
 
                                 // Create the file with appropriate name & write metadata to it
                                 writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
@@ -655,15 +642,28 @@ namespace Spectroscopy_Controller
                             }
                             else if (specType == "Fixed")
                             {
+                                // Code here temporarily for testing - need to create files properly
+                                // Create a single file and put all readings in there
+                                myFileName = new string[1];
+                                myFileName[0] = "Not really a file";
+                                myFile = new TextWriter[1];
+
+                                myFile[0] = new StreamWriter(FolderPath + @"\" + myFileName[0] + ".txt");
+                                myFile[0].WriteLine("File created");
+                                myFile[0].Flush();
+                                myFile[0].Close();
+
+
                                 bIsFreqGenEnabled = false;
                             }
 
                             // If myViewer is not open
-                            if (!myViewer.IsFormOpened)
+                            if (!IsViewerOpen)
                             {
                                 // Create new instance of viewer
                                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
                                 myViewer.Show();
+                                IsViewerOpen = true;
                             }
                         }
                         else
@@ -696,7 +696,7 @@ namespace Spectroscopy_Controller
         private void PauseButton_Click(object sender, EventArgs e)
         {
             // Only let it pause if the experiment is running (need to check this)
-            if (FPGAReadThread.IsAlive)
+            if (FPGAReadThread != null && FPGAReadThread.IsAlive)
             {
                 // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
                 PauseExperiment = true;
@@ -900,6 +900,9 @@ namespace Spectroscopy_Controller
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> RetryMerge
         private void specTypeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             specType = specTypeBox.SelectedItem.ToString();
@@ -954,27 +957,31 @@ namespace Spectroscopy_Controller
         {
             updateWindowParam();
         }
-=======
+
         private void OpenViewerButton_Click(object sender, EventArgs e)
         {
-            if (!myViewer.IsFormOpened)
+            if (!IsViewerOpen)
             {
                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
                 myViewer.Show();
+                IsViewerOpen = true;
             }
         }
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
-            myViewer.IsFormOpened = false;
             myViewer.Dispose();
+            IsViewerOpen = false;
         }
 
+<<<<<<< HEAD
 
 >>>>>>> Sarah
 
 
 
+=======
+>>>>>>> RetryMerge
         private void updateWindowParam()
         {
             string specTypeTemp = specTypeBox.SelectedItem.ToString();
@@ -990,8 +997,12 @@ namespace Spectroscopy_Controller
             }
 
         }
-                 
-       
+
+
+
+
+
+
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
             if (FPGAReadThread != null && FPGAReadThread.IsAlive)

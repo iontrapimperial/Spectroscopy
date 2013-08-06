@@ -14,15 +14,10 @@ using System.IO;
 using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 
-/*namespace Spectroscopy_Viewer
+namespace Spectroscopy_Viewer
 {
     public partial class SpectroscopyViewerForm : Form
     {
-        // Bool to check from within CoreForm whether the form has been fulled opened
-        // or just initialised to a blank object
-        public bool IsFormOpened = new bool();
-
-
         // A list of spectrum objects. List is basically just a dynamic array so we can add more objects as necessary
         public List<spectrum> mySpectrum = new List<spectrum>();
         // List to store data for plotting spectrum graph. PointPairList is the object needed for plotting with zedGraph 
@@ -77,14 +72,7 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
         {
             InitializeComponent();
             initialiseColours();
-            IsFormOpened = true;
 
-        }
-
-        public SpectroscopyViewerForm(bool myBool)
-        {
-            // Don't even want to initialise component, just create an empty instance of the class 
-            IsFormOpened = myBool;
         }
 
 
@@ -113,8 +101,6 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
         {
             InitializeComponent();
             initialiseColours();
-
-            IsFormOpened = true;
 
             // Disable loading saved data while running in live mode
             this.loadDataButton.Enabled = false;
@@ -1081,5 +1067,5 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 
     }
-}   */
+} 
     
