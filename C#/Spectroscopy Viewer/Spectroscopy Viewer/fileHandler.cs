@@ -23,11 +23,8 @@ namespace Spectroscopy_Viewer
         // Metadata read from file
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
-        private string date;                // Date when file was taken
         private int repeats;                // Number of repeats
         private int numberInterleaved;      // How many spectra are interleaved in this file
-        private float trapFrequency;          // Trap frequency
-        private float trapVoltage;            // Trap voltage
         private string[] spectrumNames;          // Names of spectra stored in file
         private string notes = "";
 
@@ -37,6 +34,10 @@ namespace Spectroscopy_Viewer
             // Cannot handle data if a file is not chosen!
             System.Windows.Forms.MessageBox.Show("No file selected");
         }
+
+        //***********//
+        // Need start frequency as well!!!
+        //***********//
 
         // Constructor given an array of data and some bits of metadata
         public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed)
@@ -156,19 +157,45 @@ namespace Spectroscopy_Viewer
 
                 }
 
-                // Store number of repeats & number of interleaved spectra
-                repeats = int.Parse(metadata[13]);
-                numberInterleaved = int.Parse(metadata[14]);
+                // Do a TryParse and cancel out if these are not ints....
+
+                
+                float stepSizekHz, startFrequencyMHz;
+
+                // Store crucial metadata - no. of repeats, no. interleaved, step size, start freq
+                // int.TryParse(myString, out myInt) converts myString to an int and stores it in myInt
+                // then results true if it was successful, false otherwise
+
+                if (int.TryParse(metadata[13], out repeats) && int.TryParse(metadata[14], out numberInterleaved)
+                    && float.TryParse(metadata[9], out stepSizekHz) && float.TryParse(metadata[7], out startFrequencyMHz))
+                {
+                    // These need converting to Hz and storing as ints
+                    stepSize = (int)(stepSizekHz * 1000);
+                    startFrequency = (int)(startFrequencyMHz * 1000000);
+                }
+                else
+                {
+                    MessageBox.Show("Error reading metadata");
+                }
+
+                spectrumNames = new string[numberInterleaved];
 
                 // Depending on number of interleaved spectra, store the names in the array
-                for (int i = 15; i < 15 + numberInterleaved; i++)
+                for (int i = 0; i < numberInterleaved; i++)
                 {
-                    if (i < 22) // Make sure we don't go beyond the bounds of the array we initialised
+                    if (i < 5) // Make sure we don't take more than 5 spectra from file
                     {
-                        metadata[i] = myFile.ReadLine();
+                        // Put spectrum name into arrays for both metadata and spectrumNames
+                        // ( Need spectrumNames for spectrumSelect dialog)
+                        // Bit messy but it's easiest to code this way for now, maybe tidy later
+                        // using substrings
+                        spectrumNames[i] = myFile.ReadLine();
+                        metadata[i + 16] = spectrumNames[i];
                         myString = myFile.ReadLine();
                     }
                 }
+
+
 
                 myString = myFile.ReadLine();               // Read first line of notes section
                 // Keep reading lines while each line begins with a #
@@ -189,6 +216,8 @@ namespace Spectroscopy_Viewer
 
                 // Process the actual numerical data
                 this.processData(ref myFile);
+
+
 
 
             }   // If there is no metadata

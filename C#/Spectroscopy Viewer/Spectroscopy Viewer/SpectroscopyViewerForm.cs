@@ -58,6 +58,7 @@ namespace Spectroscopy_Viewer
         private int numberOfSpectraLive = new int();
         private int repeatsLive = new int();
         private int stepSizeLive = new int();
+        private int startFreqLive = new int();
         
 
 
@@ -122,11 +123,22 @@ namespace Spectroscopy_Viewer
             // Metadata is passed element by element in spectrum constructor
             metadataLive = metadataPassed;
 
-            // Extract ints that we need to pass to fileHandler
-            stepSizeLive = int.Parse(metadataLive[9]);
-            repeatsLive = int.Parse(metadataLive[13]);
-            numberOfSpectraLive = int.Parse(metadataLive[14]);
+            float stepSizeLivekHz = new float();
+            float startFreqLiveMHz = new float();
 
+            // Extract info that we need to pass to fileHandler
+            if (int.TryParse(metadataLive[13], out repeatsLive)
+                && int.TryParse(metadataLive[14], out numberOfSpectraLive)
+                && float.TryParse(metadataLive[7], out startFreqLiveMHz)
+                && float.TryParse(metadataLive[9], out stepSizeLivekHz))
+            {
+                stepSizeLive = (int)(stepSizeLivekHz * 1000);
+                startFreqLive = (int)(startFreqLiveMHz * 1000000);
+            }
+            else
+            {
+                MessageBox.Show("Error parsing metadata when opening viewer");
+            }
 
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
@@ -138,7 +150,6 @@ namespace Spectroscopy_Viewer
             {
                 mySpectrum.Add(new spectrum(ref metadataLive, i));
             }
-
 
             // Create the controls for the graph
             this.createGraphControls();
@@ -166,7 +177,7 @@ namespace Spectroscopy_Viewer
 
             // Update the data & plot graph
             this.updateThresholds();
-         }
+        }
 
 
         public void StopRunningLive()
