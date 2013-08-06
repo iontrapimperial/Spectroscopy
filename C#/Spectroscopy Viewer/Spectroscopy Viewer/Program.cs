@@ -15,7 +15,7 @@ namespace Spectroscopy_Viewer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SpectroscopyViewerForm());
+            //Application.Run(new SpectroscopyViewerForm());
         }
     }
 }

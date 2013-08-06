@@ -841,6 +841,7 @@
             0,
             0,
             0});
+            this.sbWidthBox.ValueChanged += new System.EventHandler(this.sbWidthBox_ValueChanged);
             // 
             // label11
             // 
@@ -862,6 +863,7 @@
             0,
             0,
             0});
+            this.sbToScanBox.ValueChanged += new System.EventHandler(this.sbToScanBox_ValueChanged);
             // 
             // label10
             // 
@@ -926,6 +928,7 @@
             0,
             0,
             393216});
+            this.carFreqBox.ValueChanged += new System.EventHandler(this.carFreqBox_ValueChanged);
             // 
             // label8
             // 
@@ -1021,6 +1024,7 @@
             this.specDirBox.Size = new System.Drawing.Size(104, 21);
             this.specDirBox.TabIndex = 4;
             this.specDirBox.Text = "Select";
+            this.specDirBox.SelectedIndexChanged += new System.EventHandler(this.specDirBox_SelectedIndexChanged);
             // 
             // trapVBox
             // 
@@ -1067,6 +1071,7 @@
             this.specTypeBox.Size = new System.Drawing.Size(104, 21);
             this.specTypeBox.TabIndex = 1;
             this.specTypeBox.Text = "Select";
+            this.specTypeBox.SelectedIndexChanged += new System.EventHandler(this.specTypeBox_SelectedIndexChanged);
             // 
             // LaserControl
             // 

@@ -16,7 +16,7 @@ namespace Spectroscopy_Controller
     public partial class CoreForm : Form
     {
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
-        private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
+        //private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
@@ -41,14 +41,15 @@ namespace Spectroscopy_Controller
         private float bField = 1.845F;
         private float ionmass = 40;
         private float ioncharge = 1;
-        private float truecycFreq;
+        private int angtruecycFreq;
+        private float stabilitylimit;
         private float pi = 3.1415927F;
         private float emratio = 0.9648533E8F;//(=1/1.036427E-8F);
  
         //Scan parameters for given run (taken from user selected values on form)
         private string specType, specDir;
-        private int startFreq, carFreq, stepSize, sbToScan, sbWidth;
-        private float trapV, axFreq, modcycFreq, magFreq, rfAmp;
+        private int axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth, windowSpaceTemp, axFreqTemp, modcycFreqTemp;
+        private float trapV, angaxFreq, angmodcycFreq, angmagFreq, rfAmp;
 
         private int[] startFreqArray;
 
@@ -56,8 +57,14 @@ namespace Spectroscopy_Controller
         {
             InitializeComponent();
 
-            truecycFreq = (emratio * ioncharge * bField / ionmass);
-            //Console.WriteLine(truecycFreq/2/pi);
+            specDirBox.SelectedIndex = 0;
+            specTypeBox.SelectedIndex = 0;
+
+            angtruecycFreq = (int)(emratio * ioncharge * bField / ionmass);
+            stabilitylimit = dnought * dnought * bField * bField * ioncharge * emratio / 8 / ionmass;
+            trapV = 80000;
+            UpdateTrapFreqs();
+            //Console.WriteLine(angtruecycFreq);
         }
 
         
@@ -200,49 +207,6 @@ namespace Spectroscopy_Controller
         {
             OpenUSBPort();       
         }
-
-        /*private void StartButton_Click(object sender, EventArgs e)
-        {
-            if (FPGA.bUSBPortIsOpen == false)
-            {
-                WriteMessage("Can't Send Start Signal to FPGA: USB port is not open", true);
-                return;
-            }
-            bShouldQuitThread = false;
-
-            int WindowSize = 0;
-            int WindowGap = 0;
-
-            if (FreqSelectForm.GetFreqGenEnable())
-            {
-                bIsFreqGenEnabled = true;
-                float Amplitude = FreqSelectForm.GetAmplitude();
-                GPIB.InitDevice(Amplitude);
-                int Frequency = FreqSelectForm.GetInitialFrequency();
-                GPIB.SetFrequency(Frequency);
-                if (FreqSelectForm.GetWindowingEnable())
-                {
-                    bIsWindowingEnabled = true;
-                    WindowSize = FreqSelectForm.GetWindowSize();
-                    WindowGap = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();                   
-                }
-                else bIsWindowingEnabled = false;
-            }
-            else
-            {
-                bIsFreqGenEnabled = false;
-            }
-
-            float FrequencyAmp = FreqSelectForm.GetAmplitude();
-            int Frequencystep = FreqSelectForm.GetFreqStep();
-            int Frequencystart = FreqSelectForm.GetInitialFrequency();
-
-            ResultsForm.StartConditions(Frequencystart, Frequencystep, FrequencyAmp, bIsWindowingEnabled, WindowSize, WindowGap);
-
-            SendSetupFinish();         
-            StartReadingData();
-            
-        }*/
 
         #endregion
 
@@ -444,6 +408,8 @@ namespace Spectroscopy_Controller
         // Method to respond to user clicking start button
         private void StartButton_Click(object sender, EventArgs e)
         {
+            //Always enable Stop button when running
+            StopButton.Enabled = true;
             // If we are restarting the experiment after it being paused, just reset the PauseExperiment flag
             if (PauseExperiment == true)
             {
@@ -471,9 +437,9 @@ namespace Spectroscopy_Controller
                     specType = specTypeBox.SelectedValue.ToString();
                     specDir = specDirBox.SelectedValue.ToString();
                     trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
-                    axFreq = (float)(1000 * axFreqBox.Value);
-                    modcycFreq = (float)(1000 * modcycFreqBox.Value);
-                    magFreq = (float)(1000 * magFreqBox.Value);
+                    axFreq = (int)(1000 * axFreqBox.Value);
+                    modcycFreq = (int)(1000 * modcycFreqBox.Value);
+                    magFreq = (int)(1000 * magFreqBox.Value);
                     startFreq = (int)(10000000 * startFreqBox.Value);
                     carFreq = (int)(10000000 * carFreqBox.Value);
                     stepSize = (int)(1000 * stepSizeBox.Value);
@@ -634,13 +600,13 @@ namespace Spectroscopy_Controller
 
 
                                 // If myViewer is not open
-                                if (myViewer == null)
+                                /*if (myViewer == null)
                                 {
                                     // Create new instance of viewer
 
-                                    myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
+                                    //myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
 
-                                }
+                                } */
 
                             }
                             else if (specType == "Windowed")
@@ -788,40 +754,15 @@ namespace Spectroscopy_Controller
 
                         // Start the experiment running
                         // The following code has been copied from MainForm.cs (method sendStartSignalToolStripMenuItem_Click)
-                        /*
                         bShouldQuitThread = false;
-
-                        int WindowSize = 0;
-                        int WindowGap = 0;
-
-                        if (FreqSelectForm.GetFreqGenEnable())
-                        {
-                            bIsFreqGenEnabled = true;
-                            float Amplitude = FreqSelectForm.GetAmplitude();
-                            GPIB.InitDevice(Amplitude);
-                            int Frequency = FreqSelectForm.GetInitialFrequency();
-                            GPIB.SetFrequency(Frequency);
-                            if (FreqSelectForm.GetWindowingEnable())
-                            {
-                                bIsWindowingEnabled = true;
-                                WindowSize = FreqSelectForm.GetWindowSize();
-                                WindowGap = FreqSelectForm.GetSidebandSpacing() - FreqSelectForm.GetWindowSize();
-                            }
-                            else bIsWindowingEnabled = false;
-                        }
-                        else
-                        {
-                            bIsFreqGenEnabled = false;
-                        }
-
-                        float FrequencyAmp = FreqSelectForm.GetAmplitude();
-                        int Frequencystep = FreqSelectForm.GetFreqStep();
-                        int Frequencystart = FreqSelectForm.GetInitialFrequency();
-
-                    
+                                                
+                        GPIB.InitDevice(19);
+                        GPIB.SetAmplitude(rfAmp);
+                        GPIB.SetFrequency(startFreq);
+                                            
                         SendSetupFinish();
                         StartReadingData();
-                        */
+                        
                     }
 
                 }
@@ -847,6 +788,7 @@ namespace Spectroscopy_Controller
             if (updating == false)
             {
                 trapV = (float)(1000 * trapVBox.Value);
+                if (trapV > 1000 * stabilitylimit - 1) trapV = 1000 * stabilitylimit - 1;
                 UpdateTrapFreqs();
             }
         }
@@ -855,10 +797,9 @@ namespace Spectroscopy_Controller
         {
             if (updating == false)
             {
-                axFreq = 2 * pi * 1000 * (float)axFreqBox.Value;
-                trapV = (float)(1000 * Math.Pow(axFreq, 2) * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 4);
-                Console.WriteLine(axFreq);
-                Console.WriteLine(trapV);
+                angaxFreq = 2 * pi * 1000 * (float)axFreqBox.Value;
+                if (angaxFreq > angtruecycFreq / (float)Math.Sqrt(2) - 1) angaxFreq = angtruecycFreq / (float)Math.Sqrt(2) - 1;
+                trapV = (float)(1000 * Math.Pow(angaxFreq, 2) * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 4);
                 UpdateTrapFreqs();
             }
         }
@@ -867,8 +808,10 @@ namespace Spectroscopy_Controller
         {
             if (updating == false)
             {
-                modcycFreq = 2 * pi * 1000 * (float)modcycFreqBox.Value;
-                trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (truecycFreq * modcycFreq - Math.Pow(modcycFreq, 2)));
+                angmodcycFreq = 2 * pi * 1000 * (float)modcycFreqBox.Value;
+                if (angmodcycFreq > angtruecycFreq) angmodcycFreq = angtruecycFreq;
+                else if (angmodcycFreq < angtruecycFreq / 2 + 1000) angmodcycFreq = angtruecycFreq / 2 + 1000;
+                trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (angtruecycFreq * angmodcycFreq - Math.Pow(angmodcycFreq, 2)));
                 UpdateTrapFreqs();
             }
         }
@@ -877,8 +820,9 @@ namespace Spectroscopy_Controller
         {
             if (updating == false)
             {
-               magFreq = (float)(2 * pi * (float)(1000 * magFreqBox.Value));
-               trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (truecycFreq * magFreq - Math.Pow(magFreq, 2)));
+               angmagFreq = (int)(2 * pi * 1000 * (float)(magFreqBox.Value));
+               if (angmagFreq > angtruecycFreq / 2 - 1000) angmagFreq = angtruecycFreq / 2 - 1000;
+               trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (angtruecycFreq * angmagFreq - Math.Pow(angmagFreq, 2)));
                UpdateTrapFreqs();
             }
         }
@@ -886,17 +830,91 @@ namespace Spectroscopy_Controller
         private void UpdateTrapFreqs()
         {
             updating = true;
-            axFreq = (float)(Math.Sqrt(4 * emratio * ioncharge * trapV / 1000 / ionmass / Math.Pow(dnought,2) ) );
-            magFreq = (float)((truecycFreq - Math.Sqrt(Math.Pow(truecycFreq,2) - 2 * Math.Pow(axFreq,2) ) ) / 2);
-            modcycFreq = (float)((truecycFreq + Math.Sqrt(Math.Pow(truecycFreq, 2) - 2 * Math.Pow(axFreq,2) ) ) / 2);
-            axFreqBox.Value = (decimal)(axFreq/1000/2/pi);
-            magFreqBox.Value = (decimal)(magFreq/1000/2/pi);
-            modcycFreqBox.Value = (decimal)(modcycFreq/1000/2/pi);
-            trapVBox.Value = ((decimal)trapV/1000);
+            angaxFreq = (float)(Math.Sqrt(4 * emratio * ioncharge * trapV / 1000 / ionmass / Math.Pow(dnought,2) ) );
+            angmagFreq = (float)((angtruecycFreq - Math.Sqrt(Math.Pow(angtruecycFreq,2) - 2 * Math.Pow(angaxFreq,2) ) ) / 2);
+            angmodcycFreq = (float)((angtruecycFreq + Math.Sqrt(Math.Pow(angtruecycFreq, 2) - 2 * Math.Pow(angaxFreq,2) ) ) / 2);
+            axFreqBox.Value = (decimal)(angaxFreq/1000/2/pi);
+            magFreqBox.Value = (decimal)(angmagFreq/1000/2/pi);
+            modcycFreqBox.Value = (decimal)(angmodcycFreq/1000/2/pi);
+            trapVBox.Value = (decimal)(trapV / 1000);
+            //Update temporary parameters that allow calculations on form (without changing experiment parameters if running)
+            axFreqTemp = (float)(1000 * axFreqBox.Value);
+            modcycFreqTemp = (float)(1000 * modcycFreqBox.Value);
             updating = false;
         }
 
+        private void specTypeBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            specType = specTypeBox.SelectedItem.ToString();
+            if (specType == "Fixed")
+            {
+                startFreqBox.Enabled = true;
+                carFreqBox.Enabled = false;
+                stepSizeBox.Enabled = false;
+                sbToScanBox.Enabled = false;
+                sbWidthBox.Enabled = false;
+            }
+            if (specType == "Continuous")
+            {
+                startFreqBox.Enabled = true;
+                carFreqBox.Enabled = false;
+                stepSizeBox.Enabled = true;
+                sbToScanBox.Enabled = false;
+                sbWidthBox.Enabled = false;
+            }
+            if (specType == "Windowed")
+            {
+                startFreqBox.Enabled = false;
+                carFreqBox.Enabled = true;
+                stepSizeBox.Enabled = true;
+                sbToScanBox.Enabled = true;
+                sbWidthBox.Enabled = true;
+                updateWindowParam();
+            }
+        }
 
+        private void sbWidthBox_ValueChanged(object sender, EventArgs e)
+        {
+            updateWindowParam();
+        }
+
+        private void sbToScanBox_ValueChanged(object sender, EventArgs e)
+        {
+            updateWindowParam();
+        }
+
+        private void carFreqBox_ValueChanged(object sender, EventArgs e)
+        {
+            updateWindowParam();
+        }
+        
+        private void specDirBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            specDir = specDirBox.SelectedItem.ToString();
+            if (specDir == "Axial") windowSpaceTemp = axFreq;
+            else if (specDir == "Radial") windowSpaceTemp = modcycFreq;
+
+        }
+
+        private void updateWindowParam()
+        {
+            specType = specTypeBox.SelectedItem.ToString();
+            if (specType == "Windowed")
+            {
+                specDir = specDirBox.SelectedItem.ToString();
+                axFreq = (int)(1000 * axFreqBox.Value);
+                modcycFreq = (int)(1000 * modcycFreqBox.Value);
+                carFreq = (int)(1000000 * carFreqBox.Value);
+                stepSize = (int)(1000 * stepSizeBox.Value);
+                sbToScan = (int)sbToScanBox.Value;
+                sbWidth = (int)(1000 * sbWidthBox.Value);
+                int offsetFreq = (int)stepSize * sbWidth / 2;
+                startFreqBox.Value = (carFreq - offsetFreq - (windowSpace * sbToScan)) / 1000000;
+            }
+        }
+
+        
+       
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
             if (FPGAReadThread != null && FPGAReadThread.IsAlive)

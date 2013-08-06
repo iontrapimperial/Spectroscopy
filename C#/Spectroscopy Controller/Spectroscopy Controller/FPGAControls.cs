@@ -80,7 +80,7 @@ namespace Spectroscopy_Controller
 
             int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
             //Distance from end of one window to start of next
-            int WindowSpace = 0;        // need to work out how to calculate this
+            //int WindowSpace = 0;        // need to work out how to calculate this
 
             int numberOfFiles = this.myFileName.Length;
 
@@ -228,7 +228,7 @@ namespace Spectroscopy_Controller
 
                         }
 
-                        myViewer.addLiveData(Readings);
+                        //myViewer.addLiveData(Readings);
 
 
                         myFile.Flush();
@@ -350,7 +350,7 @@ namespace Spectroscopy_Controller
         }
 
 
-        private void StartReadingData(ref TextWriter[] myFile)
+        private void StartReadingData()
         {    
             if ((FPGAReadThread != null) && (FPGAReadThread.IsAlive))
             {

@@ -14,7 +14,7 @@ using System.IO;
 using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 
-namespace Spectroscopy_Viewer
+/*namespace Spectroscopy_Viewer
 {
     public partial class SpectroscopyViewerForm : Form
     {
@@ -226,6 +226,7 @@ namespace Spectroscopy_Viewer
             // Leave a small margin around the outside of the control
             zedGraphSpectra.Size = new Size(ClientRectangle.Width - 230,
                                     ClientRectangle.Height - 180);
+
         }
 
 
@@ -290,7 +291,7 @@ namespace Spectroscopy_Viewer
                             // Set number interleaved to compare other files to
                             numberInterleavedMaster = numberInterleaved;
 
-                            //*************************************************************//
+                            //*************************************************************
                             // Pop up dialog box to select which spectrum to add data to, and save selections
 
                             // Create spectrumSelect form, give it list of existing spectra, number of spectra in first file
@@ -473,7 +474,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Calculating data for histogram
-                //********************************//
+                //********************************
 
                 // Initialise variables every time we re-create the histogram
                 histogramSize = new int();
@@ -554,7 +555,7 @@ namespace Spectroscopy_Viewer
 
                 }       // End of loop which goes through spectra and creates histogram
 
-                //********************************//
+                //********************************
 
 
                 // Store the data in a table for plotting to graph
@@ -580,7 +581,7 @@ namespace Spectroscopy_Viewer
                     histogramTable.Rows.Add(myRow);
                 }
 
-                //********************************//
+                //********************************
                 // Plotting histogram data on graph
                 // Need to convert to an enumerable type to get it to dataBind properly
                 // Clear the chart first so that when we re-create the histogram it doesn't cause an error
@@ -1054,4 +1055,5 @@ namespace Spectroscopy_Viewer
 
 
     }
-}
+}   */
+    
