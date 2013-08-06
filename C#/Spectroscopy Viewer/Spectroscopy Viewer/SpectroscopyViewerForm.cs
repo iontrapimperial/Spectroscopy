@@ -49,6 +49,7 @@ namespace Spectroscopy_Viewer
 
         // Boolean to tell the form whether the experiment is running or not
         // i.e. whether it is received live data
+        // This isn't actually used for anything at the moment
         private bool IsExperimentRunning = new bool();
         
         // Array to store metadata for live experiment ONLY, save passing it every single time we add data
@@ -145,7 +146,6 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to accept incoming data from live experiment
-        // Returns a bool which is set to false if there were any errors, otherwise true
         public void addLiveData(List<int> readings)
         {
             // Copy data from readings into local array

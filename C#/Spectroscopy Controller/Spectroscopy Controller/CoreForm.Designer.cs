@@ -1597,6 +1597,12 @@
             this.MessagesBox.TabIndex = 0;
             this.MessagesBox.UseCompatibleStateImageBehavior = false;
             // 
+            // saveXMLFileDialog
+            // 
+            this.saveXMLFileDialog.Filter = "Xml File|*.xml";
+            this.saveXMLFileDialog.InitialDirectory = "Z:\\";
+            this.saveXMLFileDialog.RestoreDirectory = true;
+            // 
             // openXMLFileDialog
             // 
             this.openXMLFileDialog.FileName = "openFileDialog1";

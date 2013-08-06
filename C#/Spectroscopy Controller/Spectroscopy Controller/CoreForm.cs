@@ -60,8 +60,9 @@ namespace Spectroscopy_Controller
             truecycFreq = (emratio * ioncharge * bField / ionmass);
             //Console.WriteLine(truecycFreq/2/pi);
 
-            // Set up event handler to deal with viewer form closing
+            // Set up event handler to deal with viewer form & this form closing
             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+            this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);   
             
         }
 
@@ -184,7 +185,9 @@ namespace Spectroscopy_Controller
                            LiveLaserBoxAux2.Checked);
         }
 
-        /*private void OnFormClosing(object sender, EventArgs e) //clean up any threads left running
+        // Method to handle form closing
+        // Clean up any threads left running
+        private void OnFormClosing(object sender, EventArgs e) 
         {
             if ((BinarySendThread != null) && (BinarySendThread.IsAlive))
             {
@@ -197,7 +200,7 @@ namespace Spectroscopy_Controller
                 FPGAReadThread.Abort();
                 FPGAReadThread.Join();
             }
-        } */
+        }
 
         #region Methods defined in FPGAControls.cs
 
@@ -288,7 +291,7 @@ namespace Spectroscopy_Controller
             OpenXMLFile();
         }
 
-        #endregion*/
+        #endregion
 
         #region Methods defined in PulseTree.cs
 
