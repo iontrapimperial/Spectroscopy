@@ -18,6 +18,11 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
 {
     public partial class SpectroscopyViewerForm : Form
     {
+        // Bool to check from within CoreForm whether the form has been fulled opened
+        // or just initialised to a blank object
+        public bool IsFormOpened = new bool();
+
+
         // A list of spectrum objects. List is basically just a dynamic array so we can add more objects as necessary
         public List<spectrum> mySpectrum = new List<spectrum>();
         // List to store data for plotting spectrum graph. PointPairList is the object needed for plotting with zedGraph 
@@ -44,14 +49,16 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
 
         // Boolean to tell the form whether the experiment is running or not
         // i.e. whether it is received live data
+        // This isn't actually used for anything at the moment
         private bool IsExperimentRunning = new bool();
         
-        // Array to store metadata for live experiment, save passing it every single time we add data
-        private string[] metadata;
+        // Array to store metadata for live experiment ONLY, save passing it every single time we add data
+        private string[] metadataLive;
         // Store the number of spectra in the live experiment as an int for quick access
         private int numberOfSpectraLive = new int();
         private int repeatsLive = new int();
         private int stepSizeLive = new int();
+        private int startFreqLive = new int();
         
 
 
@@ -70,7 +77,14 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
         {
             InitializeComponent();
             initialiseColours();
+            IsFormOpened = true;
 
+        }
+
+        public SpectroscopyViewerForm(bool myBool)
+        {
+            // Don't even want to initialise component, just create an empty instance of the class 
+            IsFormOpened = myBool;
         }
 
 
@@ -100,18 +114,31 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
             InitializeComponent();
             initialiseColours();
 
+            IsFormOpened = true;
+
             // Disable loading saved data while running in live mode
             this.loadDataButton.Enabled = false;
 
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor
-            metadata = metadataPassed;
+            metadataLive = metadataPassed;
 
-            // Extract ints that we need to pass to fileHandler
-            stepSizeLive = int.Parse(metadata[9]);
-            repeatsLive = int.Parse(metadata[13]);
-            numberOfSpectraLive = int.Parse(metadata[14]);
+            float stepSizeLivekHz = new float();
+            float startFreqLiveMHz = new float();
 
+            // Extract info that we need to pass to fileHandler
+            if (int.TryParse(metadataLive[13], out repeatsLive)
+                && int.TryParse(metadataLive[14], out numberOfSpectraLive)
+                && float.TryParse(metadataLive[7], out startFreqLiveMHz)
+                && float.TryParse(metadataLive[9], out stepSizeLivekHz))
+            {
+                stepSizeLive = (int)(stepSizeLivekHz * 1000);
+                startFreqLive = (int)(startFreqLiveMHz * 1000000);
+            }
+            else
+            {
+                MessageBox.Show("Error parsing metadata when opening viewer");
+            }
 
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
@@ -121,9 +148,8 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
             // Create new spectra, with no data points, just metadata
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
-                mySpectrum.Add(new spectrum(ref metadata, i));
+                mySpectrum.Add(new spectrum(ref metadataLive, i));
             }
-
 
             // Create the controls for the graph
             this.createGraphControls();
@@ -131,7 +157,6 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
         }
 
         // Method to accept incoming data from live experiment
-        // Returns a bool which is set to false if there were any errors, otherwise true
         public void addLiveData(List<int> readings)
         {
             // Copy data from readings into local array
@@ -152,7 +177,7 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
 
             // Update the data & plot graph
             this.updateThresholds();
-         }
+        }
 
 
         public void StopRunningLive()
@@ -330,7 +355,8 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
                                         // Get the list filled with data points, add to list of spectra
                                         mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
                                                         selectedSpectrum[j],         // Spectrum number
-                                                        mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]]));  // Spectrum name
+                                                        mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]], // Spectrum name
+                                                        ref myFilehandler.metadata )); // Metadata from file
 
                                         // Add blank PointPairList for storing plot data
                                         dataPlot.Add(new PointPairList());
