@@ -78,9 +78,6 @@ namespace Spectroscopy_Controller
 
             int CurrentSideband = 0;
 
-            int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
-            //Distance from end of one window to start of next
-
             int numberOfFiles = this.myFileName.Length;
 
             TextWriter myFile = new StreamWriter(myFileName[CurrentSideband]);
