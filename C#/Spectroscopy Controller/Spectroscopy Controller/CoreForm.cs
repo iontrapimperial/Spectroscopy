@@ -751,10 +751,12 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine(this.stepSizeBox.Value);
                 // Sidebands/side
                 myFile[i].WriteLine("Sidebands to scan / side:");
-                myFile[i].WriteLine(sbToScan);
+                if (specType == "Windowed") myFile[i].WriteLine(sbToScan);
+                else myFile[i].WriteLine("N/A");
                 // Sideband width
                 myFile[i].WriteLine("Sideband Width (steps):");
-                myFile[i].WriteLine(sbWidth);
+                if (specType == "Windowed") myFile[i].WriteLine(sbWidth);
+                else myFile[i].WriteLine("N/A");
                 // 729 RF amplitude
                 myFile[i].WriteLine("729 RF Amplitude (dBm):");
                 myFile[i].WriteLine(rfAmp);
@@ -766,7 +768,8 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
                 // Sideband number
                 myFile[i].WriteLine("This is sideband:");
-                myFile[i].WriteLine(sbCurrent + sbRedOrBlue);
+                if (specType == "Windowed") myFile[i].WriteLine(sbCurrent + sbRedOrBlue);
+                else myFile[i].WriteLine("N/A");
                 // Name for each spectrum
                 for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
                 {
