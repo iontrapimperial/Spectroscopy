@@ -17,6 +17,9 @@ namespace Spectroscopy_Viewer
         // Create a list of dataPoint objects
         private List<dataPoint>[] dataPoints;
 
+        // Array to store metadata
+        public string[] metadata = new string[23];
+
         // Metadata read from file
         private int startFrequency;         // Starting frequency of the file
         private int stepSize;               // Step size in frequency
@@ -35,7 +38,7 @@ namespace Spectroscopy_Viewer
             System.Windows.Forms.MessageBox.Show("No file selected");
         }
 
-        // Constructor given an array of data and an array of metadata (for live mode)
+        // Constructor given an array of data and some bits of metadata
         public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed)
         {
             // Need to convert the array of incoming data into a List<int[]>[]
@@ -96,8 +99,6 @@ namespace Spectroscopy_Viewer
 
             }   // End of if statement checking that repeats & numberInterleaved are valid numbers
 
-
-
         }
 
 
@@ -145,7 +146,7 @@ namespace Spectroscopy_Viewer
                 // Processing metadata
                 // Just dump it into an array of strings
 
-                string[] metadata = new string[23];
+                metadata = new string[23];
 
                 // Next 28 lines are misc metadata with titles
                 for (int i = 0; i < 14; i++)
@@ -212,10 +213,25 @@ namespace Spectroscopy_Viewer
                     for (int i = 0; i < numberInterleaved; i++)
                     {
                         spectrumNames[i] = "Default";
+
+                        // Make sure we are not outside the bounds of the array
+                        if (i + 15 < 22)
+                        {
+                            // Store default name in metadata
+                            metadata[i + 15] = spectrumNames[i];
+                        }
                     }
 
+                    
                     // Just process the raw data
                     this.processData(ref myFile);
+
+                    // Store what we have in the metadata array
+                    metadata[8] = stepSize.ToString();
+                    metadata[9] = stepSize.ToString();
+                    metadata[13] = repeats.ToString();
+                    metadata[14] = numberInterleaved.ToString();         
+
                 }
 
             }

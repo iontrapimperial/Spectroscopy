@@ -51,8 +51,8 @@ namespace Spectroscopy_Viewer
         // i.e. whether it is received live data
         private bool IsExperimentRunning = new bool();
         
-        // Array to store metadata for live experiment, save passing it every single time we add data
-        private string[] metadata;
+        // Array to store metadata for live experiment ONLY, save passing it every single time we add data
+        private string[] metadataLive;
         // Store the number of spectra in the live experiment as an int for quick access
         private int numberOfSpectraLive = new int();
         private int repeatsLive = new int();
@@ -119,12 +119,12 @@ namespace Spectroscopy_Viewer
 
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor
-            metadata = metadataPassed;
+            metadataLive = metadataPassed;
 
             // Extract ints that we need to pass to fileHandler
-            stepSizeLive = int.Parse(metadata[9]);
-            repeatsLive = int.Parse(metadata[13]);
-            numberOfSpectraLive = int.Parse(metadata[14]);
+            stepSizeLive = int.Parse(metadataLive[9]);
+            repeatsLive = int.Parse(metadataLive[13]);
+            numberOfSpectraLive = int.Parse(metadataLive[14]);
 
 
             // Save number of spectra
@@ -135,7 +135,7 @@ namespace Spectroscopy_Viewer
             // Create new spectra, with no data points, just metadata
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
-                mySpectrum.Add(new spectrum(ref metadata, i));
+                mySpectrum.Add(new spectrum(ref metadataLive, i));
             }
 
 
@@ -343,7 +343,8 @@ namespace Spectroscopy_Viewer
                                         // Get the list filled with data points, add to list of spectra
                                         mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
                                                         selectedSpectrum[j],         // Spectrum number
-                                                        mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]]));  // Spectrum name
+                                                        mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]], // Spectrum name
+                                                        ref myFilehandler.metadata )); // Metadata from file
 
                                         // Add blank PointPairList for storing plot data
                                         dataPlot.Add(new PointPairList());
