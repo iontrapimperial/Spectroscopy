@@ -78,13 +78,16 @@ namespace Spectroscopy_Controller
 
             int CurrentSideband = 0;
 
+<<<<<<< HEAD
             int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
             //Distance from end of one window to start of next
             //int WindowSpace = 0;        // need to work out how to calculate this
 
+=======
+>>>>>>> Sarah
             int numberOfFiles = this.myFileName.Length;
 
-            TextWriter myFile = new StreamWriter(myFileName[0]);
+            TextWriter myFile = new StreamWriter(myFileName[CurrentSideband]);
             if (myFile != null)
             {
                 WriteMessage("Opened first file for writing");
@@ -223,16 +226,22 @@ namespace Spectroscopy_Controller
 
                         foreach (int j in Readings)
                         {
-
                             myFile.WriteLine(j.ToString());
-
                         }
 
+<<<<<<< HEAD
                         //myViewer.addLiveData(Readings);
 
 
                         myFile.Flush();
 
+=======
+                        // Send data to the viewer (live)
+                        myViewer.addLiveData(Readings);     
+                        // Clear buffers for writing to file, gets ready for writing more data next time
+                        myFile.Flush();  
+                        // Clear list of readings
+>>>>>>> Sarah
                         Readings.Clear();
 
                         FPGA.ResetDevice();
@@ -270,7 +279,16 @@ namespace Spectroscopy_Controller
                                     }
                                     else if (CurrentWindowStep >= sbWidth)
                                     {
+                                        // This means we have come to the end of one sideband
+                                        // So flush & close that file
+                                        myFile.Flush();
+                                        myFile.Close();
+
                                         CurrentSideband++;
+
+                                        // New sideband, so open the next file, using filename from array
+                                        myFile = new StreamWriter(myFileName[CurrentSideband]);
+
                                         if (CurrentSideband < (sbToScan * 2) + 1)
                                         {
                                             Frequency += startFreqArray[CurrentSideband];
@@ -284,6 +302,10 @@ namespace Spectroscopy_Controller
                                             MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                             bShouldQuitThread = true;
                                             // break;       // might need this??
+
+                                            // Flush & close readings file
+                                            myFile.Flush();
+                                            myFile.Close();
                                         }
 
                                     }
@@ -339,13 +361,8 @@ namespace Spectroscopy_Controller
                 }
             }
 
-            foreach (int i in Readings)  //this loop probably isn't needed now
-            {
-                //File.WriteLine(i.ToString());
-            }
-
-            //File.Flush();
-            //File.Close();
+            myFile.Flush();
+            myFile.Close();
             FPGA.ResetDevice();
         }
 
