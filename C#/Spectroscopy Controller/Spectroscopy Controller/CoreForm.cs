@@ -48,17 +48,18 @@ namespace Spectroscopy_Controller
  
         //Scan parameters for given run (taken from user selected values on form)
         private string specType, specDir;
-        private int axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth, windowSpaceTemp, axFreqTemp, modcycFreqTemp;
+        private int axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth;//, axFreqTemp, modcycFreqTemp;
         private float trapV, angaxFreq, angmodcycFreq, angmagFreq, rfAmp;
 
         private int[] startFreqArray;
 
         public CoreForm()
-        {
+        {   
             InitializeComponent();
 
-            specDirBox.SelectedIndex = 0;
-            specTypeBox.SelectedIndex = 0;
+
+            specTypeBox.SelectedItem = "Continuous";
+            specDirBox.SelectedItem = "Axial";
 
             angtruecycFreq = (int)(emratio * ioncharge * bField / ionmass);
             stabilitylimit = dnought * dnought * bField * bField * ioncharge * emratio / 8 / ionmass;
@@ -444,7 +445,7 @@ namespace Spectroscopy_Controller
                     carFreq = (int)(10000000 * carFreqBox.Value);
                     stepSize = (int)(1000 * stepSizeBox.Value);
                     sbToScan = (int)sbToScanBox.Value;
-                    sbWidth = (int)(1000 * sbWidthBox.Value);
+                    sbWidth = (int)sbWidthBox.Value;
                     rfAmp = (float)rfAmpBox.Value;
                     
                     // Metadata ordering in array:
@@ -837,9 +838,7 @@ namespace Spectroscopy_Controller
             magFreqBox.Value = (decimal)(angmagFreq/1000/2/pi);
             modcycFreqBox.Value = (decimal)(angmodcycFreq/1000/2/pi);
             trapVBox.Value = (decimal)(trapV / 1000);
-            //Update temporary parameters that allow calculations on form (without changing experiment parameters if running)
-            axFreqTemp = (float)(1000 * axFreqBox.Value);
-            modcycFreqTemp = (float)(1000 * modcycFreqBox.Value);
+            updateWindowParam();
             updating = false;
         }
 
@@ -887,33 +886,35 @@ namespace Spectroscopy_Controller
         {
             updateWindowParam();
         }
+
+        private void stepSizeBox_ValueChanged(object sender, EventArgs e)
+        {
+            updateWindowParam();
+        }
         
         private void specDirBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            specDir = specDirBox.SelectedItem.ToString();
-            if (specDir == "Axial") windowSpaceTemp = axFreq;
-            else if (specDir == "Radial") windowSpaceTemp = modcycFreq;
-
+            updateWindowParam();
         }
+
+
 
         private void updateWindowParam()
         {
-            specType = specTypeBox.SelectedItem.ToString();
-            if (specType == "Windowed")
-            {
-                specDir = specDirBox.SelectedItem.ToString();
-                axFreq = (int)(1000 * axFreqBox.Value);
-                modcycFreq = (int)(1000 * modcycFreqBox.Value);
-                carFreq = (int)(1000000 * carFreqBox.Value);
-                stepSize = (int)(1000 * stepSizeBox.Value);
-                sbToScan = (int)sbToScanBox.Value;
-                sbWidth = (int)(1000 * sbWidthBox.Value);
-                int offsetFreq = (int)stepSize * sbWidth / 2;
-                startFreqBox.Value = (carFreq - offsetFreq - (windowSpace * sbToScan)) / 1000000;
-            }
-        }
+            string specTypeTemp = specTypeBox.SelectedItem.ToString();
+            string specDirTemp = specDirBox.SelectedItem.ToString();
 
-        
+            if (specTypeTemp == "Windowed")
+            {
+                int windowSpaceTemp = 0;
+                if (specDirTemp == "Axial") windowSpaceTemp = (int)(1000 * axFreqBox.Value);
+                else if (specDirTemp == "Radial") windowSpaceTemp = (int)(1000 * modcycFreqBox.Value);
+                int offsetFreq = (int)(1000 * stepSizeBox.Value * sbWidthBox.Value / 2);
+                startFreqBox.Value = (decimal)(((1000000 * carFreqBox.Value) - (windowSpaceTemp * sbToScanBox.Value) - offsetFreq) / 1000000);
+            }
+
+        }
+                 
        
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {

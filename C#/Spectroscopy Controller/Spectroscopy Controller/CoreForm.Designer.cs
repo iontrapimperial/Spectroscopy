@@ -896,6 +896,7 @@
             0,
             0,
             0});
+            this.stepSizeBox.ValueChanged += new System.EventHandler(this.stepSizeBox_ValueChanged);
             // 
             // label9
             // 
