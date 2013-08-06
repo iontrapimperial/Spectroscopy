@@ -78,13 +78,6 @@ namespace Spectroscopy_Controller
 
             int CurrentSideband = 0;
 
-<<<<<<< HEAD
-            int WindowSize = (int)sbWidthBox.Value;           // This will be in number of steps
-            //Distance from end of one window to start of next
-            //int WindowSpace = 0;        // need to work out how to calculate this
-
-=======
->>>>>>> Sarah
             int numberOfFiles = this.myFileName.Length;
 
             TextWriter myFile = new StreamWriter(myFileName[CurrentSideband]);
@@ -229,19 +222,13 @@ namespace Spectroscopy_Controller
                             myFile.WriteLine(j.ToString());
                         }
 
-<<<<<<< HEAD
-                        //myViewer.addLiveData(Readings);
 
-
-                        myFile.Flush();
-
-=======
                         // Send data to the viewer (live)
                         myViewer.addLiveData(Readings);     
                         // Clear buffers for writing to file, gets ready for writing more data next time
                         myFile.Flush();  
                         // Clear list of readings
->>>>>>> Sarah
+
                         Readings.Clear();
 
                         FPGA.ResetDevice();

@@ -17,11 +17,8 @@ namespace Spectroscopy_Controller
     public partial class CoreForm : Form
     {
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
-<<<<<<< HEAD
-        //private Spectroscopy_Viewer.SpectroscopyViewerForm myViewer;
-=======
         private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm(false);
->>>>>>> Sarah
+
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
@@ -62,7 +59,7 @@ namespace Spectroscopy_Controller
         {   
             InitializeComponent();
 
-<<<<<<< HEAD
+
 
             specTypeBox.SelectedItem = "Continuous";
             specDirBox.SelectedItem = "Axial";
@@ -71,16 +68,10 @@ namespace Spectroscopy_Controller
             stabilitylimit = dnought * dnought * bField * bField * ioncharge * emratio / 8 / ionmass;
             trapV = 80000;
             UpdateTrapFreqs();
-            //Console.WriteLine(angtruecycFreq);
-=======
-            truecycFreq = (emratio * ioncharge * bField / ionmass);
-            //Console.WriteLine(truecycFreq/2/pi);
 
             // Set up event handler to deal with viewer form & this form closing
             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
             this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);   
-            
->>>>>>> Sarah
         }
 
         
@@ -542,84 +533,6 @@ namespace Spectroscopy_Controller
                                 // Create a single file and put all readings in there
                                 myFileName = new string[1];
                                 myFile = new TextWriter[1];
-<<<<<<< HEAD
-                                myFile[0] = new StreamWriter(myFileName[0]);
-
-                                // Write the metadata to the file
-                                /////////////////////////////////////
-                                myFile[0].WriteLine("Spectroscopy data file");
-                                myFile[0].WriteLine(metadata[0]);
-                                // Spectrum type
-                                myFile[0].WriteLine("Spectrum Type:");
-                                myFile[0].WriteLine(metadata[1]);
-                                // 729 direction
-                                myFile[0].WriteLine("729 Direction:");
-                                myFile[0].WriteLine(metadata[2]);
-                                // Trap voltage
-                                myFile[0].WriteLine("Trap Voltage (V):");
-                                myFile[0].WriteLine(metadata[3]);
-                                // Axial frequency
-                                myFile[0].WriteLine("Axial Frequency (kHz):");
-                                myFile[0].WriteLine(metadata[4]);
-                                // Modified cyc freq
-                                myFile[0].WriteLine("Modified Cyclotron Frequency (kHz):");
-                                myFile[0].WriteLine(metadata[5]);
-                                // Magnetron freq
-                                myFile[0].WriteLine("Magnetron Frequency (kHz):");
-                                myFile[0].WriteLine(metadata[6]);
-                                // AOM start freq
-                                myFile[0].WriteLine("AOM Start Frequency (MHz):");
-                                myFile[0].WriteLine(metadata[7]);
-                                // Carrier frequency
-                                myFile[0].WriteLine("Carrier Frequency (MHz):");
-                                myFile[0].WriteLine(metadata[8]);
-                                // Step size
-                                myFile[0].WriteLine("Step Size (kHz):");
-                                myFile[0].WriteLine(metadata[9]);
-                                // Sidebands/side
-                                myFile[0].WriteLine("Sidebands to scan / side:");
-                                myFile[0].WriteLine(metadata[10]);
-                                // Sideband width
-                                myFile[0].WriteLine("Sideband Width (steps):");
-                                myFile[0].WriteLine(metadata[11]);
-                                // 729 RF amplitude
-                                myFile[0].WriteLine("729 RF Amplitude (dBm):");
-                                myFile[0].WriteLine(metadata[12]);
-                                // Number of repeats
-                                myFile[0].WriteLine("Number of repeats per frequency:");
-                                myFile[0].WriteLine(metadata[13]);
-                                // Number interleaved
-                                myFile[0].WriteLine("File contains interleaved spectra:");
-                                myFile[0].WriteLine(metadata[14]);
-                                // Sideband number
-                                myFile[0].WriteLine("This is sideband:");
-                                myFile[0].WriteLine("N/A");
-
-                                // Name for each spectrum
-                                for (int i = 0; i < myExperimentDialog.NumberOfSpectra.Value; i++)
-                                {
-                                    myFile[0].WriteLine("Spectrum " + i + " name:");
-                                    myFile[0].WriteLine(myExperimentDialog.SpectrumNames[i].Text);
-                                }
-
-                                // Notes section
-                                myFile[0].WriteLine("Notes:");
-                                myFile[0].WriteLine(myExperimentDialog.NotesBox.Text);
-
-                                // Title for data
-                                myFile[0].WriteLine("Data:");
-
-
-                                // If myViewer is not open
-                                /*if (myViewer == null)
-                                {
-                                    // Create new instance of viewer
-
-                                    //myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
-
-                                } */
-=======
->>>>>>> Sarah
 
                                 // Create the file with appropriate name & write metadata to it
                                 writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
@@ -899,7 +812,6 @@ namespace Spectroscopy_Controller
             updating = false;
         }
 
-<<<<<<< HEAD
         private void specTypeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             specType = specTypeBox.SelectedItem.ToString();
@@ -954,7 +866,7 @@ namespace Spectroscopy_Controller
         {
             updateWindowParam();
         }
-=======
+
         private void OpenViewerButton_Click(object sender, EventArgs e)
         {
             if (!myViewer.IsFormOpened)
@@ -971,7 +883,7 @@ namespace Spectroscopy_Controller
         }
 
 
->>>>>>> Sarah
+
 
 
 

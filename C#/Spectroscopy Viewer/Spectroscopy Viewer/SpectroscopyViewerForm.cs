@@ -14,14 +14,13 @@ using System.IO;
 using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 
-/*namespace Spectroscopy_Viewer
+namespace Spectroscopy_Viewer
 {
     public partial class SpectroscopyViewerForm : Form
     {
         // Bool to check from within CoreForm whether the form has been fulled opened
         // or just initialised to a blank object
         public bool IsFormOpened = new bool();
-
 
         // A list of spectrum objects. List is basically just a dynamic array so we can add more objects as necessary
         public List<spectrum> mySpectrum = new List<spectrum>();
@@ -1081,5 +1080,5 @@ using ZedGraph;     // Includes ZedGraph for plotting graphs
 
 
     }
-}   */
+} 
     
