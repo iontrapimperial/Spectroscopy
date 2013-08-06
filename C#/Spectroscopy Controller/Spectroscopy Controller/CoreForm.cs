@@ -544,6 +544,11 @@ namespace Spectroscopy_Controller
                             }
                             else if (specType == "Fixed")
                             {
+                                // Code here temporarily for testing - need to create files properly
+                                // Create a single file and put all readings in there
+                                myFileName = new string[1];
+                                myFileName[0] = "Not really a file";
+
                                 bIsFreqGenEnabled = false;
                             }
 
