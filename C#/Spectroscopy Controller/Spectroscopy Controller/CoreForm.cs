@@ -322,9 +322,9 @@ namespace Spectroscopy_Controller
 
         #endregion
               
-        /*#region Methods defined in HexFileIO.cs
+        #region Methods defined in HexFileIO.cs
 
-        private void compileToBinaryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BinaryCompileButton_Click(object sender, EventArgs e)
         {
             saveHexFileDialog.ShowDialog();
         }
@@ -334,7 +334,7 @@ namespace Spectroscopy_Controller
             SaveHexFile();
         }
 
-        private void sendBinaryFileOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UploadButton_Click(object sender, EventArgs e)
         {
             if (FPGA.bUSBPortIsOpen == false)
             {
@@ -349,14 +349,15 @@ namespace Spectroscopy_Controller
         {
             SendBinaryFile();
         }
-
+                   /*
         private void sendBinaryFileStartSignalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             sendBinaryFileOnlyToolStripMenuItem_Click(null, null);
             sendStartSignalToolStripMenuItem_Click(null, null);
-        }
+        }            */
 
-        #endregion*/        
+
+        #endregion        
 
         /*private void CreateFromTemplateButton_Click(object sender, EventArgs e)
         {            
@@ -416,14 +417,14 @@ namespace Spectroscopy_Controller
                 else
                 {
                     //Grab all scan and trap parameters from form:
-                    specType = specTypeBox.SelectedValue.ToString();
-                    specDir = specDirBox.SelectedValue.ToString();
+                    specType = specTypeBox.SelectedItem.ToString();
+                    specDir = specDirBox.SelectedItem.ToString();
                     trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
                     axFreq = (int)(1000 * axFreqBox.Value);
                     modcycFreq = (int)(1000 * modcycFreqBox.Value);
                     magFreq = (int)(1000 * magFreqBox.Value);
-                    startFreq = (int)(10000000 * startFreqBox.Value);
-                    carFreq = (int)(10000000 * carFreqBox.Value);
+                    startFreq = (int)(1000000 * startFreqBox.Value);
+                    carFreq = (int)(1000000 * carFreqBox.Value);
                     stepSize = (int)(1000 * stepSizeBox.Value);
                     sbToScan = (int)sbToScanBox.Value;
                     sbWidth = (int)sbWidthBox.Value;
@@ -456,6 +457,8 @@ namespace Spectroscopy_Controller
                     myExperimentDialog.ShowDialog();
                     if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                     {
+                        Console.WriteLine("Experiment Start Dialog closed - result OK");
+
                         // Create & fill in metadata
                         string[] metadata = new string[23];
                         metadata[0] = DateTime.UtcNow.ToString("d/m/yyyy HH:MM:SS");
@@ -872,6 +875,11 @@ namespace Spectroscopy_Controller
             }
 
         }
+
+
+
+
+
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
