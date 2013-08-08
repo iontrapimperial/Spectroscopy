@@ -102,7 +102,7 @@ namespace Spectroscopy_Controller
                 State.Laser729 = LaserBox729.Checked;
                 State.Laser854 = LaserBox854.Checked;
                 State.Laser854POWER = LaserBox854POWER.Checked;
-                State.Laser854FREQ = LaserBox854POWER.Checked;
+                State.Laser854FREQ = LaserBox854FREQ.Checked;
                 State.LaserAux1 = LaserBoxAux1.Checked;
                 State.LaserAux2 = LaserBoxAux2.Checked;
                 

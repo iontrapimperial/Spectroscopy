@@ -478,6 +478,7 @@
             // 
             this.PulseTypeBox.FormattingEnabled = true;
             this.PulseTypeBox.Items.AddRange(new object[] {
+            "Other",
             "Frequency Wait",
             "Mains Phase Wait",
             "Normal",

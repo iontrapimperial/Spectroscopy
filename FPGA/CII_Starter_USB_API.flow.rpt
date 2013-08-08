@@ -1,5 +1,5 @@
 Flow report for CII_Starter_USB_API
-Tue Aug 06 19:09:14 2013
+Wed Aug 07 17:13:26 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +------------------------------------------------------------------------------------+
 ; Flow Summary                                                                       ;
 +------------------------------------+-----------------------------------------------+
-; Flow Status                        ; Analyzed - Tue Aug 06 19:09:14 2013           ;
+; Flow Status                        ; Analyzed - Wed Aug 07 17:13:17 2013           ;
 ; Quartus II Version                 ; 11.0 Build 208 07/03/2011 SP 1 SJ Web Edition ;
 ; Revision Name                      ; CII_Starter_USB_API                           ;
 ; Top-level Entity Name              ; CPU                                           ;
@@ -62,7 +62,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/06/2013 19:07:55 ;
+; Start date & time ; 08/07/2013 17:11:41 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; CII_Starter_USB_API ;
 +-------------------+---------------------+
@@ -76,7 +76,7 @@ applicable agreement for further details.
 ; ADV_NETLIST_OPT_SYNTH_GATE_RETIME                 ; On                          ; Off                 ; --          ; --         ;
 ; ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP               ; On                          ; Off                 ; --          ; --         ;
 ; AUTO_PACKED_REGISTERS_STRATIXII                   ; Normal                      ; Auto                ; --          ; --         ;
-; COMPILER_SIGNATURE_ID                             ; 68693530300.137581247404984 ; --                  ; --          ; --         ;
+; COMPILER_SIGNATURE_ID                             ; 68693530300.137589190004108 ; --                  ; --          ; --         ;
 ; CYCLONEII_OPTIMIZATION_TECHNIQUE                  ; Speed                       ; Balanced            ; --          ; --         ;
 ; ENABLE_DRC_SETTINGS                               ; On                          ; Off                 ; --          ; --         ;
 ; ENABLE_SIGNALTAP                                  ; Off                         ; --                  ; --          ; --         ;
@@ -104,12 +104,12 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:23     ; 1.0                     ; 312 MB              ; 00:00:21                           ;
-; Fitter                    ; 00:00:35     ; 1.0                     ; 351 MB              ; 00:00:32                           ;
+; Analysis & Synthesis      ; 00:00:23     ; 1.0                     ; 312 MB              ; 00:00:22                           ;
+; Fitter                    ; 00:00:55     ; 1.0                     ; 351 MB              ; 00:00:32                           ;
 ; Assembler                 ; 00:00:04     ; 1.0                     ; 275 MB              ; 00:00:03                           ;
-; TimeQuest Timing Analyzer ; 00:00:08     ; 1.0                     ; 246 MB              ; 00:00:04                           ;
+; TimeQuest Timing Analyzer ; 00:00:07     ; 1.0                     ; 246 MB              ; 00:00:04                           ;
 ; Design Assistant          ; 00:00:04     ; 1.0                     ; 237 MB              ; 00:00:03                           ;
-; Total                     ; 00:01:14     ; --                      ; --                  ; 00:01:03                           ;
+; Total                     ; 00:01:33     ; --                      ; --                  ; 00:01:04                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

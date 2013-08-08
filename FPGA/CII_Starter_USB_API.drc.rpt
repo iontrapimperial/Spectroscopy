@@ -1,5 +1,5 @@
 Design Assistant report for CII_Starter_USB_API
-Tue Aug 06 19:09:14 2013
+Wed Aug 07 17:13:26 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +-------------------------------------------------------------------------+
 ; Design Assistant Summary                                                ;
 +-----------------------------------+-------------------------------------+
-; Design Assistant Status           ; Analyzed - Tue Aug 06 19:09:14 2013 ;
+; Design Assistant Status           ; Analyzed - Wed Aug 07 17:13:17 2013 ;
 ; Revision Name                     ; CII_Starter_USB_API                 ;
 ; Top-level Entity Name             ; CPU                                 ;
 ; Family                            ; Cyclone II                          ;
@@ -446,7 +446,7 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Design Assistant
     Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
-    Info: Processing started: Tue Aug 06 19:09:10 2013
+    Info: Processing started: Wed Aug 07 17:13:13 2013
 Info: Command: quartus_drc --read_settings_files=off --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
 Warning: Old Design Assistant assignment is used to turn ON/OFF rule. ENABLE_DA_RULE or DISABLE_DA_RULE assignment should be used to turn ON/OFF Design Assistant rule.
     Warning: CLK_RULE_COMB_CLOCK
@@ -592,8 +592,8 @@ Info: (Information) Rule T102: Top nodes with the highest number of fan-outs. (V
 Info: Design Assistant information: finished post-fitting analysis of current design -- generated 82 information messages and 34 warning messages
 Info: Quartus II Design Assistant was successful. 0 errors, 70 warnings
     Info: Peak virtual memory: 237 megabytes
-    Info: Processing ended: Tue Aug 06 19:09:14 2013
-    Info: Elapsed time: 00:00:04
+    Info: Processing ended: Wed Aug 07 17:13:26 2013
+    Info: Elapsed time: 00:00:13
     Info: Total CPU time (on all processors): 00:00:03
 
 
