@@ -200,7 +200,7 @@ namespace Spectroscopy_Controller
             
             // Write 3 bytes of data for Ticks
             byte[] Data = new byte[4];
-            byte[] Ticks = BitConverter.GetBytes(State.Ticks);
+            byte[] Ticks = BitConverter.GetBytes(State.Ticks*32);
             if (BitConverter.IsLittleEndian) //Least significant bits are at start of array
             {
                 for (int i = 2; i >= 0; i--)

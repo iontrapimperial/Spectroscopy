@@ -1,5 +1,5 @@
 Analysis & Synthesis report for CII_Starter_USB_API
-Wed Aug 07 17:12:05 2013
+Thu Aug 08 19:50:04 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -86,15 +86,15 @@ applicable agreement for further details.
 +------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                       ;
 +------------------------------------+-----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Aug 07 17:12:04 2013         ;
+; Analysis & Synthesis Status        ; Successful - Thu Aug 08 19:50:04 2013         ;
 ; Quartus II Version                 ; 11.0 Build 208 07/03/2011 SP 1 SJ Web Edition ;
 ; Revision Name                      ; CII_Starter_USB_API                           ;
 ; Top-level Entity Name              ; CPU                                           ;
 ; Family                             ; Cyclone II                                    ;
-; Total logic elements               ; 2,060                                         ;
-;     Total combinational functions  ; 1,851                                         ;
-;     Dedicated logic registers      ; 1,107                                         ;
-; Total registers                    ; 1107                                          ;
+; Total logic elements               ; 1,936                                         ;
+;     Total combinational functions  ; 1,722                                         ;
+;     Dedicated logic registers      ; 1,145                                         ;
+; Total registers                    ; 1145                                          ;
 ; Total pins                         ; 171                                           ;
 ; Total virtual pins                 ; 0                                             ;
 ; Total memory bits                  ; 0                                             ;
@@ -250,20 +250,20 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------+
 ; Resource                                    ; Usage    ;
 +---------------------------------------------+----------+
-; Estimated Total logic elements              ; 2,060    ;
+; Estimated Total logic elements              ; 1,936    ;
 ;                                             ;          ;
-; Total combinational functions               ; 1851     ;
+; Total combinational functions               ; 1722     ;
 ; Logic element usage by number of LUT inputs ;          ;
-;     -- 4 input functions                    ; 919      ;
-;     -- 3 input functions                    ; 416      ;
-;     -- <=2 input functions                  ; 516      ;
+;     -- 4 input functions                    ; 745      ;
+;     -- 3 input functions                    ; 468      ;
+;     -- <=2 input functions                  ; 509      ;
 ;                                             ;          ;
 ; Logic elements by mode                      ;          ;
-;     -- normal mode                          ; 1571     ;
-;     -- arithmetic mode                      ; 280      ;
+;     -- normal mode                          ; 1419     ;
+;     -- arithmetic mode                      ; 303      ;
 ;                                             ;          ;
-; Total registers                             ; 1107     ;
-;     -- Dedicated logic registers            ; 1107     ;
+; Total registers                             ; 1145     ;
+;     -- Dedicated logic registers            ; 1145     ;
 ;     -- I/O registers                        ; 0        ;
 ;                                             ;          ;
 ; I/O pins                                    ; 171      ;
@@ -271,9 +271,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;     -- PLLs                                 ; 1        ;
 ;                                             ;          ;
 ; Maximum fan-out node                        ; CLOCK_50 ;
-; Maximum fan-out                             ; 879      ;
-; Total fan-out                               ; 9829     ;
-; Average fan-out                             ; 3.14     ;
+; Maximum fan-out                             ; 916      ;
+; Total fan-out                               ; 9403     ;
+; Average fan-out                             ; 3.09     ;
 +---------------------------------------------+----------+
 
 
@@ -282,14 +282,14 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                      ; Library Name ;
 +-------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------+--------------+
-; |CPU                                      ; 1851 (1)          ; 1107 (0)     ; 0           ; 0            ; 0       ; 0         ; 171  ; 0            ; |CPU                                                                                                     ;              ;
-;    |CII_Starter_USB_API:inst|             ; 1250 (0)          ; 848 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst                                                                            ;              ;
-;       |CMD_Decode:u5|                     ; 656 (656)         ; 458 (458)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5                                                              ;              ;
-;       |Multi_Flash:u2|                    ; 151 (0)           ; 96 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2                                                             ;              ;
-;          |Flash_Controller:u1|            ; 108 (108)         ; 91 (91)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1                                         ;              ;
+; |CPU                                      ; 1722 (1)          ; 1145 (0)     ; 0           ; 0            ; 0       ; 0         ; 171  ; 0            ; |CPU                                                                                                     ;              ;
+;    |CII_Starter_USB_API:inst|             ; 1262 (0)          ; 849 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst                                                                            ;              ;
+;       |CMD_Decode:u5|                     ; 659 (659)         ; 458 (458)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5                                                              ;              ;
+;       |Multi_Flash:u2|                    ; 152 (0)           ; 96 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2                                                             ;              ;
+;          |Flash_Controller:u1|            ; 109 (109)         ; 91 (91)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1                                         ;              ;
 ;          |Flash_Multiplexer:u0|           ; 43 (43)           ; 5 (5)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Multiplexer:u0                                        ;              ;
-;       |Multi_Sdram:u3|                    ; 239 (0)           ; 220 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3                                                             ;              ;
-;          |Sdram_Controller:u1|            ; 189 (62)          ; 215 (73)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1                                         ;              ;
+;       |Multi_Sdram:u3|                    ; 240 (0)           ; 221 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3                                                             ;              ;
+;          |Sdram_Controller:u1|            ; 190 (63)          ; 216 (74)     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1                                         ;              ;
 ;             |PLL1:sdram_pll1|             ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1                         ;              ;
 ;                |altpll:altpll_component|  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component ;              ;
 ;             |command:command1|            ; 62 (62)           ; 48 (48)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1                        ;              ;
@@ -297,9 +297,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;             |sdr_data_path:data_path1|    ; 0 (0)             ; 32 (32)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|sdr_data_path:data_path1                ;              ;
 ;          |Sdram_Multiplexer:u0|           ; 50 (50)           ; 5 (5)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0                                        ;              ;
 ;       |Multi_Sram:u6|                     ; 52 (52)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|Multi_Sram:u6                                                              ;              ;
-;       |uart:u1|                           ; 152 (152)         ; 74 (74)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|uart:u1                                                                    ;              ;
+;       |uart:u1|                           ; 159 (159)         ; 74 (74)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|CII_Starter_USB_API:inst|uart:u1                                                                    ;              ;
 ;    |LaserSwitch:inst3|                    ; 10 (10)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|LaserSwitch:inst3                                                                                   ;              ;
-;    |Laser_Controller:inst10|              ; 558 (558)         ; 227 (227)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|Laser_Controller:inst10                                                                             ;              ;
+;    |Laser_Controller:inst10|              ; 417 (417)         ; 264 (264)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|Laser_Controller:inst10                                                                             ;              ;
 ;    |lpm_counter0:inst1|                   ; 16 (0)            ; 16 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|lpm_counter0:inst1                                                                                  ;              ;
 ;       |lpm_counter:LPM_COUNTER_component| ; 16 (0)            ; 16 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component                                                ;              ;
 ;          |cntr_m7j:auto_generated|        ; 16 (16)           ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated                        ;              ;
@@ -566,7 +566,6 @@ Encoding Type:  One-Hot
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|CKE                 ; Merged with CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|CS_N[0] ;
 ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|WE_CLK_Delay[0]                      ; Merged with CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mCLK                     ;
 ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|pre_mCLK                             ; Merged with CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|WE_CLK_Delay[1]          ;
-; Laser_Controller:inst10|TicksToRun[1..4]                                                         ; Merged with Laser_Controller:inst10|TicksToRun[0]                                                ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[20,22]                                         ; Merged with CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[18]                                ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[21,23,27]                                      ; Merged with CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[19]                                ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[26]                                            ; Merged with CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[24]                                ;
@@ -640,9 +639,8 @@ Encoding Type:  One-Hot
 ; Laser_Controller:inst10|f_NextAddress[21]                                                        ; Lost fanout                                                                                      ;
 ; Laser_Controller:inst10|f_LoopStartAddress[21]                                                   ; Lost fanout                                                                                      ;
 ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Cont_DIV[3..10]                      ; Lost fanout                                                                                      ;
-; Laser_Controller:inst10|f_NextInstructionReady                                                   ; Lost fanout                                                                                      ;
-; Laser_Controller:inst10|f_PrepNextInstruction                                                    ; Lost fanout                                                                                      ;
-; Total Number of Removed Registers = 141                                                          ;                                                                                                  ;
+; Laser_Controller:inst10|f_NextAddress[0..20]                                                     ; Lost fanout                                                                                      ;
+; Total Number of Removed Registers = 156                                                          ;                                                                                                  ;
 +--------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------+
 
 
@@ -661,12 +659,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 1107  ;
-; Number of registers using Synchronous Clear  ; 241   ;
-; Number of registers using Synchronous Load   ; 130   ;
-; Number of registers using Asynchronous Clear ; 258   ;
+; Total registers                              ; 1145  ;
+; Number of registers using Synchronous Clear  ; 221   ;
+; Number of registers using Synchronous Load   ; 137   ;
+; Number of registers using Asynchronous Clear ; 259   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 743   ;
+; Number of registers using Clock Enable       ; 803   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -680,10 +678,10 @@ Encoding Type:  One-Hot
 ; CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[0] ; 1       ;
 ; CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[3] ; 1       ;
 ; CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[4] ; 1       ;
-; CII_Starter_USB_API:inst|uart:u1|rx                ; 25      ;
 ; CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[0] ; 1       ;
 ; CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[3] ; 1       ;
 ; CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[4] ; 1       ;
+; CII_Starter_USB_API:inst|uart:u1|rx                ; 24      ;
 ; Laser_Controller:inst10|f_MainsPhase_state         ; 1       ;
 ; Total number of inverted registers = 9             ;         ;
 +----------------------------------------------------+---------+
@@ -694,85 +692,147 @@ Encoding Type:  One-Hot
 +---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-----------------+
 ; Register Name                                                       ; Clock Name                                                                                                ; Created/Deleted ;
 +---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-----------------+
-; Laser_Controller:inst10|f_NextInstructionReady                      ; CLOCK_50                                                                                                  ; Deleted         ;
-; Laser_Controller:inst10|f_PrepNextInstruction                       ; CLOCK_50                                                                                                  ; Deleted         ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[8]~0 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0 ; Created         ;
-; Laser_Controller:inst10|f_NextInstructionReady~0                    ; CLOCK_50                                                                                                  ; Created         ;
-; Laser_Controller:inst10|f_NextInstructionReady~1                    ; CLOCK_50                                                                                                  ; Created         ;
-; Laser_Controller:inst10|f_PrepNextInstruction~0                     ; CLOCK_50                                                                                                  ; Created         ;
-; Laser_Controller:inst10|f_PrepNextInstruction~1                     ; CLOCK_50                                                                                                  ; Created         ;
-; Laser_Controller:inst10|f_PrepNextInstruction~2                     ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[19]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[20]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[18]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[17]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[16]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[15]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[6]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[14]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[5]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[13]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[4]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[12]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[3]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[11]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[2]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[10]                           ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[1]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[9]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[0]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[8]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; Laser_Controller:inst10|f_NextAddress[7]                            ; CLOCK_50                                                                                                  ; Deleted         ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[4]~0 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0 ; Created         ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[6]~1 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0 ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[19]~0                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[19]~1                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[20]~2                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[20]~3                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[18]~4                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[18]~5                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[17]~6                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[17]~7                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[16]~8                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[16]~9                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[15]~10                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[15]~11                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[6]~12                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[6]~13                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[14]~14                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[14]~15                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[5]~16                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[5]~17                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[13]~18                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[13]~19                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[4]~20                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[4]~21                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[12]~22                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[12]~23                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[3]~24                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[3]~25                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[11]~26                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[11]~27                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[2]~28                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[2]~29                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[10]~30                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[10]~31                        ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[1]~32                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[1]~33                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[9]~34                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[9]~35                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[0]~36                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[0]~37                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[8]~38                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[8]~39                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~40                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~41                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~42                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~43                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~44                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~45                         ; CLOCK_50                                                                                                  ; Created         ;
+; Laser_Controller:inst10|f_NextAddress[7]~46                         ; CLOCK_50                                                                                                  ; Created         ;
 +---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+-----------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                                                      ;
-+--------------------+-----------+---------------+----------------------+------------------------+-------------------------------------------------------------------------------------------------------+----------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered                                                                                            ; Example Multiplexer Output ;
-+--------------------+-----------+---------------+----------------------+------------------------+-------------------------------------------------------------------------------------------------------+----------------------------+
-; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[17]                                               ;                            ;
-; 3:1                ; 22 bits   ; 44 LEs        ; 22 LEs               ; 22 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[21]                                 ;                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_ExperimentFinish                                        ;                            ;
-; 3:1                ; 24 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; |CPU|Laser_Controller:inst10|f_NumTimesLooped[0]                                                      ;                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|BA[1]               ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|command_delay[3]    ;                            ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|timer[13] ;                            ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[2]                                               ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[6]                                          ;                            ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                             ;                            ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]                                            ;                            ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                             ;                            ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[8]               ;                            ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[5]               ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[8]                                               ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[7]                                               ;                            ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[27]                                              ;                            ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[12]                                              ;                            ;
-; 5:1                ; 10 bits   ; 30 LEs        ; 20 LEs               ; 10 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_Lasers[8]                                               ;                            ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|rp_done             ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; |CPU|Laser_Controller:inst10|f_ClearErrorSignal                                                       ;                            ;
-; 6:1                ; 19 bits   ; 76 LEs        ; 19 LEs               ; 57 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[0]                                         ;                            ;
-; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_Transmit_Data[4]                                    ;                            ;
-; 5:1                ; 18 bits   ; 54 LEs        ; 18 LEs               ; 36 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[14]                                         ;                            ;
-; 6:1                ; 17 bits   ; 68 LEs        ; 17 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[9]                                               ;                            ;
-; 6:1                ; 41 bits   ; 164 LEs       ; 41 LEs               ; 123 LEs                ; |CPU|Laser_Controller:inst10|f_LoopCount[0]                                                           ;                            ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[1]                                           ;                            ;
-; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[4]                                                 ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[2]                                                 ;                            ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_bits_remaining[3]                                            ;                            ;
-; 7:1                ; 22 bits   ; 88 LEs        ; 22 LEs               ; 66 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[4]                                        ;                            ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|CMD[1]                               ;                            ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_bits_remaining[3]                                            ;                            ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InstructionBuffer[4]                                      ;                            ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[12]                                             ;                            ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[2]                                                 ;                            ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 21 LEs               ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oInfo_TXD_DATA[4]                                         ;                            ;
-; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[8]                                ;                            ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[5]                                                 ;                            ;
-; 9:1                ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_data[6]                                                      ;                            ;
-; 10:1               ; 19 bits   ; 114 LEs       ; 19 LEs               ; 95 LEs                 ; |CPU|Laser_Controller:inst10|Ticks[13]                                                                ;                            ;
-; 9:1                ; 22 bits   ; 132 LEs       ; 44 LEs               ; 88 LEs                 ; |CPU|Laser_Controller:inst10|f_NextAddress[15]                                                        ;                            ;
-; 8:1                ; 21 bits   ; 105 LEs       ; 42 LEs               ; 63 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[6]                                              ;                            ;
-; 12:1               ; 3 bits    ; 24 LEs        ; 9 LEs                ; 15 LEs                 ; |CPU|Laser_Controller:inst10|ControlBits[1]                                                           ;                            ;
-; 12:1               ; 24 bits   ; 192 LEs       ; 24 LEs               ; 168 LEs                ; |CPU|Laser_Controller:inst10|TicksToRun[13]                                                           ;                            ;
-; 8:1                ; 7 bits    ; 35 LEs        ; 14 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[19]                                            ;                            ;
-; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[7]                                             ;                            ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[0]                                               ;                            ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[0]                                               ;                            ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                   ;                            ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|f_DataState                                               ;                            ;
-; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_SDDataIO_ST                                             ;                            ;
-; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST                                                    ;                            ;
-; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Selector11                           ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_InstructionState                                                       ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_State                                                                  ;                            ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                   ;                            ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                   ;                            ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Final_state                                               ;                            ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|Selector6                                                       ;                            ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 6 LEs                ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                               ;                            ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                               ;                            ;
-+--------------------+-----------+---------------+----------------------+------------------------+-------------------------------------------------------------------------------------------------------+----------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------------------------------------------------------------------------------------------------+----------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered                                                                                           ; Example Multiplexer Output ;
++--------------------+-----------+---------------+----------------------+------------------------+------------------------------------------------------------------------------------------------------+----------------------------+
+; 3:1                ; 64 bits   ; 128 LEs       ; 64 LEs               ; 64 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[14]                                              ;                            ;
+; 3:1                ; 22 bits   ; 44 LEs        ; 22 LEs               ; 22 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[18]                                ;                            ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_ExperimentFinish                                       ;                            ;
+; 3:1                ; 24 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; |CPU|Laser_Controller:inst10|f_NumTimesLooped[14]                                                    ;                            ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|BA[0]              ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|command_delay[2]   ;                            ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|timer[1] ;                            ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[2]                                              ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[7]                                         ;                            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                            ;                            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]                                           ;                            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                            ;                            ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[9]              ;                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[5]              ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[9]                                              ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[8]                                              ;                            ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[27]                                             ;                            ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[5]                                              ;                            ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 20 LEs               ; 10 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_Lasers[1]                                              ;                            ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|rp_shift[1]        ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 2 LEs                ; 4 LEs                  ; |CPU|Laser_Controller:inst10|oCountReady                                                             ;                            ;
+; 6:1                ; 19 bits   ; 76 LEs        ; 19 LEs               ; 57 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]                                       ;                            ;
+; 5:1                ; 7 bits    ; 21 LEs        ; 14 LEs               ; 7 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_Transmit_Data[5]                                   ;                            ;
+; 5:1                ; 18 bits   ; 54 LEs        ; 18 LEs               ; 36 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[4]                                         ;                            ;
+; 6:1                ; 17 bits   ; 68 LEs        ; 17 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[17]                                             ;                            ;
+; 6:1                ; 41 bits   ; 164 LEs       ; 41 LEs               ; 123 LEs                ; |CPU|Laser_Controller:inst10|f_LoopCount[16]                                                         ;                            ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[6]                                          ;                            ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 4 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[0]                                                ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_countdown[2]                                                ;                            ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_bits_remaining[0]                                           ;                            ;
+; 7:1                ; 22 bits   ; 88 LEs        ; 22 LEs               ; 66 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[0]                                       ;                            ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|CMD[1]                              ;                            ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_bits_remaining[0]                                           ;                            ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InstructionBuffer[5]                                     ;                            ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[8]                                             ;                            ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[1]                                                ;                            ;
+; 9:1                ; 24 bits   ; 144 LEs       ; 24 LEs               ; 120 LEs                ; |CPU|Laser_Controller:inst10|Ticks[11]                                                               ;                            ;
+; 8:1                ; 7 bits    ; 35 LEs        ; 21 LEs               ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oInfo_TXD_DATA[1]                                        ;                            ;
+; 7:1                ; 9 bits    ; 36 LEs        ; 18 LEs               ; 18 LEs                 ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[5]                               ;                            ;
+; 7:1                ; 22 bits   ; 88 LEs        ; 44 LEs               ; 44 LEs                 ; |CPU|Laser_Controller:inst10|f_NextAddress[0]                                                        ;                            ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_countdown[4]                                                ;                            ;
+; 9:1                ; 7 bits    ; 42 LEs        ; 21 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_data[1]                                                     ;                            ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; |CPU|Laser_Controller:inst10|ControlBits[2]                                                          ;                            ;
+; 10:1               ; 28 bits   ; 168 LEs       ; 0 LEs                ; 168 LEs                ; |CPU|Laser_Controller:inst10|TicksToRun[16]                                                          ;                            ;
+; 8:1                ; 21 bits   ; 105 LEs       ; 42 LEs               ; 63 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[6]                                             ;                            ;
+; 8:1                ; 7 bits    ; 35 LEs        ; 14 LEs               ; 21 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[18]                                           ;                            ;
+; 8:1                ; 17 bits   ; 85 LEs        ; 34 LEs               ; 51 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[7]                                            ;                            ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|tx_clk_divider[3]                                              ;                            ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|rx_clk_divider[4]                                              ;                            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                  ;                            ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|f_DataState                                              ;                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|m_SDDataIO_ST                                            ;                            ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST                                                   ;                            ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Selector10                          ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_InstructionState                                                      ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|Laser_Controller:inst10|f_State                                                                 ;                            ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                  ;                            ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST                                  ;                            ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Final_state                                              ;                            ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; |CPU|CII_Starter_USB_API:inst|uart:u1|Selector6                                                      ;                            ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 6 LEs                ; 14 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                              ;                            ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 6 LEs                ; 24 LEs                 ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state                                              ;                            ;
++--------------------+-----------+---------------+----------------------+------------------------+------------------------------------------------------------------------------------------------------+----------------------------+
 
 
 +-------------------------------------------------------------------------------+
@@ -1568,7 +1628,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:31     ;
+; Top            ; 00:00:33     ;
 +----------------+--------------+
 
 
@@ -1578,7 +1638,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Aug 07 17:11:39 2013
+    Info: Processing started: Thu Aug 08 19:49:37 2013
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
 Critical Warning: Setting INCREMENTAL_COMPILATION to "OFF" is no longer supported. Assignment is ignored. To disable partitions, set the IGNORE_PARTITIONS global assignment to "ON" instead.
 Warning: Parallel compilation is not licensed and has been disabled
@@ -1722,7 +1782,6 @@ Warning (10230): Verilog HDL assignment warning at CMD_Decode.v(1340): truncated
 Warning (10230): Verilog HDL assignment warning at CMD_Decode.v(1349): truncated value with size 32 to match size of target (19)
 Info: Elaborating entity "Multi_Sram" for hierarchy "CII_Starter_USB_API:inst|Multi_Sram:u6"
 Info: Elaborating entity "Laser_Controller" for hierarchy "Laser_Controller:inst10"
-Warning (10230): Verilog HDL assignment warning at Laser_Controller.v(267): truncated value with size 24 to match size of target (19)
 Warning: Using design file lpm_counter0.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
     Info: Found design unit 1: lpm_counter0-SYN
     Info: Found entity 1: lpm_counter0
@@ -1754,8 +1813,8 @@ Info: Not allowed to move 149 registers
     Info: Not allowed to move at least 36 registers because they feed registers in a different clock domain
     Info: Not allowed to move at least 1 registers because they feed clock or asynchronous control signals of other registers
 Info: The Quartus II software applied gate-level register retiming to 2 clock domains
-    Info: The Quartus II software applied gate-level register retiming to clock "CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0": created 1 new registers, removed 0 registers, left 144 registers untouched
-    Info: The Quartus II software applied gate-level register retiming to clock "CLOCK_50": created 5 new registers, removed 2 registers, left 526 registers untouched
+    Info: The Quartus II software applied gate-level register retiming to clock "CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0": created 2 new registers, removed 0 registers, left 144 registers untouched
+    Info: The Quartus II software applied gate-level register retiming to clock "CLOCK_50": created 47 new registers, removed 21 registers, left 532 registers untouched
 Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "FL_RST_N" is stuck at VCC
     Warning (13410): Pin "SRAM_UB_N" is stuck at GND
@@ -1763,7 +1822,7 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "SRAM_CE_N" is stuck at GND
     Warning (13410): Pin "VOut" is stuck at VCC
     Warning (13410): Pin "LEDG[0]" is stuck at VCC
-Info: 97 registers lost all their fanouts during netlist optimizations. The first 97 are displayed below.
+Info: 116 registers lost all their fanouts during netlist optimizations. The first 116 are displayed below.
     Info: Register "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[31]" lost all its fanouts during netlist optimizations.
     Info: Register "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[30]" lost all its fanouts during netlist optimizations.
     Info: Register "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[29]" lost all its fanouts during netlist optimizations.
@@ -1859,8 +1918,27 @@ Info: 97 registers lost all their fanouts during netlist optimizations. The firs
     Info: Register "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Cont_DIV[8]" lost all its fanouts during netlist optimizations.
     Info: Register "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Cont_DIV[9]" lost all its fanouts during netlist optimizations.
     Info: Register "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Cont_DIV[10]" lost all its fanouts during netlist optimizations.
-    Info: Register "Laser_Controller:inst10|f_NextInstructionReady" lost all its fanouts during netlist optimizations.
-    Info: Register "Laser_Controller:inst10|f_PrepNextInstruction" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[19]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[20]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[18]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[17]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[16]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[15]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[6]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[14]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[5]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[13]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[4]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[12]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[3]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[11]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[2]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[10]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[1]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[9]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[0]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[8]" lost all its fanouts during netlist optimizations.
+    Info: Register "Laser_Controller:inst10|f_NextAddress[7]" lost all its fanouts during netlist optimizations.
 Info: Generated suppressed messages file C:/Users/localadmin/Desktop/Spectroscopy/FPGA/CII_Starter_USB_API.map.smsg
 Critical Warning: Setting INCREMENTAL_COMPILATION to "OFF" is no longer supported. Assignment is ignored. To disable partitions, set the IGNORE_PARTITIONS global assignment to "ON" instead.
 Info: Generating hard_block partition "hard_block:auto_generated_inst"
@@ -1874,16 +1952,16 @@ Warning: Design contains 8 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[3]"
     Warning (15610): No output dependent on input pin "KEY[2]"
     Warning (15610): No output dependent on input pin "KEY[1]"
-Info: Implemented 2310 device resources after synthesis - the final resource count might be different
+Info: Implemented 2228 device resources after synthesis - the final resource count might be different
     Info: Implemented 18 input pins
     Info: Implemented 113 output pins
     Info: Implemented 40 bidirectional pins
-    Info: Implemented 2138 logic cells
+    Info: Implemented 2056 logic cells
     Info: Implemented 1 PLLs
-Info: Quartus II Analysis & Synthesis was successful. 0 errors, 85 warnings
-    Info: Peak virtual memory: 312 megabytes
-    Info: Processing ended: Wed Aug 07 17:12:05 2013
-    Info: Elapsed time: 00:00:26
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 84 warnings
+    Info: Peak virtual memory: 313 megabytes
+    Info: Processing ended: Thu Aug 08 19:50:04 2013
+    Info: Elapsed time: 00:00:27
     Info: Total CPU time (on all processors): 00:00:24
 
 

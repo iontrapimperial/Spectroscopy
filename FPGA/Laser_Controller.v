@@ -73,7 +73,7 @@ output reg [9:0] oRedLEDs = 10'b0000000000;
 ///////////////////////////////////
 ///////////////////////////////////
 // 		Instruction Definition  //
-reg	[18:0] 	TicksToRun = 0; //(19 bits for timing)
+reg	[23:0] 	TicksToRun = 24'd0; //(24 bits for timing, 20ns tick - we will only send 19bits of 640ns ticks, bitshifted 5 bits up)
 reg	[9:0] 	LaserState = 0; //control 10 lasers
 reg	[2:0]		ControlBits = 0; //3 bits to determine state type (normal, detection, wait etc)
 
@@ -87,7 +87,7 @@ output [9:0] oLasers;
 assign oLasers = LaserState;
 
 
-reg [18:0] Ticks = 19'd0; //Initialise ticks to zero.
+reg [23:0] Ticks = 24'd0; //Initialise ticks to zero.
 reg [3:0] f_State = 0; //state variable for main loop
 
 reg 	[31:0] NextInstruction = 0; //next instruction to use. Buffered so that we can switch between the two quickly
@@ -256,13 +256,14 @@ begin
 				//if( iSD_DATA_READY == 1'b1)
 				if(f_NextInstructionReady == 1'b1 && f_PrepNextInstruction == 1'b0)
 				begin
-						TicksToRun <= NextInstruction[31:13] << 5;		// Convert timing bits to ticks by adding 5 empty bits - ensures correct timing
+						TicksToRun[23:5] <= NextInstruction[31:13];		// Convert timing bits to ticks by leaving 5 LSB as zeros - ensures correct timing
 						LaserState <= NextInstruction[12:3];
 						ControlBits <= NextInstruction[2:0];
 						f_PrepNextInstruction <= 1;
 						f_State <= 2;
 						
-						// 10/07/13 Commented out code has NOT been changed to reflect new bit assignments (uncommented 6/8/2013, has now been changed)
+						/*// 10/07/13 Commented out code has NOT been changed to reflect new bit assignments (uncommented 6/8/2013, has now been changed)
+						//(Have re-commented out (as of 8/8/2013) - I don't think this was being used in the old Version3.3 anyway!
 						oSD_DATA_REQUEST <= 0;										
 						Ticks <= 24'd0;
 						TicksToRun <= iSD_DATA[31:13] << 5;
@@ -270,7 +271,7 @@ begin
 						ControlBits <= iSD_DATA[2:0];	
 						f_PrepNextInstruction <= 1; //load the next instruction
 						f_NextAddress <= f_NextAddress + 22'd1;
-						f_State <= 2;
+						f_State <= 2;*/
 				end
 			end		
 		else if(f_State == 2)
@@ -285,7 +286,7 @@ begin
 											f_NextInstructionReady <= 0;
 											Ticks <= 0;
 											oFreqChange <= 0;
-											TicksToRun <= NextInstruction[31:13] << 5;	// Convert timing bits to ticks by adding 5 empty bits - ensures correct timing
+											TicksToRun[23:5] <= NextInstruction[31:13];		// Convert timing bits to ticks by leaving 5 LSB as zeros - ensures correct timing
 											LaserState <= NextInstruction[12:3];
 											ControlBits <= NextInstruction[2:0];
 											f_PrepNextInstruction <= 1;	
@@ -309,7 +310,7 @@ begin
 										begin
 											f_NextInstructionReady <= 0;
 											Ticks <= 0;
-											TicksToRun <= NextInstruction[31:13] << 5;	// Convert timing bits to ticks by adding 5 empty bits - ensures correct timing
+											TicksToRun[23:5] <= NextInstruction[31:13];		// Convert timing bits to ticks by leaving 5 LSB as zeros - ensures correct timing
 											LaserState <= NextInstruction[12:3];
 											ControlBits <= NextInstruction[2:0];
 											f_PrepNextInstruction <= 1;	
@@ -325,7 +326,7 @@ begin
 							begin
 								if(Ticks < TicksToRun)
 								begin
-									Ticks <= Ticks + 19'd1;
+									Ticks <= Ticks + 24'd1;
 								end
 								else	
 								begin
@@ -333,7 +334,7 @@ begin
 									begin
 										f_NextInstructionReady <= 0;
 										Ticks <= 0;
-										TicksToRun <= NextInstruction[31:13] << 5;	// Convert timing bits to ticks by adding 5 empty bits - ensures correct timing
+										TicksToRun[23:5] <= NextInstruction[31:13];		// Convert timing bits to ticks by leaving 5 LSB as zeros - ensures correct timing
 										LaserState <= NextInstruction[12:3];
 										ControlBits <= NextInstruction[2:0];
 										f_PrepNextInstruction <= 1;	
@@ -360,7 +361,7 @@ begin
 									begin
 										oPMTClear <= 0;
 									end
-									Ticks <= Ticks + 19'd1;									
+									Ticks <= Ticks + 24'd1;									
 								end
 								else		// This is at the end of the count period
 								begin	
@@ -376,7 +377,7 @@ begin
 										//oCountData <= x;
 										//x <= x + 1;
 									
-										TicksToRun <= NextInstruction[31:13] << 5;	// Convert timing bits to ticks by adding 5 empty bits - ensures correct timing
+										TicksToRun[23:5] <= NextInstruction[31:13];		// Convert timing bits to ticks by leaving 5 LSB as zeros - ensures correct timing
 										LaserState <= NextInstruction[12:3];
 										ControlBits <= NextInstruction[2:0];
 										f_PrepNextInstruction <= 1;	
@@ -397,7 +398,7 @@ begin
 										f_NextInstructionReady <= 0;
 										oSendData <= 0;
 										Ticks <= 0;
-										TicksToRun <= NextInstruction[31:13] << 5;	// Convert timing bits to ticks by adding 5 empty bits - ensures correct timing
+										TicksToRun[23:5] <= NextInstruction[31:13];		// Convert timing bits to ticks by leaving 5 LSB as zeros - ensures correct timing
 										LaserState <= NextInstruction[12:3];
 										ControlBits <= NextInstruction[2:0];
 										f_PrepNextInstruction <= 1;	
