@@ -153,7 +153,6 @@ namespace Spectroscopy_Controller
                 else if (PulseTypeBox.SelectedIndex == 5)
                 {
                     State.StateType = LaserState.PulseType.STOP;
-                    //Console.WriteLine("Found STOP signal");
                 }
                 else if (PulseTypeBox.SelectedIndex == 6)
                 {

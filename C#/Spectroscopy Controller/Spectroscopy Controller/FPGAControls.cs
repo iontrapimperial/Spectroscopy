@@ -289,6 +289,7 @@ namespace Spectroscopy_Controller
                                             // Flush & close readings file
                                             myFile.Flush();
                                             myFile.Close();
+
                                         }
 
                                     }
@@ -346,6 +347,12 @@ namespace Spectroscopy_Controller
 
             myFile.Flush();
             myFile.Close();
+
+            /*
+            //Reenable start button (this doesn't current work, need to sort out all the button enabling properly)
+            StartButton.Enabled = true;
+            StopButton.Enabled = false;*/
+
             FPGA.ResetDevice();
         }
 
@@ -361,6 +368,10 @@ namespace Spectroscopy_Controller
             FPGAReadThread = new Thread(new ThreadStart(this.FPGAReadMethod));
             FPGAReadThread.Name = "FPGACommThread";
             FPGAReadThread.Start();
+            StartButton.Enabled = false;
+            //Always enable Stop and pause buttons when running
+            StopButton.Enabled = true;
+            PauseButton.Enabled = true;
         }
 
         private void CloseUSBPort()

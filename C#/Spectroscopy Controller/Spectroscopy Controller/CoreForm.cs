@@ -71,7 +71,10 @@ namespace Spectroscopy_Controller
 
             // Set up event handler to deal with viewer form & this form closing
             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
-            this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);   
+            this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
+
+            StopButton.Enabled = false;
+            PauseButton.Enabled = false;
         }
 
         
@@ -305,7 +308,7 @@ namespace Spectroscopy_Controller
         {
             //Find nearest number of integer ticks (640ns per tick) to desired pulse length
             int roundedTicks = (int)(TicksBox.Value * 1000 / 640);
-            Console.WriteLine(roundedTicks);
+            //Console.WriteLine(roundedTicks);
             //Calculate rounded pulse length and display on form
             float roundedLength = (float)(roundedTicks * 0.64);
             string roundedLengthString = roundedLength.ToString("0.##");
@@ -363,10 +366,10 @@ namespace Spectroscopy_Controller
             TemplateForm.ShowDialog();            
         }*/
 
-        /*private void StopButton_Click(object sender, EventArgs e)
+        private void StopButton_Click(object sender, EventArgs e)
         {
             bShouldQuitThread = true;
-        }*/
+        }
 
 
         private void ResetButton_Click(object sender, EventArgs e)
@@ -390,8 +393,6 @@ namespace Spectroscopy_Controller
         // Method to respond to user clicking start button
         private void StartButton_Click(object sender, EventArgs e)
         {
-            //Always enable Stop button when running
-            StopButton.Enabled = true;
             // If we are restarting the experiment after it being paused, just reset the PauseExperiment flag
             if (PauseExperiment == true)
             {
@@ -583,6 +584,7 @@ namespace Spectroscopy_Controller
                         GPIB.SetFrequency(startFreq);
                                             
                         SendSetupFinish();
+                        //Start experiment    df
                         StartReadingData();
                         
                     }
@@ -602,6 +604,7 @@ namespace Spectroscopy_Controller
                 // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
                 PauseExperiment = true;
                 PauseButton.Enabled = false;
+                StartButton.Enabled = true;
             }
         }
 
