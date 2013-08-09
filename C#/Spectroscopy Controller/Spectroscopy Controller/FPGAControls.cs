@@ -220,11 +220,10 @@ namespace Spectroscopy_Controller
 
 
                         // Send data to the viewer (live)
-                        myViewer.addLiveData(Readings);     
+                        myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);     
                         // Clear buffers for writing to file, gets ready for writing more data next time
                         myFile.Flush();  
                         // Clear list of readings
-
                         Readings.Clear();
 
                         FPGA.ResetDevice();
@@ -274,7 +273,7 @@ namespace Spectroscopy_Controller
 
                                         if (CurrentSideband < (sbToScan * 2) + 1)
                                         {
-                                            Frequency += startFreqArray[CurrentSideband];
+                                            Frequency = startFreqArray[CurrentSideband];
                                             GPIB.SetFrequency(Frequency);
                                             CurrentWindowStep = 0;
                                         }

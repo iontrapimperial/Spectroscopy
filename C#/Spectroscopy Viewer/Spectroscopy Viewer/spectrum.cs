@@ -95,14 +95,13 @@ namespace Spectroscopy_Viewer
             this.spectrumName = metadata[15 + spectrumNumber];
             // Create empty list of data points
             myDataPoints = new List<dataPoint>();
+
+            dataSize = 0;   //List of data points is currently empty so .Count method not valid.
+            this.createHistogram(myDataPoints, false);      // Create blank histogram data reading for updating
         }
-
-
-
+            
         // Methods
-        //**************************//
-
-
+        //**************************//          
         // Method to add new list of data points to existing data
         public void addToSpectrum(List<dataPoint> dataPointsPassed)
         {
@@ -116,9 +115,7 @@ namespace Spectroscopy_Viewer
             // Update histograms from new data points. 'True' flags that this is an update to existing histograms
             createHistogram(dataPointsPassed, true);
         }
-
-
-
+            
         // General public method to analyse data
         // When we call this, we don't want to have to know about whether the initial analysis has taken place or not
         public void analyse(int cool, int count)
@@ -129,8 +126,7 @@ namespace Spectroscopy_Viewer
             // Otherwise just update
             else this.analyseUpdate(cool, count);
         }
-
-
+            
         // Method to analyse data given new thresholds
         private void analyseInit(int cool, int count)
         {
@@ -302,8 +298,7 @@ namespace Spectroscopy_Viewer
             }
 
         }
-
-
+            
         // Method to create data for plotting to graph
         // Also creates the list of bad counts due to cooling threshold failures
         // NB badCountsErrors will not need updating
@@ -361,8 +356,7 @@ namespace Spectroscopy_Viewer
             myDataFile.Flush();
             myDataFile.Close();
         }
-
-
+            
         // Method to write histogram data to a given file
         public void writeHistogramData(ref TextWriter histogramFile)
         {
@@ -383,9 +377,7 @@ namespace Spectroscopy_Viewer
 
             Console.WriteLine("Spectrum {0} histogram data saved", spectrumNumber);
         }
-
-
-
+       
         // 'Set' methods
         //**********************//
 
@@ -412,8 +404,7 @@ namespace Spectroscopy_Viewer
         {
             spectrumNumber = x;
         }
-
-
+            
         // 'Get' methods
         //**********************//
 
@@ -428,8 +419,7 @@ namespace Spectroscopy_Viewer
         {
             return countThreshold;
         }
-
-
+            
         // Method to return number of data points
         public int getDataSize()
         {

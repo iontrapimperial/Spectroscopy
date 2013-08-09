@@ -68,14 +68,13 @@ namespace Spectroscopy_Viewer
         private RadioButton[] graphControlBadCountsThreshold = new RadioButton[maxGraphControl];
         private ContextMenu[] graphControlContextMenu = new ContextMenu[maxGraphControl];
 
+        //Constructor called when running independently
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
             initialiseColours();
-
         }
-
-
+                
         // Constructor to be called from Spectroscopy Controller. Needs passing an array containing metadata, and a boolean for whether the 
         // Metadata ordering in array:
         // 0: Date
@@ -96,7 +95,6 @@ namespace Spectroscopy_Viewer
         // 15: Which sideband
         // 16 + i: sideband i name
         // Notes
-
         public SpectroscopyViewerForm(ref string[] metadataPassed)
         {
             InitializeComponent();
@@ -125,7 +123,7 @@ namespace Spectroscopy_Viewer
             {
                 MessageBox.Show("Error parsing metadata when opening viewer");
             }
-
+            
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
             // Add number of spectra from new experiment
@@ -135,6 +133,7 @@ namespace Spectroscopy_Viewer
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
                 mySpectrum.Add(new spectrum(ref metadataLive, i));
+                dataPlot.Add(new PointPairList());
             }
 
             // Create the controls for the graph
@@ -143,13 +142,15 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to accept incoming data from live experiment
-        public void addLiveData(List<int> readings)
+        //(nb: changed startFreqLive which was taken from metadata 
+        //to sidebandStartFreq passed directly from FPGAControls - JOE)
+        public void addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq)
         {
             // Copy data from readings into local array
             int[] myData = readings.ToArray();
 
-            // Create fileHandler object to process the incoming data
-            fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive);
+            // Create fileHandler object to process the incoming data (use current sidebandStartFreq and currentwindowstep to add datapoint at correct frequency
+            fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive, sidebandStartFreq, CurrentWindowStep);
 
             // How many spectra were loaded before we started running live
             int existingSpectra = numberOfSpectra - numberOfSpectraLive;
@@ -165,7 +166,6 @@ namespace Spectroscopy_Viewer
             this.updateThresholds();
         }
 
-
         public void StopRunningLive()
         {
             IsExperimentRunning = false;
@@ -173,8 +173,6 @@ namespace Spectroscopy_Viewer
             // Enable loading live data now that we have stopped running in live mode
             this.loadDataButton.Enabled = true;
         }
-
-
 
         // Method to build a list of colours for the graph
         private void initialiseColours()
@@ -239,12 +237,6 @@ namespace Spectroscopy_Viewer
                                     ClientRectangle.Height - 180);
 
         }
-
-
-
-
-
-
 
         // Respond to 'Load file...' button press
         // Loads data from the file, opens dialog for user to assign data to existing/new spectra
@@ -394,8 +386,7 @@ namespace Spectroscopy_Viewer
         private void updateThresholdsButton_Click(object sender, EventArgs e)
         {
             updateThresholds();
-        }
-
+        }   
 
         // Method to update the thresholds
         // Calculates bad counts/dark ion probs based on thresholds & plots graph
@@ -419,11 +410,6 @@ namespace Spectroscopy_Viewer
                 SetSize();
             }
         }
-
-
-
-
-
 
         // Method to respond to user clicking "Export spectrum..." button
         // Opens a save file dialog for each spectrum, saves data in a text file (tab separated)
@@ -468,11 +454,6 @@ namespace Spectroscopy_Viewer
 
 
         }
-
-
-
-
-
 
         #region Code relating to generating, plotting & exporting histogram
 
@@ -752,12 +733,7 @@ namespace Spectroscopy_Viewer
 
         }
 
-
-
-        #endregion
-
-
-
+        #endregion                                                           
 
         #region Code relating to formatting & plotting graph
 
@@ -921,15 +897,11 @@ namespace Spectroscopy_Viewer
             }
         }
 
-
         // Method to update graph from an event
         private void updateGraph_Event(object sender, EventArgs e)
         {
             updateGraph();
         }
-
-
-
 
         // Method to respond to user changing radio buttons in graph controls
         private void updateGraph()
@@ -1060,8 +1032,7 @@ namespace Spectroscopy_Viewer
                 zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 100;
             }
         }
-
-
+      
         #endregion
 
 

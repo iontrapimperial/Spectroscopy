@@ -6,12 +6,10 @@ using System.IO;
 using System.Windows.Forms;
 
 namespace Spectroscopy_Viewer
-{
-
+{    
     // Class to contain raw data for each frequency data point, and methods to access
     public class dataPoint
-    {
-
+    {   
         // Private members:
         //******************//
 
@@ -40,15 +38,12 @@ namespace Spectroscopy_Viewer
         private int[] histogramCool;
         private int[] histogramCount;
         private int histogramSize = new int();
-   
-
-
+           
         // Construct instance given an array of data, a starting point & a number of repeats
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
         public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
             repeats = repeatsPassed;            // Set number of repeats
-            
             // Initialise based on number of repeats
             readingCool = new int[repeats];
             readingErrorCool = new bool[repeats];
@@ -99,8 +94,7 @@ namespace Spectroscopy_Viewer
                 }
             }
         }
-
-
+         
         // Method to analyse data given a set of initial thresholds
         public void analyseInit(int cool, int count)
         {
@@ -147,8 +141,7 @@ namespace Spectroscopy_Viewer
                 this.updateDarkProb_BadCountsOnly();
             }
         }
-        
-
+          
         // Method to calculate probablity of ion being dark, based on initial thresholds
         private void calcDarkProb()
         {
@@ -240,9 +233,7 @@ namespace Spectroscopy_Viewer
             // Update probability of ion being in dark state
             darkProb = (float)darkCount / validReadings;
         }
-
-
-
+        
         // Method to calculate number of bad counts due to error flags
         private void calcBadCountsErrors()
         {
@@ -253,8 +244,7 @@ namespace Spectroscopy_Viewer
                 else if(readingErrorCount[i]) badCountsErrors++;       // If count error flag is true
             }
         }
-
-
+        
         // Method to calculate number of bad counts due to low cooling counts
         private void calcBadCountsThreshold()
         {
@@ -306,8 +296,7 @@ namespace Spectroscopy_Viewer
                 }
             }
         } 
-
-
+        
         // Method to find the maximum number of counts in all the readings
         private int findMaxCounts()
         {
@@ -332,8 +321,7 @@ namespace Spectroscopy_Viewer
             }
             return y;
         }
-
-
+ 
         // Set methods
         //******************************
 
@@ -343,11 +331,7 @@ namespace Spectroscopy_Viewer
         {
             frequency = x;
         }
-
-
-
-
-
+  
         // Get methods
         //******************************
 
@@ -368,8 +352,7 @@ namespace Spectroscopy_Viewer
         {
             return histogramCount;
         }
-
-
+ 
         // Method to return the frequency of the data point
         public int getFreq()
         {

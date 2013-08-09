@@ -21,10 +21,12 @@ namespace Spectroscopy_Viewer
         public string[] metadata = new string[23];
 
         // Metadata read from file
-        private int startFrequency;         // Starting frequency of the file
-        private int stepSize;               // Step size in frequency
+        private int startFrequency;         // Starting frequency of the file (of current sideband if windowed)
         private int repeats;                // Number of repeats
+        private int stepSize;               // Step size in frequency
         private int numberInterleaved;      // How many spectra are interleaved in this file
+        private int currentWindowStep;                // Current window step (within current sideband if windowed)
+        
         private string[] spectrumNames;          // Names of spectra stored in file
         private string notes = "";
 
@@ -36,11 +38,11 @@ namespace Spectroscopy_Viewer
         }
 
         //***********//
-        // Need start frequency as well!!!
+        // Need start frequency as well!!! (nb: Think I've done this - Joe)
         //***********//
 
         // Constructor given an array of data and some bits of metadata
-        public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed)
+        public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed, int startFreqPassed, int currentWindowStepPassed)
         {
             // Need to convert the array of incoming data into a List<int[]>[]
             // Each list is for a separate spectrum
@@ -50,6 +52,8 @@ namespace Spectroscopy_Viewer
             repeats = repeatsPassed;
             stepSize = stepSizePassed;
             numberInterleaved = numberInterleavedPassed;
+            startFrequency = startFreqPassed;
+            currentWindowStep = currentWindowStepPassed;
 
             // Check that the important numbers are not zero (otherwise data will not process correctly)
             if( stepSize != 0 && repeats != 0 && numberInterleaved != 0)
@@ -71,7 +75,8 @@ namespace Spectroscopy_Viewer
                 int j = 0;
 
                 // Loop through incoming data array
-                for (int m = 0; m < IncomingData.Length; m++)
+                int m = 0;
+                while (m < IncomingData.Length)                
                 {
                     // Fill a separate list for each interleaved spectrum
                     for (int k = 0; k < numberInterleaved; k++)
@@ -266,8 +271,7 @@ namespace Spectroscopy_Viewer
             }
             else System.Windows.Forms.MessageBox.Show("File not recognised");
         }
-
-
+           
         // Method to deal with data (not metadata)
         private void processData(ref System.IO.StreamReader myFile)
         {
@@ -310,14 +314,13 @@ namespace Spectroscopy_Viewer
             }
 
         }
-
-
+          
         // Method to populate list of dataPoint objects (dataPoints), including metadata
         // Integer x tells which number spectrum (e.g. 0(first), 1(second)) in file to use
         private void constructDataPoints(int x)
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
-            int frequency = startFrequency;
+            int frequency = startFrequency + currentWindowStep * stepSize;
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
             // 
@@ -341,8 +344,7 @@ namespace Spectroscopy_Viewer
         {
             return numberInterleaved;
         }
-
-
+           
         // Method to return list of dataPoint objects (dataPoints)
         // NB List<> is a reference type so it behaves like a pointer
         public List<dataPoint> getDataPoints(int x)
