@@ -381,13 +381,23 @@ namespace Spectroscopy_Controller
             StartButton.Enabled = true;
         }
 
+
+        delegate void Delegate_ExperimentFinished();
         // This is supposed to enable/disable buttons automatically when experiment finishes - doesn't seem to be working
+        // Made threadsafe
         private void ExperimentFinished()
         {
-            Console.WriteLine("Experiment finished, resetting buttons");
-            StartButton.Enabled = true;
-            StopButton.Enabled = false;
-            PauseButton.Enabled = false;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Delegate_ExperimentFinished(ExperimentFinished));
+            }
+            else
+            {
+                Console.WriteLine("Experiment finished, resetting buttons");
+                StartButton.Enabled = true;
+                StopButton.Enabled = false;
+                PauseButton.Enabled = false;
+            }
         }
 
 

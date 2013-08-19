@@ -166,12 +166,22 @@ namespace Spectroscopy_Viewer
             this.updateThresholds();
         }
 
+
+        // Threadsafe method to tell the viewer that we have stopped running a live experiment
+        delegate void Delegate_StopRunningLive();
         public void StopRunningLive()
         {
-            IsExperimentRunning = false;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Delegate_StopRunningLive(StopRunningLive));
+            }
+            else
+            {
+                IsExperimentRunning = false;
 
-            // Enable loading live data now that we have stopped running in live mode
-            this.loadDataButton.Enabled = true;
+                // Enable loading live data now that we have stopped running in live mode
+                this.loadDataButton.Enabled = true;
+            }
         }
 
         // Method to build a list of colours for the graph
