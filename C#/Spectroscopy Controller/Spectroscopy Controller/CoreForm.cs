@@ -22,7 +22,7 @@ namespace Spectroscopy_Controller
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
-        
+        string[] myFileName;
         TextWriter[] myFile;        // Array of files to write data to
 
 
@@ -498,7 +498,7 @@ namespace Spectroscopy_Controller
                         // Make sure the 
                         if (FolderPath != null)
                         {
-                            string[] myFileName;       // Declare array of filenames
+                            TextWriter[] myFile;        // Declare array of files
 
                             // If "Continuous" experiment type has been selected
                             if (specType == "Continuous")
@@ -515,7 +515,7 @@ namespace Spectroscopy_Controller
                                 myFile = new TextWriter[1];
 
                                 // Create the file with appropriate name & write metadata to it
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFileName, 1);
+                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
                             }
                             else if (specType == "Windowed")
                             {
@@ -544,7 +544,7 @@ namespace Spectroscopy_Controller
                                 myFileName = new string[numberOfFiles];
                                 myFile = new TextWriter[numberOfFiles];
                                 // Generate filenames and actually create files
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFileName, numberOfFiles);
+                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, numberOfFiles);
                             }
                             else if (specType == "Fixed")
                             {
@@ -557,7 +557,7 @@ namespace Spectroscopy_Controller
                                 myFile[0] = new StreamWriter(FolderPath + @"\" + myFileName[0] + ".txt");
                                 myFile[0].WriteLine("File created");
                                 myFile[0].Flush();
-                                // Only flush the file - don't close it! Otherwise there will be errors when writing the actual data
+                                myFile[0].Close();
 
                                 bIsFreqGenEnabled = false;
                             }
@@ -612,7 +612,7 @@ namespace Spectroscopy_Controller
         // Method to write the metadata to files
         // Gets filenames from private member myFileName
         private void writeMetadataToFile(   ref StartExperimentDialog myExperimentDialog, ref string FolderPath,
-                                            ref string[] myFileName, int numberOfFiles  )
+                                            ref TextWriter[] myFile, int numberOfFiles  )
         {
             // These variables are needed for windowed files only
             // But need to create them anyway else C# will complain...
@@ -720,8 +720,9 @@ namespace Spectroscopy_Controller
                 // Title for data
                 myFile[i].WriteLine("Data:");
 
-                // Flush & the file but do not close it - need it still open for writing the data
+                // Flush & close the file
                 myFile[i].Flush();
+                myFile[i].Close();
                 //*********************************//
 
                 // For the next filename:
