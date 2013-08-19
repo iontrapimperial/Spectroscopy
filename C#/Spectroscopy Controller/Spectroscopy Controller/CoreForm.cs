@@ -515,7 +515,7 @@ namespace Spectroscopy_Controller
                                 myFile = new TextWriter[1];
 
                                 // Create the file with appropriate name & write metadata to it
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
+                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFileName, 1);
                             }
                             else if (specType == "Windowed")
                             {
@@ -557,7 +557,7 @@ namespace Spectroscopy_Controller
                                 myFile[0] = new StreamWriter(FolderPath + @"\" + myFileName[0] + ".txt");
                                 myFile[0].WriteLine("File created");
                                 myFile[0].Flush();
-                                myFile[0].Close();
+                                // Only flush the file - don't close it! Otherwise there will be errors when writing the actual data
 
                                 bIsFreqGenEnabled = false;
                             }
@@ -720,9 +720,8 @@ namespace Spectroscopy_Controller
                 // Title for data
                 myFile[i].WriteLine("Data:");
 
-                // Flush & close the file
+                // Flush & the file but do not close it - need it still open for writing the data
                 myFile[i].Flush();
-                myFile[i].Close();
                 //*********************************//
 
                 // For the next filename:
