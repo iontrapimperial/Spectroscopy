@@ -697,6 +697,7 @@
             this.ResetButton.Size = new System.Drawing.Size(58, 58);
             this.ResetButton.TabIndex = 57;
             this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // OpenUSBButton
             // 

@@ -23,6 +23,8 @@ namespace Spectroscopy_Controller
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
         string[] myFileName;
+        TextWriter[] myFile;        // Array of files to write data to
+
 
 
         TreeNode PreviewNode = new TreeNode();
@@ -77,7 +79,9 @@ namespace Spectroscopy_Controller
             PauseButton.Enabled = false;
         }
 
-        
+
+        #region Laser control methods
+
         private void SetRFSpecButton_Click(object sender, EventArgs e)
         {
             int Frequency = (int)SpecRFFreq.Value;
@@ -195,6 +199,8 @@ namespace Spectroscopy_Controller
                            LiveLaserBoxAux1.Checked,
                            LiveLaserBoxAux2.Checked);
         }
+
+        #endregion
 
         // Method to handle form closing
         //Clean up any threads left running
@@ -889,6 +895,7 @@ namespace Spectroscopy_Controller
             }
 
         }
+
 
 
 
