@@ -375,7 +375,17 @@ namespace Spectroscopy_Controller
         {
             // Signal to stop the experiment
             bShouldQuitThread = true;
-            // Disable stop & pause buttons
+            // Disable stop & pause buttons, enable start button
+            StopButton.Enabled = false;
+            PauseButton.Enabled = false;
+            StartButton.Enabled = true;
+        }
+
+        // This is supposed to enable/disable buttons automatically when experiment finishes - doesn't seem to be working
+        private void ExperimentFinished()
+        {
+            Console.WriteLine("Experiment finished, resetting buttons");
+            StartButton.Enabled = true;
             StopButton.Enabled = false;
             PauseButton.Enabled = false;
         }
@@ -407,16 +417,10 @@ namespace Spectroscopy_Controller
             {
                 PauseExperiment = false;        // Set flag
                 PauseButton.Enabled = true;     // Re-enable pause button
+                StartButton.Enabled = false;
             }
             else
             {   // Otherwise, start experiment
-
-                // Want to:
-                //- open dialog for user to specify file name (save file??) & put in metadata - no. of repeats and no. of spectra
-                //- open an instance of spectroscopy viewer (if not already open...!) and specify live mode
-                //- Pass metadata to viewer
-                //- write metadata to file
-                //- do all the things that the previous program did to start running the experiment
 
                 if (FPGA.bUSBPortIsOpen == false)
                 {
@@ -894,6 +898,7 @@ namespace Spectroscopy_Controller
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
+            
             myViewer.Close();
             myViewer.Dispose();
             IsViewerOpen = false;

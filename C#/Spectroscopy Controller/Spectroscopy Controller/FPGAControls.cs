@@ -327,6 +327,10 @@ namespace Spectroscopy_Controller
                             WriteMessage("Received experiment stop command!\r\n");
                             MessageBox.Show("Experiment Finished!", "Bang");
                             bShouldQuitThread = true;
+
+                            // This method is supposed to enable/disable the right buttons - it doesn't seem to work!
+                            //this.ExperimentFinished();
+
                         }
                         else
                         {
@@ -341,10 +345,13 @@ namespace Spectroscopy_Controller
                 }
             }
 
-            /*
-            //Reenable start button (this doesn't current work, need to sort out all the button enabling properly)
-            StartButton.Enabled = true;
-            StopButton.Enabled = false;*/
+
+            // If it's a windowed spectrum, we will already have closed the file. Otherwise, need to flush & close it
+            if (specType != "Windowed")
+            {
+                myFile.Flush();
+                myFile.Close();
+            }
 
             FPGA.ResetDevice();
         }
