@@ -352,8 +352,11 @@ namespace Spectroscopy_Controller
                 myFile.Flush();
                 myFile.Close();
             }
-                        
-            myViewer.StopRunningLive();
+
+            if (IsViewerOpen)
+            {
+                myViewer.StopRunningLive();
+            }
             this.ExperimentFinished();
 
             FPGA.ResetDevice();

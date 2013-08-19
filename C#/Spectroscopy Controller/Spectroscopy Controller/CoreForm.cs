@@ -17,7 +17,7 @@ namespace Spectroscopy_Controller
     public partial class CoreForm : Form
     {
         // Store viewer as a private member - this means we can check if it has been initialised or not without causing a crash
-        private SpectroscopyViewerForm myViewer = new SpectroscopyViewerForm();
+        private SpectroscopyViewerForm myViewer;// = new SpectroscopyViewerForm();
 
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
@@ -71,7 +71,8 @@ namespace Spectroscopy_Controller
             UpdateTrapFreqs();
 
             // Set up event handler to deal with viewer form & this form closing
-            myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+            //myViewer = new SpectroscopyViewerForm();
+            //myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
             this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
 
             StopButton.Enabled = false;
@@ -595,8 +596,13 @@ namespace Spectroscopy_Controller
                             {
                                 // Create new instance of viewer
                                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
+                                myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
                                 myViewer.Show();
                                 IsViewerOpen = true;
+                            }
+                            else
+                            {
+                                myViewer.Show();
                             }
                         }
                         else
@@ -623,6 +629,8 @@ namespace Spectroscopy_Controller
             }
 
         }
+
+
 
         // Method to respond to using clicking Pause button
         private void PauseButton_Click(object sender, EventArgs e)
@@ -914,17 +922,30 @@ namespace Spectroscopy_Controller
             if (!IsViewerOpen)
             {
                 myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
+                myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
                 myViewer.Show();
                 IsViewerOpen = true;
             }
+            else
+            {
+                myViewer.Show();
+            }
         }
 
+
+        delegate void Delegate_ViewerClosing(object sender, EventArgs e);
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
-            
-            myViewer.Close();
-            myViewer.Dispose();
-            IsViewerOpen = false;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Delegate_ViewerClosing(myViewer_FormClosing), new object[] { sender, e} );
+            }
+            else
+            {
+                Console.WriteLine("viewer close event has happened");
+                IsViewerOpen = false;
+                Console.WriteLine("Viewer open: {0}", IsViewerOpen);
+            }
         }
 
 
