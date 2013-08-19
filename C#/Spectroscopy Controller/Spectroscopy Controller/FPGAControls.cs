@@ -78,9 +78,9 @@ namespace Spectroscopy_Controller
 
             int CurrentSideband = 0;
 
-            int numberOfFiles = this.myFileName.Length;
+            int numberOfFiles = this.myFile.Length;
 
-            TextWriter myFile = new StreamWriter(myFileName[CurrentSideband]);
+            
             if (myFile != null)
             {
                 WriteMessage("Opened first file for writing");
@@ -101,7 +101,7 @@ namespace Spectroscopy_Controller
                     FPGA.SendResetSignal();
                     bResetFPGA = false;
 
-                    myFile.Close();
+                    myFile[CurrentSideband].Close();
 
                     return;
                 }
@@ -214,7 +214,7 @@ namespace Spectroscopy_Controller
 
                         foreach (int j in Readings)
                         {
-                            myFile.WriteLine(j.ToString());
+                            myFile[CurrentSideband].WriteLine(j.ToString());
                         }
 
                         // Only send live data to the viewer if it is open
@@ -223,7 +223,7 @@ namespace Spectroscopy_Controller
                             myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);
                         }
                         // Clear buffers for writing to file, gets ready for writing more data next time
-                        myFile.Flush();  
+                        myFile[CurrentSideband].Flush();  
                         // Clear list of readings
                         Readings.Clear();
 
@@ -264,17 +264,13 @@ namespace Spectroscopy_Controller
                                     {
                                         // This means we have come to the end of one sideband
                                         // So flush & close that file
-                                        myFile.Flush();
-                                        myFile.Close();
+                                        myFile[CurrentSideband].Flush();
+                                        myFile[CurrentSideband].Close();
 
                                         CurrentSideband++;
 
                                         if (CurrentSideband < (sbToScan * 2) + 1)
                                         {
-                                            // New sideband, so open the next file, using filename from array
-                                            myFile = new StreamWriter(myFileName[CurrentSideband]);
-
-
                                             Frequency = startFreqArray[CurrentSideband];
                                             GPIB.SetFrequency(Frequency);
                                             CurrentWindowStep = 0;
@@ -286,11 +282,6 @@ namespace Spectroscopy_Controller
                                             MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                             bShouldQuitThread = true;
                                             // break;       // might need this??
-
-                                            // Flush & close readings file
-                                            myFile.Flush();
-                                            myFile.Close();
-
                                         }
 
                                     }
@@ -346,8 +337,9 @@ namespace Spectroscopy_Controller
                 }
             }
 
-            myFile.Flush();
-            myFile.Close();
+            // Put code here to tell viewer that we have finished sending live data
+
+
 
             /*
             //Reenable start button (this doesn't current work, need to sort out all the button enabling properly)

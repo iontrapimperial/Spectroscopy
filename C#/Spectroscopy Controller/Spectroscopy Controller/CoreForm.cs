@@ -22,7 +22,7 @@ namespace Spectroscopy_Controller
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
-        string[] myFileName;
+        
         TextWriter[] myFile;        // Array of files to write data to
 
 
@@ -498,7 +498,7 @@ namespace Spectroscopy_Controller
                         // Make sure the 
                         if (FolderPath != null)
                         {
-                            TextWriter[] myFile;        // Declare array of files
+                            string[] myFileName;       // Declare array of filenames
 
                             // If "Continuous" experiment type has been selected
                             if (specType == "Continuous")
@@ -544,7 +544,7 @@ namespace Spectroscopy_Controller
                                 myFileName = new string[numberOfFiles];
                                 myFile = new TextWriter[numberOfFiles];
                                 // Generate filenames and actually create files
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, numberOfFiles);
+                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFileName, numberOfFiles);
                             }
                             else if (specType == "Fixed")
                             {
@@ -612,7 +612,7 @@ namespace Spectroscopy_Controller
         // Method to write the metadata to files
         // Gets filenames from private member myFileName
         private void writeMetadataToFile(   ref StartExperimentDialog myExperimentDialog, ref string FolderPath,
-                                            ref TextWriter[] myFile, int numberOfFiles  )
+                                            ref string[] myFileName, int numberOfFiles  )
         {
             // These variables are needed for windowed files only
             // But need to create them anyway else C# will complain...
