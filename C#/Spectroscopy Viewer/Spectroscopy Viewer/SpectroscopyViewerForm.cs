@@ -221,7 +221,11 @@ namespace Spectroscopy_Viewer
         // Respond to the form 'Resize' event
         private void SpectroscopyViewerForm_Resize(object sender, EventArgs e)
         {
-            SetSize();
+            // Only try to resize if we are not running live
+            if (!IsExperimentRunning)
+            {
+                SetSize();
+            }
         }
 
         // Method to set size of graphs depending on overall form size
@@ -409,6 +413,18 @@ namespace Spectroscopy_Viewer
                 // Size the control to fill the form with a margin
                 SetSize();
             }
+
+            // Code for debugging
+            // Print out data from first spectrum every time update button is clicked
+            /*
+            string myTestFileName = @"C:\Users\localadmin\Desktop\Test file";
+            myTestFileName += DateTime.UtcNow.ToString("HH.mm.ss.fff");
+            myTestFileName += ".txt";
+            TextWriter myTestFile = new StreamWriter(myTestFileName);
+            // Call method in the spectrum class to write data to the file
+            mySpectrum[0].writePlotData(ref myTestFile);
+              */
+
         }
 
         // Method to respond to user clicking "Export spectrum..." button

@@ -687,7 +687,9 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine(this.magFreqBox.Value);
                 // AOM start freq
                 myFile[i].WriteLine("AOM Start Frequency (MHz):");
-                myFile[i].WriteLine(startFreqArray[i]);
+
+                double startFreqMHz = (double)(startFreqArray[i] / 1000000d);
+                myFile[i].WriteLine(startFreqMHz);
                 // Carrier frequency
                 myFile[i].WriteLine("Carrier Frequency (MHz):");
                 myFile[i].WriteLine(this.carFreqBox.Value);

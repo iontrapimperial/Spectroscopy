@@ -161,15 +161,12 @@ namespace Spectroscopy_Viewer
                     myString = myFile.ReadLine();                  // Alternating lines are just a title (throw away)
 
                 }
-
-                // Do a TryParse and cancel out if these are not ints....
-
                 
                 float stepSizekHz, startFrequencyMHz;
 
                 // Store crucial metadata - no. of repeats, no. interleaved, step size, start freq
                 // int.TryParse(myString, out myInt) converts myString to an int and stores it in myInt
-                // then results true if it was successful, false otherwise
+                // then returns true if it was successful, false otherwise
 
                 if (int.TryParse(metadata[13], out repeats) && int.TryParse(metadata[14], out numberInterleaved)
                     && float.TryParse(metadata[9], out stepSizekHz) && float.TryParse(metadata[7], out startFrequencyMHz))
