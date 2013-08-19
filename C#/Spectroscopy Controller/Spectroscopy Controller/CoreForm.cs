@@ -373,7 +373,11 @@ namespace Spectroscopy_Controller
 
         private void StopButton_Click(object sender, EventArgs e)
         {
+            // Signal to stop the experiment
             bShouldQuitThread = true;
+            // Disable stop & pause buttons
+            StopButton.Enabled = false;
+            PauseButton.Enabled = false;
         }
 
 
@@ -715,7 +719,7 @@ namespace Spectroscopy_Controller
                 }
                 // Notes section
                 myFile[i].WriteLine("Notes:");
-                myFile[i].WriteLine(myExperimentDialog.NotesBox.Text);
+                myFile[i].WriteLine("#" + myExperimentDialog.NotesBox.Text);
                 // Title for data
                 myFile[i].WriteLine("Data:");
 
@@ -862,23 +866,6 @@ namespace Spectroscopy_Controller
             updateWindowParam();
         }
 
-        private void OpenViewerButton_Click(object sender, EventArgs e)
-        {
-            if (!IsViewerOpen)
-            {
-                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
-                myViewer.Show();
-                IsViewerOpen = true;
-            }
-        }
-
-        private void myViewer_FormClosing(object sender, EventArgs e)
-        {
-            myViewer.Close();
-            myViewer.Dispose();
-            IsViewerOpen = false;
-        }
-
         private void updateWindowParam()
         {
             string specTypeTemp = specTypeBox.SelectedItem.ToString();
@@ -895,8 +882,22 @@ namespace Spectroscopy_Controller
 
         }
 
+        private void OpenViewerButton_Click(object sender, EventArgs e)
+        {
+            if (!IsViewerOpen)
+            {
+                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
+                myViewer.Show();
+                IsViewerOpen = true;
+            }
+        }
 
-
+        private void myViewer_FormClosing(object sender, EventArgs e)
+        {
+            myViewer.Close();
+            myViewer.Dispose();
+            IsViewerOpen = false;
+        }
 
 
 

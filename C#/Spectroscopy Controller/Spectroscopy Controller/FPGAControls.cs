@@ -286,11 +286,6 @@ namespace Spectroscopy_Controller
                                             MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                             bShouldQuitThread = true;
                                             // break;       // might need this??
-
-                                            // Flush & close readings file
-                                            myFile.Flush();
-                                            myFile.Close();
-
                                         }
 
                                     }
@@ -345,9 +340,6 @@ namespace Spectroscopy_Controller
                     }
                 }
             }
-
-            myFile.Flush();
-            myFile.Close();
 
             /*
             //Reenable start button (this doesn't current work, need to sort out all the button enabling properly)
