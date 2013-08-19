@@ -144,26 +144,35 @@ namespace Spectroscopy_Viewer
         // Method to accept incoming data from live experiment
         //(nb: changed startFreqLive which was taken from metadata 
         //to sidebandStartFreq passed directly from FPGAControls - JOE)
+        // Made threadsafe
+        private delegate void Delegate_addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq);
         public void addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq)
         {
-            // Copy data from readings into local array
-            int[] myData = readings.ToArray();
-
-            // Create fileHandler object to process the incoming data (use current sidebandStartFreq and currentwindowstep to add datapoint at correct frequency
-            fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive, sidebandStartFreq, CurrentWindowStep);
-
-            // How many spectra were loaded before we started running live
-            int existingSpectra = numberOfSpectra - numberOfSpectraLive;
-
-            // Loop through the live spectra only
-            for (int i = existingSpectra; i < numberOfSpectra; i++)
+            if (this.InvokeRequired)
             {
-                // Add data points to the spectrum
-                mySpectrum[i].addToSpectrum( myFileHandler.getDataPoints(i) );
+                this.Invoke(new Delegate_addLiveData(addLiveData), new object[] {readings, CurrentWindowStep, sidebandStartFreq} );
             }
+            else
+            {
+                // Copy data from readings into local array
+                int[] myData = readings.ToArray();
 
-            // Update the data & plot graph
-            this.updateThresholds();
+                // Create fileHandler object to process the incoming data (use current sidebandStartFreq and currentwindowstep to add datapoint at correct frequency
+                fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive, sidebandStartFreq, CurrentWindowStep);
+
+                // How many spectra were loaded before we started running live
+                int existingSpectra = numberOfSpectra - numberOfSpectraLive;
+
+                // Loop through the live spectra only
+                for (int i = existingSpectra; i < numberOfSpectra; i++)
+                {
+                    // Add data points to the spectrum
+                    mySpectrum[i].addToSpectrum(myFileHandler.getDataPoints(i));
+                }
+
+                // Update the data & plot graph
+                this.updateThresholds();
+            }
         }
 
 
