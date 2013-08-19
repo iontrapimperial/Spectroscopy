@@ -217,10 +217,11 @@ namespace Spectroscopy_Controller
                             myFile.WriteLine(j.ToString());
                         }
 
-
-
-                        // Send data to the viewer (live)
-                        myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);     
+                        // Only send live data to the viewer if it is open
+                        if (this.IsViewerOpen)
+                        {
+                            myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);
+                        }
                         // Clear buffers for writing to file, gets ready for writing more data next time
                         myFile.Flush();  
                         // Clear list of readings

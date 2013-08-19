@@ -457,11 +457,9 @@ namespace Spectroscopy_Controller
                     myExperimentDialog.ShowDialog();
                     if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                     {
-                        Console.WriteLine("Experiment Start Dialog closed - result OK");
-
                         // Create & fill in metadata
                         string[] metadata = new string[23];
-                        metadata[0] = DateTime.UtcNow.ToString("d/m/yyyy HH:MM:SS");
+                        metadata[0] = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
                         // This is all from the CoreForm
                         metadata[1] = specType;
                         metadata[2] = specDir;
@@ -620,6 +618,10 @@ namespace Spectroscopy_Controller
             int sbCurrent = sbToScan;
             // Store whether we are on a red or blue sideband
             char sbRedOrBlue = 'R';
+            // Store the current sideband in readable format e.g. 001R
+            string sbCurrentString = "";
+            // Need to put in the correct code to format this nicely
+
             //*****************//
 
             // Go through each file (this will only be run once for continuous files)
@@ -654,7 +656,7 @@ namespace Spectroscopy_Controller
                 // Write the metadata to the file
                 //
                 myFile[i].WriteLine("Spectroscopy data file");
-                myFile[i].WriteLine(DateTime.Now.ToString("d/m/yyyy HH:MM:SS"));
+                myFile[i].WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
                 // Spectrum type
                 myFile[i].WriteLine("Spectrum Type:");
                 myFile[i].WriteLine(specType);
@@ -870,6 +872,7 @@ namespace Spectroscopy_Controller
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
+            myViewer.Close();
             myViewer.Dispose();
             IsViewerOpen = false;
         }

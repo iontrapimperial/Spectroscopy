@@ -41,7 +41,6 @@ namespace Spectroscopy_Controller
             ChooseFolderDialog.SelectedPath = "Z:/Data";      // Initialise to share drive
             if (ChooseFolderDialog.ShowDialog() != DialogResult.Cancel)
             {
-                Console.WriteLine("Closed folder select");
                 FilePath = ChooseFolderDialog.SelectedPath;
             }
             this.Close();
