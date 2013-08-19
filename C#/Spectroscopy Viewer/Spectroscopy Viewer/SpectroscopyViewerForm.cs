@@ -361,7 +361,6 @@ namespace Spectroscopy_Viewer
                                 }
                                 // Update number of spectra
                                 numberOfSpectra = mySpectrum.Count();
-                                Console.WriteLine("{0} spectra", numberOfSpectra);
                             }
                             else
                             {

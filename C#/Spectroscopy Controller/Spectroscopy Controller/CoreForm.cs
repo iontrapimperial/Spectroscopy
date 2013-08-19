@@ -379,6 +379,8 @@ namespace Spectroscopy_Controller
             StopButton.Enabled = false;
             PauseButton.Enabled = false;
             StartButton.Enabled = true;
+
+            this.Reset();           // Reset
         }
 
 
@@ -403,6 +405,14 @@ namespace Spectroscopy_Controller
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
+            this.Reset();
+            StartButton.Enabled = true;
+            StopButton.Enabled = false;
+            PauseButton.Enabled = false;
+        }
+
+        private void Reset()
+        {
             if (FPGA.bUSBPortIsOpen == false)
             {
                 WriteMessage("Can't Send Reset Signal to FPGA: USB port is not open", true);
@@ -416,8 +426,8 @@ namespace Spectroscopy_Controller
             {
                 FPGA.SendResetSignal();
             }
-            
         }
+
 
         // Method to respond to user clicking start button
         private void StartButton_Click(object sender, EventArgs e)
@@ -431,6 +441,7 @@ namespace Spectroscopy_Controller
             }
             else
             {   // Otherwise, start experiment
+                this.Reset();       // Reset first
 
                 if (FPGA.bUSBPortIsOpen == false)
                 {

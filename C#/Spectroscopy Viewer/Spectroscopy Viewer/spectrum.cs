@@ -194,7 +194,6 @@ namespace Spectroscopy_Viewer
         // Method to create arrays of data for the histogram
         private void createHistogram(List<dataPoint> dataPointsPassed, bool update)
         {
-            Console.WriteLine("Spectrum {0} ({1}) histogram updated, {2}", spectrumNumber, spectrumName, update);
             // Declare variables to be used in if statements (compiler complains if they haven't been initialised)
             // listSize stores size of new data points to be processed - for update only
             int listSize = new int();       
@@ -374,8 +373,6 @@ namespace Spectroscopy_Viewer
             // Flush & close file when finished
             histogramFile.Flush();
             histogramFile.Close();
-
-            Console.WriteLine("Spectrum {0} histogram data saved", spectrumNumber);
         }
        
         // 'Set' methods
