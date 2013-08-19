@@ -23,7 +23,6 @@ namespace Spectroscopy_Controller
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
         string[] myFileName;
-        TextWriter[] myFile;        // Array of files to write data to
 
 
 

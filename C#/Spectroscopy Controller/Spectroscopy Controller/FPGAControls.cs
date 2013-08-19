@@ -80,7 +80,7 @@ namespace Spectroscopy_Controller
 
             int numberOfFiles = this.myFileName.Length;
 
-            TextWriter myFile = new StreamWriter(myFileName[CurrentSideband]);
+            TextWriter myFile = new StreamWriter(myFileName[CurrentSideband], true);
             if (myFile != null)
             {
                 WriteMessage("Opened first file for writing");
@@ -272,7 +272,7 @@ namespace Spectroscopy_Controller
                                         if (CurrentSideband < (sbToScan * 2) + 1)
                                         {
                                             // New sideband, so open the next file, using filename from array
-                                            myFile = new StreamWriter(myFileName[CurrentSideband]);
+                                            myFile = new StreamWriter(myFileName[CurrentSideband], true);
 
 
                                             Frequency = startFreqArray[CurrentSideband];
