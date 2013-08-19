@@ -269,11 +269,12 @@ namespace Spectroscopy_Controller
 
                                         CurrentSideband++;
 
-                                        // New sideband, so open the next file, using filename from array
-                                        myFile = new StreamWriter(myFileName[CurrentSideband]);
-
                                         if (CurrentSideband < (sbToScan * 2) + 1)
                                         {
+                                            // New sideband, so open the next file, using filename from array
+                                            myFile = new StreamWriter(myFileName[CurrentSideband]);
+
+
                                             Frequency = startFreqArray[CurrentSideband];
                                             GPIB.SetFrequency(Frequency);
                                             CurrentWindowStep = 0;

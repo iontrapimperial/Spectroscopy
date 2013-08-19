@@ -553,7 +553,6 @@ namespace Spectroscopy_Controller
                                 myFile[0].Flush();
                                 myFile[0].Close();
 
-
                                 bIsFreqGenEnabled = false;
                             }
 
@@ -571,10 +570,7 @@ namespace Spectroscopy_Controller
                             MessageBox.Show("Error selecting folder. Please try again.");
                         }
 
-
-
-                        // Start the experiment running
-                        // The following code has been copied from MainForm.cs (method sendStartSignalToolStripMenuItem_Click)
+                        // Code required to start the experiment running:
                         bShouldQuitThread = false;
                                                 
                         GPIB.InitDevice(19);
@@ -582,7 +578,8 @@ namespace Spectroscopy_Controller
                         GPIB.SetFrequency(startFreq);
                                             
                         SendSetupFinish();
-                        //Start experiment    df
+
+                        // Start experiment
                         StartReadingData();
                         
                     }
