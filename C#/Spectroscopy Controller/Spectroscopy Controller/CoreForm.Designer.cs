@@ -1658,6 +1658,7 @@
             this.Controls.Add(this.DesignerGroup);
             this.Name = "CoreForm";
             this.Text = "Form1";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CoreForm_KeyDown);
             FileSendBox.ResumeLayout(false);
             FileSendBox.PerformLayout();
             this.PulseTypeTabs.ResumeLayout(false);

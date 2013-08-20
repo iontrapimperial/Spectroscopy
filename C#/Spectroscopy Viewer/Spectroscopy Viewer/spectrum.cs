@@ -112,8 +112,6 @@ namespace Spectroscopy_Viewer
             myDataPoints.AddRange(dataPointsPassed);
             // Update data size variable
             dataSize = myDataPoints.Count();
-
-            Console.WriteLine("Analysing new data, from index {0}", newDataStartIndex);
             
             // Call method to analyse only the new data
             this.analyseNew(newDataStartIndex);

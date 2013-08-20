@@ -295,6 +295,7 @@ namespace Spectroscopy_Controller
                                 {
                                     Frequency += stepSize;
                                     GPIB.SetFrequency(Frequency);
+                                    CurrentWindowStep++;
                                 }
                                 
                             }
@@ -353,10 +354,6 @@ namespace Spectroscopy_Controller
                 myFile.Close();
             }
 
-            if (IsViewerOpen)
-            {
-                myViewer.StopRunningLive();
-            }
             this.ExperimentFinished();
 
             FPGA.ResetDevice();

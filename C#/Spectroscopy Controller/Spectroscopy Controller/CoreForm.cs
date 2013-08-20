@@ -374,17 +374,15 @@ namespace Spectroscopy_Controller
         {
             // Signal to stop the experiment
             bShouldQuitThread = true;
-            // Disable stop & pause buttons, enable start button
-            StopButton.Enabled = false;
-            PauseButton.Enabled = false;
-            StartButton.Enabled = true;
+            // Call method to deal with enabling/disabling buttons etc
+            this.ExperimentFinished();
 
             this.Reset();           // Reset
         }
 
 
         
-        // Threadsafe method to enable/disable appropriate buttons when experiment is finished
+        // Threadsafe method to enable/disable appropriate buttons & inform viewer when experiment is finished
         // This gets called from inside FPGAcontrols
         delegate void Delegate_ExperimentFinished();
         private void ExperimentFinished()
@@ -395,10 +393,15 @@ namespace Spectroscopy_Controller
             }
             else
             {
-                Console.WriteLine("Experiment finished, resetting buttons");
+                
                 StartButton.Enabled = true;
                 StopButton.Enabled = false;
                 PauseButton.Enabled = false;
+
+                if (IsViewerOpen)
+                {
+                    myViewer.StopRunningLive();
+                }
             }
         }
 
@@ -406,9 +409,7 @@ namespace Spectroscopy_Controller
         private void ResetButton_Click(object sender, EventArgs e)
         {
             this.Reset();
-            StartButton.Enabled = true;
-            StopButton.Enabled = false;
-            PauseButton.Enabled = false;
+            this.ExperimentFinished();
         }
 
         private void Reset()
@@ -938,20 +939,6 @@ namespace Spectroscopy_Controller
             IsViewerOpen = true;
         }
 
-        /*
-        delegate void Delegate_ViewerClosing(object sender, EventArgs e);
-        private void myViewer_FormClosing(object sender, EventArgs e)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Delegate_ViewerClosing(myViewer_FormClosing), new object[] { sender, e} );
-            }
-            else
-            {
-                IsViewerOpen = false;
-            }
-        }
-          */
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
@@ -962,6 +949,16 @@ namespace Spectroscopy_Controller
             {
                 // Re-open form
                 OpenViewer();   
+            }
+        }
+
+        private void CoreForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // If the space bar has been pressed
+            if (e.KeyCode == Keys.Space)
+            {
+                // Press pause button
+                this.PauseButton_Click(sender, e);
             }
         }
 

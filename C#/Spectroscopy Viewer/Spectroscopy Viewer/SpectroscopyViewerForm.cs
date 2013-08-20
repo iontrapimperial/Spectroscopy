@@ -100,10 +100,14 @@ namespace Spectroscopy_Viewer
             InitializeComponent();
             initialiseColours();
 
-            // Disable loading saved data while running in live mode
-            this.loadDataButton.Enabled = false;
             // Flag that experiment is running
             this.IsExperimentRunning = false;
+            // While running in live mode, do the following for safety:
+            this.loadDataButton.Enabled = false;                // Disable loading saved data 
+            this.restartViewerButton.Enabled = false;           // Disable restarting viewer
+            this.spectrumExportDataButton.Enabled = false;      // Disable exporting spectrum data
+            this.histogramExportDataButton.Enabled = false;     // Disable exporting histogram data
+            
 
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor so this is OK
@@ -147,6 +151,16 @@ namespace Spectroscopy_Viewer
             // Create the controls for the graph
             this.createGraphControls();
             // But since we haven't added any data yet, don't update thresholds or graph
+
+            // Disable context menus on graph controls while running in live mode
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                for (int j = 0; j < graphControlContextMenu[i].MenuItems.Count; j++)
+                {
+                    this.graphControlContextMenu[i].MenuItems[j].Enabled = false;
+                }
+            }
+
         }
 
         // Method to accept incoming data from live experiment
@@ -199,10 +213,23 @@ namespace Spectroscopy_Viewer
             }
             else
             {
+                // Flag that we are not running in live mode
                 IsExperimentRunning = false;
 
-                // Enable loading live data now that we have stopped running in live mode
-                this.loadDataButton.Enabled = true;
+                // Now that we have stopped running in live mode:
+                this.loadDataButton.Enabled = true;                 // Re-enable loading saved data
+                this.restartViewerButton.Enabled = true;            // Re-enable restarting viewer
+                this.spectrumExportDataButton.Enabled = true;       // Re-enable exporting spectrum data
+                this.histogramExportDataButton.Enabled = true;      // Re-enable exporting histogram data
+                // Re-enable context menus on graph controls
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    for (int j = 0; j < graphControlContextMenu[i].MenuItems.Count; j++)
+                    {
+                        this.graphControlContextMenu[i].MenuItems[j].Enabled = true;
+                    }
+                }
+
             }
         }
 
@@ -459,7 +486,7 @@ namespace Spectroscopy_Viewer
         // Method to respond to user clicking "Export spectrum..." button
         // Opens a save file dialog for each spectrum, saves data in a text file (tab separated)
         // Might want to put some metadata into this file??
-        private void spectrumExportData_Click(object sender, EventArgs e)
+        private void spectrumExportDataButton_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
@@ -499,7 +526,6 @@ namespace Spectroscopy_Viewer
             this.DialogResult = System.Windows.Forms.DialogResult.Retry;
             // Close form
             this.Close();
-
         }
 
         #region Code relating to generating, plotting & exporting histogram
@@ -515,7 +541,6 @@ namespace Spectroscopy_Viewer
             {
                 // Calculating data for histogram
                 //********************************
-
                 // Initialise variables every time we re-create the histogram
                 histogramSize = new int();
 
@@ -523,7 +548,6 @@ namespace Spectroscopy_Viewer
                 int[] tempHistogramCool;
                 int[] tempHistogramCount;
                 int tempHistogramSize = new int();
-
 
                 // For each spectrum
                 for (int i = 0; i < numberOfSpectra; i++)
@@ -559,7 +583,6 @@ namespace Spectroscopy_Viewer
                             // Calculate total data and store in another array (cool + count)
                             histogramAll[j] = histogramCool[j] + histogramCount[j];
                         }
-
                     }
                     else
                     {   // For subsequent spectra, go through and add the data to existing lists
@@ -570,7 +593,6 @@ namespace Spectroscopy_Viewer
                             histogramCount[j] += tempHistogramCount[j];
 
                             histogramAll[j] = histogramCool[j] + histogramCount[j];
-
                         }
 
                         // If the histogram for the current spectrum is larger than the existing histogram
@@ -592,12 +614,9 @@ namespace Spectroscopy_Viewer
                             histogramSize = histogramCool.Count();
                         }
                     }
-
                 }       // End of loop which goes through spectra and creates histogram
 
                 //********************************
-
-
                 // Store the data in a table for plotting to graph
                 // Try to create a data table with the lists as columns
                 DataSet histogramDataSet = new DataSet();
@@ -747,7 +766,7 @@ namespace Spectroscopy_Viewer
 
         // Method to respond to user clicking "Export histogram..." button
         // Opens a dialogue to save histogram data independently for each displayed spectrum
-        private void histogramExportData_Click(object sender, EventArgs e)
+        private void histogramExportDataButton_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
             if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
