@@ -956,6 +956,8 @@ namespace Spectroscopy_Viewer
 
         private void graphControlContextMenu_ViewMetadata_Click(object sender, EventArgs e)
         {
+            metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, 0);
+            myMetadataViewer.Show();
 
         }
 
@@ -969,7 +971,7 @@ namespace Spectroscopy_Viewer
         // Method to rename spectrum
         private void renameSpectrum(int spectrumNumber)
         {
-            RenameSpectrumDialog myRenameDialog = new RenameSpectrumDialog();
+            renameSpectrumDialog myRenameDialog = new renameSpectrumDialog();
             myRenameDialog.ShowDialog();
 
             // Only perform rename if user clicked OK (not cancel)

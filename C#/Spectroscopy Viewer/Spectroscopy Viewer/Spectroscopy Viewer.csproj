@@ -63,11 +63,17 @@
       <DependentUpon>displayMetadata.cs</DependentUpon>
     </Compile>
     <Compile Include="fileHandler.cs" />
-    <Compile Include="RenameSpectrum.cs">
+    <Compile Include="metadataViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RenameSpectrum.Designer.cs">
-      <DependentUpon>RenameSpectrum.cs</DependentUpon>
+    <Compile Include="metadataViewer.Designer.cs">
+      <DependentUpon>metadataViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="renameSpectrum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="renameSpectrum.Designer.cs">
+      <DependentUpon>renameSpectrum.cs</DependentUpon>
     </Compile>
     <Compile Include="requestMetadata.cs">
       <SubType>Form</SubType>
@@ -93,8 +99,11 @@
     <EmbeddedResource Include="displayMetadata.resx">
       <DependentUpon>displayMetadata.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RenameSpectrum.resx">
-      <DependentUpon>RenameSpectrum.cs</DependentUpon>
+    <EmbeddedResource Include="metadataViewer.resx">
+      <DependentUpon>metadataViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="renameSpectrum.resx">
+      <DependentUpon>renameSpectrum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="requestMetadata.resx">
       <DependentUpon>requestMetadata.cs</DependentUpon>
@@ -116,6 +125,7 @@
       <DependentUpon>spectrumSelect.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Properties\DataSources\spectrum.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

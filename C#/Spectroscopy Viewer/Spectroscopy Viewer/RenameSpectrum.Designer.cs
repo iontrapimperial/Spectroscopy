@@ -1,6 +1,6 @@
 ﻿namespace Spectroscopy_Viewer
 {
-    partial class RenameSpectrumDialog
+    partial class renameSpectrumDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -60,7 +60,7 @@
             this.newNameBox.Size = new System.Drawing.Size(191, 20);
             this.newNameBox.TabIndex = 2;
             // 
-            // RenameSpectrumDialog
+            // renameSpectrumDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -68,7 +68,7 @@
             this.Controls.Add(this.newNameBox);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Name = "RenameSpectrumDialog";
+            this.Name = "renameSpectrumDialog";
             this.Text = "Enter new name";
             this.ResumeLayout(false);
             this.PerformLayout();

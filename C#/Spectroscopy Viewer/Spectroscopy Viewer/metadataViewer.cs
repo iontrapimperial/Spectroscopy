@@ -9,11 +9,20 @@ using System.Windows.Forms;
 
 namespace Spectroscopy_Viewer
 {
-    public partial class renameSpectrumDialog : Form
+    public partial class metadataViewer : Form
     {
-        public renameSpectrumDialog()
+        public metadataViewer(ref List<spectrum> mySpectrum, int spectrumNumber)
         {
             InitializeComponent();
+
+            string[] metadata = mySpectrum[spectrumNumber].getMetadata();
+
+
+            int i = 0;
+
+            
         }
+
+
     }
 }

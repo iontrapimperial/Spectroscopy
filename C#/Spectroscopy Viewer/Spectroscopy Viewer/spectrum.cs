@@ -491,5 +491,12 @@ namespace Spectroscopy_Viewer
             return histogramCount;
         }
 
+        // Method to return metadata
+        public string[] getMetadata()
+        {
+            return metadata;
+        }
+
+
     }
 }
