@@ -328,10 +328,6 @@ namespace Spectroscopy_Controller
                             WriteMessage("Received experiment stop command!\r\n");
                             MessageBox.Show("Experiment Finished!", "Bang");
                             bShouldQuitThread = true;
-
-                            // This method is supposed to enable/disable the right buttons - it doesn't seem to work!
-                            //this.ExperimentFinished();
-
                         }
                         else
                         {
@@ -371,7 +367,9 @@ namespace Spectroscopy_Controller
             FPGAReadThread = new Thread(new ThreadStart(this.FPGAReadMethod));
             FPGAReadThread.Name = "FPGACommThread";
             FPGAReadThread.Start();
+            // Disable start & open USB buttons
             StartButton.Enabled = false;
+            OpenUSBButton.Enabled = false;
             //Always enable Stop and pause buttons when running
             StopButton.Enabled = true;
             PauseButton.Enabled = true;

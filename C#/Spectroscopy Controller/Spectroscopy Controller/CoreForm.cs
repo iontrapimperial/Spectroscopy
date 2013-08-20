@@ -374,9 +374,10 @@ namespace Spectroscopy_Controller
         {
             // Signal to stop the experiment
             bShouldQuitThread = true;
+            // Print message to user
+            WriteMessage("Experiment stopped by user\r\n");
             // Call method to deal with enabling/disabling buttons etc
             this.ExperimentFinished();
-
             this.Reset();           // Reset
         }
 
@@ -394,9 +395,10 @@ namespace Spectroscopy_Controller
             else
             {
                 
-                StartButton.Enabled = true;
-                StopButton.Enabled = false;
-                PauseButton.Enabled = false;
+                StartButton.Enabled = true;     // Enable start button
+                OpenUSBButton.Enabled = true;   // Enable open USB button                        
+                StopButton.Enabled = false;     // Disable stop button
+                PauseButton.Enabled = false;    // Disable pause button
 
                 if (IsViewerOpen)
                 {
@@ -438,7 +440,8 @@ namespace Spectroscopy_Controller
             {
                 PauseExperiment = false;        // Set flag
                 PauseButton.Enabled = true;     // Re-enable pause button
-                StartButton.Enabled = false;
+                StartButton.Enabled = false;    // Disable start button
+                OpenUSBButton.Enabled = false;  // Disable open USB button
             }
             else
             {   // Otherwise, start experiment
@@ -639,13 +642,17 @@ namespace Spectroscopy_Controller
         // Method to respond to using clicking Pause button
         private void PauseButton_Click(object sender, EventArgs e)
         {
-            // Only let it pause if the experiment is running (need to check this)
-            if (FPGAReadThread != null && FPGAReadThread.IsAlive)
+            // Make sure pause button isn't disabled (since we call this method from several events, not just from pause button)
+            if (this.PauseButton.Enabled)
             {
-                // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
-                PauseExperiment = true;
-                PauseButton.Enabled = false;
-                StartButton.Enabled = true;
+                // Only let it pause if the experiment is running (need to check this)
+                if (FPGAReadThread != null && FPGAReadThread.IsAlive)
+                {
+                    // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
+                    PauseExperiment = true;
+                    PauseButton.Enabled = false;
+                    StartButton.Enabled = true;
+                }
             }
         }
 

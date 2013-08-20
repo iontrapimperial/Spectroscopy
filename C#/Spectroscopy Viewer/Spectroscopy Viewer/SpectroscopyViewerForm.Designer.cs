@@ -165,6 +165,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(980, 604);
             this.tabControl1.TabIndex = 8;
+            this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.viewerForm_KeyDown);
             // 
             // tabPageSpectra
             // 
@@ -184,7 +185,6 @@
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
-            this.tabPageSpectra.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.viewerForm_PreviewKeyDown);
             // 
             // userDisplayText
             // 
@@ -219,7 +219,6 @@
             this.tabPageHistogram.TabIndex = 1;
             this.tabPageHistogram.Text = "Histogram";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
-            this.tabPageHistogram.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.viewerForm_PreviewKeyDown);
             // 
             // histogramExportDataButton
             // 
