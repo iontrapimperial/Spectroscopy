@@ -102,6 +102,8 @@ namespace Spectroscopy_Viewer
 
             // Disable loading saved data while running in live mode
             this.loadDataButton.Enabled = false;
+            // Flag that experiment is running
+            this.IsExperimentRunning = false;
 
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor
@@ -121,7 +123,9 @@ namespace Spectroscopy_Viewer
             }
             else
             {
+                // Show error, skip rest of this function
                 MessageBox.Show("Error parsing metadata when opening viewer");
+                return;         
             }
             
             // Save number of spectra
@@ -142,8 +146,8 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to accept incoming data from live experiment
-        //(nb: changed startFreqLive which was taken from metadata 
-        //to sidebandStartFreq passed directly from FPGAControls - JOE)
+        // (nb: changed startFreqLive which was taken from metadata 
+        // to sidebandStartFreq passed directly from FPGAControls - JOE)
         // Made threadsafe
         private delegate void Delegate_addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq);
         public void addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq)
@@ -170,8 +174,9 @@ namespace Spectroscopy_Viewer
                     mySpectrum[i].addToSpectrum(myFileHandler.getDataPoints(i));
                 }
 
-                // Update the data & plot graph
-                this.updateThresholds();
+                // NB data gets updated automatically when points are added to spectra
+                // So just update graph
+                updateGraph();
             }
         }
 

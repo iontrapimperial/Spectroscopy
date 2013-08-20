@@ -105,13 +105,16 @@ namespace Spectroscopy_Viewer
         // Method to add new list of data points to existing data
         public void addToSpectrum(List<dataPoint> dataPointsPassed)
         {
+            // Store size of existing data - this will be the index where the new data starts
+            int newDataStartIndex = dataSize;
             // Add new data onto the end of list
             myDataPoints.AddRange(dataPointsPassed);
-            dataSize = myDataPoints.Count();        // Update data size variable
-            beenInitialised = false;                // Flag to recalculate all data
-            // NB this is slightly slower than just calculating the data that has been added
-            // but it should be fast enough, and it is much easier/quicker to write!
-            
+            // Update data size variable
+            dataSize = myDataPoints.Count();
+
+            // Call method to analyse only the new data
+            this.analyseNew(newDataStartIndex);
+          
             // Update histograms from new data points. 'True' flags that this is an update to existing histograms
             createHistogram(dataPointsPassed, true);
         }
@@ -138,7 +141,8 @@ namespace Spectroscopy_Viewer
             {
                 myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
             }
-            this.createDataPlot();          // Always want to create data for plotting
+            // NB parameter 0 indicates that we want to create data for the entire data set
+            this.createDataPlot(0);          // Always want to create data for plotting
             beenInitialised = true;         // Flag that initialisation has been completed
         }
 
@@ -189,6 +193,19 @@ namespace Spectroscopy_Viewer
                 this.updateDataPlot();
             }
 
+        }
+
+        // Method to analyse new data only, given a starting index
+        // Assuming the new data is at the end of the list (always true)
+        private void analyseNew(int newDataStartIndex)
+        {
+            // Only loop through the new data points, skip the existing ones (from i = 0)
+            for (int i = newDataStartIndex; i < dataSize; i++)
+            {
+                myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point   
+            }
+            // Update dataPlot lists for new data only
+            this.createDataPlot(newDataStartIndex);
         }
 
         // Method to create arrays of data for the histogram
@@ -272,28 +289,31 @@ namespace Spectroscopy_Viewer
             }
         }
 
-        // Method to create data for plotting to graph
-        // Also creates lists of bad counts
-        private void createDataPlot()
+        // Method to create data for plotting to graph & lists of bad counts
+        // startIndex parameter allows this function to be used for initial data creation & for adding new data only
+        // If startIndex = 0, function goes through entire list of data (initial)
+        // If startIndex > 0, function only goes through data after this point (adding new data)
+        private void createDataPlot(int startIndex)
         {
-            // Temporary variable for storing freq of each point
+            // Temporary variables for storing freq & bad counts of each point
             int freq = new int();
             int temp_badCountsThreshold = new int();
             int temp_badCountsErrors = new int();
 
-            // Loop through each data point
-            for (int i = 0; i < dataSize; i++)
+            // Loop through each data point, from startIndex onwards
+            for (int i = startIndex; i < dataSize; i++)
             {
                 freq = myDataPoints[i].getFreq();                    // Frequency
 
+                // Store bad counts temporarily before adding them to the lists
                 temp_badCountsErrors = myDataPoints[i].getBadCountsErrors();
                 temp_badCountsThreshold = myDataPoints[i].getBadCountsThreshold();
 
-                // Add correct data to all three lists
-                dataPlot.Add( freq, myDataPoints[i].getDarkProb() );
-                badCountsThreshold.Add(freq, temp_badCountsThreshold);
-                badCountsErrors.Add(freq, temp_badCountsErrors);
-                badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );
+                // Add correct data to all four lists
+                dataPlot.Add( freq, myDataPoints[i].getDarkProb() );            // Dark ion prob
+                badCountsThreshold.Add(freq, temp_badCountsThreshold);          // Bad counts (threshold)
+                badCountsErrors.Add(freq, temp_badCountsErrors);                // Bad counts (laser errors)
+                badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );      // Bad counts (sum of both)             
             }
 
         }
