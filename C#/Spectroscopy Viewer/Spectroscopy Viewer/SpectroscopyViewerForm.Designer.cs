@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -54,7 +54,7 @@
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.clearDataButton = new System.Windows.Forms.Button();
+            this.restartViewerButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -313,17 +313,17 @@
             // 
             // histogramChart
             // 
-            chartArea3.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea3.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea3.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea3);
+            chartArea2.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea2);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series2);
             this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
@@ -338,22 +338,22 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
-            // clearDataButton
+            // restartViewerButton
             // 
-            this.clearDataButton.Location = new System.Drawing.Point(834, 2);
-            this.clearDataButton.Name = "clearDataButton";
-            this.clearDataButton.Size = new System.Drawing.Size(158, 26);
-            this.clearDataButton.TabIndex = 9;
-            this.clearDataButton.Text = "Clear all data";
-            this.clearDataButton.UseVisualStyleBackColor = true;
-            this.clearDataButton.Click += new System.EventHandler(this.clearDataButton_Click);
+            this.restartViewerButton.Location = new System.Drawing.Point(834, 2);
+            this.restartViewerButton.Name = "restartViewerButton";
+            this.restartViewerButton.Size = new System.Drawing.Size(158, 26);
+            this.restartViewerButton.TabIndex = 9;
+            this.restartViewerButton.Text = "Restart viewer";
+            this.restartViewerButton.UseVisualStyleBackColor = true;
+            this.restartViewerButton.Click += new System.EventHandler(this.restartViewerButton_Click);
             // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 628);
-            this.Controls.Add(this.clearDataButton);
+            this.Controls.Add(this.restartViewerButton);
             this.Controls.Add(this.tabControl1);
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
@@ -401,7 +401,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button spectrumExportData;
         public System.Windows.Forms.TextBox userDisplayText;
-        private System.Windows.Forms.Button clearDataButton;
+        private System.Windows.Forms.Button restartViewerButton;
 
     }
 }

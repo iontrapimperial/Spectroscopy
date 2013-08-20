@@ -481,12 +481,13 @@ namespace Spectroscopy_Viewer
 
         }
 
-        // Method to respond to user clicking "Clear all data" button
-        private void clearDataButton_Click(object sender, EventArgs e)
+        // Method to respond to user clicking "Restart viewer" button
+        private void restartViewerButton_Click(object sender, EventArgs e)
         {
-
-
-
+            // Set dialog result to indicate that we should restart form
+            this.DialogResult = System.Windows.Forms.DialogResult.Retry;
+            // Close form
+            this.Close();
         }
 
         #region Code relating to generating, plotting & exporting histogram
@@ -1068,6 +1069,7 @@ namespace Spectroscopy_Viewer
         }
       
         #endregion
+
 
 
 
