@@ -137,7 +137,11 @@ namespace Spectroscopy_Viewer
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
                 mySpectrum.Add(new spectrum(ref metadataLive, i));
-                dataPlot.Add(new PointPairList());
+                dataPlot.Add(new PointPairList());              // Add empty list for plotting data
+
+                // Set cool/count thresholds from boxes on form
+                mySpectrum[i].setCoolThreshold( (int)this.coolingThresholdSelect.Value );
+                mySpectrum[i].setCountThreshold( (int)this.countThresholdSelect.Value );
             }
 
             // Create the controls for the graph
@@ -172,11 +176,15 @@ namespace Spectroscopy_Viewer
                 {
                     // Add data points to the spectrum
                     mySpectrum[i].addToSpectrum(myFileHandler.getDataPoints(i));
+                    // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)
+                    dataPlot[i] = mySpectrum[i].getDataPlot();
                 }
 
                 // NB data gets updated automatically when points are added to spectra
                 // So just update graph
                 updateGraph();
+                // Size the control to fill the form with a margin
+                SetSize();
             }
         }
 

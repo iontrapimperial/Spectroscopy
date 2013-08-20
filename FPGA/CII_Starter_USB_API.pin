@@ -196,7 +196,7 @@ LaserLockIn729               : D15       : input  : 3.3-V LVTTL       :         
 LaserAux2                    : D16       : output : 3.3-V LVTTL       :         : 4         : Y              
 VCCIO4                       : D17       : power  :                   : 3.3V    : 4         :                
 GND                          : D18       : gnd    :                   :         :           :                
-GND*                         : D19       :        :                   :         : 5         :                
+Laser397_1                   : D19       : output : 3.3-V LVTTL       :         : 5         : Y              
 PMT_In_A                     : D20       : input  : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : D21       :        :                   :         : 5         :                
 GND*                         : D22       :        :                   :         : 5         :                
@@ -260,7 +260,7 @@ GND                          : G13       : gnd    :                   :         
 VCCIO4                       : G14       : power  :                   : 3.3V    : 4         :                
 Laser854                     : G15       : output : 3.3-V LVTTL       :         : 4         : Y              
 Laser854_Freq                : G16       : output : 3.3-V LVTTL       :         : 4         : Y              
-LED397_1                     : G17       : output : 3.3-V LVTTL       :         : 5         : Y              
+LEDAux2                      : G17       : output : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : G18       :        :                   :         : 5         :                
 VCCIO5                       : G19       : power  :                   : 3.3V    : 5         :                
 GND*                         : G20       :        :                   :         : 5         :                
@@ -277,13 +277,13 @@ GND*                         : H8        :        :                   :         
 GND*                         : H9        :        :                   :         : 3         :                
 GND*                         : H10       :        :                   :         : 3         :                
 GND*                         : H11       :        :                   :         : 3         :                
-Laser397_1                   : H12       : output : 3.3-V LVTTL       :         : 4         : Y              
+GND*                         : H12       :        :                   :         : 4         :                
 Laser397_2                   : H13       : output : 3.3-V LVTTL       :         : 4         : Y              
 Laser729                     : H14       : output : 3.3-V LVTTL       :         : 4         : Y              
 GND*                         : H15       :        :                   :         : 4         :                
 GND*                         : H16       :        :                   :         : 5         :                
-LED397_2                     : H17       : output : 3.3-V LVTTL       :         : 5         : Y              
-LED854                       : H18       : output : 3.3-V LVTTL       :         : 5         : Y              
+LEDAux1                      : H17       : output : 3.3-V LVTTL       :         : 5         : Y              
+LED854_Power                 : H18       : output : 3.3-V LVTTL       :         : 5         : Y              
 GND*                         : H19       :        :                   :         : 5         :                
 GND                          : H20       : gnd    :                   :         :           :                
 NC                           : H21       :        :                   :         :           :                
@@ -302,7 +302,7 @@ VCCINT                       : J11       : power  :                   : 1.2V    
 VCCINT                       : J12       : power  :                   : 1.2V    :           :                
 VCCINT                       : J13       : power  :                   : 1.2V    :           :                
 GND*                         : J14       :        :                   :         : 4         :                
-LED729                       : J15       : output : 3.3-V LVTTL       :         : 5         : Y              
+LED854_Freq                  : J15       : output : 3.3-V LVTTL       :         : 5         : Y              
 VCCIO5                       : J16       : power  :                   : 3.3V    : 5         :                
 GND*                         : J17       :        :                   :         : 5         :                
 GND*                         : J18       :        :                   :         : 5         :                
@@ -390,14 +390,14 @@ GND                          : N11       : gnd    :                   :         
 GND                          : N12       : gnd    :                   :         :           :                
 GND                          : N13       : gnd    :                   :         :           :                
 VCCINT                       : N14       : power  :                   : 1.2V    :           :                
-LED854_Freq                  : N15       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED729                       : N15       : output : 3.3-V LVTTL       :         : 6         : Y              
 GND                          : N16       : gnd    :                   :         :           :                
 MSEL1                        : N17       :        :                   :         : 6         :                
 CONF_DONE                    : N18       :        :                   :         : 6         :                
 GND                          : N19       : gnd    :                   :         :           :                
 nSTATUS                      : N20       :        :                   :         : 6         :                
-LED729_RF2                   : N21       : output : 3.3-V LVTTL       :         : 6         : Y              
-LED729_RF1                   : N22       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED729_RF1                   : N21       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED729_RF2                   : N22       : output : 3.3-V LVTTL       :         : 6         : Y              
 DRAM_DQ[10]                  : P1        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 DRAM_DQ[11]                  : P2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
 DRAM_ADDR[8]                 : P3        : output : 3.3-V LVTTL       :         : 1         : Y              
@@ -412,10 +412,10 @@ VCCINT                       : P11       : power  :                   : 1.2V    
 VCCINT                       : P12       : power  :                   : 1.2V    :           :                
 VCCINT                       : P13       : power  :                   : 1.2V    :           :                
 NC                           : P14       :        :                   :         :           :                
-LED854_Power                 : P15       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED854                       : P15       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCIO6                       : P16       : power  :                   : 3.3V    : 6         :                
-LEDAux1                      : P17       : output : 3.3-V LVTTL       :         : 6         : Y              
-LEDAux2                      : P18       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED397_2                     : P17       : output : 3.3-V LVTTL       :         : 6         : Y              
+LED397_1                     : P18       : output : 3.3-V LVTTL       :         : 6         : Y              
 NC                           : P19       :        :                   :         :           :                
 NC                           : P20       :        :                   :         :           :                
 NC                           : P21       :        :                   :         :           :                

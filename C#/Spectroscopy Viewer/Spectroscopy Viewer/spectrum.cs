@@ -81,6 +81,7 @@ namespace Spectroscopy_Viewer
         }
 
         // Constructor given metadata and spectrum number
+        // Used in live mode when we want to create the spectrum before data has been received
         public spectrum(ref string[] metadataPassed, int spectrumNumberPassed)
         {
             metadata = new string[metadataPassed.Length];
@@ -112,6 +113,8 @@ namespace Spectroscopy_Viewer
             // Update data size variable
             dataSize = myDataPoints.Count();
 
+            Console.WriteLine("Analysing new data, from index {0}", newDataStartIndex);
+            
             // Call method to analyse only the new data
             this.analyseNew(newDataStartIndex);
           

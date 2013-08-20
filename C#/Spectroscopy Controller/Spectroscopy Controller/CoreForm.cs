@@ -591,15 +591,19 @@ namespace Spectroscopy_Controller
                             }
 
                             // If myViewer is not open
-                            if (!IsViewerOpen)
+                            if (IsViewerOpen)
                             {
-                                // Create new instance of viewer
-                                myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
-                                // Set up event handler to deal with viewer closing - must be done after it is constructed
-                                myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
-                                myViewer.Show();
-                                IsViewerOpen = true;
-                            }   
+                                myViewer.Close();
+                                IsViewerOpen = false;
+                            }
+                            // Create new instance of viewer
+                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
+                            // Set up event handler to deal with viewer closing - must be done after it is constructed
+                            myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+                            // Show viewer
+                            myViewer.Show();
+                            // Set boolean  to indicate that viewer is open
+                            IsViewerOpen = true;
                         }
                         else
                         {
@@ -671,8 +675,9 @@ namespace Spectroscopy_Controller
                     myFileName[i] += "_";
 
                     // Add preceding 0s to keep format of sideband number as XXX
-                    if (sbCurrent < 10) sbCurrentString += "00";
-                    else if (sbCurrent < 100) sbCurrentString += "0";
+                    if (sbCurrent < 10) sbCurrentString = "00";
+                    else if (sbCurrent < 100) sbCurrentString = "0";
+                    else sbCurrentString = "";
 
                     // Add current sideband number to filename
                     sbCurrentString += sbCurrent;
@@ -745,7 +750,7 @@ namespace Spectroscopy_Controller
                 // Name for each spectrum
                 for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
                 {
-                    myFile[i].WriteLine("Spectrum " + j + " name:");
+                    myFile[i].WriteLine("Spectrum " + (j+1) + " name:");
                     myFile[i].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
                 }
                 // Notes section

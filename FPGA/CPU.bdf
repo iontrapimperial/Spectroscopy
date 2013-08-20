@@ -1156,6 +1156,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect -328 488 -280 504))
 )
 (pin
 	(output)
@@ -1172,6 +1173,7 @@ applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
+	(annotation_block (location)(rect -328 512 -280 528))
 )
 (pin
 	(bidir)
@@ -2328,6 +2330,31 @@ applicable agreement for further details.
 		(circle (rect 31 12 39 20))
 	)
 )
+(symbol
+	(rect -408 832 -360 864)
+	(text "NOT" (rect 1 0 21 10)(font "Arial" (font_size 6)))
+	(text "inst18" (rect 3 21 32 33)(font "Arial" ))
+	(port
+		(pt 0 16)
+		(input)
+		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
+		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
+		(line (pt 0 16)(pt 13 16))
+	)
+	(port
+		(pt 48 16)
+		(output)
+		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
+		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
+		(line (pt 39 16)(pt 48 16))
+	)
+	(drawing
+		(line (pt 13 25)(pt 13 7))
+		(line (pt 13 7)(pt 31 16))
+		(line (pt 13 25)(pt 31 16))
+		(circle (rect 31 12 39 20))
+	)
+)
 (connector
 	(text "Clock_50" (rect -78 112 -32 124)(font "Arial" ))
 	(pt -80 128)
@@ -3035,11 +3062,6 @@ applicable agreement for further details.
 	(pt -432 816)
 )
 (connector
-	(text "LaserLockIn729" (rect -446 832 -369 844)(font "Arial" ))
-	(pt -360 848)
-	(pt -432 848)
-)
-(connector
 	(text "LaserLockIn397_1" (rect -446 784 -357 796)(font "Arial" ))
 	(pt -360 800)
 	(pt -432 800)
@@ -3062,6 +3084,11 @@ applicable agreement for further details.
 	(text "PMT_In_A" (rect -566 464 -516 476)(font "Arial" ))
 	(pt -504 480)
 	(pt -568 480)
+)
+(connector
+	(text "LaserLockIn729" (rect -496 832 -419 844)(font "Arial" ))
+	(pt -408 848)
+	(pt -472 848)
 )
 (junction (pt -440 960))
 (junction (pt -424 976))

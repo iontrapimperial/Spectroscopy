@@ -3059,26 +3059,6 @@ CII_Starter_USB_API:inst|CMD_Decode:u5
 
 # end
 # entity
-CPU
-# storage
-db|CII_Starter_USB_API.(0).cnf
-db|CII_Starter_USB_API.(0).cnf
-# case_insensitive
-# source_file
-cpu.bdf
-b8c52641aa0c4af367f33a2e19cae0
-26
-# internal_option {
-BLOCK_DESIGN_NAMING
-AUTO
-}
-# hierarchies {
-|
-}
-# macro_sequence
-
-# end
-# entity
 Laser_Controller
 # storage
 db|CII_Starter_USB_API.(19).cnf
@@ -3148,6 +3128,26 @@ d2c15c32b5ffce35aa78425fff138581
 }
 # hierarchies {
 Laser_Controller:inst10
+}
+# macro_sequence
+
+# end
+# entity
+CPU
+# storage
+db|CII_Starter_USB_API.(0).cnf
+db|CII_Starter_USB_API.(0).cnf
+# case_insensitive
+# source_file
+cpu.bdf
+58e2f2101b71c07f8cd4b8aff7ca333
+26
+# internal_option {
+BLOCK_DESIGN_NAMING
+AUTO
+}
+# hierarchies {
+|
 }
 # macro_sequence
 

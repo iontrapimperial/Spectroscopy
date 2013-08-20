@@ -1,5 +1,5 @@
 Design Assistant report for CII_Starter_USB_API
-Thu Aug 08 19:51:03 2013
+Tue Aug 20 15:16:06 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -38,7 +38,7 @@ applicable agreement for further details.
 +-------------------------------------------------------------------------+
 ; Design Assistant Summary                                                ;
 +-----------------------------------+-------------------------------------+
-; Design Assistant Status           ; Analyzed - Thu Aug 08 19:51:03 2013 ;
+; Design Assistant Status           ; Analyzed - Tue Aug 20 15:16:06 2013 ;
 ; Revision Name                     ; CII_Starter_USB_API                 ;
 ; Top-level Entity Name             ; CPU                                 ;
 ; Family                            ; Cyclone II                          ;
@@ -162,14 +162,14 @@ applicable agreement for further details.
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[6]                                                   ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[7]                                                   ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 9  ;                                                                                         ;
-;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 10 ;                                                                                         ;
-;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[9]                                                   ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[10]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[11]                                                  ;
@@ -260,13 +260,13 @@ applicable agreement for further details.
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 23 ;                                                                                         ;
-;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12] ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12] ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 24 ;                                                                                         ;
-;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12] ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12] ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[12]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[13]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
@@ -296,11 +296,11 @@ applicable agreement for further details.
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 29 ;                                                                                         ;
-;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14] ;
+;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14] ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 30 ;                                                                                         ;
-;  Source node(s) from clock "PMT_In_A"                                                                        ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14] ;
+;  Source node(s) from clock "PMT_In_B"                                                                        ; lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14] ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[14]                                                  ;
 ;  Destination node(s) from clock "CLOCK_50"                                                                   ; Laser_Controller:inst10|oCountData[15]                                                  ;
 ; Rule D101: Data bits are not synchronized when transferred between asynchronous clock domains - Structure 31 ;                                                                                         ;
@@ -319,13 +319,13 @@ applicable agreement for further details.
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                       ;
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_ResetFPGA                                      ;
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DONE                        ;
-;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[1]                  ;
-;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                  ;
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[0]                  ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                  ;
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[15]                 ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[1]                  ;
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[14]                 ;
 ;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|mSDR_RD                    ;
-;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[13]                 ;
+;  Reset signal destination node(s) list                                                                                    ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDONE                       ;
 ; Rule R105: The reset signal that is generated in one clock domain and used in another clock domain should be synchronized ; Laser_Controller:inst10|oPMTClear                                                       ;
 ;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[8]  ;
 ;  Reset signal destination node(s) from clock "PMT_In_A"                                                                   ; lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[0]  ;
@@ -360,11 +360,11 @@ applicable agreement for further details.
 ; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount                                                               ; 38      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; KEY[0]                                                                                                            ; 245     ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[14]~1                                                              ; 64      ;
-; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~19                                                      ; 37      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~19                                                       ; 37      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD                                                  ; 128     ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|oSendData                                                                                 ; 35      ;
-; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|always5~0                                                                                 ; 65      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                                ; 36      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|always5~0                                                                                 ; 65      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_PrepNextInstruction~7                                                                   ; 42      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_NextInstructionReady                                                                    ; 35      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_State.0001                                                                              ; 38      ;
@@ -382,8 +382,8 @@ applicable agreement for further details.
 ; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]                                                              ; 39      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_NextAddress[0]~91                                                                       ; 47      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|f_LoopCount[16]~0                                                                         ; 41      ;
-; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]                                                              ; 52      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                                              ; 52      ;
+; Rule T101: Nodes with more than the specified number of fan-outs ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]                                                              ; 52      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|oPMTClear~clkctrl                                                                         ; 32      ;
 ; Rule T101: Nodes with more than the specified number of fan-outs ; Laser_Controller:inst10|oPMTGate                                                                                  ; 33      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CLOCK_50~clkctrl                                                                                                  ; 923     ;
@@ -398,19 +398,19 @@ applicable agreement for further details.
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]                                                              ; 52      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]                                                              ; 52      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextAddress[0]~91                                                                       ; 47      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                                ; 42      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_PrepNextInstruction~7                                                                   ; 42      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                                ; 42      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_InstructionBuffered                                                      ; 42      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_LoopCount[16]~0                                                                         ; 41      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                                              ; 39      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]                                                              ; 39      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_WRn~4                                                                 ; 39      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                                              ; 39      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount                                                               ; 38      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_State.0001                                                                              ; 38      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~19                                                      ; 37      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~19                                                       ; 37      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                                ; 36      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextInstructionReady                                                                    ; 35      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|oSendData                                                                                 ; 35      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextInstructionReady                                                                    ; 35      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|LaserState[9]~27                                                                          ; 34      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|oPMTGate                                                                                  ; 33      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT                                                  ; 33      ;
@@ -422,20 +422,20 @@ applicable agreement for further details.
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|Equal35~14                                                                 ; 28      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[0]                                                 ; 27      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|INIT_REQ                   ; 26      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state.00001010                                                       ; 25      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|Equal9~0                                                                                  ; 25      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|Ticks[11]~77                                                                              ; 24      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NumTimesLooped[0]~72                                                                    ; 24      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state.00001010                                                       ; 25      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[3]                                                 ; 24      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|uart:u1|rx                                                                               ; 24      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|Ticks[11]~77                                                                              ; 24      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NumTimesLooped[0]~72                                                                    ; 24      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|Ticks[23]~73                                                                              ; 24      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[0]~0                                                       ; 22      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[21]~26                                               ; 22      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|uart:u1|tx_state.TX_IDLE                                                                 ; 22      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST.000                                                                 ; 21      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextAddress[7]~44                                                                       ; 21      ;
 ; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|always11~0                                                                 ; 21      ;
-; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[20]~6                                                            ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|f_NextAddress[7]~43                                                                       ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST.000                                                                 ; 21      ;
+; Rule T102: Top nodes with the highest number of fan-outs         ; Laser_Controller:inst10|ControlBits[2]                                                                            ; 21      ;
 +------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+---------+
 
 
@@ -445,7 +445,7 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II Design Assistant
     Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu Aug 08 19:50:59 2013
+    Info: Processing started: Tue Aug 20 15:16:03 2013
 Info: Command: quartus_drc --read_settings_files=off --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
 Warning: Old Design Assistant assignment is used to turn ON/OFF rule. ENABLE_DA_RULE or DISABLE_DA_RULE assignment should be used to turn ON/OFF Design Assistant rule.
     Warning: CLK_RULE_COMB_CLOCK
@@ -497,8 +497,8 @@ Critical Warning: (High) Rule D101: Data bits are not synchronized when transfer
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[7]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[6]"
-    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[9]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[10]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[5]"
@@ -511,14 +511,14 @@ Critical Warning: (High) Rule D101: Data bits are not synchronized when transfer
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[4]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[11]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[11]"
-    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12]"
+    Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[12]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[3]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[3]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[13]"
     Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[13]"
-    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14]"
     Critical Warning: Node  "lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14]"
+    Critical Warning: Node  "lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|safe_q[14]"
     Info: Truncated list of Design Assistant messages to 30 messages. Go to sections under Design Assistant section of Compilation Report for complete lists of Design Assistant messages generated.
 Warning: (Medium) Rule R102: External reset signals should be synchronized using two cascaded registers. Found 1 node(s) related to this rule.
     Warning: Node  "KEY[0]"
@@ -530,11 +530,11 @@ Info: (Information) Rule T101: Nodes with more than the specified number of fan-
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount"
     Info: Node  "KEY[0]"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[14]~1"
-    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~19"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~19"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD"
     Info: Node  "Laser_Controller:inst10|oSendData"
-    Info: Node  "Laser_Controller:inst10|always5~0"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount"
+    Info: Node  "Laser_Controller:inst10|always5~0"
     Info: Node  "Laser_Controller:inst10|f_PrepNextInstruction~7"
     Info: Node  "Laser_Controller:inst10|f_NextInstructionReady"
     Info: Node  "Laser_Controller:inst10|f_State.0001"
@@ -552,8 +552,8 @@ Info: (Information) Rule T101: Nodes with more than the specified number of fan-
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]"
     Info: Node  "Laser_Controller:inst10|f_NextAddress[0]~91"
     Info: Node  "Laser_Controller:inst10|f_LoopCount[16]~0"
-    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]"
     Info: Node  "Laser_Controller:inst10|oPMTClear~clkctrl"
     Info: Truncated list of Design Assistant messages to 30 messages. Go to sections under Design Assistant section of Compilation Report for complete lists of Design Assistant messages generated.
 Info: (Information) Rule T102: Top nodes with the highest number of fan-outs. (Value defined:50). Found 50 node(s) with highest fan-out.
@@ -569,19 +569,19 @@ Info: (Information) Rule T102: Top nodes with the highest number of fan-outs. (V
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]"
     Info: Node  "Laser_Controller:inst10|f_NextAddress[0]~91"
-    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart"
     Info: Node  "Laser_Controller:inst10|f_PrepNextInstruction~7"
+    Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_InstructionBuffered"
     Info: Node  "Laser_Controller:inst10|f_LoopCount[16]~0"
-    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[0]"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_WRn~4"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount"
     Info: Node  "Laser_Controller:inst10|f_State.0001"
-    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~19"
+    Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~19"
     Info: Node  "CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount"
-    Info: Node  "Laser_Controller:inst10|f_NextInstructionReady"
     Info: Node  "Laser_Controller:inst10|oSendData"
+    Info: Node  "Laser_Controller:inst10|f_NextInstructionReady"
     Info: Node  "Laser_Controller:inst10|LaserState[9]~27"
     Info: Node  "Laser_Controller:inst10|oPMTGate"
     Info: Node  "CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT"
@@ -591,8 +591,8 @@ Info: (Information) Rule T102: Top nodes with the highest number of fan-outs. (V
 Info: Design Assistant information: finished post-fitting analysis of current design -- generated 81 information messages and 34 warning messages
 Info: Quartus II Design Assistant was successful. 0 errors, 70 warnings
     Info: Peak virtual memory: 237 megabytes
-    Info: Processing ended: Thu Aug 08 19:51:03 2013
-    Info: Elapsed time: 00:00:04
+    Info: Processing ended: Tue Aug 20 15:16:06 2013
+    Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:03
 
 

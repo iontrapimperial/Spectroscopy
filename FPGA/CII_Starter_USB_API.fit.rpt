@@ -1,5 +1,5 @@
 Fitter report for CII_Starter_USB_API
-Thu Aug 08 19:50:48 2013
+Tue Aug 20 15:15:51 2013
 Quartus II Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
 
 
@@ -66,15 +66,15 @@ applicable agreement for further details.
 +------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                     ;
 +------------------------------------+-----------------------------------------------+
-; Fitter Status                      ; Successful - Thu Aug 08 19:50:48 2013         ;
+; Fitter Status                      ; Successful - Tue Aug 20 15:15:51 2013         ;
 ; Quartus II Version                 ; 11.0 Build 208 07/03/2011 SP 1 SJ Web Edition ;
 ; Revision Name                      ; CII_Starter_USB_API                           ;
 ; Top-level Entity Name              ; CPU                                           ;
 ; Family                             ; Cyclone II                                    ;
 ; Device                             ; EP2C20F484C7                                  ;
 ; Timing Models                      ; Final                                         ;
-; Total logic elements               ; 1,873 / 18,752 ( 10 % )                       ;
-;     Total combinational functions  ; 1,733 / 18,752 ( 9 % )                        ;
+; Total logic elements               ; 1,875 / 18,752 ( 10 % )                       ;
+;     Total combinational functions  ; 1,734 / 18,752 ( 9 % )                        ;
 ;     Dedicated logic registers      ; 1,153 / 18,752 ( 6 % )                        ;
 ; Total registers                    ; 1153                                          ;
 ; Total pins                         ; 171 / 315 ( 54 % )                            ;
@@ -520,8 +520,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; Type                ; Value                  ;
 +---------------------+------------------------+
 ; Placement (by node) ;                        ;
-;     -- Requested    ; 0 / 3065 ( 0.00 % )    ;
-;     -- Achieved     ; 0 / 3065 ( 0.00 % )    ;
+;     -- Requested    ; 0 / 3066 ( 0.00 % )    ;
+;     -- Achieved     ; 0 / 3066 ( 0.00 % )    ;
 ;                     ;                        ;
 ; Routing (by net)    ;                        ;
 ;     -- Requested    ; 0 / 0 ( 0.00 % )       ;
@@ -544,7 +544,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +--------------------------------+---------+-------------------+-------------------------+-------------------+
 ; Partition Name                 ; # Nodes ; # Preserved Nodes ; Preservation Level Used ; Netlist Type Used ;
 +--------------------------------+---------+-------------------+-------------------------+-------------------+
-; Top                            ; 3059    ; 0                 ; N/A                     ; Source File       ;
+; Top                            ; 3060    ; 0                 ; N/A                     ; Source File       ;
 ; hard_block:auto_generated_inst ; 6       ; 0                 ; N/A                     ; Source File       ;
 +--------------------------------+---------+-------------------+-------------------------+-------------------+
 
@@ -560,26 +560,26 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 +---------------------------------------------+-------------------------+
 ; Resource                                    ; Usage                   ;
 +---------------------------------------------+-------------------------+
-; Total logic elements                        ; 1,873 / 18,752 ( 10 % ) ;
-;     -- Combinational with no register       ; 720                     ;
-;     -- Register only                        ; 140                     ;
-;     -- Combinational with a register        ; 1013                    ;
+; Total logic elements                        ; 1,875 / 18,752 ( 10 % ) ;
+;     -- Combinational with no register       ; 722                     ;
+;     -- Register only                        ; 141                     ;
+;     -- Combinational with a register        ; 1012                    ;
 ;                                             ;                         ;
 ; Logic element usage by number of LUT inputs ;                         ;
 ;     -- 4 input functions                    ; 753                     ;
 ;     -- 3 input functions                    ; 490                     ;
-;     -- <=2 input functions                  ; 490                     ;
-;     -- Register only                        ; 140                     ;
+;     -- <=2 input functions                  ; 491                     ;
+;     -- Register only                        ; 141                     ;
 ;                                             ;                         ;
 ; Logic elements by mode                      ;                         ;
-;     -- normal mode                          ; 1430                    ;
+;     -- normal mode                          ; 1431                    ;
 ;     -- arithmetic mode                      ; 303                     ;
 ;                                             ;                         ;
 ; Total registers*                            ; 1,153 / 19,649 ( 6 % )  ;
 ;     -- Dedicated logic registers            ; 1,153 / 18,752 ( 6 % )  ;
 ;     -- I/O registers                        ; 0 / 897 ( 0 % )         ;
 ;                                             ;                         ;
-; Total LABs:  partially or completely used   ; 135 / 1,172 ( 12 % )    ;
+; Total LABs:  partially or completely used   ; 132 / 1,172 ( 11 % )    ;
 ; User inserted logic elements                ; 0                       ;
 ; Virtual pins                                ; 0                       ;
 ; I/O pins                                    ; 171 / 315 ( 54 % )      ;
@@ -595,12 +595,12 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; ASMI blocks                                 ; 0 / 1 ( 0 % )           ;
 ; CRC blocks                                  ; 0 / 1 ( 0 % )           ;
 ; Average interconnect usage (total/H/V)      ; 4% / 4% / 4%            ;
-; Peak interconnect usage (total/H/V)         ; 8% / 7% / 8%            ;
+; Peak interconnect usage (total/H/V)         ; 7% / 7% / 8%            ;
 ; Maximum fan-out node                        ; CLOCK_50~clkctrl        ;
 ; Maximum fan-out                             ; 923                     ;
 ; Highest non-global fan-out signal           ; KEY[0]                  ;
 ; Highest non-global fan-out                  ; 245                     ;
-; Total fan-out                               ; 9557                    ;
+; Total fan-out                               ; 9565                    ;
 ; Average fan-out                             ; 3.01                    ;
 +---------------------------------------------+-------------------------+
 *  Register count does not include registers inside RAM blocks or DSP blocks.
@@ -614,26 +614,26 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 +---------------------------------------------+----------------------+--------------------------------+
 ; Difficulty Clustering Region                ; Low                  ; Low                            ;
 ;                                             ;                      ;                                ;
-; Total logic elements                        ; 1873 / 18752 ( 9 % ) ; 0 / 18752 ( 0 % )              ;
-;     -- Combinational with no register       ; 720                  ; 0                              ;
-;     -- Register only                        ; 140                  ; 0                              ;
-;     -- Combinational with a register        ; 1013                 ; 0                              ;
+; Total logic elements                        ; 1875 / 18752 ( 9 % ) ; 0 / 18752 ( 0 % )              ;
+;     -- Combinational with no register       ; 722                  ; 0                              ;
+;     -- Register only                        ; 141                  ; 0                              ;
+;     -- Combinational with a register        ; 1012                 ; 0                              ;
 ;                                             ;                      ;                                ;
 ; Logic element usage by number of LUT inputs ;                      ;                                ;
 ;     -- 4 input functions                    ; 753                  ; 0                              ;
 ;     -- 3 input functions                    ; 490                  ; 0                              ;
-;     -- <=2 input functions                  ; 490                  ; 0                              ;
-;     -- Register only                        ; 140                  ; 0                              ;
+;     -- <=2 input functions                  ; 491                  ; 0                              ;
+;     -- Register only                        ; 141                  ; 0                              ;
 ;                                             ;                      ;                                ;
 ; Logic elements by mode                      ;                      ;                                ;
-;     -- normal mode                          ; 1430                 ; 0                              ;
+;     -- normal mode                          ; 1431                 ; 0                              ;
 ;     -- arithmetic mode                      ; 303                  ; 0                              ;
 ;                                             ;                      ;                                ;
 ; Total registers                             ; 1153                 ; 0                              ;
 ;     -- Dedicated logic registers            ; 1153 / 18752 ( 6 % ) ; 0 / 18752 ( 0 % )              ;
 ;     -- I/O registers                        ; 0                    ; 0                              ;
 ;                                             ;                      ;                                ;
-; Total LABs:  partially or completely used   ; 135 / 1172 ( 11 % )  ; 0 / 1172 ( 0 % )               ;
+; Total LABs:  partially or completely used   ; 132 / 1172 ( 11 % )  ; 0 / 1172 ( 0 % )               ;
 ;                                             ;                      ;                                ;
 ; Virtual pins                                ; 0                    ; 0                              ;
 ; I/O pins                                    ; 171                  ; 0                              ;
@@ -650,7 +650,7 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ;     -- Registered Output Connections        ; 0                    ; 0                              ;
 ;                                             ;                      ;                                ;
 ; Internal Connections                        ;                      ;                                ;
-;     -- Total Connections                    ; 9555                 ; 202                            ;
+;     -- Total Connections                    ; 9563                 ; 202                            ;
 ;     -- Registered Connections               ; 4434                 ; 0                              ;
 ;                                             ;                      ;                                ;
 ; External Connections                        ;                      ;                                ;
@@ -759,16 +759,16 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; FL_WE_N        ; Y14   ; 7        ; 39           ; 0            ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; HEX0[0]        ; J2    ; 2        ; 0            ; 18           ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; HEX1[0]        ; E1    ; 2        ; 0            ; 20           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED397_1       ; G17   ; 5        ; 50           ; 22           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED397_2       ; H17   ; 5        ; 50           ; 20           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED729         ; J15   ; 5        ; 50           ; 18           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED729_RF1     ; N22   ; 6        ; 50           ; 12           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED729_RF2     ; N21   ; 6        ; 50           ; 12           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED854         ; H18   ; 5        ; 50           ; 20           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED854_Freq    ; N15   ; 6        ; 50           ; 11           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LED854_Power   ; P15   ; 6        ; 50           ; 11           ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LEDAux1        ; P17   ; 6        ; 50           ; 8            ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; LEDAux2        ; P18   ; 6        ; 50           ; 9            ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED397_1       ; P18   ; 6        ; 50           ; 9            ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED397_2       ; P17   ; 6        ; 50           ; 8            ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED729         ; N15   ; 6        ; 50           ; 11           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED729_RF1     ; N21   ; 6        ; 50           ; 12           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED729_RF2     ; N22   ; 6        ; 50           ; 12           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED854         ; P15   ; 6        ; 50           ; 11           ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED854_Freq    ; J15   ; 5        ; 50           ; 18           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LED854_Power   ; H18   ; 5        ; 50           ; 20           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LEDAux1        ; H17   ; 5        ; 50           ; 20           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; LEDAux2        ; G17   ; 5        ; 50           ; 22           ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; LEDG[0]        ; U22   ; 6        ; 50           ; 7            ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; LEDG[1]        ; U21   ; 6        ; 50           ; 7            ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; LEDG[2]        ; V22   ; 6        ; 50           ; 7            ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
@@ -787,7 +787,7 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; LEDR[7]        ; U18   ; 6        ; 50           ; 3            ; 1           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; LEDR[8]        ; R18   ; 6        ; 50           ; 8            ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; LEDR[9]        ; R17   ; 6        ; 50           ; 5            ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
-; Laser397_1     ; H12   ; 4        ; 31           ; 27           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
+; Laser397_1     ; D19   ; 5        ; 50           ; 25           ; 3           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; Laser397_2     ; H13   ; 4        ; 37           ; 27           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; Laser729       ; H14   ; 4        ; 42           ; 27           ; 2           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
 ; Laser729_RF1   ; E14   ; 4        ; 35           ; 27           ; 0           ; no              ; no                     ; no            ; no              ; no         ; no            ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; -                    ; -                   ;
@@ -881,8 +881,8 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; 1        ; 38 / 41 ( 93 % ) ; 3.3V          ; --           ;
 ; 2        ; 5 / 33 ( 15 % )  ; 3.3V          ; --           ;
 ; 3        ; 2 / 43 ( 5 % )   ; 3.3V          ; --           ;
-; 4        ; 18 / 40 ( 45 % ) ; 3.3V          ; --           ;
-; 5        ; 9 / 39 ( 23 % )  ; 3.3V          ; --           ;
+; 4        ; 17 / 40 ( 43 % ) ; 3.3V          ; --           ;
+; 5        ; 10 / 39 ( 26 % ) ; 3.3V          ; --           ;
 ; 6        ; 30 / 36 ( 83 % ) ; 3.3V          ; --           ;
 ; 7        ; 33 / 40 ( 83 % ) ; 3.3V          ; --           ;
 ; 8        ; 39 / 43 ( 91 % ) ; 3.3V          ; --           ;
@@ -1022,7 +1022,7 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; D16      ; 255        ; 4        ; LaserAux2                                ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
 ; D17      ;            ; 4        ; VCCIO4                                   ; power  ;              ; 3.3V    ; --         ;                 ; --       ; --           ;
 ; D18      ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
-; D19      ; 240        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
+; D19      ; 240        ; 5        ; Laser397_1                               ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; D20      ; 241        ; 5        ; PMT_In_A                                 ; input  ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; D21      ; 229        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
 ; D22      ; 230        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
@@ -1086,7 +1086,7 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; G14      ;            ; 4        ; VCCIO4                                   ; power  ;              ; 3.3V    ; --         ;                 ; --       ; --           ;
 ; G15      ; 261        ; 4        ; Laser854                                 ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
 ; G16      ; 252        ; 4        ; Laser854_Freq                            ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
-; G17      ; 231        ; 5        ; LED397_1                                 ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; G17      ; 231        ; 5        ; LEDAux2                                  ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; G18      ; 232        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
 ; G19      ;            ; 5        ; VCCIO5                                   ; power  ;              ; 3.3V    ; --         ;                 ; --       ; --           ;
 ; G20      ; 233        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
@@ -1103,13 +1103,13 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; H9       ; 300        ; 3        ; GND*                                     ;        ;              ;         ; Column I/O ;                 ; no       ; Off          ;
 ; H10      ; 299        ; 3        ; GND*                                     ;        ;              ;         ; Column I/O ;                 ; no       ; Off          ;
 ; H11      ; 290        ; 3        ; GND*                                     ;        ;              ;         ; Column I/O ;                 ; no       ; Off          ;
-; H12      ; 274        ; 4        ; Laser397_1                               ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
+; H12      ; 274        ; 4        ; GND*                                     ;        ;              ;         ; Column I/O ;                 ; no       ; Off          ;
 ; H13      ; 263        ; 4        ; Laser397_2                               ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
 ; H14      ; 257        ; 4        ; Laser729                                 ; output ; 3.3-V LVTTL  ;         ; Column I/O ; Y               ; no       ; Off          ;
 ; H15      ; 253        ; 4        ; GND*                                     ;        ;              ;         ; Column I/O ;                 ; no       ; Off          ;
 ; H16      ; 219        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
-; H17      ; 226        ; 5        ; LED397_2                                 ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
-; H18      ; 225        ; 5        ; LED854                                   ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; H17      ; 226        ; 5        ; LEDAux1                                  ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; H18      ; 225        ; 5        ; LED854_Power                             ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; H19      ; 214        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
 ; H20      ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
 ; H21      ;            ;          ; NC                                       ;        ;              ;         ; --         ;                 ; --       ; --           ;
@@ -1128,7 +1128,7 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; J12      ;            ;          ; VCCINT                                   ; power  ;              ; 1.2V    ; --         ;                 ; --       ; --           ;
 ; J13      ;            ;          ; VCCINT                                   ; power  ;              ; 1.2V    ; --         ;                 ; --       ; --           ;
 ; J14      ; 258        ; 4        ; GND*                                     ;        ;              ;         ; Column I/O ;                 ; no       ; Off          ;
-; J15      ; 220        ; 5        ; LED729                                   ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; J15      ; 220        ; 5        ; LED854_Freq                              ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; J16      ;            ; 5        ; VCCIO5                                   ; power  ;              ; 3.3V    ; --         ;                 ; --       ; --           ;
 ; J17      ; 218        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
 ; J18      ; 217        ; 5        ; GND*                                     ;        ;              ;         ; Row I/O    ;                 ; no       ; Off          ;
@@ -1216,14 +1216,14 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; N12      ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
 ; N13      ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
 ; N14      ;            ;          ; VCCINT                                   ; power  ;              ; 1.2V    ; --         ;                 ; --       ; --           ;
-; N15      ; 194        ; 6        ; LED854_Freq                              ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; N15      ; 194        ; 6        ; LED729                                   ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; N16      ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
 ; N17      ; 197        ; 6        ; ^MSEL1                                   ;        ;              ;         ; --         ;                 ; --       ; --           ;
 ; N18      ; 196        ; 6        ; ^CONF_DONE                               ;        ;              ;         ; --         ;                 ; --       ; --           ;
 ; N19      ;            ;          ; GND                                      ; gnd    ;              ;         ; --         ;                 ; --       ; --           ;
 ; N20      ; 195        ; 6        ; ^nSTATUS                                 ;        ;              ;         ; --         ;                 ; --       ; --           ;
-; N21      ; 199        ; 6        ; LED729_RF2                               ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
-; N22      ; 200        ; 6        ; LED729_RF1                               ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; N21      ; 199        ; 6        ; LED729_RF1                               ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; N22      ; 200        ; 6        ; LED729_RF2                               ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; P1       ; 47         ; 1        ; DRAM_DQ[10]                              ; bidir  ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; P2       ; 48         ; 1        ; DRAM_DQ[11]                              ; bidir  ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; P3       ; 50         ; 1        ; DRAM_ADDR[8]                             ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
@@ -1238,10 +1238,10 @@ The pin-out file can be found in C:/Users/localadmin/Desktop/Spectroscopy/FPGA/C
 ; P12      ;            ;          ; VCCINT                                   ; power  ;              ; 1.2V    ; --         ;                 ; --       ; --           ;
 ; P13      ;            ;          ; VCCINT                                   ; power  ;              ; 1.2V    ; --         ;                 ; --       ; --           ;
 ; P14      ;            ;          ; NC                                       ;        ;              ;         ; --         ;                 ; --       ; --           ;
-; P15      ; 193        ; 6        ; LED854_Power                             ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; P15      ; 193        ; 6        ; LED854                                   ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; P16      ;            ; 6        ; VCCIO6                                   ; power  ;              ; 3.3V    ; --         ;                 ; --       ; --           ;
-; P17      ; 186        ; 6        ; LEDAux1                                  ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
-; P18      ; 187        ; 6        ; LEDAux2                                  ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; P17      ; 186        ; 6        ; LED397_2                                 ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
+; P18      ; 187        ; 6        ; LED397_1                                 ; output ; 3.3-V LVTTL  ;         ; Row I/O    ; Y               ; no       ; Off          ;
 ; P19      ;            ;          ; NC                                       ;        ;              ;         ; --         ;                 ; --       ; --           ;
 ; P20      ;            ;          ; NC                                       ;        ;              ;         ; --         ;                 ; --       ; --           ;
 ; P21      ;            ;          ; NC                                       ;        ;              ;         ; --         ;                 ; --       ; --           ;
@@ -1467,24 +1467,24 @@ Note: User assignments will override these defaults. The user specified values a
 +-------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+----------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                ; Logic Cells ; Dedicated Logic Registers ; I/O Registers ; Memory Bits ; M4Ks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Full Hierarchy Name                                                                                      ; Library Name ;
 +-------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+----------------------------------------------------------------------------------------------------------+--------------+
-; |CPU                                      ; 1873 (1)    ; 1153 (0)                  ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 171  ; 0            ; 720 (1)      ; 140 (0)           ; 1013 (0)         ; |CPU                                                                                                     ;              ;
-;    |CII_Starter_USB_API:inst|             ; 1415 (0)    ; 852 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 563 (0)      ; 133 (0)           ; 719 (0)          ; |CPU|CII_Starter_USB_API:inst                                                                            ;              ;
-;       |CMD_Decode:u5|                     ; 734 (734)   ; 458 (458)                 ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 276 (276)    ; 55 (55)           ; 403 (403)        ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5                                                              ;              ;
-;       |Multi_Flash:u2|                    ; 156 (0)     ; 96 (0)                    ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 59 (0)       ; 4 (0)             ; 93 (0)           ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2                                                             ;              ;
+; |CPU                                      ; 1875 (1)    ; 1153 (0)                  ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 171  ; 0            ; 722 (1)      ; 141 (0)           ; 1012 (0)         ; |CPU                                                                                                     ;              ;
+;    |CII_Starter_USB_API:inst|             ; 1416 (0)    ; 852 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 564 (0)      ; 135 (0)           ; 717 (0)          ; |CPU|CII_Starter_USB_API:inst                                                                            ;              ;
+;       |CMD_Decode:u5|                     ; 734 (734)   ; 458 (458)                 ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 276 (276)    ; 57 (57)           ; 401 (401)        ; |CPU|CII_Starter_USB_API:inst|CMD_Decode:u5                                                              ;              ;
+;       |Multi_Flash:u2|                    ; 156 (0)     ; 96 (0)                    ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 58 (0)       ; 4 (0)             ; 94 (0)           ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2                                                             ;              ;
 ;          |Flash_Controller:u1|            ; 146 (146)   ; 91 (91)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 55 (55)      ; 4 (4)             ; 87 (87)          ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1                                         ;              ;
-;          |Flash_Multiplexer:u0|           ; 43 (43)     ; 5 (5)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 4 (4)        ; 0 (0)             ; 39 (39)          ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Multiplexer:u0                                        ;              ;
-;       |Multi_Sdram:u3|                    ; 296 (0)     ; 221 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 73 (0)       ; 56 (0)            ; 167 (0)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3                                                             ;              ;
+;          |Flash_Multiplexer:u0|           ; 43 (43)     ; 5 (5)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 3 (3)        ; 0 (0)             ; 40 (40)          ; |CPU|CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Multiplexer:u0                                        ;              ;
+;       |Multi_Sdram:u3|                    ; 296 (0)     ; 221 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 75 (0)       ; 56 (0)            ; 165 (0)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3                                                             ;              ;
 ;          |Sdram_Controller:u1|            ; 286 (101)   ; 216 (74)                  ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 70 (27)      ; 56 (36)           ; 160 (38)         ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1                                         ;              ;
 ;             |PLL1:sdram_pll1|             ; 0 (0)       ; 0 (0)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 0 (0)            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1                         ;              ;
 ;                |altpll:altpll_component|  ; 0 (0)       ; 0 (0)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 0 (0)            ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component ;              ;
 ;             |command:command1|            ; 66 (66)     ; 48 (48)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 18 (18)      ; 4 (4)             ; 44 (44)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1                        ;              ;
 ;             |control_interface:control1|  ; 87 (87)     ; 62 (62)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 25 (25)      ; 0 (0)             ; 62 (62)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1              ;              ;
 ;             |sdr_data_path:data_path1|    ; 32 (32)     ; 32 (32)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 16 (16)           ; 16 (16)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|sdr_data_path:data_path1                ;              ;
-;          |Sdram_Multiplexer:u0|           ; 50 (50)     ; 5 (5)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 3 (3)        ; 0 (0)             ; 47 (47)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0                                        ;              ;
+;          |Sdram_Multiplexer:u0|           ; 50 (50)     ; 5 (5)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 5 (5)        ; 0 (0)             ; 45 (45)          ; |CPU|CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0                                        ;              ;
 ;       |Multi_Sram:u6|                     ; 52 (52)     ; 0 (0)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 50 (50)      ; 0 (0)             ; 2 (2)            ; |CPU|CII_Starter_USB_API:inst|Multi_Sram:u6                                                              ;              ;
 ;       |uart:u1|                           ; 182 (182)   ; 77 (77)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 105 (105)    ; 18 (18)           ; 59 (59)          ; |CPU|CII_Starter_USB_API:inst|uart:u1                                                                    ;              ;
 ;    |LaserSwitch:inst3|                    ; 10 (10)     ; 0 (0)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 10 (10)      ; 0 (0)             ; 0 (0)            ; |CPU|LaserSwitch:inst3                                                                                   ;              ;
-;    |Laser_Controller:inst10|              ; 431 (431)   ; 269 (269)                 ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 146 (146)    ; 7 (7)             ; 278 (278)        ; |CPU|Laser_Controller:inst10                                                                             ;              ;
+;    |Laser_Controller:inst10|              ; 431 (431)   ; 269 (269)                 ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 147 (147)    ; 6 (6)             ; 278 (278)        ; |CPU|Laser_Controller:inst10                                                                             ;              ;
 ;    |lpm_counter0:inst1|                   ; 16 (0)      ; 16 (0)                    ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 16 (0)           ; |CPU|lpm_counter0:inst1                                                                                  ;              ;
 ;       |lpm_counter:LPM_COUNTER_component| ; 16 (0)      ; 16 (0)                    ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 16 (0)           ; |CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component                                                ;              ;
 ;          |cntr_m7j:auto_generated|        ; 16 (16)     ; 16 (16)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 16 (16)          ; |CPU|lpm_counter0:inst1|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated                        ;              ;
@@ -1680,35 +1680,35 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Source Pin / Fanout                                                                                          ; Pad To Core Index ; Setting ;
 +--------------------------------------------------------------------------------------------------------------+-------------------+---------+
 ; DRAM_DQ[15]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[15]~feeder                       ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[15]                              ; 1                 ; 6       ;
 ; DRAM_DQ[14]                                                                                                  ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[14]~feeder                       ; 1                 ; 6       ;
 ; DRAM_DQ[13]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[13]                              ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[13]                              ; 0                 ; 6       ;
 ; DRAM_DQ[12]                                                                                                  ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[12]                              ; 0                 ; 6       ;
 ; DRAM_DQ[11]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[11]~feeder                       ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[11]                              ; 0                 ; 6       ;
 ; DRAM_DQ[10]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[10]~feeder                       ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[10]~feeder                       ; 0                 ; 6       ;
 ; DRAM_DQ[9]                                                                                                   ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[9]~feeder                        ; 1                 ; 6       ;
 ; DRAM_DQ[8]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[8]                               ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[8]                               ; 0                 ; 6       ;
 ; DRAM_DQ[7]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[7]~feeder                        ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[7]                               ; 1                 ; 6       ;
 ; DRAM_DQ[6]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[6]~feeder                        ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[6]~feeder                        ; 0                 ; 6       ;
 ; DRAM_DQ[5]                                                                                                   ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[5]~feeder                        ; 1                 ; 6       ;
 ; DRAM_DQ[4]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[4]                               ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[4]~feeder                        ; 0                 ; 6       ;
 ; DRAM_DQ[3]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[3]~feeder                        ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[3]                               ; 1                 ; 6       ;
 ; DRAM_DQ[2]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[2]~feeder                        ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[2]                               ; 0                 ; 6       ;
 ; DRAM_DQ[1]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[1]~feeder                        ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[1]                               ; 0                 ; 6       ;
 ; DRAM_DQ[0]                                                                                                   ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|mDATAOUT[0]~feeder                        ; 1                 ; 6       ;
 ; FL_DQ[7]                                                                                                     ;                   ;         ;
@@ -1720,15 +1720,15 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; FL_DQ[1]                                                                                                     ;                   ;         ;
 ; FL_DQ[0]                                                                                                     ;                   ;         ;
 ; SRAM_DQ[15]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[15]~15                                                ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[15]~15                                                ; 0                 ; 6       ;
 ; SRAM_DQ[14]                                                                                                  ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[14]~13                                                ; 1                 ; 6       ;
 ; SRAM_DQ[13]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[13]~11                                                ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[13]~11                                                ; 1                 ; 6       ;
 ; SRAM_DQ[12]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[12]~9                                                 ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[12]~9                                                 ; 0                 ; 6       ;
 ; SRAM_DQ[11]                                                                                                  ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[11]~7                                                 ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[11]~7                                                 ; 1                 ; 6       ;
 ; SRAM_DQ[10]                                                                                                  ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[10]~5                                                 ; 1                 ; 6       ;
 ; SRAM_DQ[9]                                                                                                   ;                   ;         ;
@@ -1738,9 +1738,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; SRAM_DQ[7]                                                                                                   ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[7]~14                                                 ; 0                 ; 6       ;
 ; SRAM_DQ[6]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[6]~12                                                 ; 1                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[6]~12                                                 ; 0                 ; 6       ;
 ; SRAM_DQ[5]                                                                                                   ;                   ;         ;
-;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[5]~10                                                 ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[5]~10                                                 ; 1                 ; 6       ;
 ; SRAM_DQ[4]                                                                                                   ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Sram:u6|oHS_DATA[4]~8                                                  ; 0                 ; 6       ;
 ; SRAM_DQ[3]                                                                                                   ;                   ;         ;
@@ -1796,24 +1796,24 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - lpm_counter0:inst9|lpm_counter:LPM_COUNTER_component|cntr_m7j:auto_generated|counter_reg_bit1a[0]     ; 1                 ; 0       ;
 ;      - HEX1[0]                                                                                               ; 0                 ; 6       ;
 ; MainsTrigIn                                                                                                  ;                   ;         ;
+;      - Laser_Controller:inst10|Buffer[2]                                                                     ; 0                 ; 6       ;
 ;      - LEDG[7]                                                                                               ; 0                 ; 6       ;
-;      - Laser_Controller:inst10|Buffer[2]~feeder                                                              ; 0                 ; 6       ;
 ; LaserLockIn729                                                                                               ;                   ;         ;
-;      - Laser_Controller:inst10|oErrorSignal~0                                                                ; 1                 ; 6       ;
-;      - LEDG[6]                                                                                               ; 1                 ; 6       ;
-;      - Laser_Controller:inst10|i729Lock~feeder                                                               ; 1                 ; 6       ;
+;      - Laser_Controller:inst10|oErrorSignal~0                                                                ; 0                 ; 6       ;
+;      - Laser_Controller:inst10|i729Lock~0                                                                    ; 0                 ; 6       ;
+;      - LEDG[6]                                                                                               ; 0                 ; 6       ;
 ; LaserLockInRedSC                                                                                             ;                   ;         ;
-;      - Laser_Controller:inst10|i854Lock                                                                      ; 1                 ; 6       ;
-;      - Laser_Controller:inst10|oErrorSignal~1                                                                ; 1                 ; 6       ;
-;      - LEDG[5]                                                                                               ; 1                 ; 6       ;
+;      - Laser_Controller:inst10|i854Lock                                                                      ; 0                 ; 6       ;
+;      - Laser_Controller:inst10|oErrorSignal~1                                                                ; 0                 ; 6       ;
+;      - LEDG[5]                                                                                               ; 0                 ; 6       ;
 ; LaserLockIn397_2                                                                                             ;                   ;         ;
-;      - Laser_Controller:inst10|i397bLock                                                                     ; 1                 ; 6       ;
-;      - Laser_Controller:inst10|oErrorSignal~2                                                                ; 1                 ; 6       ;
-;      - LEDG[4]                                                                                               ; 1                 ; 6       ;
+;      - Laser_Controller:inst10|i397bLock                                                                     ; 0                 ; 6       ;
+;      - Laser_Controller:inst10|oErrorSignal~2                                                                ; 0                 ; 6       ;
+;      - LEDG[4]                                                                                               ; 0                 ; 6       ;
 ; LaserLockIn397_1                                                                                             ;                   ;         ;
-;      - Laser_Controller:inst10|i397aLock                                                                     ; 0                 ; 6       ;
-;      - Laser_Controller:inst10|oErrorSignal~3                                                                ; 0                 ; 6       ;
-;      - LEDG[3]                                                                                               ; 0                 ; 6       ;
+;      - Laser_Controller:inst10|oErrorSignal~3                                                                ; 1                 ; 6       ;
+;      - LEDG[3]                                                                                               ; 1                 ; 6       ;
+;      - Laser_Controller:inst10|i397aLock~feeder                                                              ; 1                 ; 6       ;
 ; CLOCK_50                                                                                                     ;                   ;         ;
 ; KEY[0]                                                                                                       ;                   ;         ;
 ;      - CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                    ; 0                 ; 6       ;
@@ -1956,7 +1956,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|SADDR[16]      ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|SADDR[15]      ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|SADDR[7]       ; 0                 ; 6       ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[5]~9                  ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[4]~9                  ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|SADDR[14]      ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|SADDR[6]       ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|SADDR[5]       ; 0                 ; 6       ;
@@ -2010,8 +2010,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[8]                                ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[0]                                ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[3]                                ; 0                 ; 6       ;
-;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                                ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[1]                                ; 0                 ; 6       ;
+;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                                ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[5]                                ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[12]                               ; 0                 ; 6       ;
 ;      - CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[11]                               ; 0                 ; 6       ;
@@ -2071,81 +2071,81 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------------------------------------------------------------------------------------------+--------------------+---------+-----------------------------------------------------+--------+----------------------+------------------+---------------------------+
 ; Name                                                                                                      ; Location           ; Fan-Out ; Usage                                               ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
 +-----------------------------------------------------------------------------------------------------------+--------------------+---------+-----------------------------------------------------+--------+----------------------+------------------+---------------------------+
-; CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[14]~1                                                      ; LCCOMB_X31_Y13_N30 ; 64      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_Transmit_Data[1]~0                                           ; LCCOMB_X24_Y13_N26 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state.00000101~0                                             ; LCCOMB_X24_Y13_N0  ; 19      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~19                                              ; LCCOMB_X26_Y16_N6  ; 37      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~26                                              ; LCCOMB_X22_Y16_N28 ; 19      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|Equal35~14                                                         ; LCCOMB_X27_Y15_N26 ; 28      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[24]~22                                                  ; LCCOMB_X25_Y12_N22 ; 6       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|InstructionBuffer[5]~0                                             ; LCCOMB_X30_Y17_N14 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[4]~20                                                ; LCCOMB_X26_Y16_N16 ; 18      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[21]~26                                       ; LCCOMB_X27_Y15_N10 ; 22      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[0]~0                                               ; LCCOMB_X27_Y17_N30 ; 22      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|RequestInfo_State~24                                               ; LCCOMB_X26_Y16_N0  ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|f_DataState~11                                                     ; LCCOMB_X26_Y16_N18 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                        ; LCFF_X22_Y11_N29   ; 36      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|mFL_ST~22                                                          ; LCCOMB_X32_Y13_N4  ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                                         ; LCFF_X26_Y17_N3    ; 229     ; Clock enable, Sync. clear                           ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_ST~22                                                         ; LCCOMB_X22_Y16_N22 ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST.100                                                         ; LCFF_X22_Y11_N13   ; 11      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST~18                                                          ; LCCOMB_X22_Y16_N30 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|m_Lasers[0]~4                                                      ; LCCOMB_X31_Y13_N20 ; 10      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SDDataIO_ST~23                                                   ; LCCOMB_X25_Y18_N8  ; 6       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD                                          ; LCFF_X23_Y18_N9    ; 128     ; Clock enable, Sync. clear, Sync. load               ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_ADDR[21]~0                                                     ; LCCOMB_X32_Y13_N8  ; 30      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]~0                                                    ; LCCOMB_X30_Y16_N6  ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oInfo_TXD_DATA[1]~6                                                ; LCCOMB_X25_Y17_N22 ; 7       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[20]~6                                                    ; LCCOMB_X27_Y15_N18 ; 21      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[15]~1                                                    ; LCCOMB_X27_Y15_N6  ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]~0                                                   ; LCCOMB_X30_Y16_N16 ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[0]~0                                                 ; LCCOMB_X26_Y14_N6  ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[27]~15                                                    ; LCCOMB_X25_Y18_N6  ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[5]~1                                                      ; LCCOMB_X25_Y18_N16 ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA_READY~2                                                   ; LCCOMB_X29_Y12_N12 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[17]~2                                                     ; LCCOMB_X22_Y16_N24 ; 17      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[15]~3                                                     ; LCCOMB_X26_Y16_N2  ; 12      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[3]~4                                                      ; LCCOMB_X23_Y10_N24 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]~1                                                    ; LCCOMB_X30_Y16_N26 ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[0]~9                                                  ; LCCOMB_X22_Y16_N4  ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Equal1~0                                      ; LCCOMB_X33_Y13_N18 ; 11      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST.READ                                       ; LCFF_X35_Y11_N17   ; 21      ; Output enable                                       ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST~34                                         ; LCCOMB_X35_Y11_N0  ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT                                          ; LCFF_X35_Y12_N27   ; 33      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                        ; LCFF_X33_Y13_N13   ; 42      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|r_DATA[2]~0                                   ; LCCOMB_X33_Y13_N10 ; 32      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|CMD[1]~1                                      ; LCCOMB_X24_Y14_N6  ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[14]~1                                                      ; LCCOMB_X21_Y14_N18 ; 64      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_Transmit_Data[1]~0                                           ; LCCOMB_X25_Y12_N26 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state.00000101~0                                             ; LCCOMB_X25_Y12_N16 ; 19      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~19                                               ; LCCOMB_X23_Y14_N24 ; 37      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~26                                               ; LCCOMB_X23_Y13_N12 ; 19      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|Equal35~14                                                         ; LCCOMB_X21_Y18_N26 ; 28      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[24]~22                                                  ; LCCOMB_X25_Y11_N10 ; 6       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|InstructionBuffer[5]~0                                             ; LCCOMB_X19_Y15_N22 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[18]~20                                               ; LCCOMB_X26_Y15_N18 ; 18      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructionsStored[21]~26                                       ; LCCOMB_X21_Y18_N10 ; 22      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|NumInstructions[0]~0                                               ; LCCOMB_X22_Y18_N6  ; 22      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|RequestInfo_State~24                                               ; LCCOMB_X23_Y14_N10 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|f_DataState~11                                                     ; LCCOMB_X23_Y15_N8  ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                        ; LCFF_X23_Y15_N17   ; 36      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|mFL_ST~22                                                          ; LCCOMB_X31_Y13_N4  ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                                         ; LCFF_X23_Y16_N11   ; 229     ; Clock enable, Sync. clear                           ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_ST~22                                                         ; LCCOMB_X24_Y18_N8  ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST.100                                                         ; LCFF_X23_Y15_N23   ; 11      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_ST~18                                                          ; LCCOMB_X23_Y15_N26 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|m_Lasers[0]~4                                                      ; LCCOMB_X22_Y14_N22 ; 10      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SDDataIO_ST~23                                                   ; LCCOMB_X24_Y18_N22 ; 6       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD                                          ; LCFF_X27_Y10_N25   ; 128     ; Clock enable, Sync. clear, Sync. load               ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_ADDR[21]~0                                                     ; LCCOMB_X31_Y13_N16 ; 30      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]~0                                                    ; LCCOMB_X21_Y12_N18 ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oInfo_TXD_DATA[1]~6                                                ; LCCOMB_X26_Y16_N22 ; 7       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[20]~6                                                    ; LCCOMB_X21_Y18_N18 ; 21      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[15]~1                                                    ; LCCOMB_X21_Y18_N14 ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]~0                                                   ; LCCOMB_X21_Y12_N4  ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[0]~0                                                 ; LCCOMB_X23_Y18_N26 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[27]~15                                                    ; LCCOMB_X24_Y18_N30 ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[9]~1                                                      ; LCCOMB_X24_Y18_N26 ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA_READY~2                                                   ; LCCOMB_X24_Y18_N24 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[12]~2                                                     ; LCCOMB_X22_Y12_N10 ; 17      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[15]~3                                                     ; LCCOMB_X23_Y15_N4  ; 12      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_DATA[3]~4                                                      ; LCCOMB_X24_Y14_N8  ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]~1                                                    ; LCCOMB_X21_Y12_N14 ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[0]~9                                                  ; LCCOMB_X22_Y12_N22 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|Equal1~0                                      ; LCCOMB_X32_Y13_N2  ; 11      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST.READ                                       ; LCFF_X35_Y12_N25   ; 21      ; Output enable                                       ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST~34                                         ; LCCOMB_X35_Y12_N8  ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mACT                                          ; LCFF_X34_Y13_N19   ; 33      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|mStart                                        ; LCFF_X32_Y13_N23   ; 42      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|r_DATA[2]~0                                   ; LCCOMB_X32_Y13_N4  ; 32      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|CMD[1]~1                                      ; LCCOMB_X22_Y17_N22 ; 2       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0 ; PLL_1              ; 198     ; Clock                                               ; yes    ; Global Clock         ; GCLK3            ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|OE                           ; LCFF_X19_Y13_N17   ; 16      ; Output enable                                       ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[5]~9                      ; LCCOMB_X23_Y13_N12 ; 8       ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|rp_shift[1]~1                ; LCCOMB_X20_Y11_N16 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|INIT_REQ           ; LCFF_X20_Y14_N27   ; 26      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|LessThan0~5        ; LCCOMB_X18_Y14_N30 ; 15      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|REF_REQ~1          ; LCCOMB_X19_Y11_N30 ; 16      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|oSDR_RD~1                                    ; LCCOMB_X25_Y14_N30 ; 19      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|Multi_Sram:u6|SRAM_WE_N~0                                                        ; LCCOMB_X22_Y12_N8  ; 17      ; Output enable                                       ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|uart:u1|rx_bits_remaining[0]~1                                                   ; LCCOMB_X35_Y19_N30 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|uart:u1|rx_countdown[1]~0                                                        ; LCCOMB_X35_Y19_N14 ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|uart:u1|tx_bits_remaining[0]~8                                                   ; LCCOMB_X26_Y10_N26 ; 9       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; CII_Starter_USB_API:inst|uart:u1|tx_state.TX_SENDING                                                      ; LCFF_X26_Y11_N17   ; 19      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|OE                           ; LCFF_X16_Y12_N9    ; 16      ; Output enable                                       ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[4]~9                      ; LCCOMB_X20_Y13_N12 ; 8       ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|rp_shift[1]~1                ; LCCOMB_X16_Y13_N8  ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|INIT_REQ           ; LCFF_X15_Y11_N11   ; 26      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|LessThan0~5        ; LCCOMB_X14_Y11_N0  ; 15      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|REF_REQ~1          ; LCCOMB_X15_Y12_N6  ; 16      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|oSDR_RD~1                                    ; LCCOMB_X23_Y17_N12 ; 19      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|Multi_Sram:u6|SRAM_WE_N~0                                                        ; LCCOMB_X22_Y15_N2  ; 17      ; Output enable                                       ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|uart:u1|rx_bits_remaining[0]~1                                                   ; LCCOMB_X12_Y19_N22 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|uart:u1|rx_countdown[1]~0                                                        ; LCCOMB_X12_Y19_N2  ; 8       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|uart:u1|tx_bits_remaining[0]~8                                                   ; LCCOMB_X29_Y17_N26 ; 9       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; CII_Starter_USB_API:inst|uart:u1|tx_state.TX_SENDING                                                      ; LCFF_X30_Y17_N25   ; 19      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
 ; CLOCK_50                                                                                                  ; PIN_L1             ; 923     ; Clock                                               ; yes    ; Global Clock         ; GCLK2            ; --                        ;
 ; CLOCK_50                                                                                                  ; PIN_L1             ; 2       ; Clock                                               ; no     ; --                   ; --               ; --                        ;
 ; KEY[0]                                                                                                    ; PIN_R22            ; 245     ; Async. clear, Clock enable, Sync. clear, Sync. load ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|Equal9~0                                                                          ; LCCOMB_X24_Y18_N10 ; 25      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|LaserState[9]~27                                                                  ; LCCOMB_X32_Y18_N16 ; 34      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|NextInstruction[3]~1                                                              ; LCCOMB_X24_Y18_N2  ; 32      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|Ticks[11]~77                                                                      ; LCCOMB_X31_Y14_N0  ; 24      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|Ticks[23]~73                                                                      ; LCCOMB_X30_Y13_N12 ; 24      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|f_InstructionState~8                                                              ; LCCOMB_X29_Y13_N12 ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|f_LoopCount[16]~0                                                                 ; LCCOMB_X22_Y19_N0  ; 41      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|f_NextAddress[0]~91                                                               ; LCCOMB_X29_Y14_N12 ; 47      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|f_NumTimesLooped[0]~72                                                            ; LCCOMB_X24_Y18_N20 ; 24      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|f_State.0001                                                                      ; LCFF_X29_Y14_N1    ; 38      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|f_State.0010~0                                                                    ; LCCOMB_X31_Y13_N10 ; 1       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|oCountData[15]~48                                                                 ; LCCOMB_X30_Y13_N10 ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|oPMTClear                                                                         ; LCFF_X32_Y14_N29   ; 32      ; Async. clear                                        ; yes    ; Global Clock         ; GCLK7            ; --                        ;
-; Laser_Controller:inst10|oPMTGate                                                                          ; LCFF_X30_Y13_N15   ; 33      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
-; Laser_Controller:inst10|oSD_ADDR[20]~0                                                                    ; LCCOMB_X23_Y17_N6  ; 21      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|Equal9~0                                                                          ; LCCOMB_X29_Y10_N2  ; 25      ; Sync. clear                                         ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|LaserState[9]~27                                                                  ; LCCOMB_X32_Y16_N16 ; 34      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|NextInstruction[3]~1                                                              ; LCCOMB_X29_Y10_N26 ; 32      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|Ticks[11]~77                                                                      ; LCCOMB_X29_Y15_N24 ; 24      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|Ticks[23]~73                                                                      ; LCCOMB_X30_Y16_N12 ; 24      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|f_InstructionState~8                                                              ; LCCOMB_X25_Y10_N0  ; 4       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|f_LoopCount[16]~0                                                                 ; LCCOMB_X27_Y9_N4   ; 41      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|f_NextAddress[0]~91                                                               ; LCCOMB_X31_Y16_N28 ; 47      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|f_NumTimesLooped[0]~72                                                            ; LCCOMB_X29_Y10_N12 ; 24      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|f_State.0001                                                                      ; LCFF_X31_Y16_N25   ; 38      ; Sync. load                                          ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|f_State.0010~0                                                                    ; LCCOMB_X30_Y11_N20 ; 1       ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|oCountData[15]~48                                                                 ; LCCOMB_X30_Y16_N26 ; 16      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|oPMTClear                                                                         ; LCFF_X32_Y17_N29   ; 32      ; Async. clear                                        ; yes    ; Global Clock         ; GCLK10           ; --                        ;
+; Laser_Controller:inst10|oPMTGate                                                                          ; LCFF_X30_Y16_N23   ; 33      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
+; Laser_Controller:inst10|oSD_ADDR[20]~0                                                                    ; LCCOMB_X25_Y10_N22 ; 21      ; Clock enable                                        ; no     ; --                   ; --               ; --                        ;
 ; PMT_In_A                                                                                                  ; PIN_D20            ; 17      ; Clock                                               ; no     ; --                   ; --               ; --                        ;
 ; PMT_In_B                                                                                                  ; PIN_F20            ; 17      ; Clock                                               ; no     ; --                   ; --               ; --                        ;
 +-----------------------------------------------------------------------------------------------------------+--------------------+---------+-----------------------------------------------------+--------+----------------------+------------------+---------------------------+
@@ -2158,7 +2158,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------------------------------------------------------------------------------------------+------------------+---------+----------------------+------------------+---------------------------+
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PLL1:sdram_pll1|altpll:altpll_component|_clk0 ; PLL_1            ; 198     ; Global Clock         ; GCLK3            ; --                        ;
 ; CLOCK_50                                                                                                  ; PIN_L1           ; 923     ; Global Clock         ; GCLK2            ; --                        ;
-; Laser_Controller:inst10|oPMTClear                                                                         ; LCFF_X32_Y14_N29 ; 32      ; Global Clock         ; GCLK7            ; --                        ;
+; Laser_Controller:inst10|oPMTClear                                                                         ; LCFF_X32_Y17_N29 ; 32      ; Global Clock         ; GCLK10           ; --                        ;
 +-----------------------------------------------------------------------------------------------------------+------------------+---------+----------------------+------------------+---------------------------+
 
 
@@ -2170,8 +2170,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; KEY[0]                                                                                                ; 245     ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|mResetFPGA                                                     ; 229     ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|m_SD_DATA_FINISHED_UPLOAD                                      ; 128     ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]                                                 ; 65      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]                                                 ; 65      ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]                                                 ; 65      ;
 ; Laser_Controller:inst10|always5~0                                                                     ; 65      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|CMD_Tmp[14]~1                                                  ; 64      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]                                                  ; 52      ;
@@ -2186,7 +2186,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oFL_Select[1]                                                  ; 39      ;
 ; Laser_Controller:inst10|f_State.0001                                                                  ; 38      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_StoreCount                                                   ; 38      ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~19                                          ; 37      ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~19                                           ; 37      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|f_SendCount                                                    ; 36      ;
 ; Laser_Controller:inst10|f_NextInstructionReady                                                        ; 35      ;
 ; Laser_Controller:inst10|oSendData                                                                     ; 35      ;
@@ -2226,18 +2226,18 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Laser_Controller:inst10|oFreqChange                                                                   ; 20      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|Selector61~0                                                   ; 19      ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|oSDR_RD~1                                ; 19      ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[16]~26                                          ; 19      ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|DataAddrToSend[8]~26                                           ; 19      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|Count_state.00000101~0                                         ; 19      ;
 ; CII_Starter_USB_API:inst|uart:u1|tx_state.TX_SENDING                                                  ; 19      ;
 ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST.P4_PRG                                 ; 19      ;
 ; Laser_Controller:inst10|ControlBits[0]                                                                ; 19      ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[4]~20                                            ; 18      ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|NumDataStored[18]~20                                           ; 18      ;
 ; CII_Starter_USB_API:inst|uart:u1|WideNor0~3                                                           ; 18      ;
 ; CII_Starter_USB_API:inst|uart:u1|WideNor1~3                                                           ; 18      ;
 ; PMT_In_B                                                                                              ; 17      ;
 ; PMT_In_A                                                                                              ; 17      ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|Equal0~0                                 ; 17      ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[17]~2                                                 ; 17      ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_ADDR[12]~2                                                 ; 17      ;
 ; Laser_Controller:inst10|LaserState~25                                                                 ; 17      ;
 ; CII_Starter_USB_API:inst|Multi_Sram:u6|SRAM_WE_N~0                                                    ; 17      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_DATA[15]~1                                                ; 16      ;
@@ -2245,7 +2245,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Laser_Controller:inst10|oCountData[15]~48                                                             ; 16      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[27]~15                                                ; 16      ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|always11~1                                                     ; 16      ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[5]~1                                                  ; 16      ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[9]~1                                                  ; 16      ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|OE                       ; 16      ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|Equal0~0                                  ; 16      ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|ST[1]                                     ; 16      ;
@@ -2314,7 +2314,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_TXD_DATA[0]~0                                             ; 8       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_TXD_DATA[0]~9                                              ; 8       ;
 ; CII_Starter_USB_API:inst|uart:u1|rx_countdown[1]~0                                                    ; 8       ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[5]~9                  ; 8       ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|SA[4]~9                  ; 8       ;
 ; Laser_Controller:inst10|f_InstructionState.0001                                                       ; 8       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_ST~17                                                     ; 8       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSDR_ST.000                                                    ; 8       ;
@@ -2369,9 +2369,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|InfoBuffer[19]                                                 ; 5       ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|PM_STOP                                   ; 5       ;
 ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Multiplexer:u0|oHS_Ready~0                              ; 5       ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[0]                                                    ; 5       ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[1]                                                    ; 5       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[2]                                                    ; 5       ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[1]                                                    ; 5       ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[0]                                                    ; 5       ;
 ; CII_Starter_USB_API:inst|uart:u1|recv_state.RX_CHECK_STOP                                             ; 5       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|RequestInfo_State.000110                                       ; 5       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|RequestInfo_State.000100                                       ; 5       ;
@@ -2861,10 +2861,10 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[30]                                                   ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA[31]                                                   ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA~4                                                     ; 2       ;
+; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                                ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA~3                                                     ; 2       ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[1]                                ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA~2                                                     ; 2       ;
-; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[2]                                ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSD_DATA~0                                                     ; 2       ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|DATAOUT[3]                                ; 2       ;
 ; CII_Starter_USB_API:inst|uart:u1|Selector9~0                                                          ; 2       ;
@@ -2891,7 +2891,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|control_interface:control1|READA          ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|Equal25~2                                                      ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_ADDR[6]~3                                                 ; 2       ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[1]~0                                               ; 2       ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSDR_Select[0]~0                                               ; 2       ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|ST.11                                    ; 2       ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Multiplexer:u0|ST.10                                    ; 2       ;
 ; CII_Starter_USB_API:inst|Multi_Sdram:u3|Sdram_Controller:u1|command:command1|CM_ACK                   ; 2       ;
@@ -3018,7 +3018,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; CII_Starter_USB_API:inst|uart:u1|tx_countdown[0]                                                      ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|mSR_Start~1                                                    ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|always15~0                                                     ; 2       ;
-; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[0]~1                                                ; 2       ;
+; CII_Starter_USB_API:inst|CMD_Decode:u5|oSR_Select[1]~1                                                ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|Equal15~0                                                      ; 2       ;
 ; CII_Starter_USB_API:inst|CMD_Decode:u5|always5~9                                                      ; 2       ;
 ; CII_Starter_USB_API:inst|Multi_Flash:u2|Flash_Controller:u1|ST~34                                     ; 2       ;
@@ -3175,170 +3175,169 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------+------------------------+
 ; Interconnect Resource Type ; Usage                  ;
 +----------------------------+------------------------+
-; Block interconnects        ; 2,589 / 54,004 ( 5 % ) ;
-; C16 interconnects          ; 57 / 2,100 ( 3 % )     ;
-; C4 interconnects           ; 1,535 / 36,000 ( 4 % ) ;
-; Direct links               ; 496 / 54,004 ( < 1 % ) ;
+; Block interconnects        ; 2,562 / 54,004 ( 5 % ) ;
+; C16 interconnects          ; 52 / 2,100 ( 2 % )     ;
+; C4 interconnects           ; 1,490 / 36,000 ( 4 % ) ;
+; Direct links               ; 511 / 54,004 ( < 1 % ) ;
 ; Global clocks              ; 3 / 16 ( 19 % )        ;
-; Local interconnects        ; 955 / 18,752 ( 5 % )   ;
-; R24 interconnects          ; 101 / 1,900 ( 5 % )    ;
-; R4 interconnects           ; 1,724 / 46,920 ( 4 % ) ;
+; Local interconnects        ; 972 / 18,752 ( 5 % )   ;
+; R24 interconnects          ; 93 / 1,900 ( 5 % )     ;
+; R4 interconnects           ; 1,778 / 46,920 ( 4 % ) ;
 +----------------------------+------------------------+
 
 
 +-----------------------------------------------------------------------------+
 ; LAB Logic Elements                                                          ;
 +---------------------------------------------+-------------------------------+
-; Number of Logic Elements  (Average = 13.87) ; Number of LABs  (Total = 135) ;
+; Number of Logic Elements  (Average = 14.20) ; Number of LABs  (Total = 132) ;
 +---------------------------------------------+-------------------------------+
-; 1                                           ; 6                             ;
-; 2                                           ; 4                             ;
-; 3                                           ; 3                             ;
+; 1                                           ; 3                             ;
+; 2                                           ; 3                             ;
+; 3                                           ; 2                             ;
 ; 4                                           ; 1                             ;
-; 5                                           ; 0                             ;
-; 6                                           ; 2                             ;
+; 5                                           ; 1                             ;
+; 6                                           ; 3                             ;
 ; 7                                           ; 1                             ;
 ; 8                                           ; 2                             ;
-; 9                                           ; 0                             ;
-; 10                                          ; 2                             ;
+; 9                                           ; 2                             ;
+; 10                                          ; 0                             ;
 ; 11                                          ; 1                             ;
 ; 12                                          ; 3                             ;
 ; 13                                          ; 2                             ;
 ; 14                                          ; 3                             ;
-; 15                                          ; 4                             ;
-; 16                                          ; 101                           ;
+; 15                                          ; 3                             ;
+; 16                                          ; 102                           ;
 +---------------------------------------------+-------------------------------+
 
 
 +--------------------------------------------------------------------+
 ; LAB-wide Signals                                                   ;
 +------------------------------------+-------------------------------+
-; LAB-wide Signals  (Average = 2.22) ; Number of LABs  (Total = 135) ;
+; LAB-wide Signals  (Average = 2.21) ; Number of LABs  (Total = 132) ;
 +------------------------------------+-------------------------------+
-; 1 Async. clear                     ; 34                            ;
-; 1 Clock                            ; 116                           ;
-; 1 Clock enable                     ; 55                            ;
-; 1 Sync. clear                      ; 29                            ;
-; 1 Sync. load                       ; 21                            ;
-; 2 Clock enables                    ; 35                            ;
-; 2 Clocks                           ; 10                            ;
+; 1 Async. clear                     ; 31                            ;
+; 1 Clock                            ; 114                           ;
+; 1 Clock enable                     ; 53                            ;
+; 1 Sync. clear                      ; 28                            ;
+; 1 Sync. load                       ; 23                            ;
+; 2 Clock enables                    ; 32                            ;
+; 2 Clocks                           ; 11                            ;
 +------------------------------------+-------------------------------+
 
 
 +------------------------------------------------------------------------------+
 ; LAB Signals Sourced                                                          ;
 +----------------------------------------------+-------------------------------+
-; Number of Signals Sourced  (Average = 21.99) ; Number of LABs  (Total = 135) ;
+; Number of Signals Sourced  (Average = 22.55) ; Number of LABs  (Total = 132) ;
 +----------------------------------------------+-------------------------------+
 ; 0                                            ; 0                             ;
-; 1                                            ; 2                             ;
-; 2                                            ; 6                             ;
+; 1                                            ; 1                             ;
+; 2                                            ; 4                             ;
 ; 3                                            ; 0                             ;
-; 4                                            ; 2                             ;
+; 4                                            ; 1                             ;
 ; 5                                            ; 1                             ;
-; 6                                            ; 2                             ;
+; 6                                            ; 1                             ;
 ; 7                                            ; 1                             ;
 ; 8                                            ; 2                             ;
 ; 9                                            ; 1                             ;
 ; 10                                           ; 1                             ;
 ; 11                                           ; 1                             ;
-; 12                                           ; 1                             ;
-; 13                                           ; 0                             ;
-; 14                                           ; 1                             ;
+; 12                                           ; 2                             ;
+; 13                                           ; 1                             ;
+; 14                                           ; 0                             ;
 ; 15                                           ; 0                             ;
-; 16                                           ; 3                             ;
-; 17                                           ; 4                             ;
+; 16                                           ; 4                             ;
+; 17                                           ; 6                             ;
 ; 18                                           ; 3                             ;
-; 19                                           ; 6                             ;
+; 19                                           ; 3                             ;
 ; 20                                           ; 5                             ;
 ; 21                                           ; 8                             ;
-; 22                                           ; 8                             ;
-; 23                                           ; 8                             ;
+; 22                                           ; 9                             ;
+; 23                                           ; 6                             ;
 ; 24                                           ; 9                             ;
-; 25                                           ; 9                             ;
-; 26                                           ; 8                             ;
-; 27                                           ; 6                             ;
+; 25                                           ; 11                            ;
+; 26                                           ; 5                             ;
+; 27                                           ; 8                             ;
 ; 28                                           ; 6                             ;
-; 29                                           ; 5                             ;
-; 30                                           ; 5                             ;
-; 31                                           ; 7                             ;
-; 32                                           ; 14                            ;
+; 29                                           ; 9                             ;
+; 30                                           ; 8                             ;
+; 31                                           ; 4                             ;
+; 32                                           ; 11                            ;
 +----------------------------------------------+-------------------------------+
 
 
 +----------------------------------------------------------------------------------+
 ; LAB Signals Sourced Out                                                          ;
 +--------------------------------------------------+-------------------------------+
-; Number of Signals Sourced Out  (Average = 10.74) ; Number of LABs  (Total = 135) ;
+; Number of Signals Sourced Out  (Average = 10.77) ; Number of LABs  (Total = 132) ;
 +--------------------------------------------------+-------------------------------+
 ; 0                                                ; 0                             ;
-; 1                                                ; 8                             ;
+; 1                                                ; 4                             ;
 ; 2                                                ; 4                             ;
-; 3                                                ; 4                             ;
-; 4                                                ; 4                             ;
+; 3                                                ; 3                             ;
+; 4                                                ; 5                             ;
 ; 5                                                ; 8                             ;
-; 6                                                ; 6                             ;
-; 7                                                ; 9                             ;
-; 8                                                ; 9                             ;
-; 9                                                ; 8                             ;
+; 6                                                ; 7                             ;
+; 7                                                ; 10                            ;
+; 8                                                ; 7                             ;
+; 9                                                ; 10                            ;
 ; 10                                               ; 6                             ;
 ; 11                                               ; 8                             ;
-; 12                                               ; 9                             ;
-; 13                                               ; 11                            ;
-; 14                                               ; 9                             ;
-; 15                                               ; 6                             ;
-; 16                                               ; 11                            ;
-; 17                                               ; 1                             ;
+; 12                                               ; 12                            ;
+; 13                                               ; 10                            ;
+; 14                                               ; 6                             ;
+; 15                                               ; 9                             ;
+; 16                                               ; 8                             ;
+; 17                                               ; 3                             ;
 ; 18                                               ; 2                             ;
-; 19                                               ; 0                             ;
-; 20                                               ; 2                             ;
-; 21                                               ; 1                             ;
-; 22                                               ; 1                             ;
-; 23                                               ; 2                             ;
-; 24                                               ; 3                             ;
+; 19                                               ; 1                             ;
+; 20                                               ; 1                             ;
+; 21                                               ; 0                             ;
+; 22                                               ; 2                             ;
+; 23                                               ; 3                             ;
+; 24                                               ; 1                             ;
 ; 25                                               ; 1                             ;
 ; 26                                               ; 1                             ;
-; 27                                               ; 1                             ;
 +--------------------------------------------------+-------------------------------+
 
 
 +------------------------------------------------------------------------------+
 ; LAB Distinct Inputs                                                          ;
 +----------------------------------------------+-------------------------------+
-; Number of Distinct Inputs  (Average = 17.53) ; Number of LABs  (Total = 135) ;
+; Number of Distinct Inputs  (Average = 17.61) ; Number of LABs  (Total = 132) ;
 +----------------------------------------------+-------------------------------+
 ; 0                                            ; 0                             ;
 ; 1                                            ; 0                             ;
-; 2                                            ; 3                             ;
+; 2                                            ; 2                             ;
 ; 3                                            ; 3                             ;
 ; 4                                            ; 5                             ;
-; 5                                            ; 6                             ;
+; 5                                            ; 4                             ;
 ; 6                                            ; 1                             ;
 ; 7                                            ; 1                             ;
-; 8                                            ; 2                             ;
+; 8                                            ; 1                             ;
 ; 9                                            ; 0                             ;
-; 10                                           ; 5                             ;
+; 10                                           ; 4                             ;
 ; 11                                           ; 6                             ;
 ; 12                                           ; 2                             ;
-; 13                                           ; 2                             ;
-; 14                                           ; 7                             ;
-; 15                                           ; 8                             ;
-; 16                                           ; 6                             ;
-; 17                                           ; 10                            ;
-; 18                                           ; 5                             ;
-; 19                                           ; 11                            ;
-; 20                                           ; 7                             ;
-; 21                                           ; 3                             ;
-; 22                                           ; 2                             ;
-; 23                                           ; 4                             ;
+; 13                                           ; 4                             ;
+; 14                                           ; 4                             ;
+; 15                                           ; 10                            ;
+; 16                                           ; 9                             ;
+; 17                                           ; 8                             ;
+; 18                                           ; 7                             ;
+; 19                                           ; 10                            ;
+; 20                                           ; 8                             ;
+; 21                                           ; 5                             ;
+; 22                                           ; 3                             ;
+; 23                                           ; 6                             ;
 ; 24                                           ; 4                             ;
-; 25                                           ; 5                             ;
-; 26                                           ; 4                             ;
-; 27                                           ; 4                             ;
-; 28                                           ; 1                             ;
+; 25                                           ; 3                             ;
+; 26                                           ; 1                             ;
+; 27                                           ; 3                             ;
+; 28                                           ; 2                             ;
 ; 29                                           ; 1                             ;
-; 30                                           ; 5                             ;
-; 31                                           ; 9                             ;
+; 30                                           ; 4                             ;
+; 31                                           ; 8                             ;
 ; 32                                           ; 1                             ;
 ; 33                                           ; 0                             ;
 ; 34                                           ; 1                             ;
@@ -3380,7 +3379,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Fitter
     Info: Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu Aug 08 19:50:06 2013
+    Info: Processing started: Tue Aug 20 15:15:13 2013
 Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off CII_Starter_USB_API -c CII_Starter_USB_API
 Critical Warning: Setting INCREMENTAL_COMPILATION to "OFF" is no longer supported. Assignment is ignored. To disable partitions, set the IGNORE_PARTITIONS global assignment to "ON" instead.
 Warning: Parallel compilation is not licensed and has been disabled
@@ -3541,7 +3540,7 @@ Warning: Ignored locations or region assignments to the following nodes
     Warning: Node "TDO" is assigned to location or region, but does not exist in design
     Warning: Node "UART_RXD" is assigned to location or region, but does not exist in design
     Warning: Node "UART_TXD" is assigned to location or region, but does not exist in design
-Info: Fitter preparation operations ending: elapsed time is 00:00:17
+Info: Fitter preparation operations ending: elapsed time is 00:00:15
 Info: Fitter placement preparation operations beginning
 Info: Fitter placement preparation operations ending: elapsed time is 00:00:01
 Info: Fitter placement operations beginning
@@ -3562,8 +3561,8 @@ Info: Physical synthesis algorithm fanout splitting complete: estimated slack im
 Info: Physical synthesis optimizations for speed complete: elapsed CPU time is 00:00:03
 Info: Fitter routing operations beginning
 Info: Router estimated average interconnect usage is 3% of the available device resources
-    Info: Router estimated peak interconnect usage is 7% of the available device resources in the region that extends from location X25_Y14 to location X37_Y27
-Info: Fitter routing operations ending: elapsed time is 00:00:07
+    Info: Router estimated peak interconnect usage is 7% of the available device resources in the region that extends from location X12_Y0 to location X24_Y13
+Info: Fitter routing operations ending: elapsed time is 00:00:06
 Info: The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info: Optimizations that may affect the design's routability were skipped
     Info: Optimizations that may affect the design's timing were skipped
@@ -3729,8 +3728,8 @@ Warning: Found invalid Fitter assignments. See the Ignored Assignments panel in 
 Warning: The Reserve All Unused Pins setting has not been specified, and will default to 'As output driving ground'.
 Info: Quartus II Fitter was successful. 0 errors, 98 warnings
     Info: Peak virtual memory: 350 megabytes
-    Info: Processing ended: Thu Aug 08 19:50:50 2013
-    Info: Elapsed time: 00:00:44
-    Info: Total CPU time (on all processors): 00:00:38
+    Info: Processing ended: Tue Aug 20 15:15:54 2013
+    Info: Elapsed time: 00:00:41
+    Info: Total CPU time (on all processors): 00:00:36
 
 
