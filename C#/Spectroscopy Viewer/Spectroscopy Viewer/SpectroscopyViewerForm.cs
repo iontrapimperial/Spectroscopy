@@ -104,7 +104,7 @@ namespace Spectroscopy_Viewer
             this.loadDataButton.Enabled = false;
 
             // Store metadata... might need to do this element by element, don't think so though
-            // Metadata is passed element by element in spectrum constructor
+            // Metadata is passed element by element in spectrum constructor so this is OK
             metadataLive = metadataPassed;
 
             float stepSizeLivekHz = new float();
@@ -177,7 +177,7 @@ namespace Spectroscopy_Viewer
         // Method to build a list of colours for the graph
         private void initialiseColours()
         {
-            // 5 different colours
+            // 5 different colour pairs
             
             myColoursData.Add(Color.Blue);
             myColoursBadCounts.Add(Color.LightSkyBlue);
@@ -193,8 +193,6 @@ namespace Spectroscopy_Viewer
 
             myColoursData.Add(Color.Teal);
             myColoursBadCounts.Add(Color.PaleTurquoise);
-
-            
         }
 
         // Respond to form 'Load' event
@@ -450,8 +448,6 @@ namespace Spectroscopy_Viewer
         // Method to respond to user clicking "Clear all data" button
         private void clearDataButton_Click(object sender, EventArgs e)
         {
-
-
 
         }
 
@@ -868,6 +864,10 @@ namespace Spectroscopy_Viewer
                     contextMenuRename.Text = "Rename spectrum...";
                     MenuItem contextMenuViewMetadata = new MenuItem();
                     contextMenuViewMetadata.Text = "View spectrum metadata";
+                    MenuItem contextMenuChangeColour = new MenuItem();
+                    this.graphControlContextMenu[i].MenuItems.Add(contextMenuRename);
+                    this.graphControlContextMenu[i].MenuItems.Add(contextMenuViewMetadata);
+                    this.graphControlContextMenu[i].MenuItems.Add(contextMenuChangeColour);
                     // Not complete
 
                 }
@@ -876,6 +876,30 @@ namespace Spectroscopy_Viewer
             }
 
         }
+
+
+        // Methods to respond to user clicking context menu in graph controls
+        private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
+        {
+            int spectrumToRename = new int();
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+
+            }
+
+            renameSpectrum(spectrumToRename);
+
+        }
+
+
+
+        // Method to rename spectrum
+        private void renameSpectrum(int spectrumNumber)
+        {
+
+        }
+
+
 
         // Method to remove graph controls from the form
         // Required so that we don't get an error when recreating controls
