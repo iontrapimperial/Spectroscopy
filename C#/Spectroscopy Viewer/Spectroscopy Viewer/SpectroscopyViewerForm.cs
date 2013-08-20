@@ -213,20 +213,23 @@ namespace Spectroscopy_Viewer
             }
             else
             {
-                // Flag that we are not running in live mode
-                IsExperimentRunning = false;
-
-                // Now that we have stopped running in live mode:
-                this.loadDataButton.Enabled = true;                 // Re-enable loading saved data
-                this.restartViewerButton.Enabled = true;            // Re-enable restarting viewer
-                this.spectrumExportDataButton.Enabled = true;       // Re-enable exporting spectrum data
-                this.histogramExportDataButton.Enabled = true;      // Re-enable exporting histogram data
-                // Re-enable context menus on graph controls
-                for (int i = 0; i < numberOfSpectra; i++)
+                if (IsExperimentRunning)
                 {
-                    for (int j = 0; j < graphControlContextMenu[i].MenuItems.Count; j++)
+                    // Flag that we are not running in live mode
+                    IsExperimentRunning = false;
+
+                    // Now that we have stopped running in live mode:
+                    this.loadDataButton.Enabled = true;                 // Re-enable loading saved data
+                    this.restartViewerButton.Enabled = true;            // Re-enable restarting viewer
+                    this.spectrumExportDataButton.Enabled = true;       // Re-enable exporting spectrum data
+                    this.histogramExportDataButton.Enabled = true;      // Re-enable exporting histogram data
+                    // Re-enable context menus on graph controls
+                    for (int i = 0; i < numberOfSpectra; i++)
                     {
-                        this.graphControlContextMenu[i].MenuItems[j].Enabled = true;
+                        for (int j = 0; j < graphControlContextMenu[i].MenuItems.Count; j++)
+                        {
+                            this.graphControlContextMenu[i].MenuItems[j].Enabled = true;
+                        }
                     }
                 }
 

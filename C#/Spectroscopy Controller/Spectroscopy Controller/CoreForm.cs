@@ -381,7 +381,6 @@ namespace Spectroscopy_Controller
             this.Reset();           // Reset
         }
 
-
         
         // Threadsafe method to enable/disable appropriate buttons & inform viewer when experiment is finished
         // This gets called from inside FPGAcontrols
