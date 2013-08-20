@@ -53,9 +53,9 @@
             this.histogramDisplayCool = new System.Windows.Forms.RadioButton();
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
+            this.pauseButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.restartViewerButton = new System.Windows.Forms.Button();
-            this.pauseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -81,6 +81,7 @@
             this.zedGraphSpectra.ScrollMinY2 = 0D;
             this.zedGraphSpectra.Size = new System.Drawing.Size(775, 456);
             this.zedGraphSpectra.TabIndex = 0;
+            this.zedGraphSpectra.KeyDown += new System.Windows.Forms.KeyEventHandler(this.viewerForm_KeyDown);
             // 
             // openDataFile
             // 
@@ -167,7 +168,6 @@
             // 
             // tabPageSpectra
             // 
-            this.tabPageSpectra.Controls.Add(this.pauseButton);
             this.tabPageSpectra.Controls.Add(this.userDisplayText);
             this.tabPageSpectra.Controls.Add(this.loadDataButton);
             this.tabPageSpectra.Controls.Add(this.spectrumExportDataButton);
@@ -184,6 +184,7 @@
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
+            this.tabPageSpectra.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.viewerForm_PreviewKeyDown);
             // 
             // userDisplayText
             // 
@@ -218,6 +219,7 @@
             this.tabPageHistogram.TabIndex = 1;
             this.tabPageHistogram.Text = "Histogram";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
+            this.tabPageHistogram.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.viewerForm_PreviewKeyDown);
             // 
             // histogramExportDataButton
             // 
@@ -340,6 +342,16 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
+            // pauseButton
+            // 
+            this.pauseButton.Location = new System.Drawing.Point(652, 2);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(147, 26);
+            this.pauseButton.TabIndex = 10;
+            this.pauseButton.Text = "Pause";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            // 
             // restartViewerButton
             // 
             this.restartViewerButton.Location = new System.Drawing.Point(834, 2);
@@ -350,27 +362,19 @@
             this.restartViewerButton.UseVisualStyleBackColor = true;
             this.restartViewerButton.Click += new System.EventHandler(this.restartViewerButton_Click);
             // 
-            // pauseButton
-            // 
-            this.pauseButton.Location = new System.Drawing.Point(853, 468);
-            this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(75, 23);
-            this.pauseButton.TabIndex = 10;
-            this.pauseButton.Text = "Pause";
-            this.pauseButton.UseVisualStyleBackColor = true;
-            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
-            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 628);
+            this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.restartViewerButton);
             this.Controls.Add(this.tabControl1);
             this.Name = "SpectroscopyViewerForm";
             this.Text = "Spectroscopy Viewer";
             this.Load += new System.EventHandler(this.SpectroscopyViewerForm_Load);
             this.SizeChanged += new System.EventHandler(this.SpectroscopyViewerForm_Resize);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.viewerForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).EndInit();
             this.tabControl1.ResumeLayout(false);
