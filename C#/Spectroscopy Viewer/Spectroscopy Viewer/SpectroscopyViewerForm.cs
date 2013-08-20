@@ -792,6 +792,10 @@ namespace Spectroscopy_Viewer
 
             // Show Y2 (bad counts) axis
             myPane.Y2Axis.IsVisible = true;
+
+            // Disable vertical zoom/pan on spectrum graph
+            zgcSpectrum.IsEnableVZoom = false;
+            zgcSpectrum.IsEnableVPan = false;
         }
 
 
@@ -903,16 +907,26 @@ namespace Spectroscopy_Viewer
                         new System.EventHandler(this.updateGraph_Event);
                     //
                     // Configure context menu
+                    //
+                    // Rename
                     MenuItem contextMenuRename = new MenuItem();
+                    contextMenuRename.Name = "Rename";
                     contextMenuRename.Text = "Rename spectrum...";
+                    contextMenuRename.Click += new EventHandler(graphControlContextMenu_Rename_Click);
+                    // View metadata
                     MenuItem contextMenuViewMetadata = new MenuItem();
-                    contextMenuViewMetadata.Text = "View spectrum metadata";
+                    contextMenuViewMetadata.Text = "View metadata";
+                    contextMenuViewMetadata.Click += new EventHandler(graphControlContextMenu_ViewMetadata_Click);
+                    // Change colour
                     MenuItem contextMenuChangeColour = new MenuItem();
+                    contextMenuChangeColour.Text = "Change colour";
+                    contextMenuChangeColour.Click += new EventHandler(graphControlContextMenu_ChangeColour_Click);
+                    
+
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuRename);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuViewMetadata);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuChangeColour);
-                    // Not complete
-
+                    
                 }
 
 
@@ -925,12 +939,28 @@ namespace Spectroscopy_Viewer
         private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
         {
             int spectrumToRename = new int();
+            // Go through each spectrum
             for (int i = 0; i < numberOfSpectra; i++)
             {
-
+                // Check whether it was the context menu from this spectrum that fired the event
+                // NB "Rename" is the menu item at index 0
+                if (sender.Equals(this.graphControlContextMenu[i].MenuItems[0]))
+                {
+                    spectrumToRename = i;
+                }
             }
-
+            // Call method to rename the spectrum
             renameSpectrum(spectrumToRename);
+
+        }
+
+        private void graphControlContextMenu_ViewMetadata_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void graphControlContextMenu_ChangeColour_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -939,9 +969,22 @@ namespace Spectroscopy_Viewer
         // Method to rename spectrum
         private void renameSpectrum(int spectrumNumber)
         {
+            RenameSpectrumDialog myRenameDialog = new RenameSpectrumDialog();
+            myRenameDialog.ShowDialog();
+
+            // Only perform rename if user clicked OK (not cancel)
+            if (myRenameDialog.DialogResult == DialogResult.OK)
+            {
+                // Get name from dialog box
+                string newName = myRenameDialog.newNameBox.Text;
+                // Rename appropriate spectrum
+                mySpectrum[spectrumNumber].setName(newName);
+
+                // Re-label graph control group box
+                this.graphControlGroup[spectrumNumber].Text = newName;
+            }
 
         }
-
 
 
         // Method to remove graph controls from the form

@@ -63,6 +63,12 @@
       <DependentUpon>displayMetadata.cs</DependentUpon>
     </Compile>
     <Compile Include="fileHandler.cs" />
+    <Compile Include="RenameSpectrum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenameSpectrum.Designer.cs">
+      <DependentUpon>RenameSpectrum.cs</DependentUpon>
+    </Compile>
     <Compile Include="requestMetadata.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     </Compile>
     <EmbeddedResource Include="displayMetadata.resx">
       <DependentUpon>displayMetadata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RenameSpectrum.resx">
+      <DependentUpon>RenameSpectrum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="requestMetadata.resx">
       <DependentUpon>requestMetadata.cs</DependentUpon>
