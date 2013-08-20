@@ -487,14 +487,11 @@ namespace Spectroscopy_Viewer
         // Method to respond to user clicking "Restart viewer" button
         private void restartViewerButton_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             // Set dialog result to indicate that we should restart form
             this.DialogResult = System.Windows.Forms.DialogResult.Retry;
             // Close form
             this.Close();
-=======
 
->>>>>>> Sarah
         }
 
         #region Code relating to generating, plotting & exporting histogram
