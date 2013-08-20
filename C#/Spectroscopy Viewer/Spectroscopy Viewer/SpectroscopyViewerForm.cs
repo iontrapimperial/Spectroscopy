@@ -432,7 +432,7 @@ namespace Spectroscopy_Viewer
                 SetSize();
             }
 
-            // Code for debugging
+            // Code for debugging - graph changing when update button is clicked but thresholds are unchanged (live mode only)
             // Print out data from first spectrum every time update button is clicked
             /*
             string myTestFileName = @"C:\Users\localadmin\Desktop\Test file";

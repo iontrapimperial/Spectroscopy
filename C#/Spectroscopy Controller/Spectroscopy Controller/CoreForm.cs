@@ -383,9 +383,10 @@ namespace Spectroscopy_Controller
         }
 
 
+        
+        // Threadsafe method to enable/disable appropriate buttons when experiment is finished
+        // This gets called from inside FPGAcontrols
         delegate void Delegate_ExperimentFinished();
-        // This is supposed to enable/disable buttons automatically when experiment finishes - doesn't seem to be working
-        // Made threadsafe
         private void ExperimentFinished()
         {
             if (this.InvokeRequired)
@@ -654,8 +655,6 @@ namespace Spectroscopy_Controller
             char sbRedOrBlue = 'R';
             // Store the current sideband in readable format e.g. 001R
             string sbCurrentString = "";
-            // Need to put in the correct code to format this nicely
-
             //*****************//
 
             // Go through each file (this will only be run once for continuous files)
@@ -672,13 +671,16 @@ namespace Spectroscopy_Controller
                     myFileName[i] += "_";
 
                     // Add preceding 0s to keep format of sideband number as XXX
-                    if (sbCurrent < 10) myFileName[i] += "00";
-                    else if (sbCurrent < 100) myFileName[i] += "0";
+                    if (sbCurrent < 10) sbCurrentString += "00";
+                    else if (sbCurrent < 100) sbCurrentString += "0";
 
                     // Add current sideband number to filename
-                    myFileName[i] += sbCurrent;
+                    sbCurrentString += sbCurrent;
                     // If not on carrier, add R or B
-                    if (sbCurrent != 0) myFileName[i] += sbRedOrBlue;
+                    if (sbCurrent != 0) sbCurrentString += sbRedOrBlue;
+
+                    // Add string to filename
+                    myFileName[i] += sbCurrentString;
                 }
                 myFileName[i] += ".txt";
                 //*******************************//
@@ -711,8 +713,7 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine(this.magFreqBox.Value);
                 // AOM start freq
                 myFile[i].WriteLine("AOM Start Frequency (MHz):");
-
-                double startFreqMHz = (double)(startFreqArray[i] / 1000000d);
+                double startFreqMHz = (double)(startFreqArray[i] / 1000000d);       // Calculate in MHz (stored in Hz)
                 myFile[i].WriteLine(startFreqMHz);
                 // Carrier frequency
                 myFile[i].WriteLine("Carrier Frequency (MHz):");
@@ -739,8 +740,8 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
                 // Sideband number
                 myFile[i].WriteLine("This is sideband:");
-                if (specType == "Windowed") myFile[i].WriteLine(sbCurrent + sbRedOrBlue);
-                else myFile[i].WriteLine("N/A");
+                if (specType == "Windowed") myFile[i].WriteLine(sbCurrentString);   // Windowed spectrum, print out readable string
+                else myFile[i].WriteLine("N/A");            // Non-windowed spectra, print "N/A"                                                                                        
                 // Name for each spectrum
                 for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
                 {
