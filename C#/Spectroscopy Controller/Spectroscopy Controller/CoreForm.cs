@@ -601,6 +601,9 @@ namespace Spectroscopy_Controller
                             myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
                             // Set up event handler to deal with viewer closing - must be done after it is constructed
                             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+                            // Set up event handler to deal with event raised when pause button on viewer is clicked
+                            // This should trigger the pause button in the main window
+                            myViewer.PauseEvent += new SpectroscopyViewerForm.PauseEventHandler(PauseButton_Click);
                             // Show viewer
                             myViewer.Show();
                             // Set boolean  to indicate that viewer is open
@@ -933,6 +936,9 @@ namespace Spectroscopy_Controller
             myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm();
             // Set up event handler for form closing - this must be done after it is constructed
             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+            // Set up event handler to deal with event raised when pause button on viewer is clicked
+            // This should trigger the pause button in the main window
+            myViewer.PauseEvent += new SpectroscopyViewerForm.PauseEventHandler(PauseButton_Click);
             // Show viewer
             myViewer.Show();
             // Set boolean indicating that the viewer is now open

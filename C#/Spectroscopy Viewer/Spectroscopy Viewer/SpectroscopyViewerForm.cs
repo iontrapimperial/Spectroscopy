@@ -1175,6 +1175,16 @@ namespace Spectroscopy_Viewer
         #endregion
 
 
+        // This code creates a new public event (PauseEvent) which can be detected by the CoreForm
+        // Used to trigger the pause button on CoreForm from the pause button on the viewer
+        public delegate void PauseEventHandler(object sender, EventArgs e);
+        public event PauseEventHandler PauseEvent;
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            PauseEvent(this, e);
+        }
+
+        
 
 
     }

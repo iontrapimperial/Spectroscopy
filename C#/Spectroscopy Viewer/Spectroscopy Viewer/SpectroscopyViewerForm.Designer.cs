@@ -55,6 +55,7 @@
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.restartViewerButton = new System.Windows.Forms.Button();
+            this.pauseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -166,6 +167,7 @@
             // 
             // tabPageSpectra
             // 
+            this.tabPageSpectra.Controls.Add(this.pauseButton);
             this.tabPageSpectra.Controls.Add(this.userDisplayText);
             this.tabPageSpectra.Controls.Add(this.loadDataButton);
             this.tabPageSpectra.Controls.Add(this.spectrumExportDataButton);
@@ -348,6 +350,16 @@
             this.restartViewerButton.UseVisualStyleBackColor = true;
             this.restartViewerButton.Click += new System.EventHandler(this.restartViewerButton_Click);
             // 
+            // pauseButton
+            // 
+            this.pauseButton.Location = new System.Drawing.Point(853, 468);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(75, 23);
+            this.pauseButton.TabIndex = 10;
+            this.pauseButton.Text = "Pause";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            // 
             // SpectroscopyViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,6 +414,7 @@
         private System.Windows.Forms.Button spectrumExportDataButton;
         public System.Windows.Forms.TextBox userDisplayText;
         private System.Windows.Forms.Button restartViewerButton;
+        private System.Windows.Forms.Button pauseButton;
 
     }
 }
