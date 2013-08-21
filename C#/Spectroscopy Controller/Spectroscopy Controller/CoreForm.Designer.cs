@@ -556,6 +556,7 @@
             this.CreateFromTemplateButton.Size = new System.Drawing.Size(105, 58);
             this.CreateFromTemplateButton.TabIndex = 50;
             this.CreateFromTemplateButton.UseVisualStyleBackColor = true;
+            this.CreateFromTemplateButton.Click += new System.EventHandler(this.CreateFromTemplateButton_Click);
             // 
             // OpenXMLButton
             // 

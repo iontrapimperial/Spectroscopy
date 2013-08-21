@@ -975,6 +975,12 @@ namespace Spectroscopy_Controller
         }
 
 
+        private void CreateFromTemplateButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
 
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
