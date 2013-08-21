@@ -29,27 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.metadataGrid = new System.Windows.Forms.DataGridView();
             this.spectrumBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Field = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.metadataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrumBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // metadataGrid
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.metadataGrid.AllowUserToAddRows = false;
+            this.metadataGrid.AllowUserToDeleteRows = false;
+            this.metadataGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.metadataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.metadataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Field,
             this.Value});
-            this.dataGridView1.Location = new System.Drawing.Point(13, 13);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(247, 160);
-            this.dataGridView1.TabIndex = 0;
+            this.metadataGrid.Location = new System.Drawing.Point(12, 12);
+            this.metadataGrid.Name = "metadataGrid";
+            this.metadataGrid.ReadOnly = true;
+            this.metadataGrid.Size = new System.Drawing.Size(344, 398);
+            this.metadataGrid.TabIndex = 0;
             // 
             // spectrumBindingSource
             // 
@@ -57,25 +58,29 @@
             // 
             // Field
             // 
+            this.Field.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Field.HeaderText = "Field";
             this.Field.Name = "Field";
             this.Field.ReadOnly = true;
+            this.Field.Width = 180;
             // 
             // Value
             // 
+            this.Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
             this.Value.ReadOnly = true;
+            this.Value.Width = 120;
             // 
             // metadataViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 364);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(368, 421);
+            this.Controls.Add(this.metadataGrid);
             this.Name = "metadataViewer";
             this.Text = "metadataViewer";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.metadataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spectrumBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -83,7 +88,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView metadataGrid;
         private System.Windows.Forms.BindingSource spectrumBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn Field;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;

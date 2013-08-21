@@ -472,9 +472,9 @@ namespace Spectroscopy_Controller
                     // 1: Spectrum type
                     // 2: 729 direction
                     // 3: Trap voltage
-                    // 4: Axial freq
-                    // 5: Modified cyc freq
-                    // 6: Magnetron freq
+                    // 4: Axial freq (kHz)
+                    // 5: Modified cyc freq (kHz)
+                    // 6: Magnetron freq (kHz)
                     // 7: AOM start freq (MHz)
                     // 8: Carrier freq (MHz)
                     // 9: Step size (kHz)

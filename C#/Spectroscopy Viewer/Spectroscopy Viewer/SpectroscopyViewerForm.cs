@@ -986,7 +986,7 @@ namespace Spectroscopy_Viewer
 
         private void graphControlContextMenu_ViewMetadata_Click(object sender, EventArgs e)
         {
-            metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, 0);
+            metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, 0, numberOfSpectra);
             myMetadataViewer.Show();
 
         }

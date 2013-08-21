@@ -213,7 +213,7 @@ namespace Spectroscopy_Viewer
                 // the line after is a title to be thrown away
 
                 // Store in array of metadata
-                if (14 + numberInterleaved < 23) metadata[14 + numberInterleaved] = notes;
+                if (16 + numberInterleaved < 23 && numberInterleaved != 0) metadata[16 + numberInterleaved] = notes;
                 else Console.WriteLine("Too many interleaved spectra - gone beyond the bounds of metadata array (line 184 fileHandler.cs)");
 
                 // Process the actual numerical data
