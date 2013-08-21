@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pulseListBox = new System.Windows.Forms.CheckedListBox();
+            this.pulseSelectBox = new System.Windows.Forms.CheckedListBox();
             this.cancelButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.startLengthTicksLabel = new System.Windows.Forms.Label();
@@ -40,10 +40,10 @@
             this.repeatsSelect = new System.Windows.Forms.NumericUpDown();
             this.stepsSelect = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.endLengthLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.startLengthLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.endLengthLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.startLengthSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepSizeSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeatsSelect)).BeginInit();
@@ -52,13 +52,13 @@
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pulseListBox
+            // pulseSelectBox
             // 
-            this.pulseListBox.FormattingEnabled = true;
-            this.pulseListBox.Location = new System.Drawing.Point(6, 16);
-            this.pulseListBox.Name = "pulseListBox";
-            this.pulseListBox.Size = new System.Drawing.Size(167, 169);
-            this.pulseListBox.TabIndex = 0;
+            this.pulseSelectBox.FormattingEnabled = true;
+            this.pulseSelectBox.Location = new System.Drawing.Point(6, 16);
+            this.pulseSelectBox.Name = "pulseSelectBox";
+            this.pulseSelectBox.Size = new System.Drawing.Size(167, 169);
+            this.pulseSelectBox.TabIndex = 0;
             // 
             // cancelButton
             // 
@@ -73,12 +73,13 @@
             // OKButton
             // 
             this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKButton.Location = new System.Drawing.Point(371, 165);
+            this.OKButton.Location = new System.Drawing.Point(385, 165);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 2;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // startLengthTicksLabel
             // 
@@ -184,6 +185,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sweep parameters";
             // 
+            // endLengthLabel
+            // 
+            this.endLengthLabel.AutoSize = true;
+            this.endLengthLabel.Location = new System.Drawing.Point(254, 95);
+            this.endLengthLabel.Name = "endLengthLabel";
+            this.endLengthLabel.Size = new System.Drawing.Size(58, 13);
+            this.endLengthLabel.TabIndex = 13;
+            this.endLengthLabel.Text = "End length";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -204,7 +214,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.pulseListBox);
+            this.groupBox2.Controls.Add(this.pulseSelectBox);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(181, 193);
@@ -212,16 +222,7 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pulses to sweep";
             // 
-            // endLengthLabel
-            // 
-            this.endLengthLabel.AutoSize = true;
-            this.endLengthLabel.Location = new System.Drawing.Point(254, 95);
-            this.endLengthLabel.Name = "endLengthLabel";
-            this.endLengthLabel.Size = new System.Drawing.Size(58, 13);
-            this.endLengthLabel.TabIndex = 13;
-            this.endLengthLabel.Text = "End length";
-            // 
-            // TemplateSelector
+            // RabiSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -230,7 +231,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.cancelButton);
-            this.Name = "TemplateSelector";
+            this.Name = "RabiSelector";
             this.Text = "Select sequence options";
             ((System.ComponentModel.ISupportInitialize)(this.startLengthSelect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepSizeSelect)).EndInit();
@@ -245,21 +246,21 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox pulseListBox;
+        private System.Windows.Forms.CheckedListBox pulseSelectBox;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Label startLengthTicksLabel;
         private System.Windows.Forms.Label stepSizeTicksLabel;
         private System.Windows.Forms.Label repeatsLabel;
         private System.Windows.Forms.Label stepsLabel;
-        private System.Windows.Forms.NumericUpDown startLengthSelect;
-        private System.Windows.Forms.NumericUpDown stepSizeSelect;
-        private System.Windows.Forms.NumericUpDown repeatsSelect;
-        private System.Windows.Forms.NumericUpDown stepsSelect;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label startLengthLabel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label endLengthLabel;
+        public System.Windows.Forms.NumericUpDown startLengthSelect;
+        public System.Windows.Forms.NumericUpDown stepSizeSelect;
+        public System.Windows.Forms.NumericUpDown repeatsSelect;
+        public System.Windows.Forms.NumericUpDown stepsSelect;
     }
 }

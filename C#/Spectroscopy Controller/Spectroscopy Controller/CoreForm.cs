@@ -979,6 +979,89 @@ namespace Spectroscopy_Controller
         {
             RabiSelector myRabiSelector = new RabiSelector(PulseTree.Nodes);
             myRabiSelector.ShowDialog();
+
+            TreeView newPulseTree = new TreeView();
+
+            // Grab sweep parameters from form
+            int startLength = (int)myRabiSelector.startLengthSelect.Value;
+            int stepSize = (int)myRabiSelector.stepSizeSelect.Value;
+            int steps = (int)myRabiSelector.stepsSelect.Value;
+            int repeats = (int)myRabiSelector.repeatsSelect.Value;
+
+            int pulseLength = new int();
+
+            // If the user pressed OK, create the Rabi-type sequence using data from form
+            if (myRabiSelector.DialogResult == DialogResult.OK)
+            {
+                // For each step
+                for (int i = 0; i < steps; i++)
+                {
+                    // Calculate pulse length
+                    pulseLength = startLength + i * stepSize;
+                    // Add a new loop with this pulse length
+                    addRabiLoop(newPulseTree, pulseLength, repeats);
+
+                }
+            }
+
+            // Create 'Stop Experiment' state
+            LaserState stop = new LaserState();
+            stop.Name = "Stop Experiment";
+            stop.StateType = LaserState.PulseType.STOP;
+            // Add 'Stop Experiment' state as a node to new pulse tree
+            TreeNode stopNode = newPulseTree.Nodes.Add(stop.Name);
+            stopNode.Tag = stop;
+
+            // Clear old nodes from PulseTree
+            PulseTree.Nodes.Clear();
+            // Copy nodes from newPulseTree into main PulseTree control
+            for (int i = 0; i < newPulseTree.Nodes.Count; i++)
+            {
+                PulseTree.Nodes.Add(newPulseTree.Nodes[i]);
+            }
+
+        }
+
+        private void addRabiLoop(TreeView newPulseTree, int pulseLength, int repeats)
+        {
+            // Create loop state for this pulse length
+            LoopState loop = new LoopState();
+            loop.Name = "Pulse length: " + (float)pulseLength * 0.64 + "ms (Loop x" + repeats + ")";
+            loop.LoopCount = repeats;
+            loop.bIsFPGALoop = true;            // Always make it an FPGA loop  
+
+            // Add loop to top level of nodes on new pulse tree
+            TreeNode loopNode = newPulseTree.Nodes.Add(loop.Name);
+            loopNode.Tag = loop;
+            // Select the loop node so that we can add children to it
+            newPulseTree.SelectedNode = loopNode;
+
+            // Create children for the loop
+            LaserState state = new LaserState();
+            TreeNode laserNode = new TreeNode();
+
+            for (int i = 0; i < PulseTree.Nodes.Count; i++)
+            {
+                state = (LaserState)PulseTree.Nodes[i].Tag;
+                // If we want to sweep this state, set the pulse length
+                if (state.toSweep)
+                {
+                    state.Ticks = pulseLength;
+                }
+                // If not to sweep, just leave it as it is
+
+                // Add the state as a child of the loop
+                laserNode = newPulseTree.SelectedNode.Nodes.Add(state.Name);
+                laserNode.Tag = state;  
+            }
+
+            // Create 'Send Data' LaserState
+            LaserState sendData = new LaserState();
+            sendData.Name = "Send Data";
+            sendData.StateType = LaserState.PulseType.SENDDATA;
+            // Add 'Send Data' LaserState as a node to new pulse tree
+            TreeNode sendDataNode = newPulseTree.Nodes.Add(sendData.Name);
+            sendDataNode.Tag = sendData;
         }
 
 

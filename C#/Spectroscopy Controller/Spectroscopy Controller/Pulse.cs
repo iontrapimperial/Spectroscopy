@@ -99,6 +99,11 @@ namespace Spectroscopy_Controller
         LaserAux1 = false, LaserAux2 = false;
 
         /// <summary>
+        /// Indicates whether this pulse length should be swept for Rabi-type sequence
+        /// </summary>
+        public bool toSweep = false;        // Default is not swept
+
+        /// <summary>
         /// Default pulse type is normal.
         /// </summary>
         public PulseType StateType = PulseType.NORMAL;
