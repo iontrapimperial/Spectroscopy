@@ -1076,7 +1076,7 @@ namespace Spectroscopy_Controller
 
                 // Add the state as a child of the loop
                 laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
-                laserNode.Tag = newState;
+                laserNode.Tag = newState[i];
 
                 Console.WriteLine("Target length: {0}, Ticks: {1}", newState[i].TargetLength, newState[i].Ticks);
             }
