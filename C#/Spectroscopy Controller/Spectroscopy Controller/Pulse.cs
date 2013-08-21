@@ -99,7 +99,7 @@ namespace Spectroscopy_Controller
         LaserAux1 = false, LaserAux2 = false;
 
         /// <summary>
-        /// Defualt pulse type is normal.
+        /// Default pulse type is normal.
         /// </summary>
         public PulseType StateType = PulseType.NORMAL;
     }

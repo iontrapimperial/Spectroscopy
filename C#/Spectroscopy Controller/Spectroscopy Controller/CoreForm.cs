@@ -977,7 +977,8 @@ namespace Spectroscopy_Controller
 
         private void CreateFromTemplateButton_Click(object sender, EventArgs e)
         {
-
+            RabiSelector myRabiSelector = new RabiSelector(PulseTree.Nodes);
+            myRabiSelector.ShowDialog();
         }
 
 

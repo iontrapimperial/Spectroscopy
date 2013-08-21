@@ -84,11 +84,11 @@
     <Compile Include="StartExperimentDialog.Designer.cs">
       <DependentUpon>StartExperimentDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="TemplateSelector.cs">
+    <Compile Include="RabiSelector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TemplateSelector.Designer.cs">
-      <DependentUpon>TemplateSelector.cs</DependentUpon>
+    <Compile Include="RabiSelector.Designer.cs">
+      <DependentUpon>RabiSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="XMLFileIO.cs">
       <SubType>Form</SubType>
@@ -108,6 +108,9 @@
     </Compile>
     <EmbeddedResource Include="StartExperimentDialog.resx">
       <DependentUpon>StartExperimentDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RabiSelector.resx">
+      <DependentUpon>RabiSelector.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
