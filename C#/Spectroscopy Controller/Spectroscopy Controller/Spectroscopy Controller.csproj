@@ -84,6 +84,12 @@
     <Compile Include="StartExperimentDialog.Designer.cs">
       <DependentUpon>StartExperimentDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="TemplateSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TemplateSelector.Designer.cs">
+      <DependentUpon>TemplateSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="XMLFileIO.cs">
       <SubType>Form</SubType>
     </Compile>
