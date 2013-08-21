@@ -988,18 +988,27 @@ namespace Spectroscopy_Controller
             int steps = (int)myRabiSelector.stepsSelect.Value;
             int repeats = (int)myRabiSelector.repeatsSelect.Value;
 
+            Console.WriteLine("Start: {0}, Step size: {1}, Steps: {2}, Repeats: {3}", startLength, stepSize, steps, repeats);
+
             int pulseLength = new int();
 
             // If the user pressed OK, create the Rabi-type sequence using data from form
             if (myRabiSelector.DialogResult == DialogResult.OK)
             {
+                LoopState[] myLoopStates = new LoopState[steps];
+                TreeNode[] myLoopNodes = new TreeNode[steps];
+                LaserState[] myLaserStates = new LaserState[steps];
+                TreeNode[] myLaserNodes = new TreeNode[steps];
+
+
                 // For each step
                 for (int i = 0; i < steps; i++)
                 {
                     // Calculate pulse length
                     pulseLength = startLength + i * stepSize;
+                    Console.WriteLine("Adding loop ({0} ticks)", pulseLength);
                     // Add a new loop with this pulse length
-                    addRabiLoop(newPulseTree, pulseLength, repeats);
+                    addRabiLoop(newPulseTree, myLoopStates[i], myLoopNodes[i], myLaserStates[i], myLaserNodes[i], pulseLength, repeats);
 
                 }
             }
@@ -1012,47 +1021,64 @@ namespace Spectroscopy_Controller
             TreeNode stopNode = newPulseTree.Nodes.Add(stop.Name);
             stopNode.Tag = stop;
 
+
+
+            PulseTree.BeginUpdate();
             // Clear old nodes from PulseTree
             PulseTree.Nodes.Clear();
             // Copy nodes from newPulseTree into main PulseTree control
             for (int i = 0; i < newPulseTree.Nodes.Count; i++)
             {
-                PulseTree.Nodes.Add(newPulseTree.Nodes[i]);
+                PulseTree.Nodes.Add((TreeNode)newPulseTree.Nodes[i].Clone());
+                //PulseTree.Nodes[i].Tag = newPulseTree.Nodes[i].Tag;
             }
+
+           
+            PulseTree.CollapseAll();
+            PulseTree.EndUpdate();
+
 
         }
 
-        private void addRabiLoop(TreeView newPulseTree, int pulseLength, int repeats)
+        private void addRabiLoop(TreeView newPulseTree,LoopState loop, TreeNode loopNode,
+                                    LaserState oldState, TreeNode laserNode, int pulseLength, int repeats)
         {
             // Create loop state for this pulse length
-            LoopState loop = new LoopState();
-            loop.Name = "Pulse length: " + (float)pulseLength * 0.64 + "ms (Loop x" + repeats + ")";
+            loop = new LoopState();
+            loop.Name = "Pulse length: " + (float)pulseLength * 0.64 / 1000 + "ms";
+            Console.WriteLine(loop.Name);
             loop.LoopCount = repeats;
             loop.bIsFPGALoop = true;            // Always make it an FPGA loop  
 
             // Add loop to top level of nodes on new pulse tree
-            TreeNode loopNode = newPulseTree.Nodes.Add(loop.Name);
+            loopNode = newPulseTree.Nodes.Add(loop.Name);
             loopNode.Tag = loop;
             // Select the loop node so that we can add children to it
             newPulseTree.SelectedNode = loopNode;
 
-            // Create children for the loop
-            LaserState state = new LaserState();
-            TreeNode laserNode = new TreeNode();
+
+            LaserState[] newState = new LaserState[PulseTree.Nodes.Count];
 
             for (int i = 0; i < PulseTree.Nodes.Count; i++)
             {
-                state = (LaserState)PulseTree.Nodes[i].Tag;
+                newState[i] = new LaserState();
+
+                oldState = (LaserState)PulseTree.Nodes[i].Tag;
+                copyState(oldState, newState[i]);
                 // If we want to sweep this state, set the pulse length
-                if (state.toSweep)
+                if (newState[i].toSweep)
                 {
-                    state.Ticks = pulseLength;
+                    // Set correct ticks & target length
+                    newState[i].Ticks = pulseLength;
+                    newState[i].TargetLength = pulseLength * 640;
                 }
                 // If not to sweep, just leave it as it is
 
                 // Add the state as a child of the loop
-                laserNode = newPulseTree.SelectedNode.Nodes.Add(state.Name);
-                laserNode.Tag = state;  
+                laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
+                laserNode.Tag = newState;
+
+                Console.WriteLine("Target length: {0}, Ticks: {1}", newState[i].TargetLength, newState[i].Ticks);
             }
 
             // Create 'Send Data' LaserState
@@ -1065,6 +1091,25 @@ namespace Spectroscopy_Controller
         }
 
 
+        // Copies all the properties of one state into another (without any funny linking!)
+        private void copyState(LaserState oldState, LaserState newState)
+        {
+            newState.Laser397B1 = oldState.Laser397B1;
+            newState.Laser397B2 = oldState.Laser397B2;
+            newState.Laser729 = oldState.Laser729;
+            newState.Laser729RF1 = oldState.Laser729RF1;
+            newState.Laser729RF2 = oldState.Laser729RF2;
+            newState.Laser854 = oldState.Laser854;
+            newState.Laser854FREQ = oldState.Laser854FREQ;
+            newState.Laser854POWER = oldState.Laser854POWER;
+            newState.LaserAux1 = oldState.LaserAux1;
+            newState.LaserAux2 = oldState.LaserAux2;
+            newState.Name = oldState.Name;
+            newState.StateType = oldState.StateType;
+            newState.TargetLength = oldState.TargetLength;
+            newState.Ticks = oldState.Ticks;
+            newState.toSweep = oldState.toSweep;
+        }
 
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
