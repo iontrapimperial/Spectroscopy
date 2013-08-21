@@ -30,7 +30,7 @@
         {
             this.pulseSelectBox = new System.Windows.Forms.CheckedListBox();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.OKButton = new System.Windows.Forms.Button();
+            this.generateSequenceButton = new System.Windows.Forms.Button();
             this.startLengthTicksLabel = new System.Windows.Forms.Label();
             this.stepSizeTicksLabel = new System.Windows.Forms.Label();
             this.repeatsLabel = new System.Windows.Forms.Label();
@@ -44,6 +44,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.startLengthLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.startExperimentButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.startLengthSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepSizeSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeatsSelect)).BeginInit();
@@ -63,23 +64,23 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(258, 165);
+            this.cancelButton.Location = new System.Drawing.Point(199, 158);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.Size = new System.Drawing.Size(97, 39);
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
-            // OKButton
+            // generateSequenceButton
             // 
-            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKButton.Location = new System.Drawing.Point(385, 165);
-            this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(75, 23);
-            this.OKButton.TabIndex = 2;
-            this.OKButton.Text = "OK";
-            this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
+            this.generateSequenceButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.generateSequenceButton.Location = new System.Drawing.Point(335, 158);
+            this.generateSequenceButton.Name = "generateSequenceButton";
+            this.generateSequenceButton.Size = new System.Drawing.Size(97, 39);
+            this.generateSequenceButton.TabIndex = 2;
+            this.generateSequenceButton.Text = "Generate pulse sequence";
+            this.generateSequenceButton.UseVisualStyleBackColor = true;
+            this.generateSequenceButton.Click += new System.EventHandler(this.generateSequenceButton_Click);
             // 
             // startLengthTicksLabel
             // 
@@ -222,14 +223,26 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Pulses to sweep";
             // 
+            // startExperimentButton
+            // 
+            this.startExperimentButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.startExperimentButton.Location = new System.Drawing.Point(465, 158);
+            this.startExperimentButton.Name = "startExperimentButton";
+            this.startExperimentButton.Size = new System.Drawing.Size(97, 39);
+            this.startExperimentButton.TabIndex = 13;
+            this.startExperimentButton.Text = "Start experiment";
+            this.startExperimentButton.UseVisualStyleBackColor = true;
+            this.startExperimentButton.Click += new System.EventHandler(this.startExperimentButton_Click);
+            // 
             // RabiSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(574, 216);
+            this.Controls.Add(this.startExperimentButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.OKButton);
+            this.Controls.Add(this.generateSequenceButton);
             this.Controls.Add(this.cancelButton);
             this.Name = "RabiSelector";
             this.Text = "Select sequence options";
@@ -246,9 +259,7 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckedListBox pulseSelectBox;
         private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Label startLengthTicksLabel;
         private System.Windows.Forms.Label stepSizeTicksLabel;
         private System.Windows.Forms.Label repeatsLabel;
@@ -262,5 +273,8 @@
         public System.Windows.Forms.NumericUpDown stepSizeSelect;
         public System.Windows.Forms.NumericUpDown repeatsSelect;
         public System.Windows.Forms.NumericUpDown stepsSelect;
+        public System.Windows.Forms.Button startExperimentButton;
+        public System.Windows.Forms.Button generateSequenceButton;
+        public System.Windows.Forms.CheckedListBox pulseSelectBox;
     }
 }

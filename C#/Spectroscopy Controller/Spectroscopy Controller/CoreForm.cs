@@ -616,6 +616,14 @@ namespace Spectroscopy_Controller
                             MessageBox.Show("Error selecting folder. Please try again.");
                         }
 
+                        if (specType == "Fixed")
+                        {
+                            RabiSelector myRabiSelector = new RabiSelector();
+                            myRabiSelector.generateSequenceButton.Enabled = false;
+                            myRabiSelector.pulseSelectBox.Enabled = false;
+                            myRabiSelector.ShowDialog();
+                        }
+
                         // Code required to start the experiment running:
                         bShouldQuitThread = false;
                                                 
@@ -988,8 +996,6 @@ namespace Spectroscopy_Controller
             int steps = (int)myRabiSelector.stepsSelect.Value;
             int repeats = (int)myRabiSelector.repeatsSelect.Value;
 
-            Console.WriteLine("Start: {0}, Step size: {1}, Steps: {2}, Repeats: {3}", startLength, stepSize, steps, repeats);
-
             int pulseLength = new int();
 
             // If the user pressed OK, create the Rabi-type sequence using data from form
@@ -1021,23 +1027,18 @@ namespace Spectroscopy_Controller
             TreeNode stopNode = newPulseTree.Nodes.Add(stop.Name);
             stopNode.Tag = stop;
 
-
-
+            // Disable redrawing while we update
             PulseTree.BeginUpdate();
             // Clear old nodes from PulseTree
             PulseTree.Nodes.Clear();
-            // Copy nodes from newPulseTree into main PulseTree control
+            // Clone nodes from newPulseTree into main PulseTree control
             for (int i = 0; i < newPulseTree.Nodes.Count; i++)
             {
                 PulseTree.Nodes.Add((TreeNode)newPulseTree.Nodes[i].Clone());
-                //PulseTree.Nodes[i].Tag = newPulseTree.Nodes[i].Tag;
             }
 
-           
             PulseTree.CollapseAll();
-            PulseTree.EndUpdate();
-
-
+            PulseTree.EndUpdate();      // Re-enable redrawing
         }
 
         private void addRabiLoop(TreeView newPulseTree,LoopState loop, TreeNode loopNode,
@@ -1046,7 +1047,6 @@ namespace Spectroscopy_Controller
             // Create loop state for this pulse length
             loop = new LoopState();
             loop.Name = "Pulse length: " + (float)pulseLength * 0.64 / 1000 + "ms";
-            Console.WriteLine(loop.Name);
             loop.LoopCount = repeats;
             loop.bIsFPGALoop = true;            // Always make it an FPGA loop  
 
@@ -1055,7 +1055,6 @@ namespace Spectroscopy_Controller
             loopNode.Tag = loop;
             // Select the loop node so that we can add children to it
             newPulseTree.SelectedNode = loopNode;
-
 
             LaserState[] newState = new LaserState[PulseTree.Nodes.Count];
 
@@ -1077,8 +1076,6 @@ namespace Spectroscopy_Controller
                 // Add the state as a child of the loop
                 laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
                 laserNode.Tag = newState[i];
-
-                Console.WriteLine("Target length: {0}, Ticks: {1}", newState[i].TargetLength, newState[i].Ticks);
             }
 
             // Create 'Send Data' LaserState

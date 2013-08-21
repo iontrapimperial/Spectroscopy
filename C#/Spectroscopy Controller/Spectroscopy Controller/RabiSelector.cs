@@ -15,6 +15,11 @@ namespace Spectroscopy_Controller
         private BindingList<string> pulseNameList = new BindingList<string>();
         private TreeNodeCollection pulseTemplate;
 
+        public RabiSelector()
+        {
+            InitializeComponent();
+        }
+
         public RabiSelector(TreeNodeCollection pulseTemplatePassed)
         {
             InitializeComponent();
@@ -38,7 +43,7 @@ namespace Spectroscopy_Controller
             this.pulseSelectBox.DataSource = pulseNameList;
         }
 
-        private void OKButton_Click(object sender, EventArgs e)
+        private void generateSequenceButton_Click(object sender, EventArgs e)
         {
             LaserState state = new LaserState();
             // Loop through each pulse
@@ -56,6 +61,7 @@ namespace Spectroscopy_Controller
                 }
             }
         }
+
 
         // Method to find out whether the desired item is in the list of checked items in pulseSelectBox
         private bool isItemChecked(string item)
@@ -75,6 +81,11 @@ namespace Spectroscopy_Controller
             }
             // If we get here, desired item does not match anything in the list
             return false;
+        }
+
+        private void startExperimentButton_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
