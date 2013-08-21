@@ -55,6 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="changeColour.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="changeColour.Designer.cs">
+      <DependentUpon>changeColour.cs</DependentUpon>
+    </Compile>
     <Compile Include="dataPoint.cs" />
     <Compile Include="fileHandler.cs" />
     <Compile Include="metadataViewer.cs">
@@ -90,6 +96,9 @@
     <Compile Include="spectrumSelect.Designer.cs">
       <DependentUpon>spectrumSelect.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="changeColour.resx">
+      <DependentUpon>changeColour.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="metadataViewer.resx">
       <DependentUpon>metadataViewer.cs</DependentUpon>
     </EmbeddedResource>

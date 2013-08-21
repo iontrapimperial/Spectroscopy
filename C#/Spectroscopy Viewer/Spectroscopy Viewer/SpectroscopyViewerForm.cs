@@ -38,7 +38,10 @@ namespace Spectroscopy_Viewer
         // Number of spectra loaded to graph
         private int numberOfSpectra = new int();
 
-        // List of colours to show on graph
+        // Permanent list of colours to display
+        private List<Color> colourListData = new List<Color>();
+        private List<Color> colourListBadCounts = new List<Color>();
+        // List of colours to show on graph (can be changed around)
         private List<Color> myColoursData = new List<Color>();
         private List<Color> myColoursBadCounts = new List<Color>();
 
@@ -236,25 +239,37 @@ namespace Spectroscopy_Viewer
             }
         }
 
-        // Method to build a list of colours for the graph
+        // Method to build a list of colours for the graph - 5 different colour pairs
         private void initialiseColours()
         {
-            // 5 different colour pairs
-            
-            myColoursData.Add(Color.Blue);
-            myColoursBadCounts.Add(Color.LightSkyBlue);
 
-            myColoursData.Add(Color.OrangeRed);
-            myColoursBadCounts.Add(Color.SandyBrown);
+            // One list to store permanent record of the colours
+            colourListData.Add(Color.Blue);
+            colourListBadCounts.Add(Color.LightSkyBlue);
 
-            myColoursData.Add(Color.ForestGreen);
-            myColoursBadCounts.Add(Color.PaleGreen);
+            colourListData.Add(Color.OrangeRed);
+            colourListBadCounts.Add(Color.SandyBrown);
 
-            myColoursData.Add(Color.Magenta);
-            myColoursBadCounts.Add(Color.Pink);
+            colourListData.Add(Color.ForestGreen);
+            colourListBadCounts.Add(Color.PaleGreen);
 
-            myColoursData.Add(Color.Teal);
-            myColoursBadCounts.Add(Color.PaleTurquoise);
+            colourListData.Add(Color.Magenta);
+            colourListBadCounts.Add(Color.Pink);
+
+            colourListData.Add(Color.Teal);
+            colourListBadCounts.Add(Color.PaleTurquoise);
+
+            // One list to store list of colours used in graph
+            // Initially the same as colourList but these can change later through user control
+            for (int i = 0; i < 5; i++)
+            {
+                myColoursData.Add(colourListData[i]);
+                myColoursBadCounts.Add(colourListBadCounts[i]);
+            }
+
+
+
+
         }
 
         // Respond to form 'Load' event
@@ -968,7 +983,7 @@ namespace Spectroscopy_Viewer
         }
 
 
-        // Methods to respond to user clicking context menu in graph controls
+        // Method to handle renaming spectrum (from context menu click)
         private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
         {
             int spectrumToRename = new int();
@@ -986,6 +1001,7 @@ namespace Spectroscopy_Viewer
             renameSpectrum(spectrumToRename);
         }
 
+        // Method to handle viewing metadata (from context menu click)
         private void graphControlContextMenu_ViewMetadata_Click(object sender, EventArgs e)
         {
             int spectrumToView = new int();
@@ -1004,12 +1020,41 @@ namespace Spectroscopy_Viewer
 
         }
 
+        // Method to handle changing spectrum colour (from context menu click)
         private void graphControlContextMenu_ChangeColour_Click(object sender, EventArgs e)
         {
+            int spectrumToChange = new int();
+            // Go through each spectrum
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Check whether it was the context menu from this spectrum that fired the event
+                // NB "Change colour" is the menu item at index 2
+                if (sender.Equals(this.graphControlContextMenu[i].MenuItems[2]))
+                {
+                    spectrumToChange = i;
+                }
+            }
 
+            // Create & open dialog box to select colour
+            changeColour myChangeColour = new changeColour();
+            myChangeColour.ShowDialog();
+
+            // Make sure user has clicked OK
+            if (myChangeColour.DialogResult == DialogResult.OK)
+            {
+                // Store index of which colours to change to
+                int newColour = myChangeColour.colourSelectBox.SelectedIndex;
+                // Update colours in list
+                myColoursData[spectrumToChange] = colourListData[newColour];
+                myColoursBadCounts[spectrumToChange] = colourListBadCounts[newColour];
+            }
+
+            // Change background colour/title colour of groupBox control
+            this.graphControlGroup[spectrumToChange].BackColor = myColoursBadCounts[spectrumToChange];
+            this.graphControlGroup[spectrumToChange].ForeColor = myColoursData[spectrumToChange];
+            // Refresh graph to reflect new colours
+            updateGraph();
         }
-
-
 
         // Method to rename spectrum
         private void renameSpectrum(int spectrumNumber)
