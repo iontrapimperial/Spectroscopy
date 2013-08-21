@@ -43,7 +43,7 @@ namespace Spectroscopy_Viewer
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
 
         // Metadata from file / live experiment
-        private string[] metadata;
+        private string[] metadata = new string[18];
         private int repeats = new int();
 
         // Spectrum number/name stored in Viewer only
@@ -60,7 +60,8 @@ namespace Spectroscopy_Viewer
 
         // Constructor given a list of data points
         public spectrum(List<dataPoint> dataPointsPassed, int spectrumNumberPassed,
-                        string spectrumNamePassed, ref string[] metadataPassed)
+                        string spectrumNamePassed, ref string[] metadataPassed, 
+                        int specNumInFile, int numInterLeavedInFile)
         {
             myDataPoints = dataPointsPassed;        // Store list of data points
             dataSize = myDataPoints.Count;          // Count number of data points
@@ -72,28 +73,36 @@ namespace Spectroscopy_Viewer
             this.createHistogram(myDataPoints, false);      // Create data for histograms
 
             // Fill in metadata
-            metadata = new string[metadataPassed.Length];
-            for (int i = 0; i < metadataPassed.Length; i++)
+           
+            // First 15 items are just filled in directly
+            for (int i = 0; i < 16; i++)
             {
                 metadata[i] = metadataPassed[i];
             }
+            // Need to take the right spectrum name (only want to store 1)
+            metadata[16] = metadataPassed[16 + specNumInFile];
+            // Need to take notes section - where it is in the array depends on how many interleaved spectra there are
+            metadata[17] = metadataPassed[16 + numInterLeavedInFile];
 
         }
 
         // Constructor given metadata and spectrum number
         // Used in live mode when we want to create the spectrum before data has been received
-        public spectrum(ref string[] metadataPassed, int spectrumNumberPassed)
+        public spectrum(ref string[] metadataPassed, int spectrumNumberPassed, int numberInterleaved)
         {
-            metadata = new string[metadataPassed.Length];
             // Fill in metadata
-            for (int i = 0; i < metadataPassed.Length; i++)
+            for (int i = 0; i < 16; i++)
             {
                 metadata[i] = metadataPassed[i];
             }
+            // Need to take the right spectrum name (only want to store 1)
+            metadata[16] = metadataPassed[16 + spectrumNumberPassed];
+            // Need to take notes section - where it is in the array depends on how many interleaved spectra there are
+            metadata[17] = metadataPassed[16 + numberInterleaved];
 
             // Set spectrum number & name
             this.spectrumNumber = spectrumNumberPassed;
-            this.spectrumName = metadata[15 + spectrumNumber];
+            this.spectrumName = metadata[16 + spectrumNumber];
             // Create empty list of data points
             myDataPoints = new List<dataPoint>();
 

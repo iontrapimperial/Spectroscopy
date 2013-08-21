@@ -25,9 +25,9 @@ namespace Spectroscopy_Viewer
         private int repeats;                // Number of repeats
         private int stepSize;               // Step size in frequency
         private int numberInterleaved;      // How many spectra are interleaved in this file
-        private int currentWindowStep;                // Current window step (within current sideband if windowed)
+        private int currentWindowStep;      // Current window step (within current sideband if windowed)
         
-        private string[] spectrumNames;          // Names of spectra stored in file
+        private string[] spectrumNames;     // Names of spectra stored in file
         private string notes = "";
 
         // Default constructor

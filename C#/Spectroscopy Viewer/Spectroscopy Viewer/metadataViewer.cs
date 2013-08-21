@@ -14,22 +14,16 @@ namespace Spectroscopy_Viewer
         public metadataViewer(ref List<spectrum> mySpectrum, int spectrumNumber, int numberOfSpectra)
         {
             InitializeComponent();
-
-
-            
-
+            // Set the text to wrap automatically
             this.metadataGrid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            // Set the form title to the spectrum name
+            this.Text = mySpectrum[spectrumNumber].getName();
 
+            // Retrieve array of metadata from spectrum
             string[] metadata = mySpectrum[spectrumNumber].getMetadata();
+            // New string array for printing out "Field" column
             string[] metadataTitle = new string[metadata.Length];
-
-
-            for (int i = 0; i < metadata.Length; i++)
-            {
-                Console.WriteLine("{0}", metadata[i]);
-            }
-
-
+            
             metadataTitle[0] = "Date";
             metadataTitle[1] = "Spectrum Type";
             metadataTitle[2] = "729 Direction";
@@ -45,7 +39,6 @@ namespace Spectroscopy_Viewer
             metadataTitle[12] = "729 RF Amplitude (dBm)";
             metadataTitle[13] = "Number of Repeats";
             metadataTitle[14] = "Number Interleaved";
-
             metadataTitle[15] = "Spectrum Name (from file)";
             metadataTitle[16] = "Notes";
 
@@ -54,13 +47,9 @@ namespace Spectroscopy_Viewer
             {
                 this.metadataGrid.Rows.Add(metadataTitle[i], metadata[i]);
             }
-            // Fill in spectrum name depending on which spectrum in the array we are looking at
-            this.metadataGrid.Rows.Add(metadataTitle[15], metadata[16 + spectrumNumber]);
-            // Fill in notes depending on how many spectra there are in the array
-            this.metadataGrid.Rows.Add(metadataTitle[16], metadata[16 + int.Parse(metadata[14])]);
-        }
-            
-
-
+            // Here we skip a field - which sideband (not applicable to entire spectra)
+            this.metadataGrid.Rows.Add(metadataTitle[15], metadata[16]);
+            this.metadataGrid.Rows.Add(metadataTitle[16], metadata[17]);
+        }  
     }
 }

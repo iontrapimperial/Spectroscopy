@@ -140,7 +140,7 @@ namespace Spectroscopy_Viewer
             // Create new spectra, with no data points, just metadata
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
-                mySpectrum.Add(new spectrum(ref metadataLive, i));
+                mySpectrum.Add(new spectrum(ref metadataLive, i, numberOfSpectraLive));
                 dataPlot.Add(new PointPairList());              // Add empty list for plotting data
 
                 // Set cool/count thresholds from boxes on form
@@ -394,11 +394,14 @@ namespace Spectroscopy_Viewer
                                     // (since for a list of N items, index runs from 0 to N-1)
                                     if (selectedSpectrum[j] >= numberOfSpectra)
                                     {
+                                        int specNumInFile = selectedSpectrum[j] - numberOfSpectra;
                                         // Get the list filled with data points, add to list of spectra
                                         mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
-                                                        selectedSpectrum[j],         // Spectrum number
+                                                        selectedSpectrum[j],            // Spectrum number
                                                         mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]], // Spectrum name
-                                                        ref myFilehandler.metadata )); // Metadata from file
+                                                        ref myFilehandler.metadata,     // Metadata from file 
+                                                        specNumInFile,                  // Which spectrum in the file
+                                                        myFilehandler.getNumberInterleaved() ));    // How many interleaved in file           
 
                                         // Add blank PointPairList for storing plot data
                                         dataPlot.Add(new PointPairList());
@@ -981,12 +984,22 @@ namespace Spectroscopy_Viewer
             }
             // Call method to rename the spectrum
             renameSpectrum(spectrumToRename);
-
         }
 
         private void graphControlContextMenu_ViewMetadata_Click(object sender, EventArgs e)
         {
-            metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, 0, numberOfSpectra);
+            int spectrumToView = new int();
+            // Go through each spectrum
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Check whether it was the context menu from this spectrum that fired the event
+                // NB "View metadata" is the menu item at index 1
+                if (sender.Equals(this.graphControlContextMenu[i].MenuItems[1]))
+                {
+                    spectrumToView = i;
+                }
+            }
+            metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, spectrumToView, numberOfSpectra);
             myMetadataViewer.Show();
 
         }
