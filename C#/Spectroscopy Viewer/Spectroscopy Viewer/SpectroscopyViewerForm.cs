@@ -995,13 +995,18 @@ namespace Spectroscopy_Viewer
                     contextMenuViewMetadata.Click += new EventHandler(graphControlContextMenu_ViewMetadata_Click);
                     // Change colour
                     MenuItem contextMenuChangeColour = new MenuItem();
-                    contextMenuChangeColour.Text = "Change colour";
+                    contextMenuChangeColour.Text = "Change colour...";
                     contextMenuChangeColour.Click += new EventHandler(graphControlContextMenu_ChangeColour_Click);
+                    // Add frequency offset
+                    MenuItem contextMenuAddOffset = new MenuItem();
+                    contextMenuAddOffset.Text = "Add frequency offset...";
+                    contextMenuAddOffset.Click +=new EventHandler(graphControlContextMenu_AddOffset_Click);
                     
 
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuRename);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuViewMetadata);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuChangeColour);
+                    this.graphControlContextMenu[i].MenuItems.Add(contextMenuAddOffset);
                     
                 }
 
@@ -1014,7 +1019,8 @@ namespace Spectroscopy_Viewer
         // Method to handle renaming spectrum (from context menu click)
         private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
         {
-            int spectrumToRename = new int();
+            // Find which spectrum was clicked ("Rename" is the menu item at index 0)
+            int spectrumToRename = whichSpectrumClicked(sender, 0);
             // Go through each spectrum
             for (int i = 0; i < numberOfSpectra; i++)
             {
@@ -1029,20 +1035,32 @@ namespace Spectroscopy_Viewer
             renameSpectrum(spectrumToRename);
         }
 
+        // Method to rename spectrum
+        private void renameSpectrum(int spectrumNumber)
+        {
+            renameSpectrumDialog myRenameDialog = new renameSpectrumDialog();
+            myRenameDialog.ShowDialog();
+
+            // Only perform rename if user clicked OK (not cancel)
+            if (myRenameDialog.DialogResult == DialogResult.OK)
+            {
+                // Get name from dialog box
+                string newName = myRenameDialog.newNameBox.Text;
+                // Rename appropriate spectrum
+                mySpectrum[spectrumNumber].setName(newName);
+
+                // Re-label graph control group box
+                this.graphControlGroup[spectrumNumber].Text = newName;
+            }
+
+        }
+
         // Method to handle viewing metadata (from context menu click)
         private void graphControlContextMenu_ViewMetadata_Click(object sender, EventArgs e)
         {
-            int spectrumToView = new int();
-            // Go through each spectrum
-            for (int i = 0; i < numberOfSpectra; i++)
-            {
-                // Check whether it was the context menu from this spectrum that fired the event
-                // NB "View metadata" is the menu item at index 1
-                if (sender.Equals(this.graphControlContextMenu[i].MenuItems[1]))
-                {
-                    spectrumToView = i;
-                }
-            }
+            // Find which spectrum was clicked ("View metadata" is the menu item at index 1)
+            int spectrumToView = whichSpectrumClicked(sender, 1);
+            // Show metadataViewer for that spectrum
             metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, spectrumToView, numberOfSpectra);
             myMetadataViewer.Show();
 
@@ -1084,25 +1102,32 @@ namespace Spectroscopy_Viewer
             updateGraph();
         }
 
-        // Method to rename spectrum
-        private void renameSpectrum(int spectrumNumber)
+        // Method to handle adding a frequency offset (from context menu click)
+        private void graphControlContextMenu_AddOffset_Click(object sender, EventArgs e)
         {
-            renameSpectrumDialog myRenameDialog = new renameSpectrumDialog();
-            myRenameDialog.ShowDialog();
+            
+        }
 
-            // Only perform rename if user clicked OK (not cancel)
-            if (myRenameDialog.DialogResult == DialogResult.OK)
+
+
+        // Method to find which spectrum's context menu was clicked (given a sender and the index for a context menu item)
+        private int whichSpectrumClicked(object sender, int contextMenuIndex)
+        {
+            int x = new int();
+
+            for (int i = 0; i < numberOfSpectra; i++)
             {
-                // Get name from dialog box
-                string newName = myRenameDialog.newNameBox.Text;
-                // Rename appropriate spectrum
-                mySpectrum[spectrumNumber].setName(newName);
-
-                // Re-label graph control group box
-                this.graphControlGroup[spectrumNumber].Text = newName;
+                // Check whether it was the context menu from this spectrum that fired the event
+                // NB "Change colour" is the menu item at index 2
+                if (sender.Equals(this.graphControlContextMenu[i].MenuItems[contextMenuIndex]))
+                {
+                    x = i;
+                }
             }
 
+            return x;
         }
+
 
 
         // Method to remove graph controls from the form
