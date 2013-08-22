@@ -579,16 +579,16 @@ namespace Spectroscopy_Controller
                             }
                             else if (specType == "Fixed")
                             {
-                                // Code here temporarily for testing - need to create files properly
+                                RabiSelector myRabiSelector = new RabiSelector();
+                                myRabiSelector.generateSequenceButton.Enabled = false;
+                                myRabiSelector.pulseSelectBox.Enabled = false;
+                                myRabiSelector.ShowDialog();
+
                                 // Create a single file and put all readings in there
                                 myFileName = new string[1];
-                                myFileName[0] = "Not really a file";
                                 myFile = new TextWriter[1];
 
-                                myFile[0] = new StreamWriter(FolderPath + @"\" + myFileName[0] + ".txt");
-                                myFile[0].WriteLine("File created");
-                                myFile[0].Flush();
-                                myFile[0].Close();
+                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
 
                                 bIsFreqGenEnabled = false;
                             }
@@ -614,14 +614,6 @@ namespace Spectroscopy_Controller
                         else
                         {
                             MessageBox.Show("Error selecting folder. Please try again.");
-                        }
-
-                        if (specType == "Fixed")
-                        {
-                            RabiSelector myRabiSelector = new RabiSelector();
-                            myRabiSelector.generateSequenceButton.Enabled = false;
-                            myRabiSelector.pulseSelectBox.Enabled = false;
-                            myRabiSelector.ShowDialog();
                         }
 
                         // Code required to start the experiment running:
@@ -679,7 +671,7 @@ namespace Spectroscopy_Controller
             string sbCurrentString = "";
             //*****************//
 
-            // Go through each file (this will only be run once for continuous files)
+            // Go through each file (this will only be run once for continuous & fixed files)
             for (int i = 0; i < numberOfFiles; i++)
             {
                 // Generating the current filename:
