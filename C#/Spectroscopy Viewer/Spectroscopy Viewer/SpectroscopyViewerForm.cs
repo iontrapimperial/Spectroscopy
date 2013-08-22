@@ -206,16 +206,20 @@ namespace Spectroscopy_Viewer
             }
             else
             {
+                Console.WriteLine("Running function");
                 // Copy data from readings into local array
                 int[] myData = readings.ToArray();
 
+                Console.WriteLine("Calling filehandler");
                 // Create fileHandler object to process the incoming data (use current sidebandStartFreq and currentwindowstep to add datapoint at correct frequency
                 fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive,
                                                             sidebandStartFreq, CurrentWindowStep, startLengthLive);
 
+                Console.WriteLine("Calculating no. of spectra");
                 // How many spectra were loaded before we started running live
                 int existingSpectra = numberOfSpectra - numberOfSpectraLive;
 
+                Console.WriteLine("Looping through spectra");
                 // Loop through the live spectra only
                 for (int i = existingSpectra; i < numberOfSpectra; i++)
                 {
@@ -225,6 +229,7 @@ namespace Spectroscopy_Viewer
                     dataPlot[i] = mySpectrum[i].getDataPlot();
                 }
 
+                Console.WriteLine("Updating graph");
                 // NB data gets updated automatically when points are added to spectra
                 // So just update graph
                 updateGraph();

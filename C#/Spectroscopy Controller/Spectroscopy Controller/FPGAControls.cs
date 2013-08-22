@@ -222,7 +222,8 @@ namespace Spectroscopy_Controller
                         // Only send live data to the viewer if it is open
                         if (this.IsViewerOpen)
                         {
-                            myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);
+                            if (specType == "Fixed") myViewer.addLiveData(Readings, CurrentWindowStep, 0);
+                            else myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);
                         }
                         // Clear buffers for writing to file, gets ready for writing more data next time
                         myFile.Flush();  
