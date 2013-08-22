@@ -107,7 +107,7 @@ namespace Spectroscopy_Viewer
             initialiseColours();
 
             // Flag that experiment is running
-            this.IsExperimentRunning = false;
+            this.IsExperimentRunning = true;
             // While running in live mode, do the following for safety:
             this.loadDataButton.Enabled = false;                // Disable loading saved data 
             this.restartViewerButton.Enabled = false;           // Disable restarting viewer
@@ -254,6 +254,7 @@ namespace Spectroscopy_Viewer
                     this.restartViewerButton.Enabled = true;            // Re-enable restarting viewer
                     this.spectrumExportDataButton.Enabled = true;       // Re-enable exporting spectrum data
                     this.histogramExportDataButton.Enabled = true;      // Re-enable exporting histogram data
+                    this.pauseButton.Enabled = false;
                     // Re-enable context menus on graph controls
                     for (int i = 0; i < numberOfSpectra; i++)
                     {
