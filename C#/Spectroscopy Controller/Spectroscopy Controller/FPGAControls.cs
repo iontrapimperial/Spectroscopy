@@ -222,15 +222,18 @@ namespace Spectroscopy_Controller
                         // Only send live data to the viewer if it is open
                         if (this.IsViewerOpen)
                         {
-                            if (specType == "Fixed") myViewer.addLiveData(Readings, CurrentWindowStep, 0);
-                            else myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband]);
+                            if (specType == "Fixed") myViewer.addLiveData(Readings, CurrentWindowStep, 0, CurrentPulseLength);
+                            else myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
                         }
                         // Clear buffers for writing to file, gets ready for writing more data next time
                         myFile.Flush();  
                         // Clear list of readings
                         Readings.Clear();
 
-                        if (specType == "Fixed") CurrentPulseLength += fixed_stepSize;
+                        if (specType == "Fixed")
+                        {
+                            CurrentPulseLength += fixed_stepSize;
+                        }
 
                         FPGA.ResetDevice();
 

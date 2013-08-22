@@ -197,12 +197,12 @@ namespace Spectroscopy_Viewer
         // (nb: changed startFreqLive which was taken from metadata 
         // to sidebandStartFreq passed directly from FPGAControls - JOE)
         // Made threadsafe
-        private delegate void Delegate_addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq);
-        public void addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq)
+        private delegate void Delegate_addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq, int pulseLength);
+        public void addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq, int pulseLength)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Delegate_addLiveData(addLiveData), new object[] {readings, CurrentWindowStep, sidebandStartFreq} );
+                this.Invoke(new Delegate_addLiveData(addLiveData), new object[] {readings, CurrentWindowStep, sidebandStartFreq, pulseLength} );
             }
             else
             {
@@ -211,7 +211,7 @@ namespace Spectroscopy_Viewer
 
                 // Create fileHandler object to process the incoming data (use current sidebandStartFreq and currentwindowstep to add datapoint at correct frequency
                 fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive,
-                                                            sidebandStartFreq, CurrentWindowStep, startLengthLive);
+                                                            sidebandStartFreq, CurrentWindowStep, pulseLength);
 
                 // How many spectra were loaded before we started running live
                 int existingSpectra = numberOfSpectra - numberOfSpectraLive;

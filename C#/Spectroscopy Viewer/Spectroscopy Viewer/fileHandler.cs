@@ -48,7 +48,7 @@ namespace Spectroscopy_Viewer
         {
             // Need to convert the array of incoming data into a List<int[]>[]
             // Each list is for a separate spectrum
-            // Each int[] is an array of 4 ints (one reading, inc cooling, counts & error flags)
+            // Each int[] is an array of 4 ints (one reading, inc. cooling, counts & error flags)
 
             // Store crucial numbers
             repeats = repeatsPassed;
@@ -244,10 +244,7 @@ namespace Spectroscopy_Viewer
 
                 // Process the actual numerical data
                 this.processData(ref myFile);
-
-
-
-
+  
             }   // If there is no metadata
             else if (myString == "Spectroscopy data file (no metadata)")
             {
@@ -346,7 +343,11 @@ namespace Spectroscopy_Viewer
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
             int frequency = new int();
-            if (metadata[1] == "Fixed") frequency = startLength;
+            if (startLength != 0)
+            {
+                Console.WriteLine("Pulse length: {0}", startLength);
+                frequency = startLength;
+            }
             else frequency = startFrequency + currentWindowStep * stepSize;
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
