@@ -97,7 +97,9 @@ namespace Spectroscopy_Viewer
         // 13: Number of repeats
         // 14: Number interleaved
         // 15: Which sideband
-        // 16 + i: sideband i name
+        // 16: Starting pulse length (fixed)
+        // 17: Number of steps (fixed)
+        // 18 + i: sideband i name
         // Notes
         public SpectroscopyViewerForm(ref string[] metadataPassed)
         {
@@ -133,7 +135,7 @@ namespace Spectroscopy_Viewer
                 if (metadataLive[1] == "Fixed")
                 {
                     if (int.TryParse(metadataLive[9], out stepSizeLive) 
-                        && int.TryParse(metadataLive[16], out startLengthLive)
+                        && int.TryParse(metadataLive[16], out startLengthLive) )
                     {
                         startFreqLive = (int)(startFreqLiveMHz * 1000000);
                     }
@@ -146,7 +148,7 @@ namespace Spectroscopy_Viewer
                 }
                 else
                 {
-                    if (float.TryParse(metadataLive[9], out stepSizeLivekHz)
+                    if (float.TryParse(metadataLive[9], out stepSizeLivekHz) )
                     {
                         stepSizeLive = (int)(stepSizeLivekHz * 1000);
                         startFreqLive = (int)(startFreqLiveMHz * 1000000);

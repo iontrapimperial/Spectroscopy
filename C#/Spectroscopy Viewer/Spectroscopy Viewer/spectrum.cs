@@ -43,7 +43,7 @@ namespace Spectroscopy_Viewer
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
 
         // Metadata from file / live experiment
-        private string[] metadata = new string[18];
+        private string[] metadata = new string[25];
         private int repeats = new int();
 
         // Spectrum number/name stored in Viewer only
@@ -74,15 +74,15 @@ namespace Spectroscopy_Viewer
 
             // Fill in metadata
            
-            // First 15 items are just filled in directly
-            for (int i = 0; i < 16; i++)
+            // First 17 items are just filled in directly
+            for (int i = 0; i < 18; i++)
             {
                 metadata[i] = metadataPassed[i];
             }
             // Need to take the right spectrum name (only want to store 1)
-            metadata[16] = metadataPassed[16 + specNumInFile];
+            metadata[18] = metadataPassed[18 + specNumInFile];
             // Need to take notes section - where it is in the array depends on how many interleaved spectra there are
-            metadata[17] = metadataPassed[16 + numInterLeavedInFile];
+            metadata[19] = metadataPassed[18 + numInterLeavedInFile];
 
         }
 
@@ -91,18 +91,18 @@ namespace Spectroscopy_Viewer
         public spectrum(ref string[] metadataPassed, int spectrumNumberPassed, int numberInterleaved)
         {
             // Fill in metadata
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 18; i++)
             {
                 metadata[i] = metadataPassed[i];
             }
             // Need to take the right spectrum name (only want to store 1)
-            metadata[16] = metadataPassed[16 + spectrumNumberPassed];
+            metadata[18] = metadataPassed[18 + spectrumNumberPassed];
             // Need to take notes section - where it is in the array depends on how many interleaved spectra there are
-            metadata[17] = metadataPassed[16 + numberInterleaved];
+            metadata[19] = metadataPassed[18 + numberInterleaved];
 
             // Set spectrum number & name
             this.spectrumNumber = spectrumNumberPassed;
-            this.spectrumName = metadata[16 + spectrumNumber];
+            this.spectrumName = metadata[18 + spectrumNumber];
             // Create empty list of data points
             myDataPoints = new List<dataPoint>();
 

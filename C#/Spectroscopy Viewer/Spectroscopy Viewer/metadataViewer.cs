@@ -33,23 +33,25 @@ namespace Spectroscopy_Viewer
             metadataTitle[6] = "Magnetron Frequency (kHz)";
             metadataTitle[7] = "AOM Start Frequency (MHz)";
             metadataTitle[8] = "Carrier Frequency (MHz)";
-            metadataTitle[9] = "Step Size (kHz)";
+            metadataTitle[9] = "Step Size (kHz or ticks)";
             metadataTitle[10] = "Sidebands to scan / side";
             metadataTitle[11] = "Sideband Width (Steps)";
             metadataTitle[12] = "729 RF Amplitude (dBm)";
             metadataTitle[13] = "Number of Repeats";
             metadataTitle[14] = "Number Interleaved";
-            metadataTitle[15] = "Spectrum Name (from file)";
-            metadataTitle[16] = "Notes";
+            metadataTitle[15] = "Starting Pulse Length (fixed)";
+            metadataTitle[16] = "Number of Steps (fixed)";
+            metadataTitle[17] = "Spectrum Name (from file)";
+            metadataTitle[18] = "Notes";
 
-            // Fill in the first 14 bits of metadata automatically
-            for (int i = 0; i < 15; i++)
+            // Fill in the first 16 bits of metadata automatically
+            for (int i = 0; i < 17; i++)
             {
                 this.metadataGrid.Rows.Add(metadataTitle[i], metadata[i]);
             }
             // Here we skip a field - which sideband (not applicable to entire spectra)
-            this.metadataGrid.Rows.Add(metadataTitle[15], metadata[16]);
-            this.metadataGrid.Rows.Add(metadataTitle[16], metadata[17]);
+            this.metadataGrid.Rows.Add(metadataTitle[17], metadata[18]);
+            this.metadataGrid.Rows.Add(metadataTitle[18], metadata[19]);
         }  
     }
 }

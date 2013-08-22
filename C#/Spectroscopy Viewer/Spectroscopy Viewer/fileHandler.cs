@@ -182,7 +182,7 @@ namespace Spectroscopy_Viewer
                     if (metadata[1] == "Fixed")
                     {
                         // Make sure starting pulse length is an int
-                        if (int.TryParse(metadata[16], out startLength)
+                        if (int.TryParse(metadata[16], out startLength) )
                         {
                             // Don't convert - this is a number of ticks
                             stepSize = (int)stepSizekHz;
@@ -236,7 +236,7 @@ namespace Spectroscopy_Viewer
                 // the line after is a title to be thrown away
 
                 // Store in array of metadata
-                if (16 + numberInterleaved < 25 && numberInterleaved != 0) metadata[18 + numberInterleaved] = notes;
+                if (18 + numberInterleaved < 25 && numberInterleaved != 0) metadata[18 + numberInterleaved] = notes;
                 else Console.WriteLine("Too many interleaved spectra - gone beyond the bounds of metadata array (line 184 fileHandler.cs)");
 
                 // Process the actual numerical data
