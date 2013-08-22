@@ -1016,9 +1016,20 @@ namespace Spectroscopy_Controller
 
         private void CreateFromTemplateButton_Click(object sender, EventArgs e)
         {
+            if (PulseTree.Nodes.Count == 0)
+            {
+                WriteMessage("Can't create pulse sequence: No laser states have been set", true);
+                return;
+            }
+
             RabiSelector myRabiSelector = new RabiSelector(PulseTree.Nodes);
+            myRabiSelector.startExperimentButton.Enabled = false;
             myRabiSelector.ShowDialog();
 
+            // If user did not press OK, don't do anything else in this method
+            if (myRabiSelector.DialogResult != DialogResult.OK) return;
+
+            // Create new treeview object to build new pulse tree into
             TreeView newPulseTree = new TreeView();
 
             // Grab sweep parameters from form
@@ -1029,25 +1040,20 @@ namespace Spectroscopy_Controller
 
             int pulseLength = new int();
 
-            // If the user pressed OK, create the Rabi-type sequence using data from form
-            if (myRabiSelector.DialogResult == DialogResult.OK)
+            // Create the Rabi-type sequence using data from form
+            LoopState[] myLoopStates = new LoopState[steps];
+            TreeNode[] myLoopNodes = new TreeNode[steps];
+            LaserState[] myLaserStates = new LaserState[steps];
+            TreeNode[] myLaserNodes = new TreeNode[steps];
+
+            // For each step
+            for (int i = 0; i < steps; i++)
             {
-                LoopState[] myLoopStates = new LoopState[steps];
-                TreeNode[] myLoopNodes = new TreeNode[steps];
-                LaserState[] myLaserStates = new LaserState[steps];
-                TreeNode[] myLaserNodes = new TreeNode[steps];
-
-
-                // For each step
-                for (int i = 0; i < steps; i++)
-                {
-                    // Calculate pulse length
-                    pulseLength = startLength + i * stepSize;
-                    Console.WriteLine("Adding loop ({0} ticks)", pulseLength);
-                    // Add a new loop with this pulse length
-                    addRabiLoop(newPulseTree, myLoopStates[i], myLoopNodes[i], myLaserStates[i], myLaserNodes[i], pulseLength, repeats);
-
-                }
+                // Calculate pulse length
+                pulseLength = startLength + i * stepSize;
+                Console.WriteLine("Adding loop ({0} ticks)", pulseLength);
+                // Add a new loop with this pulse length
+                addRabiLoop(newPulseTree, myLoopStates[i], myLoopNodes[i], myLaserStates[i], myLaserNodes[i], pulseLength, repeats);
             }
 
             // Create 'Stop Experiment' state
@@ -1067,7 +1073,6 @@ namespace Spectroscopy_Controller
             {
                 PulseTree.Nodes.Add((TreeNode)newPulseTree.Nodes[i].Clone());
             }
-
             PulseTree.CollapseAll();
             PulseTree.EndUpdate();      // Re-enable redrawing
         }

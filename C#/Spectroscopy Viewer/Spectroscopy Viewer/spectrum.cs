@@ -328,7 +328,7 @@ namespace Spectroscopy_Viewer
 
         }
             
-        // Method to create data for plotting to graph
+        // Method to update list of data for plotting to graph
         // Also creates the list of bad counts due to cooling threshold failures
         // NB badCountsErrors will not need updating
         private void updateDataPlot()
@@ -405,7 +405,27 @@ namespace Spectroscopy_Viewer
             histogramFile.Flush();
             histogramFile.Close();
         }
-       
+
+        // Method to add a frequency offset to all data points in the spectrum
+        public void addOffset(int offset)
+        {
+            for (int i = 0; i < myDataPoints.Count; i++)
+            {
+                // Calculate new frequency = old frequency + offset
+                int newFreq = myDataPoints[i].getFreq() + offset;
+                // Update frequency in the data point
+                myDataPoints[i].setFreq(newFreq);
+
+                // Clear lists of data to plot
+                dataPlot.Clear();
+                badCountsAll.Clear();
+                badCountsErrors.Clear();
+                badCountsThreshold.Clear();
+                // Rebuild lists of data to plot
+                this.createDataPlot(0);
+            }
+        }
+
         // 'Set' methods
         //**********************//
 

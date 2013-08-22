@@ -1070,31 +1070,21 @@ namespace Spectroscopy_Viewer
         // Method to handle changing spectrum colour (from context menu click)
         private void graphControlContextMenu_ChangeColour_Click(object sender, EventArgs e)
         {
-            int spectrumToChange = new int();
-            // Go through each spectrum
-            for (int i = 0; i < numberOfSpectra; i++)
-            {
-                // Check whether it was the context menu from this spectrum that fired the event
-                // NB "Change colour" is the menu item at index 2
-                if (sender.Equals(this.graphControlContextMenu[i].MenuItems[2]))
-                {
-                    spectrumToChange = i;
-                }
-            }
+            // Find which spectrum was clicked ("Change colour" is the menu item at index 2)
+            int spectrumToChange = whichSpectrumClicked(sender, 2);
 
             // Create & open dialog box to select colour
             changeColour myChangeColour = new changeColour();
             myChangeColour.ShowDialog();
 
             // Make sure user has clicked OK
-            if (myChangeColour.DialogResult == DialogResult.OK)
-            {
-                // Store index of which colours to change to
-                int newColour = myChangeColour.colourSelectBox.SelectedIndex;
-                // Update colours in list
-                myColoursData[spectrumToChange] = colourListData[newColour];
-                myColoursBadCounts[spectrumToChange] = colourListBadCounts[newColour];
-            }
+            if (myChangeColour.DialogResult != DialogResult.OK) return;
+            
+            // Store index of which colours to change to
+            int newColour = myChangeColour.colourSelectBox.SelectedIndex;
+            // Update colours in list
+            myColoursData[spectrumToChange] = colourListData[newColour];
+            myColoursBadCounts[spectrumToChange] = colourListBadCounts[newColour];
 
             // Change background colour/title colour of groupBox control
             this.graphControlGroup[spectrumToChange].BackColor = myColoursBadCounts[spectrumToChange];
@@ -1106,7 +1096,42 @@ namespace Spectroscopy_Viewer
         // Method to handle adding a frequency offset (from context menu click)
         private void graphControlContextMenu_AddOffset_Click(object sender, EventArgs e)
         {
+            // Find which spectrum was clicked ("Add frequency offset" is the menu item at index 3)
+            int spectrumToChange = whichSpectrumClicked(sender, 3);
+            int offset = getOffset();
+            Console.WriteLine("Offset {0}", offset);
+            if (offset != 0)
+            {
+                mySpectrum[spectrumToChange].addOffset(offset);
+
+                dataPlot[spectrumToChange] = mySpectrum[spectrumToChange].getDataPlot();
+                this.updateGraph();
+            }
             
+            
+            
+            
+
+        }
+
+        private int getOffset()
+        {
+            addOffset myOffsetDialog = new addOffset();
+            myOffsetDialog.ShowDialog();
+
+            if (myOffsetDialog.DialogResult != DialogResult.OK) return 0;
+
+            float offsetMHz = new float();
+            if (float.TryParse( myOffsetDialog.offsetBox.Text, out offsetMHz) )
+            {
+                int offset = (int)(offsetMHz * 1000000);
+                return offset;
+            }
+            else
+            {
+                MessageBox.Show("Error: Offset entered was not a valid number");
+                return 0;
+            }
         }
 
 
