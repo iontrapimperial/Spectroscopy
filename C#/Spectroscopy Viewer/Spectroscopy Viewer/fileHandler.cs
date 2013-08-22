@@ -26,6 +26,7 @@ namespace Spectroscopy_Viewer
         private int stepSize;               // Step size in frequency
         private int numberInterleaved;      // How many spectra are interleaved in this file
         private int currentWindowStep;      // Current window step (within current sideband if windowed)
+        private int startLength;            // Starting pulse length (fixed spectra only)
         
         private string[] spectrumNames;     // Names of spectra stored in file
         private string notes = "";
@@ -42,7 +43,8 @@ namespace Spectroscopy_Viewer
         //***********//
 
         // Constructor given an array of data and some bits of metadata
-        public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed, int startFreqPassed, int currentWindowStepPassed)
+        public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed,
+                            int startFreqPassed, int currentWindowStepPassed, int startLengthPassed)
         {
             // Need to convert the array of incoming data into a List<int[]>[]
             // Each list is for a separate spectrum
@@ -54,6 +56,7 @@ namespace Spectroscopy_Viewer
             numberInterleaved = numberInterleavedPassed;
             startFrequency = startFreqPassed;
             currentWindowStep = currentWindowStepPassed;
+            startLength = startLengthPassed;
 
             // Check that the important numbers are not zero (otherwise data will not process correctly)
             if( stepSize != 0 && repeats != 0 && numberInterleaved != 0)
@@ -87,13 +90,12 @@ namespace Spectroscopy_Viewer
                         // Loop through the 4 readings
                         for (int i = 0; i < 4; i++)
                         {
-                            //
                             fullData[k][j][i] = IncomingData[m];
                             // Move to the next element in the array of incoming data
                             m++;
                         }
                     }
-                    // Once we have filled one array of 4 readings, increment the row counter
+                    // Once we have filled one array of 4 readings for each interleaved spectrum, increment the row counter
                     j++;
                 }
 
@@ -129,6 +131,12 @@ namespace Spectroscopy_Viewer
             // repeats
             // "File contains interleaved spectra:"
             // numberInterleaved
+            // "This is sideband:"
+            // sidebandNumber
+            // "Starting pulse length (fixed):"
+            // startLength
+            // "Number of steps (fixed):"
+            // numberOfSteps (fixed)
             // "Spectrum i name":
             // spectrumName[i]
             // "Notes:"
@@ -152,10 +160,10 @@ namespace Spectroscopy_Viewer
                 // Processing metadata
                 // Just dump it into an array of strings
 
-                metadata = new string[23];
+                metadata = new string[25];
 
-                // Next 28 lines are misc metadata with titles
-                for (int i = 0; i < 16; i++)
+                // Next 36 lines are misc metadata with titles
+                for (int i = 0; i < 18; i++)
                 {
                     metadata[i] = myFile.ReadLine();               // First line is actual metadata
                     myString = myFile.ReadLine();                  // Alternating lines are just a title (throw away)
@@ -171,8 +179,23 @@ namespace Spectroscopy_Viewer
                 if (int.TryParse(metadata[13], out repeats) && int.TryParse(metadata[14], out numberInterleaved)
                     && float.TryParse(metadata[9], out stepSizekHz) && float.TryParse(metadata[7], out startFrequencyMHz))
                 {
-                    // These need converting to Hz and storing as ints
-                    stepSize = (int)(stepSizekHz * 1000);
+                    if (metadata[1] == "Fixed")
+                    {
+                        // Make sure starting pulse length is an int
+                        if (int.TryParse(metadata[16], out startLength)
+                        {
+                            // Don't convert - this is a number of ticks
+                            stepSize = (int)stepSizekHz;
+                        }
+                        else MessageBox.Show("Error reading metadata (pulse length not an int)");
+                    }
+                    else
+                    {
+                        // These need converting to Hz and storing as ints
+                        stepSize = (int)(stepSizekHz * 1000);
+                        
+                    }
+                    // Always convert start freq to int
                     startFrequency = (int)(startFrequencyMHz * 1000000);
                 }
                 else
@@ -192,7 +215,7 @@ namespace Spectroscopy_Viewer
                         // Bit messy but it's easiest to code this way for now, maybe tidy later
                         // using substrings
                         spectrumNames[i] = myFile.ReadLine();
-                        metadata[i + 16] = spectrumNames[i];
+                        metadata[i + 18] = spectrumNames[i];
                         myString = myFile.ReadLine();
                     }
                 }
@@ -213,7 +236,7 @@ namespace Spectroscopy_Viewer
                 // the line after is a title to be thrown away
 
                 // Store in array of metadata
-                if (16 + numberInterleaved < 23 && numberInterleaved != 0) metadata[16 + numberInterleaved] = notes;
+                if (16 + numberInterleaved < 25 && numberInterleaved != 0) metadata[18 + numberInterleaved] = notes;
                 else Console.WriteLine("Too many interleaved spectra - gone beyond the bounds of metadata array (line 184 fileHandler.cs)");
 
                 // Process the actual numerical data
@@ -246,7 +269,7 @@ namespace Spectroscopy_Viewer
                         spectrumNames[i] = "Default";
 
                         // Make sure we are not outside the bounds of the array
-                        if (i + 15 < 22)
+                        if (i + 15 < 24)
                         {
                             // Store default name in metadata
                             metadata[i + 15] = spectrumNames[i];
@@ -317,7 +340,9 @@ namespace Spectroscopy_Viewer
         private void constructDataPoints(int x)
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
-            int frequency = startFrequency + currentWindowStep * stepSize;
+            int frequency = new int();
+            if (metadata[1] == "Fixed") frequency = startLength;
+            else frequency = startFrequency + currentWindowStep * stepSize;
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
             // 

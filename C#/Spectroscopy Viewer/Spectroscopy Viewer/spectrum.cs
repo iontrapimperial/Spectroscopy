@@ -375,7 +375,8 @@ namespace Spectroscopy_Viewer
 
         public void writePlotData(ref TextWriter myDataFile)
         {
-            myDataFile.WriteLine("Frequency\tDark ion prob");
+            if (metadata[1] == "Fixed") myDataFile.WriteLine("Pulse Length (ticks)\tDark ion prob");
+            else myDataFile.WriteLine("Frequency (Hz)\tDark ion prob");
 
             for (int i = 0; i < dataSize; i++)
             {

@@ -55,6 +55,8 @@ namespace Spectroscopy_Controller
         private string specType, specDir;
         private int axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth;//, axFreqTemp, modcycFreqTemp;
         private float trapV, angaxFreq, angmodcycFreq, angmagFreq, rfAmp;
+        // Parameters for a fixed frequency run
+        private int fixed_startLength, fixed_stepSize;
 
         private int[] startFreqArray;
 
@@ -477,14 +479,16 @@ namespace Spectroscopy_Controller
                     // 6: Magnetron freq (kHz)
                     // 7: AOM start freq (MHz)
                     // 8: Carrier freq (MHz)
-                    // 9: Step size (kHz)
+                    // 9: Step size (kHz or ticks)
                     // 10: Sidebands/side
                     // 11: Sideband width (steps)
                     // 12: 729 RF amplitude
                     // 13: Number of repeats
                     // 14: Number interleaved
                     // 15: Which sideband
-                    // 16 + i: spectrum i name
+                    // 16: Starting pulse length (fixed)
+                    // 17: Number of steps (fixed)
+                    // 18 + i: spectrum i name
 
 
                     
@@ -514,14 +518,16 @@ namespace Spectroscopy_Controller
                         metadata[13] = myExperimentDialog.NumberOfRepeats.Value.ToString();
                         metadata[14] = myExperimentDialog.NumberOfSpectra.Value.ToString();
                         metadata[15] = "N/A";
+                        metadata[16] = "N/A";   // For fixed spectra only
+                        metadata[17] = "N/A";   // For fixed spectra only
 
                         int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
                         for (int i = 0; i < numberOfSpectra; i++)
                         {
-                            metadata[i + 16] = myExperimentDialog.SpectrumNames[i].Text;
+                            metadata[i + 18] = myExperimentDialog.SpectrumNames[i].Text;
                         }
 
-                        metadata[16 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
+                        metadata[18 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
 
 
                         // Retrieve the folder path selected by the user
@@ -545,8 +551,11 @@ namespace Spectroscopy_Controller
                                 myFileName = new string[1];
                                 myFile = new TextWriter[1];
 
+                                // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                                RabiSelector myRabiSelector = new RabiSelector();
+
                                 // Create the file with appropriate name & write metadata to it
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
+                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
                             }
                             else if (specType == "Windowed")
                             {
@@ -574,21 +583,38 @@ namespace Spectroscopy_Controller
                                 // Create array of filenames & array of files
                                 myFileName = new string[numberOfFiles];
                                 myFile = new TextWriter[numberOfFiles];
+                                
+                                // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                                RabiSelector myRabiSelector = new RabiSelector();
+
                                 // Generate filenames and actually create files
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, numberOfFiles);
+                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
                             }
                             else if (specType == "Fixed")
                             {
+                                // Maybe put a box for user to input which pulses are varied in length
+
+                                // Show form for user to enter details about fixed frequency sequence
+                                // (need starting pulse length & step size)
                                 RabiSelector myRabiSelector = new RabiSelector();
                                 myRabiSelector.generateSequenceButton.Enabled = false;
                                 myRabiSelector.pulseSelectBox.Enabled = false;
+                                myRabiSelector.repeatsSelect.Enabled = false;
                                 myRabiSelector.ShowDialog();
+
+                                // Get starting pulse length & step size from user form
+                                fixed_startLength = (int)myRabiSelector.startLengthSelect.Value;
+                                fixed_stepSize = (int)myRabiSelector.stepSizeSelect.Value;
+                                // Change step size in metadata
+                                metadata[9] = fixed_stepSize.ToString();
+                                metadata[16] = fixed_startLength.ToString();
+                                metadata[17] = myRabiSelector.stepsSelect.Value.ToString();
 
                                 // Create a single file and put all readings in there
                                 myFileName = new string[1];
                                 myFile = new TextWriter[1];
 
-                                writeMetadataToFile(ref myExperimentDialog, ref FolderPath, ref myFile, 1);
+                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
 
                                 bIsFreqGenEnabled = false;
                             }
@@ -657,8 +683,8 @@ namespace Spectroscopy_Controller
 
         // Method to write the metadata to files
         // Gets filenames from private member myFileName
-        private void writeMetadataToFile(   ref StartExperimentDialog myExperimentDialog, ref string FolderPath,
-                                            ref TextWriter[] myFile, int numberOfFiles  )
+        private void writeMetadataToFile(   ref StartExperimentDialog myExperimentDialog, ref RabiSelector myRabiSelector,
+                                            ref string FolderPath, ref TextWriter[] myFile, int numberOfFiles  )
         {
             // These variables are needed for windowed files only
             // But need to create them anyway else C# will complain...
@@ -734,8 +760,10 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine("Carrier Frequency (MHz):");
                 myFile[i].WriteLine(this.carFreqBox.Value);
                 // Step size
-                myFile[i].WriteLine("Step Size (kHz):");
-                myFile[i].WriteLine(this.stepSizeBox.Value);
+                myFile[i].WriteLine("Step Size (kHz or ticks):");
+                // For fixed spectra, put in step size of pulse length variation
+                if (specType == "Fixed") myFile[i].WriteLine(fixed_stepSize);
+                else  myFile[i].WriteLine(this.stepSizeBox.Value);  // Othewise, take from core form
                 // Sidebands/side
                 myFile[i].WriteLine("Sidebands to scan / side:");
                 if (specType == "Windowed") myFile[i].WriteLine(sbToScan);
@@ -756,7 +784,15 @@ namespace Spectroscopy_Controller
                 // Sideband number
                 myFile[i].WriteLine("This is sideband:");
                 if (specType == "Windowed") myFile[i].WriteLine(sbCurrentString);   // Windowed spectrum, print out readable string
-                else myFile[i].WriteLine("N/A");            // Non-windowed spectra, print "N/A"                                                                                        
+                else myFile[i].WriteLine("N/A");            // Non-windowed spectra, print "N/A" 
+                // Fixed spectrum - pulse start length
+                myFile[i].WriteLine("Pulse Start Length (fixed freq):");
+                if (specType == "Fixed") myFile[i].WriteLine(fixed_startLength);
+                else myFile[i].WriteLine("N/A");
+                // Fixed spectrum - number of steps
+                myFile[i].WriteLine("Number of Steps (fixed freq):");
+                if (specType == "Fixed") myFile[i].WriteLine(myRabiSelector.stepsSelect.Value.ToString());
+                else myFile[i].WriteLine("N/A");      
                 // Name for each spectrum
                 for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
                 {

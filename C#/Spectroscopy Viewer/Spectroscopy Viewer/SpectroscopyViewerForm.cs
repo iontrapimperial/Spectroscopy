@@ -57,6 +57,7 @@ namespace Spectroscopy_Viewer
         private int repeatsLive = new int();
         private int stepSizeLive = new int();
         private int startFreqLive = new int();
+        private int startLengthLive = 0;        // For fixed spectra
         
 
 
@@ -119,20 +120,44 @@ namespace Spectroscopy_Viewer
             float stepSizeLivekHz = new float();
             float startFreqLiveMHz = new float();
 
+
+
+
             // Extract info that we need to pass to fileHandler
+            // Make sure repeats, number of spectra & start frequency are real numbers
             if (int.TryParse(metadataLive[13], out repeatsLive)
                 && int.TryParse(metadataLive[14], out numberOfSpectraLive)
                 && float.TryParse(metadataLive[7], out startFreqLiveMHz)
-                && float.TryParse(metadataLive[9], out stepSizeLivekHz))
+                )
             {
-                stepSizeLive = (int)(stepSizeLivekHz * 1000);
-                startFreqLive = (int)(startFreqLiveMHz * 1000000);
-            }
-            else
-            {
-                // Show error, skip rest of this function
-                MessageBox.Show("Error parsing metadata when opening viewer");
-                return;         
+                if (metadataLive[1] == "Fixed")
+                {
+                    if (int.TryParse(metadataLive[9], out stepSizeLive) 
+                        && int.TryParse(metadataLive[16], out startLengthLive)
+                    {
+                        startFreqLive = (int)(startFreqLiveMHz * 1000000);
+                    }
+                    else
+                    {
+                        // Show error, skip rest of this function
+                        MessageBox.Show("Error parsing metadata when opening viewer");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (float.TryParse(metadataLive[9], out stepSizeLivekHz)
+                    {
+                        stepSizeLive = (int)(stepSizeLivekHz * 1000);
+                        startFreqLive = (int)(startFreqLiveMHz * 1000000);
+                    }
+                    else
+                    {
+                        // Show error, skip rest of this function
+                        MessageBox.Show("Error parsing metadata when opening viewer");
+                        return;         
+                    }
+                }
             }
             
             // Save number of spectra
@@ -183,7 +208,8 @@ namespace Spectroscopy_Viewer
                 int[] myData = readings.ToArray();
 
                 // Create fileHandler object to process the incoming data (use current sidebandStartFreq and currentwindowstep to add datapoint at correct frequency
-                fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive, sidebandStartFreq, CurrentWindowStep);
+                fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive,
+                                                            sidebandStartFreq, CurrentWindowStep, startLengthLive);
 
                 // How many spectra were loaded before we started running live
                 int existingSpectra = numberOfSpectra - numberOfSpectraLive;

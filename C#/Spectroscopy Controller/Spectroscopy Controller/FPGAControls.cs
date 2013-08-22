@@ -78,6 +78,8 @@ namespace Spectroscopy_Controller
 
             int CurrentSideband = 0;
 
+            int CurrentPulseLength = fixed_startLength;     // For fixed spectra with a varying pulse length
+
             int numberOfFiles = this.myFileName.Length;
 
             TextWriter myFile = new StreamWriter(myFileName[CurrentSideband], true);
@@ -226,6 +228,8 @@ namespace Spectroscopy_Controller
                         myFile.Flush();  
                         // Clear list of readings
                         Readings.Clear();
+
+                        if (specType == "Fixed") CurrentPulseLength += fixed_stepSize;
 
                         FPGA.ResetDevice();
 
