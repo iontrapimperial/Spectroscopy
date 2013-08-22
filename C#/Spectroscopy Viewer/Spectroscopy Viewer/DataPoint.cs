@@ -43,7 +43,6 @@ namespace Spectroscopy_Viewer
         // NB should be able to use the privately stored no. of repeats, but would fail if this has not been set, so more robust to pass no. of repeats
         public dataPoint(ref List<int[]> fullData, int startPoint, int repeatsPassed)
         {
-            Console.WriteLine("Creating data point");
             repeats = repeatsPassed;            // Set number of repeats
             // Initialise based on number of repeats
             readingCool = new int[repeats];
@@ -55,17 +54,23 @@ namespace Spectroscopy_Viewer
 
             int j = 0;                  // Counter for internal data arrays
             // For each repeat, populate array of private members
-            Console.WriteLine("Looping through repeats");
             for (int i = startPoint; i < (startPoint + repeats); i++)
             {
-                Console.WriteLine("i = {0}, fullData.Count = {1}", i, fullData.Count());
                 if (i < fullData.Count())
                 {
-                    readingCool[j] = fullData[i][0];                            // First int is the cooling period count
-                    readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
-                    readingCount[j] = fullData[i][2];                           // Third int is the bright/dark count
-                    readingErrorCount[j] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
-                    j++;
+                    if (i < fullData.Count())
+                    {
+                        readingCool[j] = fullData[i][0];                            // First int is the cooling period count
+                        readingErrorCool[j] = getBoolFromInt(fullData[i][1]);       // Second int is error flag for cooling period
+                        readingCount[j] = fullData[i][2];                           // Third int is the bright/dark count
+                        readingErrorCount[j] = getBoolFromInt(fullData[i][3]);      // Fourth int is the error flag for count period
+                        j++;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error: Incorrect number of repeats");
+                        return;
+                    }
                 }
                 else
                 {
@@ -74,7 +79,6 @@ namespace Spectroscopy_Viewer
                 }
             }
 
-            Console.WriteLine("creating histogram");
             this.createHistogram();             // Create histogram data
      
         }

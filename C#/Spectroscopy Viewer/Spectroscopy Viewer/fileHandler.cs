@@ -61,7 +61,6 @@ namespace Spectroscopy_Viewer
             // Check that the important numbers are not zero (otherwise data will not process correctly)
             if( stepSize != 0 && repeats != 0 && numberInterleaved != 0)
             {
-                Console.WriteLine("Initialising arrays");
                 // Initialise arrays for storing Lists of raw data & dataPoints
                 fullData = new List<int[]>[numberInterleaved];
                 dataPoints = new List<dataPoint>[numberInterleaved];
@@ -73,14 +72,11 @@ namespace Spectroscopy_Viewer
                     dataPoints[i] = new List<dataPoint>();
                 }
 
-
-                Console.WriteLine("Looping through incoming data");
                 // row counter to keep track of which array of 4 readings within the list we are filling
                 int j = 0;
 
                 // Loop through incoming data array
                 int m = 0;
-                Console.WriteLine("Incoming data size: {0}", IncomingData.Length);
                 while (m < IncomingData.Length)                
                 {
                     // Fill a separate list for each interleaved spectrum
@@ -101,15 +97,11 @@ namespace Spectroscopy_Viewer
                     j++;
                 }
 
-                Console.WriteLine("Creating data point lists");
-                Console.WriteLine("Number interleaved: {0}", numberInterleaved);
                 // Create array of data point lists
                 for (int i = 0; i < numberInterleaved; i++)
                 {
                     this.constructDataPoints(i);
                 }
-
-                Console.WriteLine("Finished fileHandler constructor");
 
             }   // End of if statement checking that repeats & numberInterleaved are valid numbers
 
@@ -352,34 +344,24 @@ namespace Spectroscopy_Viewer
         // Integer x tells which number spectrum (e.g. 0(first), 1(second)) in file to use
         private void constructDataPoints(int x)
         {
-            Console.WriteLine("Starting function to construct data points {0}", x);
             dataPoint dataPointTemp;        // dataPoint object used in loop
             int frequency = new int();
             if (metadata[1] == "Fixed") frequency = startLength;
             else frequency = startFrequency + currentWindowStep * stepSize;
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
-            Console.WriteLine("looping through data elements");
             for (int i = x; i < fullData[x].Count; i += numberInterleaved*repeats)
             {
-                Console.WriteLine("i = {0}, x = {1}", i, x);
-                Console.WriteLine("fullData[0] Count {0}", fullData[x].Count());
                 // Create new instance of dataPoint
                 dataPointTemp = new dataPoint(ref fullData[x], i, repeats);
-                
 
-
-                Console.WriteLine("setting frequency");
                 // Set metadata (nb. repeats already set in constructor)
                 dataPointTemp.setFreq(frequency);
 
-                Console.WriteLine("adding datapoint to list");
                 // Add to the list
                 dataPoints[x].Add(dataPointTemp);    
                 frequency += stepSize;
-                Console.WriteLine("Finished loop {0}", i);
             }
-            Console.WriteLine("Finished constructing data point list {0}", x);
 
         } 
 
