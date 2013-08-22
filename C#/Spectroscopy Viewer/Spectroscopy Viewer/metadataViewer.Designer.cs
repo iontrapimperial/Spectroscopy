@@ -49,7 +49,7 @@
             this.metadataGrid.Location = new System.Drawing.Point(12, 12);
             this.metadataGrid.Name = "metadataGrid";
             this.metadataGrid.ReadOnly = true;
-            this.metadataGrid.Size = new System.Drawing.Size(344, 398);
+            this.metadataGrid.Size = new System.Drawing.Size(363, 443);
             this.metadataGrid.TabIndex = 0;
             // 
             // spectrumBindingSource
@@ -70,13 +70,13 @@
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
             this.Value.ReadOnly = true;
-            this.Value.Width = 120;
+            this.Value.Width = 140;
             // 
             // metadataViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(368, 421);
+            this.ClientSize = new System.Drawing.Size(387, 467);
             this.Controls.Add(this.metadataGrid);
             this.Name = "metadataViewer";
             this.Text = "metadataViewer";

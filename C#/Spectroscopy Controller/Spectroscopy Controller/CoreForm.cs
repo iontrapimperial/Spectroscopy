@@ -529,7 +529,6 @@ namespace Spectroscopy_Controller
 
                         metadata[18 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
 
-
                         // Retrieve the folder path selected by the user
                         string FolderPath = myExperimentDialog.getFilePath();
                         // Make sure the 
@@ -593,6 +592,10 @@ namespace Spectroscopy_Controller
                             else if (specType == "Fixed")
                             {
                                 // Maybe put a box for user to input which pulses are varied in length
+
+                                //Start frequency is the value taken directly from the form, no windowing
+                                startFreqArray = new int[1];
+                                startFreqArray[0] = startFreq;
 
                                 // Show form for user to enter details about fixed frequency sequence
                                 // (need starting pulse length & step size)

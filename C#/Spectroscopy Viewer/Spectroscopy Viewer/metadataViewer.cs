@@ -45,13 +45,16 @@ namespace Spectroscopy_Viewer
             metadataTitle[18] = "Notes";
 
             // Fill in the first 16 bits of metadata automatically
-            for (int i = 0; i < 17; i++)
+            for (int i = 0; i < 15; i++)
             {
                 this.metadataGrid.Rows.Add(metadataTitle[i], metadata[i]);
             }
             // Here we skip a field - which sideband (not applicable to entire spectra)
+            this.metadataGrid.Rows.Add(metadataTitle[15], metadata[16]);
+            this.metadataGrid.Rows.Add(metadataTitle[16], metadata[17]);
             this.metadataGrid.Rows.Add(metadataTitle[17], metadata[18]);
             this.metadataGrid.Rows.Add(metadataTitle[18], metadata[19]);
+
         }  
     }
 }

@@ -232,8 +232,13 @@ namespace Spectroscopy_Viewer
                 }
 
 
-                // NB this will read one line PAST the end of the notes section. This is ok since
-                // the line after is a title to be thrown away
+                // NB this will read one line PAST the end of the notes section. This should be the line that says "Data:"
+                // Check this - if not then there will be errors reading the data
+                if (myString != "Data:")
+                {
+                    MessageBox.Show("Error: File corrupted (wrong metadata format?)");
+                    return;
+                }
 
                 // Store in array of metadata
                 if (18 + numberInterleaved < 25 && numberInterleaved != 0) metadata[18 + numberInterleaved] = notes;
@@ -269,10 +274,10 @@ namespace Spectroscopy_Viewer
                         spectrumNames[i] = "Default";
 
                         // Make sure we are not outside the bounds of the array
-                        if (i + 15 < 24)
+                        if (i + 18 < 24)
                         {
                             // Store default name in metadata
-                            metadata[i + 15] = spectrumNames[i];
+                            metadata[i + 18] = spectrumNames[i];
                         }
                     }
 
