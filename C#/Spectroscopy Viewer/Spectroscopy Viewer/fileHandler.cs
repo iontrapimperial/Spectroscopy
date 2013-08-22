@@ -345,7 +345,6 @@ namespace Spectroscopy_Viewer
             int frequency = new int();
             if (startLength != 0)
             {
-                Console.WriteLine("Pulse length: {0}", startLength);
                 frequency = startLength;
             }
             else frequency = startFrequency + currentWindowStep * stepSize;

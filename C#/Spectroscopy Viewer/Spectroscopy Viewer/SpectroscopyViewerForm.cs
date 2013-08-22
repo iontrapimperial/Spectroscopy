@@ -452,8 +452,12 @@ namespace Spectroscopy_Viewer
                                     }
                                     else
                                     {
+                                        
+                                        
                                         // Add list of data points from file handler into existing spectrum
                                         mySpectrum[selectedSpectrum[j]].addToSpectrum(myFilehandler.getDataPoints(j));
+
+
                                     }
                                 }
                                 // Update number of spectra
@@ -519,18 +523,6 @@ namespace Spectroscopy_Viewer
                 // Size the control to fill the form with a margin
                 SetSize();
             }
-
-            // Code for debugging - graph changing when update button is clicked but thresholds are unchanged (live mode only)
-            // Print out data from first spectrum every time update button is clicked
-            /*
-            string myTestFileName = @"C:\Users\localadmin\Desktop\Test file";
-            myTestFileName += DateTime.UtcNow.ToString("HH.mm.ss.fff");
-            myTestFileName += ".txt";
-            TextWriter myTestFile = new StreamWriter(myTestFileName);
-            // Call method in the spectrum class to write data to the file
-            mySpectrum[0].writePlotData(ref myTestFile);
-              */
-
         }
 
         // Method to respond to user clicking "Export spectrum..." button
@@ -875,7 +867,6 @@ namespace Spectroscopy_Viewer
             zgcSpectrum.IsEnableVPan = false;
         }
 
-
         // Method to create the controls for each spectrum on the graph. For each spectrum, a groupbox is generated
         // containing a checkbox & radio buttons to control what is shown on the graph.
         private void createGraphControls()
@@ -1016,6 +1007,25 @@ namespace Spectroscopy_Viewer
 
         }
 
+        // Method to remove graph controls from the form
+        // Required so that we don't get an error when recreating controls
+        private void removeGraphControls(int i)
+        {
+            if (this.tabPageSpectra.Controls.Contains(graphControlGroup[i]))
+            {
+                // Remove objects from list of controls
+                graphControlGroup[i].Controls.Clear();
+                tabPageSpectra.Controls.Remove(graphControlGroup[i]);
+                // Dispose of objects
+                graphControlLabel[i].Dispose();
+                graphControlCheckBox[i].Dispose();
+                graphControlBadCountsAll[i].Dispose();
+                graphControlBadCountsNone[i].Dispose();
+                graphControlBadCountsLaser[i].Dispose();
+                graphControlBadCountsThreshold[i].Dispose();
+                graphControlGroup[i].Dispose();
+            }
+        }
 
         // Method to handle renaming spectrum (from context menu click)
         private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
@@ -1099,7 +1109,6 @@ namespace Spectroscopy_Viewer
             // Find which spectrum was clicked ("Add frequency offset" is the menu item at index 3)
             int spectrumToChange = whichSpectrumClicked(sender, 3);
             int offset = getOffset();
-            Console.WriteLine("Offset {0}", offset);
             if (offset != 0)
             {
                 mySpectrum[spectrumToChange].addOffset(offset);
@@ -1114,6 +1123,7 @@ namespace Spectroscopy_Viewer
 
         }
 
+        // Method to get an offset from user input
         private int getOffset()
         {
             addOffset myOffsetDialog = new addOffset();
@@ -1134,8 +1144,6 @@ namespace Spectroscopy_Viewer
             }
         }
 
-
-
         // Method to find which spectrum's context menu was clicked (given a sender and the index for a context menu item)
         private int whichSpectrumClicked(object sender, int contextMenuIndex)
         {
@@ -1154,27 +1162,6 @@ namespace Spectroscopy_Viewer
             return x;
         }
 
-
-
-        // Method to remove graph controls from the form
-        // Required so that we don't get an error when recreating controls
-        private void removeGraphControls(int i)
-        {
-            if (this.tabPageSpectra.Controls.Contains(graphControlGroup[i]))
-            {
-                // Remove objects from list of controls
-                graphControlGroup[i].Controls.Clear();
-                tabPageSpectra.Controls.Remove(graphControlGroup[i]);
-                // Dispose of objects
-                graphControlLabel[i].Dispose();
-                graphControlCheckBox[i].Dispose();
-                graphControlBadCountsAll[i].Dispose();
-                graphControlBadCountsNone[i].Dispose();
-                graphControlBadCountsLaser[i].Dispose();
-                graphControlBadCountsThreshold[i].Dispose();
-                graphControlGroup[i].Dispose();
-            }
-        }
 
         // Method to update graph from an event
         private void updateGraph_Event(object sender, EventArgs e)

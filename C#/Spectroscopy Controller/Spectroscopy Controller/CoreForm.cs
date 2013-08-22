@@ -1051,7 +1051,6 @@ namespace Spectroscopy_Controller
             {
                 // Calculate pulse length
                 pulseLength = startLength + i * stepSize;
-                Console.WriteLine("Adding loop ({0} ticks)", pulseLength);
                 // Add a new loop with this pulse length
                 addRabiLoop(newPulseTree, myLoopStates[i], myLoopNodes[i], myLaserStates[i], myLaserNodes[i], pulseLength, repeats);
             }
