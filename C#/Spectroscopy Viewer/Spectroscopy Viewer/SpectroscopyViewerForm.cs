@@ -343,6 +343,16 @@ namespace Spectroscopy_Viewer
             // Leave a small margin around the outside of the control
             zedGraphSpectra.Size = new Size(ClientRectangle.Width - 230,
                                     ClientRectangle.Height - 180);
+            
+            //Redraw the graph controls in appropriate position for new window size
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                if (i < 5)
+                {             
+                    this.graphControlGroup[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                    this.graphControlGroup[i].Size = new System.Drawing.Size(176, 109);                    
+                }
+            }
 
         }
 
@@ -904,7 +914,7 @@ namespace Spectroscopy_Viewer
                     // Configure group box
                     this.graphControlGroup[i].BackColor = myColoursBadCounts[i];
                     this.graphControlGroup[i].ForeColor = myColoursData[i];
-                    this.graphControlGroup[i].Location = new System.Drawing.Point(790, (6 + 115 * i));
+                    this.graphControlGroup[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
                     this.graphControlGroup[i].Size = new System.Drawing.Size(176, 109);
                     this.graphControlGroup[i].TabIndex = 10 + i;
                     this.graphControlGroup[i].TabStop = false;

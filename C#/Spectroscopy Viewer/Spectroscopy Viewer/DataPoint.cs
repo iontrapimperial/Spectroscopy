@@ -144,18 +144,19 @@ namespace Spectroscopy_Viewer
                 validReadings = repeats - (badCountsErrors + badCountsThreshold);   // Update no. of valid readings
             }
 
-            if (countThresholdChanged != 2) // Only if count threshold has changed
+            // TEMPORARY FOR BUG FIX - *ALWAYS* DO THE FOLLOWING
+            //if (countThresholdChanged != 2) // Only if count threshold has changed
+            //{
+            if (validReadings > 0.1 * repeats)
             {
-                if (validReadings > 0.1 * repeats)
-                {
-                    this.updateDarkProb(countThresholdChanged);         // Update dark prob
-                }
-                else darkProb = 0;
+                this.updateDarkProb(countThresholdChanged);         // Update dark prob
             }
-            else    // Or if count threshold has not changed
-            {   // Update dark probability based only on the change in bad counts
-                this.updateDarkProb_BadCountsOnly();
-            }
+            else darkProb = 0;
+            //}
+            //else    // Or if count threshold has not changed
+            //{   // Update dark probability based only on the change in bad counts
+            //    this.updateDarkProb_BadCountsOnly();
+            //}
         }
           
         // Method to calculate probablity of ion being dark, based on initial thresholds
@@ -186,7 +187,29 @@ namespace Spectroscopy_Viewer
         // So only check the bright/dark status of those which may have changed
         private void updateDarkProb(int directionOfChange)
         {
-             // If threshold has gone up, only check those which were not dark last time
+            //Always check every point whether threshold moved up or down (BUG FIX)
+            
+            darkCount = 0;
+
+            for (int i = 0; i < repeats; i++)       // For each data point
+            {
+                // Only consider data point if no errors
+                if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+                {
+                    if (readingCount[i] <= countThreshold)
+                    {
+                        darkCount++;                        // If count below threshold, then dark
+                        readingDark[i] = true;              // Flag as dark
+                    }
+                    else if (readingCount[i] > countThreshold)       // If count is now above threshold
+                    {
+                        readingDark[i] = false;                 // Flag as NOT dark
+                    }                    
+                }
+            }
+
+            /* REMOVED THIS FOR BUG FIX
+            // If threshold has gone up, only check those which were not dark last time
             if (directionOfChange == 0)
             {
                 for (int i = 0; i < repeats; i++)       // For each data point
@@ -225,14 +248,16 @@ namespace Spectroscopy_Viewer
 
                 
                 
-            }
+            }*/
+
             // Update probability of ion being in dark state
             darkProb = (float) darkCount / validReadings;
         }
 
         // Method to update the probability of ion being dark if ONLY the cooling threshold has changed
         // (when count threshold has NOT changed). Only change will be due to bad counts being removed.
-        private void updateDarkProb_BadCountsOnly()
+        // TEMPORARILY REMOVED FOR BUG FIX
+        /*private void updateDarkProb_BadCountsOnly()
         {
             for (int i = 0; i < repeats; i++)
             {
@@ -248,7 +273,7 @@ namespace Spectroscopy_Viewer
             }
             // Update probability of ion being in dark state
             darkProb = (float)darkCount / validReadings;
-        }
+        }*/
         
         // Method to calculate number of bad counts due to error flags
         private void calcBadCountsErrors()
@@ -268,10 +293,10 @@ namespace Spectroscopy_Viewer
 
             badCountsThreshold = 0;                 // Reset to zero
             for (int i = 0; i < repeats; i++)       // For each reading
-            {
+            {                   
                 if (readingCool[i] <= coolThreshold)
                 {
-                    badCountsThreshold++;           // Increase count
+                    if (!readingErrorCool[i] && !readingErrorCount[i]) badCountsThreshold++; // Increase count if NOT already cool/count badcount
                     readingErrorThreshold[i] = true;       // Flag that threshold was NOT met
                 }
                 else readingErrorThreshold[i] = false;     // Flag that threshold was met
@@ -282,6 +307,24 @@ namespace Spectroscopy_Viewer
         // Only re-checks those that might have changed
         private void updateBadCountsThreshold(int directionOfChange)
         {
+            //Temporary (?) bug fix - will completely recalculate bad counts from scratch whether threshold raised or lowered
+            
+            badCountsThreshold = 0; //Reset bad counts
+
+            for (int i = 0; i < repeats; i++)
+            {
+                if (readingCool[i] < coolThreshold)        // If it does NOT meet threshold
+                {
+                    if (!readingErrorCool[i] && !readingErrorCount[i]) badCountsThreshold++; // Increase count if NOT already cool/count badcount
+                    readingErrorThreshold[i] = true;        // Flag that threshold was NOT met
+                }
+                else if (readingCool[i] >= coolThreshold)         // If it DOES meet threshold
+                {
+                    readingErrorThreshold[i] = false;       // Flag that threshold WAS met
+                }
+            }
+
+            /* REMOVED FOR BUG FIX
             // If threshold has gone up, only check those which succeeded last time
             if (directionOfChange == 0)
             {
@@ -310,7 +353,7 @@ namespace Spectroscopy_Viewer
                         }
                     }
                 }
-            }
+            }*/
         } 
         
         // Method to find the maximum number of counts in all the readings

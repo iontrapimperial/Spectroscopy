@@ -335,6 +335,7 @@ namespace Spectroscopy_Viewer
         {
             // Clear lists of data
             dataPlot.Clear();
+            
 
             // Only clear bad counts lists if cooling threshold has changed
             if (coolThresholdChanged != 2)
