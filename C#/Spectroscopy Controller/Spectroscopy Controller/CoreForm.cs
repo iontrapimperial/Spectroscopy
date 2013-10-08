@@ -566,8 +566,8 @@ namespace Spectroscopy_Controller
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
 
                                 int windowSpace = 0;
-                                if (specDir == "Axial") windowSpace = (int)axFreq;
-                                else if (specDir == "Radial") windowSpace = (int)modcycFreq;
+                                if (specDir == "Axial") windowSpace = (int)(axFreq/2);
+                                else if (specDir == "Radial") windowSpace = (int)(modcycFreq/2);
 
                                 //Array of start frequencies for each sideband (from furthest red to furthest blue)            
                                 startFreqArray = new int[sbToScan * 2 + 1];
