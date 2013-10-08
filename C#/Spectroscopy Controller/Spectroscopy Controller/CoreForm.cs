@@ -38,8 +38,8 @@ namespace Spectroscopy_Controller
         public bool updating = false;
 
         //Logic to select which source is used for 729 via RF switches
-        private bool RFSwitch1State = false;
-        private bool RFSwitch2State = false;
+        private bool RFSwitch1State = true;
+        private bool RFSwitch2State = true;
         
         //Trap and ion parameters
         private float dnought = 0.0189F;
@@ -152,32 +152,32 @@ namespace Spectroscopy_Controller
                     SetOutputs();
                     break; 
                case "Spec":
-                    RFSwitch1State = false;
-                    RFSwitch2State = false;
+                    RFSwitch1State = true;
+                    RFSwitch2State = true;
                     SB1RFSourceButton.Checked = false;
                     SB2RFSourceButton.Checked = false;
                     SB3RFSourceButton.Checked = false;                              
                     SetOutputs();
                     break; 
                case "SB1":
-                    RFSwitch1State = true;
-                    RFSwitch2State = false;
+                    RFSwitch1State = false;
+                    RFSwitch2State = true;
                     SpecRFSourceButton.Checked = false;
                     SB2RFSourceButton.Checked = false;
                     SB3RFSourceButton.Checked = false;
                     SetOutputs();
                     break; 
                case "SB2":
-                    RFSwitch1State = false;
-                    RFSwitch2State = true;
+                    RFSwitch1State = true;
+                    RFSwitch2State = false;
                     SpecRFSourceButton.Checked = false;
                     SB1RFSourceButton.Checked = false;
                     SB3RFSourceButton.Checked = false;
                     SetOutputs();
                     break; 
                case "SB3":
-                    RFSwitch1State = true;
-                    RFSwitch2State = true;
+                    RFSwitch1State = false;
+                    RFSwitch2State = false;
                     SpecRFSourceButton.Checked = false;
                     SB1RFSourceButton.Checked = false;
                     SB2RFSourceButton.Checked = false;

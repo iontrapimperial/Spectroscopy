@@ -93,9 +93,9 @@ namespace Spectroscopy_Controller
         public int TargetLength = 0;
 
         /// <summary>
-        /// True/False for a particular laser being on/off. Defualt is all are off.
+        /// True/False for a particular laser being on/off. Default is all are off except RF source logic which are both high to select Input1 (spec source)
         /// </summary>
-        public bool Laser397B1 = false, Laser397B2 = false, Laser729 = false, Laser854 = false, Laser729RF1 = false, Laser729RF2 = false, Laser854POWER = false, Laser854FREQ = false,
+        public bool Laser397B1 = false, Laser397B2 = false, Laser729 = false, Laser854 = false, Laser729RF1 = true, Laser729RF2 = true, Laser854POWER = false, Laser854FREQ = false,
         LaserAux1 = false, LaserAux2 = false;
 
         /// <summary>
