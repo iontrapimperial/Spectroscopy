@@ -38,13 +38,13 @@ namespace Spectroscopy_Controller
         private void OKbutton_Click(object sender, EventArgs e)
         {
             // Configure 'Choose folder' dialog for saving readings files
-            ChooseFolderDialog.SelectedPath = "Z:/Data";      // Initialise to share drive
+            ChooseFolderDialog.SelectedPath = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
             if (ChooseFolderDialog.ShowDialog() != DialogResult.Cancel)
-            {
+            {                   
                 FilePath = ChooseFolderDialog.SelectedPath;
             }
             this.Close();
-        }
+        }            
 
         // Method to return the file path selected from the Choose Folder dialog
         public string getFilePath()

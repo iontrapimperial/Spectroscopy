@@ -74,6 +74,11 @@
             // NumberOfRepeats
             // 
             this.NumberOfRepeats.Location = new System.Drawing.Point(112, 72);
+            this.NumberOfRepeats.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.NumberOfRepeats.Name = "NumberOfRepeats";
             this.NumberOfRepeats.Size = new System.Drawing.Size(115, 20);
             this.NumberOfRepeats.TabIndex = 3;

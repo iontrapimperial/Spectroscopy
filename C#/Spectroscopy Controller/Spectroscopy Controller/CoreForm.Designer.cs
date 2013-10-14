@@ -1517,6 +1517,8 @@
             // LiveLaserBoxAux1
             // 
             this.LiveLaserBoxAux1.AutoSize = true;
+            this.LiveLaserBoxAux1.Checked = true;
+            this.LiveLaserBoxAux1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBoxAux1.Location = new System.Drawing.Point(133, 69);
             this.LiveLaserBoxAux1.Name = "LiveLaserBoxAux1";
             this.LiveLaserBoxAux1.Size = new System.Drawing.Size(75, 17);
@@ -1550,6 +1552,8 @@
             // LiveLaserBox854
             // 
             this.LiveLaserBox854.AutoSize = true;
+            this.LiveLaserBox854.Checked = true;
+            this.LiveLaserBox854.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854.Location = new System.Drawing.Point(12, 92);
             this.LiveLaserBox854.Name = "LiveLaserBox854";
             this.LiveLaserBox854.Size = new System.Drawing.Size(58, 17);
@@ -1572,6 +1576,8 @@
             // LiveLaserBox397B2
             // 
             this.LiveLaserBox397B2.AutoSize = true;
+            this.LiveLaserBox397B2.Checked = true;
+            this.LiveLaserBox397B2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox397B2.Location = new System.Drawing.Point(12, 46);
             this.LiveLaserBox397B2.Name = "LiveLaserBox397B2";
             this.LiveLaserBox397B2.Size = new System.Drawing.Size(74, 17);
@@ -1583,6 +1589,8 @@
             // LiveLaserBox397B1
             // 
             this.LiveLaserBox397B1.AutoSize = true;
+            this.LiveLaserBox397B1.Checked = true;
+            this.LiveLaserBox397B1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox397B1.Location = new System.Drawing.Point(12, 23);
             this.LiveLaserBox397B1.Name = "LiveLaserBox397B1";
             this.LiveLaserBox397B1.Size = new System.Drawing.Size(74, 17);
@@ -1612,28 +1620,28 @@
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA\\XML";
             this.saveXMLFileDialog.RestoreDirectory = true;
             this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
             // 
             this.openXMLFileDialog.Filter = "Xml File|*.xml";
-            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA\\XML";
             this.openXMLFileDialog.RestoreDirectory = true;
             this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
             this.openHexFileDialog.Filter = "Hex File|*.hex";
-            this.openHexFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.openHexFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA\\HEX";
             this.openHexFileDialog.RestoreDirectory = true;
             this.openHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openHexFileDialog_FileOk);
             // 
             // saveHexFileDialog
             // 
             this.saveHexFileDialog.Filter = "Hex File|*.hex";
-            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\";
+            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA\\HEX";
             this.saveHexFileDialog.RestoreDirectory = true;
             this.saveHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveHexFileDialog_FileOk);
             // 
