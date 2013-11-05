@@ -350,7 +350,7 @@ namespace Spectroscopy_Viewer
             else frequency = startFrequency + currentWindowStep * stepSize;
 
             // Loop through list of data elements, but only create a new dataPoint object for each frequency
-            for (int i = x; i < fullData[x].Count; i += numberInterleaved*repeats)
+            for (int i = 0; i < fullData[x].Count; i += repeats)     //JOE CHECK HERE THIS MIGHT BE CAUSING No REPEATS ERROR (HAVE NOW CHANGED - CHECK THIS BUGFIX)
             {
                 // Create new instance of dataPoint
                 dataPointTemp = new dataPoint(ref fullData[x], i, repeats);

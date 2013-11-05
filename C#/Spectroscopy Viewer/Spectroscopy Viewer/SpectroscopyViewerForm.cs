@@ -545,7 +545,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -825,7 +825,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "Z:/Data";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
