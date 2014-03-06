@@ -3037,21 +3037,6 @@ applicable agreement for further details.
 	(pt -512 408)
 )
 (connector
-	(text "<<__$DEF_ALIAS1851>>" (rect -558 368 -435 380)(font "Arial" )(invisible))
-	(pt -568 384)
-	(pt -504 384)
-)
-(connector
-	(text "<<__$DEF_ALIAS1853>>" (rect -566 344 -443 356)(font "Arial" )(invisible))
-	(pt -568 360)
-	(pt -504 360)
-)
-(connector
-	(text "<<__$DEF_ALIAS1855>>" (rect -566 320 -443 332)(font "Arial" )(invisible))
-	(pt -568 336)
-	(pt -504 336)
-)
-(connector
 	(text "LaserLockInRedSC" (rect -446 816 -351 828)(font "Arial" ))
 	(pt -360 832)
 	(pt -432 832)
