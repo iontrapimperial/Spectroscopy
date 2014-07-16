@@ -142,6 +142,7 @@
             this.openHexFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveHexFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenViewerButton = new System.Windows.Forms.Button();
+            this.ClearBoxButton = new System.Windows.Forms.Button();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -1541,6 +1542,8 @@
             // LiveLaserBox854POWER
             // 
             this.LiveLaserBox854POWER.AutoSize = true;
+            this.LiveLaserBox854POWER.Checked = true;
+            this.LiveLaserBox854POWER.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854POWER.Location = new System.Drawing.Point(133, 23);
             this.LiveLaserBox854POWER.Name = "LiveLaserBox854POWER";
             this.LiveLaserBox854POWER.Size = new System.Drawing.Size(91, 17);
@@ -1655,18 +1658,30 @@
             this.OpenViewerButton.UseVisualStyleBackColor = true;
             this.OpenViewerButton.Click += new System.EventHandler(this.OpenViewerButton_Click);
             // 
+            // ClearBoxButton
+            // 
+            this.ClearBoxButton.AutoSize = true;
+            this.ClearBoxButton.Location = new System.Drawing.Point(1054, 504);
+            this.ClearBoxButton.Name = "ClearBoxButton";
+            this.ClearBoxButton.Size = new System.Drawing.Size(92, 40);
+            this.ClearBoxButton.TabIndex = 60;
+            this.ClearBoxButton.Text = "Clear Messages";
+            this.ClearBoxButton.UseVisualStyleBackColor = true;
+            this.ClearBoxButton.Click += new System.EventHandler(this.ClearBoxButton_Click);
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 662);
+            this.Controls.Add(this.ClearBoxButton);
             this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
             this.Controls.Add(this.LaserControl);
             this.Controls.Add(this.SpectroGroup);
             this.Controls.Add(this.DesignerGroup);
             this.Name = "CoreForm";
-            this.Text = "Form1";
+            this.Text = "Spectroscopy Controller";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CoreForm_KeyDown);
             FileSendBox.ResumeLayout(false);
             FileSendBox.PerformLayout();
@@ -1712,6 +1727,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SpecRFAmp)).EndInit();
             this.debugmessagebox.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1825,6 +1841,7 @@
         private System.Windows.Forms.OpenFileDialog openHexFileDialog;
         private System.Windows.Forms.SaveFileDialog saveHexFileDialog;
         private System.Windows.Forms.Button OpenViewerButton;
+        private System.Windows.Forms.Button ClearBoxButton;
     }
 }
 

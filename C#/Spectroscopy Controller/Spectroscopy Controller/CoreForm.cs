@@ -639,23 +639,25 @@ namespace Spectroscopy_Controller
                             myViewer.Show();
                             // Set boolean  to indicate that viewer is open
                             IsViewerOpen = true;
+
+                            // Code required to start the experiment running:
+                            bShouldQuitThread = false;
+
+                            GPIB.InitDevice(19);
+                            GPIB.SetAmplitude(rfAmp);
+                            GPIB.SetFrequency(startFreq);
+
+                            SendSetupFinish();
+
+                            // Start experiment
+                            StartReadingData();
                         }
                         else
                         {
                             MessageBox.Show("Error selecting folder. Please try again.");
+
                         }
 
-                        // Code required to start the experiment running:
-                        bShouldQuitThread = false;
-                                                
-                        GPIB.InitDevice(19);
-                        GPIB.SetAmplitude(rfAmp);
-                        GPIB.SetFrequency(startFreq);
-                                            
-                        SendSetupFinish();
-
-                        // Start experiment
-                        StartReadingData();
                         
                     }
 
@@ -708,7 +710,8 @@ namespace Spectroscopy_Controller
                 // This line happens for both continuous & windowed files
                 myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
 
-                // These bits only need adding to windowed files
+                
+                                // These bits only need adding to windowed files
                 if (specType == "Windowed")
                 {
                     myFileName[i] += "_";
@@ -728,6 +731,8 @@ namespace Spectroscopy_Controller
                 }
                 myFileName[i] += ".txt";
                 //*******************************//
+
+                if(System.IO.File.Exists(myFileName[i])) myFileName[i] += "OVERWRITE";
 
                 // Now we get to actually create the file!
                 myFile[i] = new StreamWriter(myFileName[i]);
@@ -1143,6 +1148,11 @@ namespace Spectroscopy_Controller
             newState.toSweep = oldState.toSweep;
         }
 
+        private void ClearBoxButton_Click(object sender, EventArgs e)
+        {
+            MessagesBox.Items.Clear();
+        }
+
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
@@ -1154,6 +1164,6 @@ namespace Spectroscopy_Controller
             {
                 endReadThreadToolStripMenuItem.Enabled = false;
             }
-        }*/
+        }*/   
     }
 }

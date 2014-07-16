@@ -34,15 +34,11 @@ namespace Spectroscopy_Controller
             this.SpectrumNameBoxEnable();
         }
 
-        // Respond to user clicking OK
+        // Respond to user clicking OK, check if a directory exists with today's date. If it doesn't then create it
         private void OKbutton_Click(object sender, EventArgs e)
         {
-            // Configure 'Choose folder' dialog for saving readings files
-            ChooseFolderDialog.SelectedPath = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
-            if (ChooseFolderDialog.ShowDialog() != DialogResult.Cancel)
-            {                   
-                FilePath = ChooseFolderDialog.SelectedPath;
-            }
+            FilePath = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA\\"+DateTime.UtcNow.ToString("yyyyMMdd");
+            if (!System.IO.Directory.Exists(FilePath))  System.IO.Directory.CreateDirectory(FilePath);
             this.Close();
         }            
 
