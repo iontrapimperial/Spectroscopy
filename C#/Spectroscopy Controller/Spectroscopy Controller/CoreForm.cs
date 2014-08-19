@@ -964,10 +964,10 @@ namespace Spectroscopy_Controller
             if (specTypeTemp == "Windowed")
             {
                 int windowSpaceTemp = 0;
-                if (specDirTemp == "Axial") windowSpaceTemp = (int)(1000 * axFreqBox.Value);
-                else if (specDirTemp == "Radial") windowSpaceTemp = (int)(1000 * modcycFreqBox.Value);
+                if (specDirTemp == "Axial") windowSpaceTemp = (int)(1000 * axFreqBox.Value / 2);
+                else if (specDirTemp == "Radial") windowSpaceTemp = (int)(1000 * modcycFreqBox.Value / 2);
                 int offsetFreq = (int)(1000 * stepSizeBox.Value * sbWidthBox.Value / 2);
-                startFreqBox.Value = (decimal)(((1000000 * carFreqBox.Value) - (windowSpaceTemp * sbToScanBox.Value) - offsetFreq) / 1000000);
+                startFreqBox.Value = (decimal)(((1000000 * carFreqBox.Value) - (sbToScanBox.Value * windowSpaceTemp) - offsetFreq) / 1000000);
             }
 
         }
