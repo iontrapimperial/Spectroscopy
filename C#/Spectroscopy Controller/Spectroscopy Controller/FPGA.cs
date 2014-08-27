@@ -299,7 +299,7 @@ namespace Spectroscopy_Controller
             ResetDevice(50);
             WriteData(x, 8, 0, true);
 
-            SetLasers(true, true, false, true, false, false, false, false, true, false);
+            SetLasers(true, true, false, true, false, false, true, false, true, false);
 
         }
 

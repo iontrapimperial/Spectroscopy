@@ -349,7 +349,7 @@ namespace Spectroscopy_Controller
                 WriteMessage("Can't Send Data to FPGA: USB port is not open", true);
                 return;
             }
-
+            this.Reset();
             openHexFileDialog.ShowDialog();
         }
 
@@ -379,8 +379,8 @@ namespace Spectroscopy_Controller
             // Print message to user
             WriteMessage("Experiment stopped by user\r\n");
             // Call method to deal with enabling/disabling buttons etc
-            this.ExperimentFinished();
             this.Reset();           // Reset
+            this.ExperimentFinished();
         }
 
         

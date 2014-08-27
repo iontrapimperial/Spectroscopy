@@ -171,7 +171,7 @@ namespace Spectroscopy_Viewer
                 // Only consider data point if no errors
                 if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
                 {
-                    if (readingCount[i] <= countThreshold)
+                    if (readingCount[i] < countThreshold)
                     {
                         darkCount++;                        // If count below threshold, then dark
                         readingDark[i] = true;              // Flag as dark
@@ -196,15 +196,12 @@ namespace Spectroscopy_Viewer
                 // Only consider data point if no errors
                 if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
                 {
-                    if (readingCount[i] <= countThreshold)
+                    if (readingCount[i] < countThreshold)
                     {
                         darkCount++;                        // If count below threshold, then dark
                         readingDark[i] = true;              // Flag as dark
                     }
-                    else if (readingCount[i] > countThreshold)       // If count is now above threshold
-                    {
-                        readingDark[i] = false;                 // Flag as NOT dark
-                    }                    
+                    else readingDark[i] = false;                 // Flag as NOT dark                  
                 }
             }
 
@@ -294,7 +291,7 @@ namespace Spectroscopy_Viewer
             badCountsThreshold = 0;                 // Reset to zero
             for (int i = 0; i < repeats; i++)       // For each reading
             {                   
-                if (readingCool[i] <= coolThreshold)
+                if (readingCool[i] < coolThreshold)
                 {
                     if (!readingErrorCool[i] && !readingErrorCount[i]) badCountsThreshold++; // Increase count if NOT already cool/count badcount
                     readingErrorThreshold[i] = true;       // Flag that threshold was NOT met
@@ -318,10 +315,7 @@ namespace Spectroscopy_Viewer
                     if (!readingErrorCool[i] && !readingErrorCount[i]) badCountsThreshold++; // Increase count if NOT already cool/count badcount
                     readingErrorThreshold[i] = true;        // Flag that threshold was NOT met
                 }
-                else if (readingCool[i] >= coolThreshold)         // If it DOES meet threshold
-                {
-                    readingErrorThreshold[i] = false;       // Flag that threshold WAS met
-                }
+                else readingErrorThreshold[i] = false;       // Flag that threshold WAS met 
             }
 
             /* REMOVED FOR BUG FIX

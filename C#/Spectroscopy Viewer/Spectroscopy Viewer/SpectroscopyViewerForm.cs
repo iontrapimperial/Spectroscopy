@@ -1303,9 +1303,21 @@ namespace Spectroscopy_Viewer
             {
                 zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 80;
             }
-            else
+            else if (maxData < 100)
             {
                 zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 100;
+            }
+            else if (maxData < 200)
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 200;
+            }
+            else if (maxData < 400)
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 400;
+            }
+            else
+            {
+                zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 800;
             }
         }
       
