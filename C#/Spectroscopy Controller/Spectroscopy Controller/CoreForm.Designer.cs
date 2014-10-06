@@ -1680,6 +1680,7 @@
             this.Controls.Add(this.LaserControl);
             this.Controls.Add(this.SpectroGroup);
             this.Controls.Add(this.DesignerGroup);
+            this.KeyPreview = true;
             this.Name = "CoreForm";
             this.Text = "Spectroscopy Controller";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CoreForm_KeyDown);

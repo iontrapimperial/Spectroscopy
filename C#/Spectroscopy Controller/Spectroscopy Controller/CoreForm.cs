@@ -1008,13 +1008,66 @@ namespace Spectroscopy_Controller
             }
         }
 
+        // This is a very inelegant bit of code to create keyboard shortcuts. Could be improved
         private void CoreForm_KeyDown(object sender, KeyEventArgs e)
         {
-            // If the space bar has been pressed
-            if (e.KeyCode == Keys.Space)
+            // If F12 has been pressed
+            if (e.KeyCode == Keys.F12)
             {
                 // Press pause button
                 this.PauseButton_Click(sender, e);
+            }
+            // If F1 has been pressed
+            if (e.KeyCode == Keys.F1)
+            {
+                // Change B1 state
+                if (LiveLaserBox397B1.Checked == false)
+                {
+                    LiveLaserBox397B1.Checked = true;
+                }
+                else if (LiveLaserBox397B1.Checked == true)
+                {
+                    LiveLaserBox397B1.Checked = false;
+                }
+            }
+            // If F2 has been pressed
+            if (e.KeyCode == Keys.F2)
+            {
+                // Change B2 state
+                if (LiveLaserBox397B2.Checked == false)
+                {
+                    LiveLaserBox397B2.Checked = true;
+                }
+                else if (LiveLaserBox397B2.Checked == true)
+                {
+                    LiveLaserBox397B2.Checked = false;
+                }
+            }
+            // If F3 has been pressed
+            if (e.KeyCode == Keys.F3)
+            {
+                // Change 729 state
+                if (LiveLaserBox729.Checked == false)
+                {
+                    LiveLaserBox729.Checked = true;
+                }
+                else if (LiveLaserBox729.Checked == true)
+                {
+                    LiveLaserBox729.Checked = false;
+                }
+            }
+            // If F4 has been pressed
+            if (e.KeyCode == Keys.F4)
+            {
+                // Change 854 state
+                if (LiveLaserBox854.Checked == false)
+                {
+                    LiveLaserBox854.Checked = true;
+                }
+                else if (LiveLaserBox854.Checked == true)
+                {
+                    LiveLaserBox854.Checked = false;
+                }
             }
         }
 
@@ -1152,6 +1205,8 @@ namespace Spectroscopy_Controller
         {
             MessagesBox.Items.Clear();
         }
+
+
 
 
         /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running

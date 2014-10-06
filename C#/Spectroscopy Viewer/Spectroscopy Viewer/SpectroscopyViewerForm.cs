@@ -1337,8 +1337,8 @@ namespace Spectroscopy_Viewer
         // To detect a key press from (hopefully) anywhere on the form. This is linked to as many different controls as possible
         private void viewerForm_KeyDown(object sender, KeyEventArgs e)
         {
-            // If the space bar has been pressed
-            if (e.KeyCode == Keys.Space)
+            // If F12 has been pressed
+            if (e.KeyCode == Keys.F12)
             {
                 // Press generate pause event to trigger pause button on CoreForm
                 PauseEvent(this, e);
