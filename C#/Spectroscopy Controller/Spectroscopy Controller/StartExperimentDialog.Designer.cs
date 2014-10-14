@@ -176,8 +176,10 @@
             // 
             // StartExperimentDialog
             // 
+            this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.CancelButton;
             this.ClientSize = new System.Drawing.Size(629, 192);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.spectrumNameGroupBox);
@@ -190,6 +192,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ExperimentName);
             this.Controls.Add(this.label1);
+            this.KeyPreview = true;
             this.Name = "StartExperimentDialog";
             this.Text = "Starting experiment...";
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfRepeats)).EndInit();
