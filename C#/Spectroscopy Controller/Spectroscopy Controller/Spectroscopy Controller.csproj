@@ -51,10 +51,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4A9195EDC89CDDF01D0C7386EF5CB4855BA62C74</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F1C66DD64E8E060521FD104CBE7EFEF9359436CC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Spectroscopy Controller_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Spectroscopy Controller_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -63,10 +63,12 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NationalInstruments.Common, Version=9.1.40.159, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.Common\v4.0_9.1.40.159__dc6ad606294fc298\NationalInstruments.Common.dll</HintPath>
+    <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.Common\v4.0_13.0.40.190__dc6ad606294fc298\NationalInstruments.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.NI4882, Version=9.0.40.157, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.NI4882, Version=13.0.40.159, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies\Current\NationalInstruments.NI4882.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -150,6 +152,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Spectroscopy Controller_1_TemporaryKey.pfx" />
     <None Include="Spectroscopy Controller_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
