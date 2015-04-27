@@ -362,7 +362,7 @@ namespace Spectroscopy_Viewer
         private void loadFileButton_Click(object sender, EventArgs e)
         {
             // Configuring dialog to open a new data file
-            openDataFile.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
+            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data";      // Initialise to share drive
             openDataFile.RestoreDirectory = false;           // Open to last viewed directory
             openDataFile.FileName = "";                     // Set default filename to blank
             openDataFile.Multiselect = true;                // Allow selection of multiple files
@@ -545,7 +545,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -825,7 +825,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\localadmin\\Desktop\\CURRENT DATA";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
