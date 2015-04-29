@@ -60,9 +60,12 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ATMCD32CS">
+      <HintPath>..\..\..\AndorCamera\ATMCD32CS.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.Common\v4.0_13.0.40.190__dc6ad606294fc298\NationalInstruments.Common.dll</HintPath>
@@ -156,6 +159,10 @@
     <None Include="Spectroscopy Controller_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Camera Control\Camera Control.csproj">
+      <Project>{45CAC13D-143C-4ACA-93DE-8715835AF6D3}</Project>
+      <Name>Camera Control</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Spectroscopy Viewer\Spectroscopy Viewer\Spectroscopy Viewer.csproj">
       <Project>{A0DC7E82-3691-484E-8360-7A5036E879BC}</Project>
       <Name>Spectroscopy Viewer</Name>

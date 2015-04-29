@@ -143,6 +143,7 @@
             this.saveHexFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
+            this.OpenCamera = new System.Windows.Forms.Button();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -1669,11 +1670,22 @@
             this.ClearBoxButton.UseVisualStyleBackColor = true;
             this.ClearBoxButton.Click += new System.EventHandler(this.ClearBoxButton_Click);
             // 
+            // OpenCamera
+            // 
+            this.OpenCamera.Location = new System.Drawing.Point(1054, 55);
+            this.OpenCamera.Name = "OpenCamera";
+            this.OpenCamera.Size = new System.Drawing.Size(91, 40);
+            this.OpenCamera.TabIndex = 61;
+            this.OpenCamera.Text = "Start Camera";
+            this.OpenCamera.UseVisualStyleBackColor = true;
+            this.OpenCamera.Click += new System.EventHandler(this.OpenCamera_Click);
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 662);
+            this.Controls.Add(this.OpenCamera);
             this.Controls.Add(this.ClearBoxButton);
             this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
@@ -1683,6 +1695,7 @@
             this.KeyPreview = true;
             this.Name = "CoreForm";
             this.Text = "Spectroscopy Controller";
+            this.Load += new System.EventHandler(this.CoreForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CoreForm_KeyDown);
             FileSendBox.ResumeLayout(false);
             FileSendBox.PerformLayout();
@@ -1843,6 +1856,7 @@
         private System.Windows.Forms.SaveFileDialog saveHexFileDialog;
         private System.Windows.Forms.Button OpenViewerButton;
         private System.Windows.Forms.Button ClearBoxButton;
+        private System.Windows.Forms.Button OpenCamera;
     }
 }
 

@@ -5,20 +5,50 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Controller", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Viewer", "..\Spectroscopy Viewer\Spectroscopy Viewer\Spectroscopy Viewer.csproj", "{A0DC7E82-3691-484E-8360-7A5036E879BC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20AF02B1-FF93-4CC7-B7CF-407E9898C1B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera Control", "..\Camera Control\Camera Control.csproj", "{45CAC13D-143C-4ACA-93DE-8715835AF6D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
 		Debug|x86 = Debug|x86
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|Win32.ActiveCfg = Debug|x86
 		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|x86.ActiveCfg = Debug|x86
 		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Debug|x86.Build.0 = Debug|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|Win32.ActiveCfg = Release|x86
 		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|x86.ActiveCfg = Release|x86
 		{80120DBE-C573-462C-BDB2-FB015E12A6B5}.Release|x86.Build.0 = Release|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|Win32.ActiveCfg = Debug|x86
 		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|x86.ActiveCfg = Debug|x86
 		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Debug|x86.Build.0 = Debug|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|Win32.ActiveCfg = Release|x86
 		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|x86.ActiveCfg = Release|x86
 		{A0DC7E82-3691-484E-8360-7A5036E879BC}.Release|x86.Build.0 = Release|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Debug|Win32.ActiveCfg = Debug|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Debug|x86.ActiveCfg = Debug|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Debug|x86.Build.0 = Debug|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Release|Win32.ActiveCfg = Release|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Release|x86.ActiveCfg = Release|x86
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

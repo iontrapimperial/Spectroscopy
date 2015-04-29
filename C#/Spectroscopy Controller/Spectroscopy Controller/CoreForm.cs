@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.IO;
 //using System.Math;
 using Spectroscopy_Viewer;
+using Camera_Control;
+using ATMCD32CS;
 
 
 
@@ -18,13 +20,14 @@ namespace Spectroscopy_Controller
     {
         // Store viewer as a private member - we can then access it from different parts of the program (need access from FPGAcontrols)
         private SpectroscopyViewerForm myViewer;
+        private CameraForm myCamera;
 
 
         // This has to be a member since we cannot pass parameters to FPGAReadMethod (due to threading)
         // Array of file names for data files
         string[] myFileName;
 
-
+        
 
         TreeNode PreviewNode = new TreeNode();
         //TemplateSelector TemplateForm;
@@ -34,6 +37,8 @@ namespace Spectroscopy_Controller
         private bool bIsFreqGenEnabled = false;
 
         private bool IsViewerOpen = false;
+
+        private bool IsCameraOpen = false;
 
         public bool updating = false;
 
@@ -995,6 +1000,16 @@ namespace Spectroscopy_Controller
             IsViewerOpen = true;
         }
 
+        private void OpenCameraWnd()
+        {
+            myCamera = new Camera_Control.CameraForm();
+            myCamera.FormClosing += new FormClosingEventHandler(myCamera_FormClosing);
+           // myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
+            myCamera.Show();
+            IsCameraOpen = true;
+
+        }
+
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
@@ -1007,6 +1022,20 @@ namespace Spectroscopy_Controller
                 OpenViewer();   
             }
         }
+
+        private void myCamera_FormClosing(object sender, EventArgs e)
+        {
+            IsCameraOpen = false;
+
+            // If viewer dialog result indicates that we should restart the form
+            if (myCamera.DialogResult == DialogResult.Retry)
+            {
+                // Re-open form
+                OpenCameraWnd();
+            }
+        }
+
+
 
         // This is a very inelegant bit of code to create keyboard shortcuts. Could be improved
         private void CoreForm_KeyDown(object sender, KeyEventArgs e)
@@ -1205,6 +1234,19 @@ namespace Spectroscopy_Controller
         {
             MessagesBox.Items.Clear();
         }
+
+        private void CoreForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OpenCamera_Click(object sender, EventArgs e)
+        {
+            OpenCameraWnd();
+        }      
+       
+
+        
 
 
 
