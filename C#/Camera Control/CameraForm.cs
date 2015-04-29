@@ -25,38 +25,38 @@ namespace Camera_Control
         public int acquisitionMode;   // read from xxxxWndw.c
         public int readMode;          // read from xxxxWndw.c
        
-        const int SPI_GETSCREENSAVERRUNNING 114  // screensaver running ID
-        const int Color 256                      // Number of colors in the palette
-
+        const int SPI_GETSCREENSAVERRUNNING = 114;  // screensaver running ID
+        const int Color = 256;                      // Number of colors in the palette
+        int 	hbin,vbin,hstart,hend,vstart,vend,hDim,vDim; 
 // Function Prototypes
 
+         
         
-        void SetWindowsToDefault(char[256]);// Fills windows with default values
-        void SetSystem(void);             // Sets hardware parameters
-        
-        void UpdateDialogWindows(void);   // refreshes all windows
-        void FillRectangle(void);         // clears paint area
-        bool AcquireImageData(void);      // Acquires data from card
-        void PaintDataWindow(void);       // Prepares paint area on screen
-        bool DrawLines(long*,long*); 			// paints data to screen
-        int AllocateBuffers(void);        // Allocates memory for buffers
+         
+        /*
+        void UpdateDialogWindows();   // refreshes all windows
+        void FillRectangle();         // clears paint area
+        bool AcquireImageData();      // Acquires data from card
+        void PaintDataWindow();       // Prepares paint area on screen
+       // bool DrawLines(long ,long); 			// paints data to screen
+        int AllocateBuffers();        // Allocates memory for buffers
         long gliStart, gliEnd, gliFreq;
         void getFluorescence(int run);  
-        void FreeBuffers(void);           // Frees allocated memory
+        void FreeBuffers();           // Frees allocated memory
         void flourThreshDetect(int threshold);          // Detects whether ion is flourescing based on set threshold
         void PaintImage(long maxValue, long minValue, int Start); //Display data on screen
         void paintGraph(int width, int height);
-        void CreateIdentityPalette(HDC ScreenDC); //Palette for PaintData()
-        BOOL ProcessMessages(UINT message, WPARAM wparam, LPARAM lparam){return FALSE;} // No messages to process in this example
+        //void CreateIdentityPalette(HDC ScreenDC); //Palette for PaintData()
+        //BOOL ProcessMessages(UINT message, WPARAM wparam, LPARAM lparam){return FALSE;} // No messages to process in this example
         //void findIons(int noIons, int ionLocations);
 
         // Ion image processing parameters
         int runCounter;                    //Counts the number of rusn in a multi image run-til-abort acquisition.
         int numIons=1;						// The number of ions. Used for tracking and spectroscopy.
         int ionSquarePixelDim = 10;			// dimensions of box to be drawn around ions in camera pixels.
-        int *ionLocations;					// locations of ions that are passed to the drawing function to display on screen
-        int **fluorescenceData;				// 2D pointer array that will store the fluorenscence data for each ion.
-        double **spectrumData;
+       // int *ionLocations;					// locations of ions that are passed to the drawing function to display on screen
+      //  int **fluorescenceData;				// 2D pointer array that will store the fluorenscence data for each ion.
+      //  double **spectrumData;
         int repeatPos;
         int repeatNum;
         int giNumberLoops;					// number of loops (images) for multi image run-til-abort acquisition
@@ -64,8 +64,8 @@ namespace Camera_Control
         int acqType;
         int threshold = 235; 				 // The threshold for determining whether an ion is bright or not based on count in ion square.
         // Set up acquisition parameters here to be set in common.c *****************
+       */
        
-        int readMode=4;
         
 
 
@@ -76,6 +76,7 @@ namespace Camera_Control
 
         public CameraForm()
         {
+            readMode = 4; 
             acquisitionMode = 1;
             uint errorValue;            
             float speed = 0, STemp;
@@ -269,6 +270,32 @@ namespace Camera_Control
         {
         
         }
+
+        private void numIonsUpDown_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void startAcqButton_Click(object sender, EventArgs e)
+        {
+            setSystem();
+        }
+                     
+        //Sets up hardware
+        void setSystem(){
+            vbin = 1;
+            hbin = 1;
+            hstart = (int) horStartUpDown.Value;
+            hend = (int) horEndUpDown.Value; 
+            vstart = (int) verStartUpDown.Value;
+            vend = (int) vertEndUpDown.Value;
+            hDim = (hend - hstart + 1) / hbin; // sets horizontal dimension
+            vDim = (vend - vstart + 1) / vbin;// sets vertical dimension
+
+            System.Diagnostics.Debug.WriteLine(hDim);
+
+        }
+      
 
 
 

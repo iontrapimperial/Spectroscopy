@@ -1243,7 +1243,9 @@ namespace Spectroscopy_Controller
         private void OpenCamera_Click(object sender, EventArgs e)
         {
             OpenCameraWnd();
-        }      
+        }
+
+        
        
 
         
