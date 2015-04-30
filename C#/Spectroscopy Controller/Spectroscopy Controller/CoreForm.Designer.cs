@@ -1623,28 +1623,28 @@
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data\\XML";
+            this.saveXMLFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\XML";
             this.saveXMLFileDialog.RestoreDirectory = true;
             this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
             // 
             this.openXMLFileDialog.Filter = "Xml File|*.xml";
-            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data\\XML";
+            this.openXMLFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\XML";
             this.openXMLFileDialog.RestoreDirectory = true;
             this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
             this.openHexFileDialog.Filter = "Hex File|*.hex";
-            this.openHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data\\HEX";
+            this.openHexFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\HEX";
             this.openHexFileDialog.RestoreDirectory = true;
             this.openHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openHexFileDialog_FileOk);
             // 
             // saveHexFileDialog
             // 
             this.saveHexFileDialog.Filter = "Hex File|*.hex";
-            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data\\HEX";
+            this.saveHexFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\HEX";
             this.saveHexFileDialog.RestoreDirectory = true;
             this.saveHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveHexFileDialog_FileOk);
             // 

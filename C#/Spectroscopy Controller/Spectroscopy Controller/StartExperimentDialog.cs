@@ -37,7 +37,7 @@ namespace Spectroscopy_Controller
         // Respond to user clicking OK, check if a directory exists with today's date. If it doesn't then create it
         private void OKbutton_Click(object sender, EventArgs e)
         {
-            FilePath = "C:\\Users\\IonTrap\\Desktop\\Current Data\\" + DateTime.UtcNow.ToString("yyyyMMdd");
+            FilePath = "D:\\Dropbox\\Current Data\\" + DateTime.UtcNow.ToString("yyyyMMdd");
             if (!System.IO.Directory.Exists(FilePath))  System.IO.Directory.CreateDirectory(FilePath);
             this.Close();
         }            
