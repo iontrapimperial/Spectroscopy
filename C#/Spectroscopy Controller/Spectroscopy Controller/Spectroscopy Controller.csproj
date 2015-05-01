@@ -89,7 +89,7 @@
     <Compile Include="CoreForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CoreForm.Designer.cs">
+    <Compile Include="CoreForm.designer.cs">
       <DependentUpon>CoreForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Defines.cs" />

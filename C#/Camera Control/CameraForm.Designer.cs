@@ -32,9 +32,9 @@
             this.ShutDown = new System.Windows.Forms.Button();
             this.numIonsUpDown = new System.Windows.Forms.NumericUpDown();
             this.NumberOfIons = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.ionSquareDimUpDown = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.exposureUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.comboTrigger = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,9 +55,11 @@
             this.loopNumLabel = new System.Windows.Forms.Label();
             this.acqTypeComboBox = new System.Windows.Forms.ComboBox();
             this.startAcqButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.errorMsgTxtBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
             this.subImaging.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vertEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.verStartUpDown)).BeginInit();
@@ -66,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.threshUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRepeatsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLoopsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -110,13 +113,13 @@
             this.NumberOfIons.TabIndex = 3;
             this.NumberOfIons.Text = "Number of Ions";
             // 
-            // numericUpDown1
+            // ionSquareDimUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(16, 89);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(84, 20);
-            this.numericUpDown1.TabIndex = 4;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.ionSquareDimUpDown.Location = new System.Drawing.Point(16, 89);
+            this.ionSquareDimUpDown.Name = "ionSquareDimUpDown";
+            this.ionSquareDimUpDown.Size = new System.Drawing.Size(84, 20);
+            this.ionSquareDimUpDown.TabIndex = 4;
+            this.ionSquareDimUpDown.Value = new decimal(new int[] {
             10,
             0,
             0,
@@ -131,24 +134,24 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Size of Ion Box";
             // 
-            // numericUpDown2
+            // exposureUpDown
             // 
-            this.numericUpDown2.DecimalPlaces = 4;
-            this.numericUpDown2.Increment = new decimal(new int[] {
+            this.exposureUpDown.DecimalPlaces = 4;
+            this.exposureUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.numericUpDown2.Location = new System.Drawing.Point(16, 137);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.exposureUpDown.Location = new System.Drawing.Point(16, 137);
+            this.exposureUpDown.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(83, 20);
-            this.numericUpDown2.TabIndex = 6;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.exposureUpDown.Name = "exposureUpDown";
+            this.exposureUpDown.Size = new System.Drawing.Size(83, 20);
+            this.exposureUpDown.TabIndex = 6;
+            this.exposureUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -173,6 +176,7 @@
             this.comboTrigger.Name = "comboTrigger";
             this.comboTrigger.Size = new System.Drawing.Size(85, 21);
             this.comboTrigger.TabIndex = 8;
+            this.comboTrigger.Text = "Software";
             // 
             // label3
             // 
@@ -415,6 +419,7 @@
             this.acqTypeComboBox.Name = "acqTypeComboBox";
             this.acqTypeComboBox.Size = new System.Drawing.Size(85, 21);
             this.acqTypeComboBox.TabIndex = 17;
+            this.acqTypeComboBox.Text = "Single";
             // 
             // startAcqButton
             // 
@@ -426,11 +431,29 @@
             this.startAcqButton.UseVisualStyleBackColor = true;
             this.startAcqButton.Click += new System.EventHandler(this.startAcqButton_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(204, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(416, 374);
+            this.pictureBox1.TabIndex = 19;
+            this.pictureBox1.TabStop = false;
+            // 
+            // errorMsgTxtBox
+            // 
+            this.errorMsgTxtBox.Location = new System.Drawing.Point(204, 414);
+            this.errorMsgTxtBox.Multiline = true;
+            this.errorMsgTxtBox.Name = "errorMsgTxtBox";
+            this.errorMsgTxtBox.Size = new System.Drawing.Size(416, 116);
+            this.errorMsgTxtBox.TabIndex = 21;
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.errorMsgTxtBox);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.startAcqButton);
             this.Controls.Add(this.acqTypeComboBox);
             this.Controls.Add(this.loopNumLabel);
@@ -443,9 +466,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboTrigger);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.exposureUpDown);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.ionSquareDimUpDown);
             this.Controls.Add(this.NumberOfIons);
             this.Controls.Add(this.numIonsUpDown);
             this.Controls.Add(this.ShutDown);
@@ -454,8 +477,8 @@
             this.Text = "Camera Controller";
             this.Load += new System.EventHandler(this.CameraForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).EndInit();
             this.subImaging.ResumeLayout(false);
             this.subImaging.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vertEndUpDown)).EndInit();
@@ -465,6 +488,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.threshUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRepeatsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLoopsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -476,9 +500,9 @@
         private System.Windows.Forms.Button ShutDown;
         private System.Windows.Forms.NumericUpDown numIonsUpDown;
         private System.Windows.Forms.Label NumberOfIons;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown ionSquareDimUpDown;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown exposureUpDown;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboTrigger;
         private System.Windows.Forms.Label label3;
@@ -499,6 +523,8 @@
         private System.Windows.Forms.Label loopNumLabel;
         private System.Windows.Forms.ComboBox acqTypeComboBox;
         private System.Windows.Forms.Button startAcqButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox errorMsgTxtBox;
     }
 }
 
