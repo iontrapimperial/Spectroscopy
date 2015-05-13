@@ -1002,11 +1002,14 @@ namespace Spectroscopy_Controller
 
         private void OpenCameraWnd()
         {
-            myCamera = new Camera_Control.CameraForm();
-            myCamera.FormClosing += new FormClosingEventHandler(myCamera_FormClosing);
-           // myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
-            myCamera.Show();
-            IsCameraOpen = true;
+            if (IsCameraOpen == false)
+            {
+                myCamera = new Camera_Control.CameraForm();
+                myCamera.FormClosing += new FormClosingEventHandler(myCamera_FormClosing);
+                // myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
+                myCamera.Show();
+                IsCameraOpen = true;
+            }
 
         }
 

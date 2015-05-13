@@ -414,7 +414,7 @@
             this.acqTypeComboBox.FormattingEnabled = true;
             this.acqTypeComboBox.Items.AddRange(new object[] {
             "Single",
-            "Multi"});
+            "Multi","Kinetic Series"});
             this.acqTypeComboBox.Location = new System.Drawing.Point(19, 509);
             this.acqTypeComboBox.Name = "acqTypeComboBox";
             this.acqTypeComboBox.Size = new System.Drawing.Size(85, 21);
