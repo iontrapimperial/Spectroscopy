@@ -81,6 +81,7 @@
             this.zedGraphSpectra.ScrollMinY2 = 0D;
             this.zedGraphSpectra.Size = new System.Drawing.Size(775, 456);
             this.zedGraphSpectra.TabIndex = 0;
+            this.zedGraphSpectra.Load += new System.EventHandler(this.zedGraphSpectra_Load);
             this.zedGraphSpectra.KeyDown += new System.Windows.Forms.KeyEventHandler(this.viewerForm_KeyDown);
             // 
             // openDataFile

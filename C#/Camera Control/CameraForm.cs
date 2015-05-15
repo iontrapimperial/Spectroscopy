@@ -8,6 +8,9 @@ using ATMCD32CS;
 using ImageProc;
 using System.Diagnostics;
 using System.Threading;
+using System.ComponentModel;
+using System.Timers;
+
 
 namespace Camera_Control
 {
@@ -25,13 +28,16 @@ namespace Camera_Control
         public int acquisitionMode;   // read from xxxxWndw.c
         public int readMode;          // read from xxxxWndw.c
         bool gblData = false;
+        bool abortCont;
         const int SPI_GETSCREENSAVERRUNNING = 114;  // screensaver running ID
         const int Color = 256;// 65536;                      // Number of colors in the palette
         int hbin, vbin, hstart, hend, vstart, vend, hDim, vDim;
+        int hBoxStart, hBoxEnd, vBoxStart, vBoxEnd;
         // Function Prototypes
         double freqStep;
         double freqStart;
-        
+        BackgroundWorker bw = new BackgroundWorker();
+        private static System.Windows.Forms.Timer aTimer;
 
 
 
@@ -74,8 +80,12 @@ namespace Camera_Control
         int acqType;
         int threshold = 235;
 
-
-
+        
+        private void InitializeBackgroundWorker()
+        {
+            bw.DoWork +=
+                new DoWorkEventHandler(bw_DoWork);            
+        } 
 
 
 
@@ -83,6 +93,9 @@ namespace Camera_Control
 
         public CameraForm()
         {
+
+            aTimer = new System.Windows.Forms.Timer();
+            InitializeBackgroundWorker();
             freqStep =1;
             freqStart = 1.0;
             readMode = 4;
@@ -299,6 +312,9 @@ namespace Camera_Control
         //Sets up hardware
         void setSystem()
         {
+            
+
+
             float fExposure, fAccumTime = 0, fKineticTime = 0;
             uint errorValue;
             int i;
@@ -311,7 +327,10 @@ namespace Camera_Control
             vend = (int)vertEndUpDown.Value;
             hDim = (hend - hstart + 1) / hbin; // sets horizontal dimension
             vDim = (vend - vstart + 1) / vbin;// sets vertical dimension
-
+            hBoxStart = (int)hBoxStartUpDown.Value;
+            hBoxEnd = (int)hBoxEndUpDown.Value;
+            vBoxStart = (int)vBoxStartUpDown.Value;
+            vBoxEnd = (int)vBoxEndUpDown.Value;
 
             //Set Exposure
             fExposure = (float)exposureUpDown.Value;
@@ -360,6 +379,11 @@ namespace Camera_Control
             {
                 acqType = 2;
                 acquisitionMode = 3;
+            }
+            if (acqTypeComboBox.SelectedItem.ToString() == "Continuous")
+            {
+                acqType = 3;
+                acquisitionMode = 5;
             }
 
 
@@ -427,6 +451,24 @@ namespace Camera_Control
                 gblData = false;
 
             }
+            if (hBoxStart < hstart )
+            {
+                hBoxStart = hstart; 
+            }
+            if (hBoxEnd > hend )
+            {
+                hBoxEnd = hend; 
+            }
+            if (vBoxStart < vstart )
+            {
+                vBoxStart = vstart; 
+            }
+            if (vBoxEnd > vend )
+            {
+                vBoxEnd = vend; 
+            }
+
+
 
 
 
@@ -441,6 +483,13 @@ namespace Camera_Control
             /* long ind=NULL;
              int test = GetSizeOfCircularBuffer(&ind);
              printf("size:  %ld %d",ind, test);*/
+
+
+            bw.WorkerSupportsCancellation = true;
+          
+
+          
+
             myAndor.SetFrameTransferMode(1);
             errorValue = myAndor.SetImage(hbin, vbin, hstart, hend, vstart, vend);
             if (errorValue != 20002)
@@ -540,16 +589,60 @@ namespace Camera_Control
                         //writeToFile();
                     //}
                 }
+                if (acqType == 3)
+                {
+                   
+                    // Hook up the Elapsed event for the timer. 
+                    
+                   // aTimer.SynchronizingObject = this;
+                    ionLocations = new int[numIons];
+                    myAndor.SetKineticCycleTime(1);
+                    myAndor.SetTriggerMode(0);
+                    myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
+                    aTimer.Interval = (int) (1000*fKineticTime);                    
+                    aTimer.Tick += new EventHandler(OnTimedEvent);
+                    errorValue = myAndor.StartAcquisition();
+                    if (giTrigger == 6)
+                        errorMsgTxtBox.AppendText("Waiting for external trigger" + "\r\n");                    
+                    if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                    {
+                        errorMsgTxtBox.AppendText("Error Starting Acquisition" + "\r\n");
+                        errorMsgTxtBox.AppendText(errorValue.ToString());
+                        myAndor.AbortAcquisition();
+                        gblData = false;
+                    }
+                    else
+                    {
+
+                        abortCont = false;
+                        errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
+                        
+                        if (bw.IsBusy != true)
+                        {
+                            // Start the asynchronous operation.
+                            Console.WriteLine("In front of worker");
+                            bw.RunWorkerAsync();
+                            Console.WriteLine("In front of time ");
+                            Thread.Sleep(100);
+                            aTimer.Enabled = true;
+                            aTimer.Start();
+                            Console.WriteLine("after time start");
+                        }  
+                       
+                       
+                    }
+                    
+                }
+
             }
+            Console.WriteLine("Set system done");
         }// end of set system
 
         bool AcquireImageData()
         {
             uint size;
             uint errorValue;
-            Stopwatch sw = new Stopwatch();
-
-            sw.Start();
+            
             size = (uint)(hDim * vDim);            
             myAndor.SendSoftwareTrigger();    // PHYSICAL CAMERA ACQUISITION STARTS
             errorMsgTxtBox.AppendText("trigger sent" + "\r\n"); 
@@ -587,9 +680,7 @@ namespace Camera_Control
                 {
                     sprintf(aBuffer2, "%d ", ionLocations[i]);
                     strcat(aBuffer, aBuffer2);
-                }*/
-                sw.Stop();
-                Console.WriteLine("Elapsed={0}", sw.Elapsed);
+                }*/                
                 findIons();
                 drawCameraImage();  
             }          
@@ -736,7 +827,32 @@ namespace Camera_Control
 
          }
 
+         bool AcquireImageDataCont()
+         {
+             uint size;
+             uint errorValue;
+             //Stopwatch sw = new Stopwatch();
+             Console.WriteLine("Outside while loop");
+             while (abortCont == false)
+             {
+                 //sw.Start();
+                 Console.WriteLine("Inside while loop");
+                 size = (uint)(hDim * vDim);
+                // errorMsgTxtBox.AppendText("Hey there" + "\r\n");
+                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION
+                 // WaitForAcquisitionTimeOut(200);
+                // errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
+                 pImageArray = new int[size];
+                 // ACQUISTION PERFORMED HERE!!!
+                 errorValue = myAndor.GetOldestImage(pImageArray, size);
+                 findIons();      
+             }
 
+
+
+             return true;
+
+         }
 
 
 
@@ -838,7 +954,7 @@ namespace Camera_Control
                 {  // if there is no overlap store position of ion.
                     ionLocations[ionsFound] = maxIndex;
                     ionsFound++;
-                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position  " + maxIndex + " with counts "+ maxValue+ "\n");  
+                    //errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position  " + maxIndex + " with counts "+ maxValue+ "\n");  
                    
                 }
 
@@ -876,6 +992,24 @@ namespace Camera_Control
             }
 
         }
+
+        
+        int getFluorescenceCont()
+        {
+           int i, j;
+           int fluorescence = 0;
+           int hBoxDim = hBoxEnd-hBoxStart;
+           int vBoxDim = vBoxEnd - vBoxStart;
+           int hOffset = hBoxStart - hstart;
+           int vOffset = vBoxStart - vstart;
+            for(i=0;i<hBoxDim;i++){
+                for(j=0;j<vBoxDim;j++){
+                    fluorescence+=pImageArray[i*hDim+ j+hOffset+vOffset*hDim];
+                }
+            }
+            return fluorescence;
+        } 
+
 
 
         void flourThreshDetect(int repeatN, int threshold, int loopNum)
@@ -1027,7 +1161,31 @@ namespace Camera_Control
             }
         }
 
+        private void AbortAcquisition_Click(object sender, EventArgs e)
+        {
+            abortCont = true;
+            bw.CancelAsync();
+            myAndor.AbortAcquisition();
+            aTimer.Stop();
+        }
+         private void bw_DoWork(object sender, DoWorkEventArgs e)
+          {
+             // errorMsgTxtBox.AppendText("Hi");
+             // Run your while loop here and return result.
+              Console.WriteLine("In dwo work");
+             AcquireImageDataCont();
+          }
 
+          // when you click on some cancel button  
+
+         private void OnTimedEvent(Object source, EventArgs e)
+         {
+             
+            errorMsgTxtBox.AppendText("Fluorescence: " + getFluorescenceCont() + "\r\n");
+            
+            drawCameraImage();                   
+            
+         }
 
 
 

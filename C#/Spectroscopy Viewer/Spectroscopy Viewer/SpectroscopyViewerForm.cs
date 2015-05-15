@@ -46,7 +46,7 @@ namespace Spectroscopy_Viewer
         private List<Color> myColoursBadCounts = new List<Color>();
 
         // Boolean to tell the form whether the experiment is running or not
-        // i.e. whether it is received live data
+        // i.e. whether it has received live data
         // This isn't actually used for anything at the moment
         private bool IsExperimentRunning = new bool();
         
@@ -1343,6 +1343,11 @@ namespace Spectroscopy_Viewer
                 // Press generate pause event to trigger pause button on CoreForm
                 PauseEvent(this, e);
             }
+        }
+
+        private void zedGraphSpectra_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

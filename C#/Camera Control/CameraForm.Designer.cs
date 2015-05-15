@@ -57,6 +57,17 @@
             this.startAcqButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.errorMsgTxtBox = new System.Windows.Forms.TextBox();
+            this.AbortAcquisition = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.vBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
+            this.vBoxStartUpDown = new System.Windows.Forms.NumericUpDown();
+            this.hBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
+            this.hBoxStartUpDown = new System.Windows.Forms.NumericUpDown();
+            this.fluorBoxLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -69,6 +80,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numRepeatsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLoopsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vBoxEndUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vBoxStartUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -414,7 +430,9 @@
             this.acqTypeComboBox.FormattingEnabled = true;
             this.acqTypeComboBox.Items.AddRange(new object[] {
             "Single",
-            "Multi","Kinetic Series"});
+            "Multi",
+            "Kinetic Series",
+            "Continuous"});
             this.acqTypeComboBox.Location = new System.Drawing.Point(19, 509);
             this.acqTypeComboBox.Name = "acqTypeComboBox";
             this.acqTypeComboBox.Size = new System.Drawing.Size(85, 21);
@@ -447,11 +465,172 @@
             this.errorMsgTxtBox.Size = new System.Drawing.Size(416, 116);
             this.errorMsgTxtBox.TabIndex = 21;
             // 
+            // AbortAcquisition
+            // 
+            this.AbortAcquisition.Location = new System.Drawing.Point(734, 268);
+            this.AbortAcquisition.Name = "AbortAcquisition";
+            this.AbortAcquisition.Size = new System.Drawing.Size(121, 56);
+            this.AbortAcquisition.TabIndex = 22;
+            this.AbortAcquisition.Text = "Abort Acquisition";
+            this.AbortAcquisition.UseVisualStyleBackColor = true;
+            this.AbortAcquisition.Click += new System.EventHandler(this.AbortAcquisition_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(77, 84);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Vert. End";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Vert. Start";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(77, 23);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Horiz. End";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 23);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Horiz. Start";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.vBoxEndUpDown);
+            this.panel1.Controls.Add(this.vBoxStartUpDown);
+            this.panel1.Controls.Add(this.hBoxEndUpDown);
+            this.panel1.Controls.Add(this.hBoxStartUpDown);
+            this.panel1.Location = new System.Drawing.Point(700, 367);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(155, 163);
+            this.panel1.TabIndex = 23;
+            // 
+            // vBoxEndUpDown
+            // 
+            this.vBoxEndUpDown.Location = new System.Drawing.Point(80, 100);
+            this.vBoxEndUpDown.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            this.vBoxEndUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.vBoxEndUpDown.Name = "vBoxEndUpDown";
+            this.vBoxEndUpDown.Size = new System.Drawing.Size(72, 20);
+            this.vBoxEndUpDown.TabIndex = 3;
+            this.vBoxEndUpDown.Value = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            // 
+            // vBoxStartUpDown
+            // 
+            this.vBoxStartUpDown.Location = new System.Drawing.Point(3, 100);
+            this.vBoxStartUpDown.Maximum = new decimal(new int[] {
+            511,
+            0,
+            0,
+            0});
+            this.vBoxStartUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.vBoxStartUpDown.Name = "vBoxStartUpDown";
+            this.vBoxStartUpDown.Size = new System.Drawing.Size(72, 20);
+            this.vBoxStartUpDown.TabIndex = 2;
+            this.vBoxStartUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // hBoxEndUpDown
+            // 
+            this.hBoxEndUpDown.Location = new System.Drawing.Point(80, 39);
+            this.hBoxEndUpDown.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            this.hBoxEndUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.hBoxEndUpDown.Name = "hBoxEndUpDown";
+            this.hBoxEndUpDown.Size = new System.Drawing.Size(72, 20);
+            this.hBoxEndUpDown.TabIndex = 1;
+            this.hBoxEndUpDown.Value = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            // 
+            // hBoxStartUpDown
+            // 
+            this.hBoxStartUpDown.Location = new System.Drawing.Point(3, 39);
+            this.hBoxStartUpDown.Maximum = new decimal(new int[] {
+            511,
+            0,
+            0,
+            0});
+            this.hBoxStartUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.hBoxStartUpDown.Name = "hBoxStartUpDown";
+            this.hBoxStartUpDown.Size = new System.Drawing.Size(72, 20);
+            this.hBoxStartUpDown.TabIndex = 0;
+            this.hBoxStartUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // fluorBoxLabel
+            // 
+            this.fluorBoxLabel.AutoSize = true;
+            this.fluorBoxLabel.Location = new System.Drawing.Point(731, 367);
+            this.fluorBoxLabel.Name = "fluorBoxLabel";
+            this.fluorBoxLabel.Size = new System.Drawing.Size(92, 13);
+            this.fluorBoxLabel.TabIndex = 14;
+            this.fluorBoxLabel.Text = "Fluorescence Box";
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.fluorBoxLabel);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.AbortAcquisition);
             this.Controls.Add(this.errorMsgTxtBox);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.startAcqButton);
@@ -489,6 +668,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numRepeatsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLoopsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vBoxEndUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vBoxStartUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -525,6 +710,17 @@
         private System.Windows.Forms.Button startAcqButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TextBox errorMsgTxtBox;
+        private System.Windows.Forms.Button AbortAcquisition;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.NumericUpDown vBoxEndUpDown;
+        private System.Windows.Forms.NumericUpDown vBoxStartUpDown;
+        private System.Windows.Forms.NumericUpDown hBoxEndUpDown;
+        private System.Windows.Forms.NumericUpDown hBoxStartUpDown;
+        private System.Windows.Forms.Label fluorBoxLabel;
     }
 }
 
