@@ -68,6 +68,10 @@
             this.hBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
             this.hBoxStartUpDown = new System.Windows.Forms.NumericUpDown();
             this.fluorBoxLabel = new System.Windows.Forms.Label();
+            this.comboCountType = new System.Windows.Forms.ComboBox();
+            this.CountTypeLabel = new System.Windows.Forms.Label();
+            this.gainUpDown = new System.Windows.Forms.NumericUpDown();
+            this.gainLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -85,6 +89,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.vBoxStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -623,11 +628,58 @@
             this.fluorBoxLabel.TabIndex = 14;
             this.fluorBoxLabel.Text = "Fluorescence Box";
             // 
+            // comboCountType
+            // 
+            this.comboCountType.FormattingEnabled = true;
+            this.comboCountType.Items.AddRange(new object[] {
+            "Counts",
+            "Electrons",
+            "Photons"});
+            this.comboCountType.Location = new System.Drawing.Point(99, 462);
+            this.comboCountType.Name = "comboCountType";
+            this.comboCountType.Size = new System.Drawing.Size(85, 21);
+            this.comboCountType.TabIndex = 24;
+            this.comboCountType.Text = "Counts";
+            // 
+            // CountTypeLabel
+            // 
+            this.CountTypeLabel.AutoSize = true;
+            this.CountTypeLabel.Location = new System.Drawing.Point(96, 446);
+            this.CountTypeLabel.Name = "CountTypeLabel";
+            this.CountTypeLabel.Size = new System.Drawing.Size(62, 13);
+            this.CountTypeLabel.TabIndex = 25;
+            this.CountTypeLabel.Text = "Count Type";
+            // 
+            // gainUpDown
+            // 
+            this.gainUpDown.Location = new System.Drawing.Point(113, 46);
+            this.gainUpDown.Name = "gainUpDown";
+            this.gainUpDown.Size = new System.Drawing.Size(85, 20);
+            this.gainUpDown.TabIndex = 26;
+            this.gainUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // gainLabel
+            // 
+            this.gainLabel.AutoSize = true;
+            this.gainLabel.Location = new System.Drawing.Point(110, 30);
+            this.gainLabel.Name = "gainLabel";
+            this.gainLabel.Size = new System.Drawing.Size(29, 13);
+            this.gainLabel.TabIndex = 27;
+            this.gainLabel.Text = "Gain";
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.gainLabel);
+            this.Controls.Add(this.gainUpDown);
+            this.Controls.Add(this.CountTypeLabel);
+            this.Controls.Add(this.comboCountType);
             this.Controls.Add(this.fluorBoxLabel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.AbortAcquisition);
@@ -674,6 +726,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.vBoxStartUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -721,6 +774,10 @@
         private System.Windows.Forms.NumericUpDown hBoxEndUpDown;
         private System.Windows.Forms.NumericUpDown hBoxStartUpDown;
         private System.Windows.Forms.Label fluorBoxLabel;
+        private System.Windows.Forms.ComboBox comboCountType;
+        private System.Windows.Forms.Label CountTypeLabel;
+        private System.Windows.Forms.NumericUpDown gainUpDown;
+        private System.Windows.Forms.Label gainLabel;
     }
 }
 

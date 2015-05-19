@@ -318,6 +318,7 @@ namespace Camera_Control
             float fExposure, fAccumTime = 0, fKineticTime = 0;
             uint errorValue;
             int i;
+            int gain = (int) gainUpDown.Value;
             gblData = true;
             vbin = 1;
             hbin = 1;
@@ -331,7 +332,7 @@ namespace Camera_Control
             hBoxEnd = (int)hBoxEndUpDown.Value;
             vBoxStart = (int)vBoxStartUpDown.Value;
             vBoxEnd = (int)vBoxEndUpDown.Value;
-
+            int countType = 0;
             //Set Exposure
             fExposure = (float)exposureUpDown.Value;
             errorValue = myAndor.SetExposureTime(fExposure);
@@ -385,7 +386,20 @@ namespace Camera_Control
                 acqType = 3;
                 acquisitionMode = 5;
             }
+            if (comboCountType.SelectedItem.ToString() == "Counts")
+            {
+                countType = 0;
+            }
+            else if (comboTrigger.SelectedItem.ToString() == "Electrons")
+            {
+                countType = 1;
+            }
+            else if (comboTrigger.SelectedItem.ToString() == "Photons")
+            {
+                countType = 2;
+            }
 
+            myAndor.SetEMGainMode(3);
 
 
             errorValue = myAndor.SetAcquisitionMode(acquisitionMode);
@@ -396,10 +410,45 @@ namespace Camera_Control
              MessageBoxIcon.Exclamation,
              MessageBoxDefaultButton.Button1);
 
+            errorValue = myAndor.SetEMCCDGain(gain);
+            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                MessageBox.Show("Error setting gain.",
+            "Error!",
+              MessageBoxButtons.OK,
+             MessageBoxIcon.Exclamation,
+             MessageBoxDefaultButton.Button1);
 
             errorValue = myAndor.SetTriggerMode(giTrigger);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                 MessageBox.Show("Error setting trigger mode.",
+            "Error!",
+              MessageBoxButtons.OK,
+             MessageBoxIcon.Exclamation,
+             MessageBoxDefaultButton.Button1);
+
+            errorValue = myAndor.SetPreAmpGain(1);
+            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                MessageBox.Show("Error setting preamp.",
+            "Error!",
+              MessageBoxButtons.OK,
+             MessageBoxIcon.Exclamation,
+             MessageBoxDefaultButton.Button1);
+           
+
+            
+                errorValue = myAndor.SetCountConvertMode(countType);
+                if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                    MessageBox.Show("Error setting count mode.",
+                "Error!",
+                    MessageBoxButtons.OK,
+                   MessageBoxIcon.Exclamation,
+                   MessageBoxDefaultButton.Button1);
+            
+           
+
+            errorValue = myAndor.SetCountConvertWavelength((float)397);
+            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                MessageBox.Show("Error setting wavelenght.",
             "Error!",
               MessageBoxButtons.OK,
              MessageBoxIcon.Exclamation,
@@ -522,7 +571,7 @@ namespace Camera_Control
                     {
                         errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
                         AcquireImageData();
-                        // SetTimer(hwnd,timer,100,NULL);
+
                     }
                     myAndor.AbortAcquisition();
                 }
@@ -845,7 +894,7 @@ namespace Camera_Control
                  pImageArray = new int[size];
                  // ACQUISTION PERFORMED HERE!!!
                  errorValue = myAndor.GetOldestImage(pImageArray, size);
-                 findIons();      
+                // findIons();      
              }
 
 
@@ -954,7 +1003,7 @@ namespace Camera_Control
                 {  // if there is no overlap store position of ion.
                     ionLocations[ionsFound] = maxIndex;
                     ionsFound++;
-                    //errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position  " + maxIndex + " with counts "+ maxValue+ "\n");  
+                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position  " + maxIndex + " with counts "+ maxValue+ "\n");  
                    
                 }
 
@@ -998,8 +1047,8 @@ namespace Camera_Control
         {
            int i, j;
            int fluorescence = 0;
-           int hBoxDim = hBoxEnd-hBoxStart;
-           int vBoxDim = vBoxEnd - vBoxStart;
+           int hBoxDim = hBoxEnd-hBoxStart +1 ;
+           int vBoxDim = vBoxEnd - vBoxStart + 1;
            int hOffset = hBoxStart - hstart;
            int vOffset = vBoxStart - vstart;
             for(i=0;i<hBoxDim;i++){
@@ -1068,9 +1117,8 @@ namespace Camera_Control
 
             double H = Math.Ceiling((double)(ionSquarePixelDim * width) / (double)hDim);
             double HH = (double)(width) / (double)hDim;
-            int dimH = (int)H;  // Dimensions of the box are fixed             
-            double remH = 1 - ((double)width / (double)hDim - Math.Floor((double)width / (double)hDim));
-            if (remH == 1) remH = 0;                  
+            int dimH = (int)H;  // Dimensions of the box are fixed        
+                            
             int dimV = (int)(Math.Ceiling((double)ionSquarePixelDim * height / vDim));
             double dimHH = (double)(ionSquarePixelDim * width / hDim);  // Dimensions of the box are fixed
             double dimVV = (double)(ionSquarePixelDim * height / vDim);
@@ -1132,7 +1180,109 @@ namespace Camera_Control
             pinnedArray.Free();
         }
 
+        void drawCameraImageCont()
+        {
+            int hBoxDim = hBoxEnd - hBoxStart + 1;
+            int vBoxDim = vBoxEnd - vBoxStart + 1;
+            int hOffset = hBoxStart - hstart;
+            int vOffset = vBoxStart - vstart;
+            long MaxValue;
+            long MinValue;
+            int i;
+            MaxValue = 1;
+            MinValue = 65536;
+            float xscale, yscale, zscale, modrange;
+            double dTemp;
+            int width, height;
+            int j, x, z, iTemp;
 
+            for (i = 0; i < (hDim * vDim); i++)
+            {
+                if (pImageArray[i] > MaxValue)
+                {
+                    // printf("max %ld ", MaxValue);
+
+                    MaxValue = pImageArray[i];
+                }
+
+                if (pImageArray[i] < MinValue)
+                    MinValue = pImageArray[i];
+            }
+            modrange = MaxValue - MinValue;
+            width = 400;//rect.right - rect.left + 1;
+            // while(width%4!=0||width%hDim!=0)                 // width must be a multiple of 4 and the width should be divisble by the number of horizontal pixels
+            //      width ++;// (4-width%4);
+            height = width;//rect.bottom - rect.top + 1;
+            xscale = (float)(hDim) / (float)(width);
+            yscale = (float)(256.0) / (float)modrange;
+            zscale = (float)(vDim) / (float)(height);
+
+
+            double H = Math.Ceiling((double)(hBoxDim * width) / (double)hDim);
+            double V = Math.Ceiling((double)(vBoxDim * width) / (double)vDim);
+            double HH = (double)(width) / (double)hDim;
+            double VH = (double)(height) / (double)vDim;
+            int dimH = (int)H;// Dimensions of the box are fixed          
+            
+            int dimV = (int)V;
+            double dimHH = (double)(hBoxDim * width / hDim);  // Dimensions of the box are fixed
+            double dimVV = (double)(vBoxDim * height / vDim);
+            byte[] byteArray = new byte[width * height];
+
+
+            for (i = 0; i < height; i++)
+            {
+                z = (int)(i * zscale);
+                for (j = 0; j < width; j++)
+                {
+                    x = (int)(j * xscale);
+                    dTemp = Math.Ceiling(yscale * (pImageArray[x + z * hDim] - MinValue));
+                    if (dTemp < 0) iTemp = 0;
+                    else if (dTemp > Color - 1) iTemp = Color - 1;
+                    else iTemp = (int)dTemp;
+                    byteArray[j + i * width] = (byte)iTemp;
+                }
+            }
+
+           
+           int xPos, yPos;
+           xPos = (int)(((hOffset)) * HH);
+           yPos = (int)(((vOffset) ) * VH);
+           for (i = yPos; i < yPos + dimV; i++)
+           {
+               for (j = xPos; j < xPos + dimH; j++)
+               {
+                   if (i == yPos || j == xPos || i == yPos + dimV - 1 || j == xPos + dimH - 1)
+                       byteArray[j + i * width] = (byte)0;
+               }
+           }
+            
+
+
+            Size sizeImg = new Size(400, 400);
+            GCHandle pinnedArray = GCHandle.Alloc(byteArray, GCHandleType.Pinned);
+            IntPtr dataPtr = pinnedArray.AddrOfPinnedObject();
+            pictureBox1.Size = new Size(400, 400);
+            this.Controls.Add(pictureBox1);
+            Bitmap flag = new Bitmap(width, height, width, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, dataPtr);    //Format8bppIndexed
+            Image8Bit img = new Image8Bit(flag);
+            img.MakeGrayscale();
+            img.Dispose();
+            Bitmap b = new Bitmap(sizeImg.Width, sizeImg.Height);
+            using (Graphics gr = Graphics.FromImage(b))
+            {
+                gr.SmoothingMode = SmoothingMode.HighQuality;
+                // gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(flag, new Rectangle(0, 0, sizeImg.Width, sizeImg.Height));
+            }
+
+
+            pictureBox1.Image = b;
+            pictureBox1.Refresh();
+            pinnedArray.Free();
+        }
         void writeToFile()
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\localadmin\Desktop\TestData\Raw.txt", true))
@@ -1182,8 +1332,11 @@ namespace Camera_Control
          {
              
             errorMsgTxtBox.AppendText("Fluorescence: " + getFluorescenceCont() + "\r\n");
-            
-            drawCameraImage();                   
+            drawCameraImageCont();
+            findIons();
+            drawCameraImage();
+
+                               
             
          }
 
