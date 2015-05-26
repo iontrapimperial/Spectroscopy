@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 //using System.Math;
 using Spectroscopy_Viewer;
+using System.IO.Ports;
 
 
 
@@ -37,9 +38,10 @@ namespace Spectroscopy_Controller
 
         public bool updating = false;
 
-        //Logic to select which source is used for 729 via RF switches
-        private bool RFSwitch1State = true;
-        private bool RFSwitch2State = true;
+        //Logic to select which DDS profile is used
+        private bool profilePin0 = false;
+        private bool profilePin1 = false;
+        private bool profilePin2 = false;
         
         //Trap and ion parameters
         private float dnought = 0.0189F;
@@ -77,54 +79,25 @@ namespace Spectroscopy_Controller
 
             StopButton.Enabled = false;
             PauseButton.Enabled = false;
+
+            COM12.BaudRate = 9600; 
+            if (COM12.IsOpen == false) COM12.Open(); // open serial port
+
+            string reset = "";
+
+            for (int i = 0; i < 63; i++) reset += "256" + ",";
+            reset += "256";
+
+            COM12.WriteLine(reset);   
+        }
+
+        private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
+        {
+            if (COM12.IsOpen == true) COM12.Close(); // close the port when the form is closed
         }
 
 
         #region Laser control methods
-
-        private void SetRFSpecButton_Click(object sender, EventArgs e)
-        {
-            int Frequency = (int)SpecRFFreq.Value;
-            float Amplitude = (float)SpecRFAmp.Value;
-
-            GPIB.InitDevice(19);
-            GPIB.SetAmplitude(Amplitude);
-            GPIB.SetFrequency(Frequency);
-            GPIB.CloseDevice();
-        }
-
-        private void SetRFSB1Button_Click(object sender, EventArgs e)
-        {
-            int Frequency = (int)SB1RFFreq.Value;
-            float Amplitude = (float)SB1RFAmp.Value;
-
-            GPIB.InitDevice(20);
-            GPIB.SetAmplitude(Amplitude);
-            GPIB.SetFrequency(Frequency);
-            GPIB.CloseDevice();
-        }
-
-        private void SetRFSB2Button_Click(object sender, EventArgs e)
-        {
-            int Frequency = (int)SB2RFFreq.Value;
-            float Amplitude = (float)SB2RFAmp.Value;
-
-            GPIB.InitDevice(21);
-            GPIB.SetAmplitude(Amplitude);
-            GPIB.SetFrequency(Frequency);
-            GPIB.CloseDevice();
-        }
-
-        private void SetRFSB3Button_Click(object sender, EventArgs e)
-        {
-            int Frequency = (int)SB3RFFreq.Value;
-            float Amplitude = (float)SB3RFAmp.Value;
-
-            GPIB.InitDevice(22);
-            GPIB.SetAmplitude(Amplitude);
-            GPIB.SetFrequency(Frequency);
-            GPIB.CloseDevice();
-        }
 
         private void LaserBoxChanged(object sender, EventArgs e)
         {
@@ -134,56 +107,8 @@ namespace Spectroscopy_Controller
                 MessageBox.Show("USB Port not open");
                 return;
             }
-           
-            string RFtype = "Laser";
 
-           if (sender is System.Windows.Forms.CheckBox)
-            {
-                RFtype = "Laser";
-            }
-            else if (sender is System.Windows.Forms.RadioButton)
-            {
-            RFtype = ((RadioButton)sender).Tag.ToString();
-            }
-
-            switch(RFtype)
-            {
-               case "Laser":
-                    SetOutputs();
-                    break; 
-               case "Spec":
-                    RFSwitch1State = true;
-                    RFSwitch2State = true;
-                    SB1RFSourceButton.Checked = false;
-                    SB2RFSourceButton.Checked = false;
-                    SB3RFSourceButton.Checked = false;                              
-                    SetOutputs();
-                    break; 
-               case "SB1":
-                    RFSwitch1State = false;
-                    RFSwitch2State = true;
-                    SpecRFSourceButton.Checked = false;
-                    SB2RFSourceButton.Checked = false;
-                    SB3RFSourceButton.Checked = false;
-                    SetOutputs();
-                    break; 
-               case "SB2":
-                    RFSwitch1State = true;
-                    RFSwitch2State = false;
-                    SpecRFSourceButton.Checked = false;
-                    SB1RFSourceButton.Checked = false;
-                    SB3RFSourceButton.Checked = false;
-                    SetOutputs();
-                    break; 
-               case "SB3":
-                    RFSwitch1State = false;
-                    RFSwitch2State = false;
-                    SpecRFSourceButton.Checked = false;
-                    SB1RFSourceButton.Checked = false;
-                    SB2RFSourceButton.Checked = false;
-                    SetOutputs();
-                    break; 
-            }
+            else SetOutputs();
         }
 
         public void SetOutputs()
@@ -192,12 +117,12 @@ namespace Spectroscopy_Controller
                            LiveLaserBox397B2.Checked,
                            LiveLaserBox729.Checked,
                            LiveLaserBox854.Checked,
-                           RFSwitch1State,
-                           RFSwitch2State,
+                           profilePin0, 
+                           profilePin1,
                            LiveLaserBox854POWER.Checked,
                            LiveLaserBox854FREQ.Checked,
                            LiveLaserBoxAux1.Checked,
-                           LiveLaserBoxAux2.Checked);
+                           profilePin2);
         }
 
         #endregion
@@ -467,7 +392,6 @@ namespace Spectroscopy_Controller
                     stepSize = (int)(1000 * stepSizeBox.Value);
                     sbToScan = (int)sbToScanBox.Value;
                     sbWidth = (int)sbWidthBox.Value;
-                    rfAmp = (float)rfAmpBox.Value;
                     
                     // Metadata ordering in array:
                     // 0: Date
@@ -513,7 +437,7 @@ namespace Spectroscopy_Controller
                         metadata[9] = this.stepSizeBox.Value.ToString();
                         metadata[10] = this.sbToScanBox.Value.ToString();
                         metadata[11] = this.sbWidthBox.Value.ToString();
-                        metadata[12] = this.rfAmpBox.Value.ToString();
+                        //metadata[12] = this.rfAmpBox.Value.ToString();
                         // Fill in remaining metadata from form
                         metadata[13] = myExperimentDialog.NumberOfRepeats.Value.ToString();
                         metadata[14] = myExperimentDialog.NumberOfSpectra.Value.ToString();
@@ -643,9 +567,7 @@ namespace Spectroscopy_Controller
                             // Code required to start the experiment running:
                             bShouldQuitThread = false;
 
-                            GPIB.InitDevice(19);
-                            GPIB.SetAmplitude(rfAmp);
-                            GPIB.SetFrequency(startFreq);
+                            freq0.Value = startFreq;
 
                             SendSetupFinish();
 
@@ -1187,13 +1109,13 @@ namespace Spectroscopy_Controller
             newState.Laser397B1 = oldState.Laser397B1;
             newState.Laser397B2 = oldState.Laser397B2;
             newState.Laser729 = oldState.Laser729;
-            newState.Laser729RF1 = oldState.Laser729RF1;
-            newState.Laser729RF2 = oldState.Laser729RF2;
+            newState.Laser729P0 = oldState.Laser729P0;
+            newState.Laser729P1 = oldState.Laser729P1;
             newState.Laser854 = oldState.Laser854;
             newState.Laser854FREQ = oldState.Laser854FREQ;
             newState.Laser854POWER = oldState.Laser854POWER;
             newState.LaserAux1 = oldState.LaserAux1;
-            newState.LaserAux2 = oldState.LaserAux2;
+            newState.Laser729P2 = oldState.Laser729P2;
             newState.Name = oldState.Name;
             newState.StateType = oldState.StateType;
             newState.TargetLength = oldState.TargetLength;
@@ -1208,8 +1130,260 @@ namespace Spectroscopy_Controller
 
 
 
+        #region DDS Control
+        #region frequency change
+        private void freq0_ValueChanged(object sender, EventArgs e) // Rewrite the profile when the value of the frequency is changed
+        {
+            LoadDDS(freq0.Value, 0, 0, 0, 0, 0, 0, 0, amp0.Value, 0, 0, 0, 0, 0, 0, 0, phase0.Value, 0, 0, 0, 0, 0, 0, 0);
+        }
 
-        /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
+        private void freq1_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, freq1.Value, 0, 0, 0, 0, 0, 0, 0, amp1.Value, 0, 0, 0, 0, 0, 0, 0, phase1.Value, 0, 0, 0, 0, 0, 0);
+        }
+
+        private void freq2_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, freq2.Value, 0, 0, 0, 0, 0, 0, 0, amp2.Value, 0, 0, 0, 0, 0, 0, 0, phase2.Value, 0, 0, 0, 0, 0);
+        }
+
+        private void freq3_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, freq3.Value, 0, 0, 0, 0, 0, 0, 0, amp3.Value, 0, 0, 0, 0, 0, 0, 0, phase3.Value, 0, 0, 0, 0);
+        }
+
+        private void freq4_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, freq4.Value, 0, 0, 0, 0, 0, 0, 0, amp4.Value, 0, 0 , 0, 0, 0, 0, 0, phase4.Value, 0, 0, 0);
+        }
+
+        private void freq5_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, freq5.Value, 0, 0, 0, 0, 0, 0, 0, amp5.Value, 0, 0, 0, 0, 0, 0, 0, phase5.Value, 0, 0);
+        }
+
+        private void freq6_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, 0, freq6.Value, 0, 0, 0, 0, 0, 0, 0, amp6.Value, 0, 0, 0, 0, 0, 0, 0, phase6.Value, 0);
+        }
+
+        private void freq7_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, 0, 0, freq7.Value, 0, 0, 0, 0, 0, 0, 0, amp7.Value, 0, 0, 0 ,0 ,0 ,0, 0, phase7.Value);
+        }
+        #endregion
+
+        #region amplitude change
+        private void amp0_ValueChanged(object sender, EventArgs e) // Rewrite the profile when the value of the amplitude is changed
+        {
+            LoadDDS(freq0.Value, 0, 0, 0, 0, 0, 0, 0, amp0.Value, 0, 0, 0, 0, 0, 0, 0, phase0.Value, 0, 0, 0, 0, 0, 0, 0);
+        }
+
+        private void amp1_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, freq1.Value, 0, 0, 0, 0, 0, 0, 0, amp1.Value, 0, 0, 0, 0, 0, 0, 0, phase1.Value, 0, 0, 0, 0, 0, 0);
+        }
+
+        private void amp2_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, freq2.Value, 0, 0, 0, 0, 0, 0, 0, amp2.Value, 0, 0, 0, 0, 0, 0, 0, phase2.Value, 0, 0, 0, 0, 0);
+        }
+
+        private void amp3_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, freq3.Value, 0, 0, 0, 0, 0, 0, 0, amp3.Value, 0, 0, 0, 0, 0, 0, 0, phase3.Value, 0, 0, 0, 0);
+        }
+
+        private void amp4_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, freq4.Value, 0, 0, 0, 0, 0, 0, 0, amp4.Value, 0, 0, 0, 0, 0, 0, 0, phase4.Value, 0, 0, 0);
+        }
+
+        private void amp5_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, freq5.Value, 0, 0, 0, 0, 0, 0, 0, amp5.Value, 0, 0, 0, 0, 0, 0, 0, phase5.Value, 0, 0);
+        }
+
+        private void amp6_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, 0, freq6.Value, 0, 0, 0, 0, 0, 0, 0, amp6.Value, 0, 0, 0, 0, 0, 0, 0, phase6.Value, 0);
+        }
+
+        private void amp7_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, 0, 0, freq7.Value, 0, 0, 0, 0, 0, 0, 0, amp7.Value, 0, 0, 0, 0, 0, 0, 0, phase7.Value);
+        }
+        #endregion
+
+        #region phase change
+        private void phase0_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(freq0.Value, 0, 0, 0, 0, 0, 0, 0, amp0.Value, 0, 0, 0, 0, 0, 0, 0, phase0.Value, 0, 0, 0, 0, 0, 0, 0);
+        }
+
+        private void phase1_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, freq1.Value, 0, 0, 0, 0, 0, 0, 0, amp1.Value, 0, 0, 0, 0, 0, 0, 0, phase1.Value, 0, 0, 0, 0, 0, 0);
+        }
+
+        private void phase2_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, freq2.Value, 0, 0, 0, 0, 0, 0, 0, amp2.Value, 0, 0, 0, 0, 0, 0, 0, phase2.Value, 0, 0, 0, 0, 0);
+        }
+
+        private void phase3_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, freq3.Value, 0, 0, 0, 0, 0, 0, 0, amp3.Value, 0, 0, 0, 0, 0, 0, 0, phase3.Value, 0, 0, 0, 0);
+        }
+
+        private void phase4_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, freq4.Value, 0, 0, 0, 0, 0, 0, 0, amp4.Value, 0, 0, 0, 0, 0, 0, 0, phase4.Value, 0, 0, 0);
+        }
+
+        private void phase5_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, freq5.Value, 0, 0, 0, 0, 0, 0, 0, amp5.Value, 0, 0, 0, 0, 0, 0, 0, phase5.Value, 0, 0);
+        }
+
+        private void phase6_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, 0, freq6.Value, 0, 0, 0, 0, 0, 0, 0, amp6.Value, 0, 0, 0, 0, 0, 0, 0, phase6.Value, 0);
+        }
+
+        private void phase7_ValueChanged(object sender, EventArgs e)
+        {
+            LoadDDS(0, 0, 0, 0, 0, 0, 0, freq7.Value, 0, 0, 0, 0, 0, 0, 0, amp7.Value, 0, 0, 0, 0, 0, 0, 0, phase7.Value);
+        }
+        #endregion
+
+        // Function to calculate and send the data to send to the DDS registers
+        public void LoadDDS(decimal f0, decimal f1, decimal f2, decimal f3, decimal f4, decimal f5, decimal f6, decimal f7, decimal amp0, decimal amp1, decimal amp2, decimal amp3, decimal amp4, decimal amp5, decimal amp6, decimal amp7, decimal phase0, decimal phase1, decimal phase2, decimal phase3, decimal phase4, decimal phase5, decimal phase6, decimal phase7)
+        {
+            if (COM12.IsOpen == false) COM12.Open();
+
+            string[] ASF0Byte = new string[2];
+            string[] ASF1Byte = new string[2];
+            string[] ASF2Byte = new string[2];
+            string[] ASF3Byte = new string[2];
+            string[] ASF4Byte = new string[2];
+            string[] ASF5Byte = new string[2];
+            string[] ASF6Byte = new string[2];
+            string[] ASF7Byte = new string[2];
+
+            string[] POW0Byte = new string[2];
+            string[] POW1Byte = new string[2];
+            string[] POW2Byte = new string[2];
+            string[] POW3Byte = new string[2];
+            string[] POW4Byte = new string[2];
+            string[] POW5Byte = new string[2];
+            string[] POW6Byte = new string[2];
+            string[] POW7Byte = new string[2];
+
+            string[] FTW0Byte = new string[4];
+            string[] FTW1Byte = new string[4];
+            string[] FTW2Byte = new string[4];
+            string[] FTW3Byte = new string[4];
+            string[] FTW4Byte = new string[4];
+            string[] FTW5Byte = new string[4];
+            string[] FTW6Byte = new string[4];
+            string[] FTW7Byte = new string[4];
+
+            DDS.GetASF(f0, amp0, out ASF0Byte[0], out ASF0Byte[1]);
+            DDS.GetASF(f1, amp1, out ASF1Byte[0], out ASF1Byte[1]);
+            DDS.GetASF(f2, amp2, out ASF2Byte[0], out ASF2Byte[1]);
+            DDS.GetASF(f3, amp3, out ASF3Byte[0], out ASF3Byte[1]);
+            DDS.GetASF(f4, amp4, out ASF4Byte[0], out ASF4Byte[1]);
+            DDS.GetASF(f5, amp5, out ASF5Byte[0], out ASF5Byte[1]);
+            DDS.GetASF(f6, amp6, out ASF6Byte[0], out ASF6Byte[1]);
+            DDS.GetASF(f7, amp7, out ASF7Byte[0], out ASF7Byte[1]);
+
+            DDS.GetPOW(phase0, out POW0Byte[0], out POW0Byte[1]);
+            DDS.GetPOW(phase1, out POW1Byte[0], out POW1Byte[1]);
+            DDS.GetPOW(phase2, out POW2Byte[0], out POW2Byte[1]);
+            DDS.GetPOW(phase3, out POW3Byte[0], out POW3Byte[1]);
+            DDS.GetPOW(phase4, out POW4Byte[0], out POW4Byte[1]);
+            DDS.GetPOW(phase5, out POW5Byte[0], out POW5Byte[1]);
+            DDS.GetPOW(phase6, out POW6Byte[0], out POW6Byte[1]);
+            DDS.GetPOW(phase7, out POW7Byte[0], out POW7Byte[1]);
+
+            DDS.GetFTW(f0, out FTW0Byte[0], out FTW0Byte[1], out FTW0Byte[2], out FTW0Byte[3]);
+            DDS.GetFTW(f1, out FTW1Byte[0], out FTW1Byte[1], out FTW1Byte[2], out FTW1Byte[3]);
+            DDS.GetFTW(f2, out FTW2Byte[0], out FTW2Byte[1], out FTW2Byte[2], out FTW2Byte[3]);
+            DDS.GetFTW(f3, out FTW3Byte[0], out FTW3Byte[1], out FTW3Byte[2], out FTW3Byte[3]);
+            DDS.GetFTW(f4, out FTW4Byte[0], out FTW4Byte[1], out FTW4Byte[2], out FTW4Byte[3]);
+            DDS.GetFTW(f5, out FTW5Byte[0], out FTW5Byte[1], out FTW5Byte[2], out FTW5Byte[3]);
+            DDS.GetFTW(f6, out FTW6Byte[0], out FTW6Byte[1], out FTW6Byte[2], out FTW6Byte[3]);
+            DDS.GetFTW(f7, out FTW7Byte[0], out FTW7Byte[1], out FTW7Byte[2], out FTW7Byte[3]);
+
+            COM12.WriteLine(ASF0Byte[0] + "," + ASF0Byte[1] + "," + POW0Byte[0] + "," + POW0Byte[1] + "," + FTW0Byte[0] + "," + FTW0Byte[1] + "," + FTW0Byte[2] + "," + FTW0Byte[3] + "," +
+                            ASF1Byte[0] + "," + ASF1Byte[1] + "," + POW1Byte[0] + "," + POW1Byte[1] + "," + FTW1Byte[0] + "," + FTW1Byte[1] + "," + FTW1Byte[2] + "," + FTW1Byte[3] + "," +
+                            ASF2Byte[0] + "," + ASF2Byte[1] + "," + POW2Byte[0] + "," + POW2Byte[1] + "," + FTW2Byte[0] + "," + FTW2Byte[1] + "," + FTW2Byte[2] + "," + FTW2Byte[3] + "," +
+                            ASF3Byte[0] + "," + ASF3Byte[1] + "," + POW3Byte[0] + "," + POW3Byte[1] + "," + FTW3Byte[0] + "," + FTW3Byte[1] + "," + FTW3Byte[2] + "," + FTW3Byte[3] + "," +
+                            ASF4Byte[0] + "," + ASF4Byte[1] + "," + POW4Byte[0] + "," + POW4Byte[1] + "," + FTW4Byte[0] + "," + FTW4Byte[1] + "," + FTW4Byte[2] + "," + FTW4Byte[3] + "," +
+                            ASF5Byte[0] + "," + ASF5Byte[1] + "," + POW5Byte[0] + "," + POW5Byte[1] + "," + FTW5Byte[0] + "," + FTW5Byte[1] + "," + FTW5Byte[2] + "," + FTW5Byte[3] + "," +
+                            ASF6Byte[0] + "," + ASF6Byte[1] + "," + POW6Byte[0] + "," + POW6Byte[1] + "," + FTW6Byte[0] + "," + FTW6Byte[1] + "," + FTW6Byte[2] + "," + FTW6Byte[3] + "," +
+                            ASF7Byte[0] + "," + ASF7Byte[1] + "," + POW7Byte[0] + "," + POW7Byte[1] + "," + FTW7Byte[0] + "," + FTW7Byte[1] + "," + FTW7Byte[2] + "," + FTW7Byte[3]);
+            // send bytes separated by a comma
+
+            string incoming = COM12.ReadLine();
+            int check = Convert.ToInt32(incoming);
+            if(check != 1)
+            {
+                MessageBox.Show("There has been an error during the transfer.");
+            }
+        }
+        
+        private void resetDDS_Click(object sender, EventArgs e)
+        {
+            if (COM12.IsOpen == false) COM12.Open();
+
+            string reset = "";
+
+            for (int i = 0; i < 63; i++) reset += "256" + ",";
+            reset += "256";
+
+            COM12.WriteLine(reset);
+        }
+
+        private void resetProfiles_Click(object sender, EventArgs e)
+        {
+            freq0.Value = 230000000;
+            freq1.Value = 230000000;
+            freq2.Value = 230000000;
+            freq3.Value = 230000000;
+            freq4.Value = 230000000;
+            freq5.Value = 230000000;
+            freq6.Value = 230000000;
+            freq7.Value = 230000000;
+
+            amp0.Value = 100;
+            amp1.Value = 100;
+            amp2.Value = 100;
+            amp3.Value = 100;
+            amp4.Value = 100;
+            amp5.Value = 100;
+            amp6.Value = 100;
+            amp7.Value = 100;
+
+            phase0.Value = 0;
+            phase1.Value = 0;
+            phase2.Value = 0;
+            phase3.Value = 0;
+            phase4.Value = 0;
+            phase5.Value = 0;
+            phase6.Value = 0;
+            phase7.Value = 0;
+        }
+        #endregion
+
+                
+        /*private void LaserControl_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
         {
             if (FPGAReadThread != null && FPGAReadThread.IsAlive)
             {

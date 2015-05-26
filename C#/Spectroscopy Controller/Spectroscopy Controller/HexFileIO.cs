@@ -211,15 +211,15 @@ namespace Spectroscopy_Controller
             else MessageBox.Show("Byte Conversion Problem (Are you big endian?)");
 
             //Fill last 5 bits of Data[1] with laser state logic
-            Data[1] += (byte)(GetIntFromBool(State.LaserAux2) << 4);
+            Data[1] += (byte)(GetIntFromBool(State.Laser729P2) << 4);
             Data[1] += (byte)(GetIntFromBool(State.LaserAux1) << 3);
             Data[1] += (byte)(GetIntFromBool(State.Laser854FREQ) << 2);
             Data[1] += (byte)(GetIntFromBool(State.Laser854POWER) << 1);
-            Data[1] += (byte)(GetIntFromBool(State.Laser729RF2));
+            Data[1] += (byte)(GetIntFromBool(State.Laser729P1));
 
             // Write one more byte (Data[0]) for lasers (bits 7:3)... 
             Data[0] = 0;
-            Data[0] += (byte)(GetIntFromBool(State.Laser729RF1) << 7);
+            Data[0] += (byte)(GetIntFromBool(State.Laser729P0) << 7);
             Data[0] += (byte)(GetIntFromBool(State.Laser854) << 6);
             Data[0] += (byte)(GetIntFromBool(State.Laser729) << 5);
             Data[0] += (byte)(GetIntFromBool(State.Laser397B2) << 4);

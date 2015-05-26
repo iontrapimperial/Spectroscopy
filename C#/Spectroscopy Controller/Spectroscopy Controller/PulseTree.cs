@@ -104,25 +104,49 @@ namespace Spectroscopy_Controller
                 State.Laser854POWER = LaserBox854POWER.Checked;
                 State.Laser854FREQ = LaserBox854FREQ.Checked;
                 State.LaserAux1 = LaserBoxAux1.Checked;
-                State.LaserAux2 = LaserBoxAux2.Checked;
+                
                 
                 switch ((int)SourceSelect729.Value)
                 {
+                    case 0:
+                        profilePin0 = true;
+                        profilePin1 = true;
+                        profilePin2 = true;
+                        break;
                     case 1:
-                        State.Laser729RF1 = true;
-                        State.Laser729RF2 = true;
+                        profilePin0 = false;
+                        profilePin1 = true;
+                        profilePin2 = true;                        
                         break;
                     case 2:
-                        State.Laser729RF1 = false;
-                        State.Laser729RF2 = true;
+                        profilePin0 = true;
+                        profilePin1 = false;
+                        profilePin2 = true;
                         break;
                     case 3:
-                        State.Laser729RF1 = true;
-                        State.Laser729RF2 = false;
+                        profilePin0 = false;
+                        profilePin1 = false;
+                        profilePin2 = true;
                         break;
                     case 4:
-                        State.Laser729RF1 = false;
-                        State.Laser729RF2 = false;
+                        profilePin0 = true;
+                        profilePin1 = true;
+                        profilePin2 = false;
+                        break;
+                    case 5:
+                        profilePin0 = false;
+                        profilePin1 = true;
+                        profilePin2 = false;
+                        break;
+                    case 6:
+                        profilePin0 = true;
+                        profilePin1 = false;
+                        profilePin2 = false;
+                        break;
+                    case 7:
+                        profilePin0 = false;
+                        profilePin1 = false;
+                        profilePin2 = false;
                         break;
                 }
 
@@ -245,22 +269,38 @@ namespace Spectroscopy_Controller
                     LaserBox854POWER.Checked = ((LaserState)P).Laser854POWER;
                     LaserBox854FREQ.Checked = ((LaserState)P).Laser854FREQ;
                     LaserBoxAux1.Checked = ((LaserState)P).LaserAux1;
-                    LaserBoxAux2.Checked = ((LaserState)P).LaserAux2;
-                    if (((LaserState)P).Laser729RF1 == true && ((LaserState)P).Laser729RF2 == true)
+
+                    if (((LaserState)P).Laser729P0 == false && ((LaserState)P).Laser729P1 == false && ((LaserState)P).Laser729P2 == false)
+                    {
+                        SourceSelect729.Value = 0;
+                    }
+                    else if (((LaserState)P).Laser729P0 == true && ((LaserState)P).Laser729P1 == false && ((LaserState)P).Laser729P2 == false)
                     {
                         SourceSelect729.Value = 1;
                     }
-                    else if (((LaserState)P).Laser729RF1 == false && ((LaserState)P).Laser729RF2 == true)
+                    else if (((LaserState)P).Laser729P0 == false && ((LaserState)P).Laser729P1 == true && ((LaserState)P).Laser729P2 == false)
                     {
                         SourceSelect729.Value = 2;
                     }
-                    else if (((LaserState)P).Laser729RF1 == true && ((LaserState)P).Laser729RF2 == false)
+                    else if (((LaserState)P).Laser729P0 == true && ((LaserState)P).Laser729P1 == true && ((LaserState)P).Laser729P2 == false)
                     {
                         SourceSelect729.Value = 3;
                     }
-                    else if (((LaserState)P).Laser729RF1 == false && ((LaserState)P).Laser729RF2 == false)
+                    else if (((LaserState)P).Laser729P0 == false && ((LaserState)P).Laser729P1 == false && ((LaserState)P).Laser729P2 == true)
                     {
                         SourceSelect729.Value = 4;
+                    }
+                    else if (((LaserState)P).Laser729P0 == true && ((LaserState)P).Laser729P1 == false && ((LaserState)P).Laser729P2 == true)
+                    {
+                        SourceSelect729.Value = 5;
+                    }
+                    else if (((LaserState)P).Laser729P0 == false && ((LaserState)P).Laser729P1 == true && ((LaserState)P).Laser729P2 == true)
+                    {
+                        SourceSelect729.Value = 6;
+                    }
+                    else if (((LaserState)P).Laser729P0 == true && ((LaserState)P).Laser729P1 == true && ((LaserState)P).Laser729P2 == true)
+                    {
+                        SourceSelect729.Value = 7;
                     }
                     
                     //Update tick box to target length, and call tickRounder to update rounded length display

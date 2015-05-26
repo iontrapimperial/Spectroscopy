@@ -265,7 +265,7 @@ namespace Spectroscopy_Controller
                                     if (CurrentWindowStep < sbWidth)
                                     {
                                         Frequency += stepSize;
-                                        GPIB.SetFrequency(Frequency);
+                                        freq0.Value = Frequency;
                                         CurrentWindowStep++;
                                     }
                                     else if (CurrentWindowStep >= sbWidth)
@@ -284,7 +284,7 @@ namespace Spectroscopy_Controller
 
 
                                             Frequency = startFreqArray[CurrentSideband];
-                                            GPIB.SetFrequency(Frequency);
+                                            freq0.Value = Frequency;
                                             CurrentWindowStep = 0;
                                         }
                                         //if we reach end of final sideband, stop experiment (need to test this section)
@@ -302,7 +302,7 @@ namespace Spectroscopy_Controller
                                 else if (specType == "Continuous")
                                 {
                                     Frequency += stepSize;
-                                    GPIB.SetFrequency(Frequency);
+                                    freq0.Value = Frequency;
                                     CurrentWindowStep++;
                                 }
                                 

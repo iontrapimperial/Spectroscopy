@@ -93,10 +93,10 @@ namespace Spectroscopy_Controller
         public int TargetLength = 0;
 
         /// <summary>
-        /// True/False for a particular laser being on/off. Default is all are off except RF source logic which are both high to select Input1 (spec source)
+        /// True/False for a particular laser being on/off. Default is all are off. Profile 0 selected (all false)
         /// </summary>
-        public bool Laser397B1 = false, Laser397B2 = false, Laser729 = false, Laser854 = false, Laser729RF1 = true, Laser729RF2 = true, Laser854POWER = false, Laser854FREQ = false,
-        LaserAux1 = false, LaserAux2 = false;
+        public bool Laser397B1 = false, Laser397B2 = false, Laser729 = false, Laser854 = false, Laser729P0 = false, Laser729P1 = false, Laser854POWER = false, Laser854FREQ = false,
+        LaserAux1 = false, Laser729P2 = false;
 
         /// <summary>
         /// Indicates whether this pulse length should be swept for Rabi-type sequence
