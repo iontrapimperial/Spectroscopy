@@ -93,9 +93,9 @@ namespace Spectroscopy_Controller
         public int TargetLength = 0;
 
         /// <summary>
-        /// True/False for a particular laser being on/off. Default is all are off. Profile 0 selected (all false)
+        /// True/False for a particular laser being on/off. Default is all are off. Profile 0 selected (all true)
         /// </summary>
-        public bool Laser397B1 = false, Laser397B2 = false, Laser729 = false, Laser854 = false, Laser729P0 = false, Laser729P1 = false, Laser854POWER = false, Laser854FREQ = false,
+        public bool Laser397B1 = false, Laser397B2 = false, Laser729 = false, Laser854 = false, Laser729P0 = true, Laser729P1 = false, Laser854POWER = false, Laser854FREQ = false,
         LaserAux1 = false, Laser729P2 = false;
 
         /// <summary>
