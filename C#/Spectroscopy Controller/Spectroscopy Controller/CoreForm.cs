@@ -289,6 +289,7 @@ namespace Spectroscopy_Controller
         private void saveXMLFileDialog_FileOk(object sender, CancelEventArgs e)
         {
             SaveXMLFile();
+            SaveHexFile();
         }
 
         private void OpenXMLButton_Click(object sender, EventArgs e)
@@ -384,7 +385,7 @@ namespace Spectroscopy_Controller
 
         private void BinaryCompileButton_Click(object sender, EventArgs e)
         {
-            saveHexFileDialog.ShowDialog();
+            //saveHexFileDialog.ShowDialog();
         }
 
         private void saveHexFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -1346,33 +1347,40 @@ namespace Spectroscopy_Controller
 
         private void resetProfiles_Click(object sender, EventArgs e)
         {
-            freq0.Value = 230000000;
-            freq1.Value = 230000000;
-            freq2.Value = 230000000;
-            freq3.Value = 230000000;
-            freq4.Value = 230000000;
-            freq5.Value = 230000000;
-            freq6.Value = 230000000;
-            freq7.Value = 230000000;
 
-            amp0.Value = 100;
-            amp1.Value = 100;
-            amp2.Value = 100;
-            amp3.Value = 100;
-            amp4.Value = 100;
-            amp5.Value = 100;
-            amp6.Value = 100;
-            amp7.Value = 100;
+            if (MessageBox.Show("Are you sure you want to reset the DDS profiles to default values?", "Profile reset confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                freq0.Value = 230000000;
+                freq1.Value = 230000000;
+                freq2.Value = 230000000;
+                freq3.Value = 230000000;
+                freq4.Value = 230000000;
+                freq5.Value = 230000000;
+                freq6.Value = 230000000;
+                freq7.Value = 230000000;
 
-            phase0.Value = 0;
-            phase1.Value = 0;
-            phase2.Value = 0;
-            phase3.Value = 0;
-            phase4.Value = 0;
-            phase5.Value = 0;
-            phase6.Value = 0;
-            phase7.Value = 0;
+                amp0.Value = 100;
+                amp1.Value = 100;
+                amp2.Value = 100;
+                amp3.Value = 100;
+                amp4.Value = 100;
+                amp5.Value = 100;
+                amp6.Value = 100;
+                amp7.Value = 100;
+
+                phase0.Value = 0;
+                phase1.Value = 0;
+                phase2.Value = 0;
+                phase3.Value = 0;
+                phase4.Value = 0;
+                phase5.Value = 0;
+                phase6.Value = 0;
+                phase7.Value = 0;
+
+                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+            }
         }
+
         #endregion
 
         private void SetDDSProfiles_Click(object sender, EventArgs e)

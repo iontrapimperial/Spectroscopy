@@ -23,7 +23,7 @@ namespace Spectroscopy_Controller
             XmlWriterSettings WriterSettings = new XmlWriterSettings();
             WriterSettings.Indent = true;
             WriterSettings.IndentChars = "\t";
-
+            
             using (XmlWriter Writer = XmlWriter.Create(saveXMLFileDialog.FileName, WriterSettings))
             {
                 Writer.WriteStartDocument();

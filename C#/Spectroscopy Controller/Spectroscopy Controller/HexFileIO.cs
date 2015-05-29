@@ -110,9 +110,9 @@ namespace Spectroscopy_Controller
         {
             bStopSignalPresent = false;
             InstructionsWritten = 0;
-            using (BinaryWriter Writer = new BinaryWriter(File.Open(saveHexFileDialog.FileName, FileMode.Create)))
+            using (BinaryWriter Writer = new BinaryWriter(File.Open(openHexFileDialog.InitialDirectory + "\\" + Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex", FileMode.Create)))
             {
-                WriteMessage("Writing to file: " + saveHexFileDialog.FileName);
+                WriteMessage("Writing to file: " + openHexFileDialog.InitialDirectory + "\\" + Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex");
                 ParseNodeCollection(PulseTree.Nodes, Writer);
 
                 if (InstructionsWritten == 0)

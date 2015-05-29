@@ -180,6 +180,7 @@
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
             this.COM12 = new System.IO.Ports.SerialPort(this.components);
+            this.Messages = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -1100,16 +1101,16 @@
             this.LaserControl.Controls.Add(this.LiveLaserBox397B1);
             this.LaserControl.Location = new System.Drawing.Point(793, 5);
             this.LaserControl.Name = "LaserControl";
-            this.LaserControl.Size = new System.Drawing.Size(450, 670);
+            this.LaserControl.Size = new System.Drawing.Size(450, 609);
             this.LaserControl.TabIndex = 57;
             this.LaserControl.TabStop = false;
             this.LaserControl.Text = "Laser Control";
             // 
             // SetDDSProfiles
             // 
-            this.SetDDSProfiles.Location = new System.Drawing.Point(230, 590);
+            this.SetDDSProfiles.Location = new System.Drawing.Point(299, 561);
             this.SetDDSProfiles.Name = "SetDDSProfiles";
-            this.SetDDSProfiles.Size = new System.Drawing.Size(83, 38);
+            this.SetDDSProfiles.Size = new System.Drawing.Size(83, 40);
             this.SetDDSProfiles.TabIndex = 69;
             this.SetDDSProfiles.Text = "Set Profiles";
             this.SetDDSProfiles.UseVisualStyleBackColor = true;
@@ -1117,7 +1118,7 @@
             // 
             // resetProfiles
             // 
-            this.resetProfiles.Location = new System.Drawing.Point(350, 590);
+            this.resetProfiles.Location = new System.Drawing.Point(179, 561);
             this.resetProfiles.Name = "resetProfiles";
             this.resetProfiles.Size = new System.Drawing.Size(92, 40);
             this.resetProfiles.TabIndex = 68;
@@ -1127,7 +1128,8 @@
             // 
             // resetDDS
             // 
-            this.resetDDS.Location = new System.Drawing.Point(12, 590);
+            this.resetDDS.ForeColor = System.Drawing.Color.Black;
+            this.resetDDS.Location = new System.Drawing.Point(58, 561);
             this.resetDDS.Name = "resetDDS";
             this.resetDDS.Size = new System.Drawing.Size(92, 40);
             this.resetDDS.TabIndex = 67;
@@ -2109,18 +2111,22 @@
             this.debugmessagebox.Controls.Add(this.MessagesBox);
             this.debugmessagebox.Location = new System.Drawing.Point(12, 485);
             this.debugmessagebox.Name = "debugmessagebox";
-            this.debugmessagebox.Size = new System.Drawing.Size(770, 245);
+            this.debugmessagebox.Size = new System.Drawing.Size(770, 186);
             this.debugmessagebox.TabIndex = 58;
             this.debugmessagebox.TabStop = false;
             this.debugmessagebox.Text = "Debug Messages";
             // 
             // MessagesBox
             // 
+            this.MessagesBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Messages});
+            this.MessagesBox.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.MessagesBox.Location = new System.Drawing.Point(12, 19);
             this.MessagesBox.Name = "MessagesBox";
-            this.MessagesBox.Size = new System.Drawing.Size(747, 212);
+            this.MessagesBox.Size = new System.Drawing.Size(747, 156);
             this.MessagesBox.TabIndex = 0;
             this.MessagesBox.UseCompatibleStateImageBehavior = false;
+            this.MessagesBox.View = System.Windows.Forms.View.Details;
             // 
             // saveXMLFileDialog
             // 
@@ -2152,7 +2158,7 @@
             // 
             // OpenViewerButton
             // 
-            this.OpenViewerButton.Location = new System.Drawing.Point(1112, 687);
+            this.OpenViewerButton.Location = new System.Drawing.Point(1152, 623);
             this.OpenViewerButton.Name = "OpenViewerButton";
             this.OpenViewerButton.Size = new System.Drawing.Size(91, 37);
             this.OpenViewerButton.TabIndex = 59;
@@ -2163,7 +2169,7 @@
             // ClearBoxButton
             // 
             this.ClearBoxButton.AutoSize = true;
-            this.ClearBoxButton.Location = new System.Drawing.Point(793, 687);
+            this.ClearBoxButton.Location = new System.Drawing.Point(793, 620);
             this.ClearBoxButton.Name = "ClearBoxButton";
             this.ClearBoxButton.Size = new System.Drawing.Size(92, 40);
             this.ClearBoxButton.TabIndex = 60;
@@ -2175,11 +2181,16 @@
             // 
             this.COM12.PortName = "COM12";
             // 
+            // Messages
+            // 
+            this.Messages.Text = "";
+            this.Messages.Width = 707;
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 742);
+            this.ClientSize = new System.Drawing.Size(1264, 677);
             this.Controls.Add(this.ClearBoxButton);
             this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
@@ -2408,6 +2419,7 @@
         private System.Windows.Forms.RadioButton profile7radioButton;
         private System.Windows.Forms.RadioButton profile6radioButton;
         private System.Windows.Forms.Button SetDDSProfiles;
+        private System.Windows.Forms.ColumnHeader Messages;
     }
 }
 
