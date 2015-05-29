@@ -39,9 +39,8 @@ namespace Spectroscopy_Controller
         public bool updating = false;
 
         //Logic to select which DDS profile is used
-        private bool profilePin0 = false;
-        private bool profilePin1 = false;
-        private bool profilePin2 = false;
+        private List<bool> profilePins = new List<bool> {true,true,true};
+        private List<RadioButton> profileRadioButtons = new List<RadioButton>();
         
         //Trap and ion parameters
         private float dnought = 0.0189F;
@@ -99,6 +98,7 @@ namespace Spectroscopy_Controller
 
         #region Laser control methods
 
+        //If anything in the laser box is changed, then the correct out
         private void LaserBoxChanged(object sender, EventArgs e)
         {
 
@@ -108,7 +108,127 @@ namespace Spectroscopy_Controller
                 return;
             }
 
-            else SetOutputs();
+            string Changetype = "Laser";
+
+            if (sender is System.Windows.Forms.CheckBox)
+            {
+                Changetype = "Laser";
+            }
+            else if (sender is System.Windows.Forms.RadioButton)
+            {
+                Changetype = ((RadioButton)sender).Tag.ToString();
+            }
+
+            switch(Changetype)
+            {
+               case "Laser":
+                    SetOutputs();
+                    break; 
+               case "profile0":
+                    profilePins[0] = true;
+                    profilePins[1] = true;
+                    profilePins[2] = true;
+                    profile1radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    profile7radioButton.Checked = false;                         
+                    SetOutputs();
+                    break; 
+               case "profile1":
+                    profilePins[0] = false;
+                    profilePins[1] = true;
+                    profilePins[2] = true;
+                    profile0radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    profile7radioButton.Checked = false; 
+                    SetOutputs();
+                    break; 
+               case "profile2":
+                    profilePins[0] = true;
+                    profilePins[1] = false;
+                    profilePins[2] = true;
+                    profile0radioButton.Checked = false;
+                    profile1radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    profile7radioButton.Checked = false;
+                    SetOutputs();
+                    break;
+               case "profile3":
+                    profilePins[0] = false;
+                    profilePins[1] = false;
+                    profilePins[2] = true;
+                    profile0radioButton.Checked = false;
+                    profile1radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    profile7radioButton.Checked = false;
+                    SetOutputs();
+                    break;
+               case "profile4":
+                    profilePins[0] = true;
+                    profilePins[1] = true;
+                    profilePins[2] = false;
+                    profile0radioButton.Checked = false;
+                    profile1radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    profile7radioButton.Checked = false;
+                    SetOutputs();
+                    break;
+               case "profile5":
+                    profilePins[0] = false;
+                    profilePins[1] = true;
+                    profilePins[2] = false;
+                    profile0radioButton.Checked = false;
+                    profile1radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    profile7radioButton.Checked = false;
+                    SetOutputs();
+                    break;
+               case "profile6":
+                    profilePins[0] = true;
+                    profilePins[1] = false;
+                    profilePins[2] = false;
+                    profile0radioButton.Checked = false;
+                    profile1radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile7radioButton.Checked = false;
+                    SetOutputs();
+                    break;
+               case "profile7":
+                    profilePins[0] = false;
+                    profilePins[1] = false;
+                    profilePins[2] = false;
+                    profile0radioButton.Checked = false;
+                    profile1radioButton.Checked = false;
+                    profile2radioButton.Checked = false;
+                    profile3radioButton.Checked = false;
+                    profile4radioButton.Checked = false;
+                    profile5radioButton.Checked = false;
+                    profile6radioButton.Checked = false;
+                    SetOutputs();
+                    break;
+            }
         }
 
         public void SetOutputs()
@@ -117,14 +237,19 @@ namespace Spectroscopy_Controller
                            LiveLaserBox397B2.Checked,
                            LiveLaserBox729.Checked,
                            LiveLaserBox854.Checked,
-                           profilePin0, 
-                           profilePin1,
+                           profilePins[0], 
+                           profilePins[1],
                            LiveLaserBox854POWER.Checked,
                            LiveLaserBox854FREQ.Checked,
                            LiveLaserBoxAux1.Checked,
-                           profilePin2);
+                           profilePins[2]);
         }
 
+        private void DDSBoxChange(object sender, EventArgs e)
+        {
+            SetDDSProfiles.Enabled = true;
+        }
+        
         #endregion
 
         // Method to handle form closing
@@ -282,14 +407,7 @@ namespace Spectroscopy_Controller
         {
             SendBinaryFile();
         }
-                   /*
-        private void sendBinaryFileStartSignalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            sendBinaryFileOnlyToolStripMenuItem_Click(null, null);
-            sendStartSignalToolStripMenuItem_Click(null, null);
-        }            */
-
-
+   
         #endregion        
 
         /*private void CreateFromTemplateButton_Click(object sender, EventArgs e)
@@ -300,7 +418,7 @@ namespace Spectroscopy_Controller
         private void StopButton_Click(object sender, EventArgs e)
         {
             // Signal to stop the experiment
-            bShouldQuitThread = true;
+            //bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
             // Print message to user
             WriteMessage("Experiment stopped by user\r\n");
             // Call method to deal with enabling/disabling buttons etc
@@ -355,6 +473,9 @@ namespace Spectroscopy_Controller
             {
                 FPGA.SendResetSignal();
             }
+
+            freq0.Enabled = true;
+            SetOutputs();
         }
 
 
@@ -567,8 +688,10 @@ namespace Spectroscopy_Controller
                             // Code required to start the experiment running:
                             bShouldQuitThread = false;
 
+                            //Disable spectroscopy frequency box and set value to start frequency
+                            freq0.Enabled = false;
                             freq0.Value = startFreq;
-
+                            
                             SendSetupFinish();
 
                             // Start experiment
@@ -1131,132 +1254,7 @@ namespace Spectroscopy_Controller
 
 
         #region DDS Control
-        #region frequency change
-        private void freq0_ValueChanged(object sender, EventArgs e) // Rewrite the profile when the value of the frequency is changed
-        {
-            LoadDDS(freq0.Value, 0, 0, 0, 0, 0, 0, 0, amp0.Value, 0, 0, 0, 0, 0, 0, 0, phase0.Value, 0, 0, 0, 0, 0, 0, 0);
-        }
-
-        private void freq1_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, freq1.Value, 0, 0, 0, 0, 0, 0, 0, amp1.Value, 0, 0, 0, 0, 0, 0, 0, phase1.Value, 0, 0, 0, 0, 0, 0);
-        }
-
-        private void freq2_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, freq2.Value, 0, 0, 0, 0, 0, 0, 0, amp2.Value, 0, 0, 0, 0, 0, 0, 0, phase2.Value, 0, 0, 0, 0, 0);
-        }
-
-        private void freq3_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, freq3.Value, 0, 0, 0, 0, 0, 0, 0, amp3.Value, 0, 0, 0, 0, 0, 0, 0, phase3.Value, 0, 0, 0, 0);
-        }
-
-        private void freq4_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, freq4.Value, 0, 0, 0, 0, 0, 0, 0, amp4.Value, 0, 0 , 0, 0, 0, 0, 0, phase4.Value, 0, 0, 0);
-        }
-
-        private void freq5_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, freq5.Value, 0, 0, 0, 0, 0, 0, 0, amp5.Value, 0, 0, 0, 0, 0, 0, 0, phase5.Value, 0, 0);
-        }
-
-        private void freq6_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, 0, freq6.Value, 0, 0, 0, 0, 0, 0, 0, amp6.Value, 0, 0, 0, 0, 0, 0, 0, phase6.Value, 0);
-        }
-
-        private void freq7_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, 0, 0, freq7.Value, 0, 0, 0, 0, 0, 0, 0, amp7.Value, 0, 0, 0 ,0 ,0 ,0, 0, phase7.Value);
-        }
-        #endregion
-
-        #region amplitude change
-        private void amp0_ValueChanged(object sender, EventArgs e) // Rewrite the profile when the value of the amplitude is changed
-        {
-            LoadDDS(freq0.Value, 0, 0, 0, 0, 0, 0, 0, amp0.Value, 0, 0, 0, 0, 0, 0, 0, phase0.Value, 0, 0, 0, 0, 0, 0, 0);
-        }
-
-        private void amp1_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, freq1.Value, 0, 0, 0, 0, 0, 0, 0, amp1.Value, 0, 0, 0, 0, 0, 0, 0, phase1.Value, 0, 0, 0, 0, 0, 0);
-        }
-
-        private void amp2_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, freq2.Value, 0, 0, 0, 0, 0, 0, 0, amp2.Value, 0, 0, 0, 0, 0, 0, 0, phase2.Value, 0, 0, 0, 0, 0);
-        }
-
-        private void amp3_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, freq3.Value, 0, 0, 0, 0, 0, 0, 0, amp3.Value, 0, 0, 0, 0, 0, 0, 0, phase3.Value, 0, 0, 0, 0);
-        }
-
-        private void amp4_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, freq4.Value, 0, 0, 0, 0, 0, 0, 0, amp4.Value, 0, 0, 0, 0, 0, 0, 0, phase4.Value, 0, 0, 0);
-        }
-
-        private void amp5_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, freq5.Value, 0, 0, 0, 0, 0, 0, 0, amp5.Value, 0, 0, 0, 0, 0, 0, 0, phase5.Value, 0, 0);
-        }
-
-        private void amp6_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, 0, freq6.Value, 0, 0, 0, 0, 0, 0, 0, amp6.Value, 0, 0, 0, 0, 0, 0, 0, phase6.Value, 0);
-        }
-
-        private void amp7_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, 0, 0, freq7.Value, 0, 0, 0, 0, 0, 0, 0, amp7.Value, 0, 0, 0, 0, 0, 0, 0, phase7.Value);
-        }
-        #endregion
-
-        #region phase change
-        private void phase0_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(freq0.Value, 0, 0, 0, 0, 0, 0, 0, amp0.Value, 0, 0, 0, 0, 0, 0, 0, phase0.Value, 0, 0, 0, 0, 0, 0, 0);
-        }
-
-        private void phase1_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, freq1.Value, 0, 0, 0, 0, 0, 0, 0, amp1.Value, 0, 0, 0, 0, 0, 0, 0, phase1.Value, 0, 0, 0, 0, 0, 0);
-        }
-
-        private void phase2_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, freq2.Value, 0, 0, 0, 0, 0, 0, 0, amp2.Value, 0, 0, 0, 0, 0, 0, 0, phase2.Value, 0, 0, 0, 0, 0);
-        }
-
-        private void phase3_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, freq3.Value, 0, 0, 0, 0, 0, 0, 0, amp3.Value, 0, 0, 0, 0, 0, 0, 0, phase3.Value, 0, 0, 0, 0);
-        }
-
-        private void phase4_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, freq4.Value, 0, 0, 0, 0, 0, 0, 0, amp4.Value, 0, 0, 0, 0, 0, 0, 0, phase4.Value, 0, 0, 0);
-        }
-
-        private void phase5_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, freq5.Value, 0, 0, 0, 0, 0, 0, 0, amp5.Value, 0, 0, 0, 0, 0, 0, 0, phase5.Value, 0, 0);
-        }
-
-        private void phase6_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, 0, freq6.Value, 0, 0, 0, 0, 0, 0, 0, amp6.Value, 0, 0, 0, 0, 0, 0, 0, phase6.Value, 0);
-        }
-
-        private void phase7_ValueChanged(object sender, EventArgs e)
-        {
-            LoadDDS(0, 0, 0, 0, 0, 0, 0, freq7.Value, 0, 0, 0, 0, 0, 0, 0, amp7.Value, 0, 0, 0, 0, 0, 0, 0, phase7.Value);
-        }
-        #endregion
-
+        
         // Function to calculate and send the data to send to the DDS registers
         public void LoadDDS(decimal f0, decimal f1, decimal f2, decimal f3, decimal f4, decimal f5, decimal f6, decimal f7, decimal amp0, decimal amp1, decimal amp2, decimal amp3, decimal amp4, decimal amp5, decimal amp6, decimal amp7, decimal phase0, decimal phase1, decimal phase2, decimal phase3, decimal phase4, decimal phase5, decimal phase6, decimal phase7)
         {
@@ -1377,22 +1375,28 @@ namespace Spectroscopy_Controller
         }
         #endregion
 
-                
-        /*private void LaserControl_Enter(object sender, EventArgs e)
+        private void SetDDSProfiles_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
-        {
-            if (FPGAReadThread != null && FPGAReadThread.IsAlive)
+            /*if (FPGAReadThread != null && FPGAReadThread.IsAlive)
             {
-                endReadThreadToolStripMenuItem.Enabled = true;
+                var confirmresult = MessageBox.Show("WARNING: Experiment running! Are you sure you want to change the DDS profiles?", "CHANGE PROFILE", MessageBoxButtons.YesNo);
+                if (confirmresult == DialogResult.Yes)
+                {
+                    LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                    SetDDSProfiles.Enabled = false;
+                }
+                else
+                {
+                    //Return to form
+                }
             }
             else
-            {
-                endReadThreadToolStripMenuItem.Enabled = false;
-            }
-        }*/   
+            {*/
+                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                SetDDSProfiles.Enabled = false;
+            //}
+           
+        }
+  
     }
 }

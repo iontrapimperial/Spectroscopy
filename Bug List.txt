@@ -1,0 +1,4 @@
+- The DDS profile select pins default to signal 7 when the reset button is pressed - FIXED
+- The name of the last spectrum doesn't show up in the spectroscopy viewer
+- Can't do Rabi oscillations
+- Need to reduce FPGA step size

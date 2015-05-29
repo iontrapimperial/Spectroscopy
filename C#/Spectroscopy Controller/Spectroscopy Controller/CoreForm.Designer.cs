@@ -97,69 +97,70 @@
             this.label3 = new System.Windows.Forms.Label();
             this.specTypeBox = new System.Windows.Forms.ComboBox();
             this.LaserControl = new System.Windows.Forms.GroupBox();
+            this.SetDDSProfiles = new System.Windows.Forms.Button();
             this.resetProfiles = new System.Windows.Forms.Button();
             this.resetDDS = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.profile7radioButton = new System.Windows.Forms.RadioButton();
             this.label46 = new System.Windows.Forms.Label();
             this.phase7 = new System.Windows.Forms.NumericUpDown();
             this.label23 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
             this.amp7 = new System.Windows.Forms.NumericUpDown();
             this.freq7 = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.profile6radioButton = new System.Windows.Forms.RadioButton();
             this.label42 = new System.Windows.Forms.Label();
             this.phase6 = new System.Windows.Forms.NumericUpDown();
             this.label19 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
             this.amp6 = new System.Windows.Forms.NumericUpDown();
             this.freq6 = new System.Windows.Forms.NumericUpDown();
             this.label38 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.profile5radioButton = new System.Windows.Forms.RadioButton();
             this.label45 = new System.Windows.Forms.Label();
             this.phase5 = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
             this.amp5 = new System.Windows.Forms.NumericUpDown();
             this.freq5 = new System.Windows.Forms.NumericUpDown();
             this.label37 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.profile4radioButton = new System.Windows.Forms.RadioButton();
             this.label41 = new System.Windows.Forms.Label();
             this.phase4 = new System.Windows.Forms.NumericUpDown();
             this.label18 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             this.amp4 = new System.Windows.Forms.NumericUpDown();
             this.freq4 = new System.Windows.Forms.NumericUpDown();
             this.label36 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.profile3radioButton = new System.Windows.Forms.RadioButton();
             this.label44 = new System.Windows.Forms.Label();
             this.phase3 = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
             this.amp3 = new System.Windows.Forms.NumericUpDown();
             this.freq3 = new System.Windows.Forms.NumericUpDown();
             this.label35 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.profile2radioButton = new System.Windows.Forms.RadioButton();
             this.label40 = new System.Windows.Forms.Label();
             this.phase2 = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
             this.amp2 = new System.Windows.Forms.NumericUpDown();
             this.freq2 = new System.Windows.Forms.NumericUpDown();
             this.label34 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.profile1radioButton = new System.Windows.Forms.RadioButton();
             this.label43 = new System.Windows.Forms.Label();
             this.phase1 = new System.Windows.Forms.NumericUpDown();
             this.label20 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
             this.amp1 = new System.Windows.Forms.NumericUpDown();
             this.freq1 = new System.Windows.Forms.NumericUpDown();
             this.label33 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.profile0radioButton = new System.Windows.Forms.RadioButton();
             this.label13 = new System.Windows.Forms.Label();
             this.phase0 = new System.Windows.Forms.NumericUpDown();
             this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.amp0 = new System.Windows.Forms.NumericUpDown();
             this.freq0 = new System.Windows.Forms.NumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
@@ -1079,6 +1080,7 @@
             // 
             // LaserControl
             // 
+            this.LaserControl.Controls.Add(this.SetDDSProfiles);
             this.LaserControl.Controls.Add(this.resetProfiles);
             this.LaserControl.Controls.Add(this.resetDDS);
             this.LaserControl.Controls.Add(this.panel8);
@@ -1098,14 +1100,24 @@
             this.LaserControl.Controls.Add(this.LiveLaserBox397B1);
             this.LaserControl.Location = new System.Drawing.Point(793, 5);
             this.LaserControl.Name = "LaserControl";
-            this.LaserControl.Size = new System.Drawing.Size(510, 670);
+            this.LaserControl.Size = new System.Drawing.Size(450, 670);
             this.LaserControl.TabIndex = 57;
             this.LaserControl.TabStop = false;
             this.LaserControl.Text = "Laser Control";
             // 
+            // SetDDSProfiles
+            // 
+            this.SetDDSProfiles.Location = new System.Drawing.Point(230, 590);
+            this.SetDDSProfiles.Name = "SetDDSProfiles";
+            this.SetDDSProfiles.Size = new System.Drawing.Size(83, 38);
+            this.SetDDSProfiles.TabIndex = 69;
+            this.SetDDSProfiles.Text = "Set Profiles";
+            this.SetDDSProfiles.UseVisualStyleBackColor = true;
+            this.SetDDSProfiles.Click += new System.EventHandler(this.SetDDSProfiles_Click);
+            // 
             // resetProfiles
             // 
-            this.resetProfiles.Location = new System.Drawing.Point(400, 590);
+            this.resetProfiles.Location = new System.Drawing.Point(350, 590);
             this.resetProfiles.Name = "resetProfiles";
             this.resetProfiles.Size = new System.Drawing.Size(92, 40);
             this.resetProfiles.TabIndex = 68;
@@ -1126,22 +1138,34 @@
             // panel8
             // 
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel8.Controls.Add(this.profile7radioButton);
             this.panel8.Controls.Add(this.label46);
             this.panel8.Controls.Add(this.phase7);
             this.panel8.Controls.Add(this.label23);
-            this.panel8.Controls.Add(this.label32);
             this.panel8.Controls.Add(this.amp7);
             this.panel8.Controls.Add(this.freq7);
             this.panel8.Controls.Add(this.label39);
-            this.panel8.Location = new System.Drawing.Point(261, 446);
+            this.panel8.Location = new System.Drawing.Point(230, 446);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(231, 110);
+            this.panel8.Size = new System.Drawing.Size(200, 110);
             this.panel8.TabIndex = 66;
+            // 
+            // profile7radioButton
+            // 
+            this.profile7radioButton.AutoSize = true;
+            this.profile7radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile7radioButton.Name = "profile7radioButton";
+            this.profile7radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile7radioButton.TabIndex = 73;
+            this.profile7radioButton.Tag = "profile7";
+            this.profile7radioButton.Text = "DDS Profile 7";
+            this.profile7radioButton.UseVisualStyleBackColor = true;
+            this.profile7radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label46
             // 
             this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(122, 78);
+            this.label46.Location = new System.Drawing.Point(100, 78);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(50, 13);
             this.label46.TabIndex = 71;
@@ -1164,25 +1188,16 @@
             this.phase7.Name = "phase7";
             this.phase7.Size = new System.Drawing.Size(65, 20);
             this.phase7.TabIndex = 70;
-            this.phase7.ValueChanged += new System.EventHandler(this.phase7_ValueChanged);
+            this.phase7.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(122, 53);
+            this.label23.Location = new System.Drawing.Point(100, 53);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(70, 13);
             this.label23.TabIndex = 22;
             this.label23.Text = "Amplitude (%)";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(4, 4);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(71, 13);
-            this.label32.TabIndex = 65;
-            this.label32.Text = "DDS Profile 7";
             // 
             // amp7
             // 
@@ -1195,7 +1210,7 @@
             0,
             0,
             0});
-            this.amp7.ValueChanged += new System.EventHandler(this.amp7_ValueChanged);
+            this.amp7.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq7
             // 
@@ -1213,16 +1228,18 @@
             this.freq7.Name = "freq7";
             this.freq7.Size = new System.Drawing.Size(90, 20);
             this.freq7.TabIndex = 62;
+            this.freq7.ThousandsSeparator = true;
             this.freq7.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq7.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(122, 28);
+            this.label39.Location = new System.Drawing.Point(100, 28);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(79, 13);
             this.label39.TabIndex = 64;
@@ -1231,22 +1248,34 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.profile6radioButton);
             this.panel4.Controls.Add(this.label42);
             this.panel4.Controls.Add(this.phase6);
             this.panel4.Controls.Add(this.label19);
-            this.panel4.Controls.Add(this.label31);
             this.panel4.Controls.Add(this.amp6);
             this.panel4.Controls.Add(this.freq6);
             this.panel4.Controls.Add(this.label38);
             this.panel4.Location = new System.Drawing.Point(12, 446);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(231, 110);
+            this.panel4.Size = new System.Drawing.Size(200, 110);
             this.panel4.TabIndex = 66;
+            // 
+            // profile6radioButton
+            // 
+            this.profile6radioButton.AutoSize = true;
+            this.profile6radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile6radioButton.Name = "profile6radioButton";
+            this.profile6radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile6radioButton.TabIndex = 73;
+            this.profile6radioButton.Tag = "profile6";
+            this.profile6radioButton.Text = "DDS Profile 6";
+            this.profile6radioButton.UseVisualStyleBackColor = true;
+            this.profile6radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(122, 78);
+            this.label42.Location = new System.Drawing.Point(100, 78);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(50, 13);
             this.label42.TabIndex = 70;
@@ -1269,25 +1298,16 @@
             this.phase6.Name = "phase6";
             this.phase6.Size = new System.Drawing.Size(65, 20);
             this.phase6.TabIndex = 69;
-            this.phase6.ValueChanged += new System.EventHandler(this.phase6_ValueChanged);
+            this.phase6.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(122, 53);
+            this.label19.Location = new System.Drawing.Point(100, 53);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(70, 13);
             this.label19.TabIndex = 22;
             this.label19.Text = "Amplitude (%)";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(4, 4);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(71, 13);
-            this.label31.TabIndex = 65;
-            this.label31.Text = "DDS Profile 6";
             // 
             // amp6
             // 
@@ -1300,7 +1320,7 @@
             0,
             0,
             0});
-            this.amp6.ValueChanged += new System.EventHandler(this.amp6_ValueChanged);
+            this.amp6.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq6
             // 
@@ -1318,16 +1338,18 @@
             this.freq6.Name = "freq6";
             this.freq6.Size = new System.Drawing.Size(90, 20);
             this.freq6.TabIndex = 62;
+            this.freq6.ThousandsSeparator = true;
             this.freq6.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq6.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(122, 28);
+            this.label38.Location = new System.Drawing.Point(100, 28);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(79, 13);
             this.label38.TabIndex = 64;
@@ -1336,22 +1358,34 @@
             // panel7
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel7.Controls.Add(this.profile5radioButton);
             this.panel7.Controls.Add(this.label45);
             this.panel7.Controls.Add(this.phase5);
             this.panel7.Controls.Add(this.label22);
-            this.panel7.Controls.Add(this.label30);
             this.panel7.Controls.Add(this.amp5);
             this.panel7.Controls.Add(this.freq5);
             this.panel7.Controls.Add(this.label37);
-            this.panel7.Location = new System.Drawing.Point(261, 324);
+            this.panel7.Location = new System.Drawing.Point(230, 324);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(231, 110);
+            this.panel7.Size = new System.Drawing.Size(200, 110);
             this.panel7.TabIndex = 66;
+            // 
+            // profile5radioButton
+            // 
+            this.profile5radioButton.AutoSize = true;
+            this.profile5radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile5radioButton.Name = "profile5radioButton";
+            this.profile5radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile5radioButton.TabIndex = 72;
+            this.profile5radioButton.Tag = "profile5";
+            this.profile5radioButton.Text = "DDS Profile 5";
+            this.profile5radioButton.UseVisualStyleBackColor = true;
+            this.profile5radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(122, 78);
+            this.label45.Location = new System.Drawing.Point(100, 78);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(50, 13);
             this.label45.TabIndex = 70;
@@ -1374,25 +1408,16 @@
             this.phase5.Name = "phase5";
             this.phase5.Size = new System.Drawing.Size(65, 20);
             this.phase5.TabIndex = 69;
-            this.phase5.ValueChanged += new System.EventHandler(this.phase5_ValueChanged);
+            this.phase5.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(122, 53);
+            this.label22.Location = new System.Drawing.Point(100, 53);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(70, 13);
             this.label22.TabIndex = 22;
             this.label22.Text = "Amplitude (%)";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(4, 4);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(71, 13);
-            this.label30.TabIndex = 65;
-            this.label30.Text = "DDS Profile 5";
             // 
             // amp5
             // 
@@ -1405,7 +1430,7 @@
             0,
             0,
             0});
-            this.amp5.ValueChanged += new System.EventHandler(this.amp5_ValueChanged);
+            this.amp5.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq5
             // 
@@ -1423,16 +1448,18 @@
             this.freq5.Name = "freq5";
             this.freq5.Size = new System.Drawing.Size(90, 20);
             this.freq5.TabIndex = 62;
+            this.freq5.ThousandsSeparator = true;
             this.freq5.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq5.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(122, 28);
+            this.label37.Location = new System.Drawing.Point(100, 28);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(79, 13);
             this.label37.TabIndex = 64;
@@ -1441,22 +1468,34 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.profile4radioButton);
             this.panel3.Controls.Add(this.label41);
             this.panel3.Controls.Add(this.phase4);
             this.panel3.Controls.Add(this.label18);
-            this.panel3.Controls.Add(this.label29);
             this.panel3.Controls.Add(this.amp4);
             this.panel3.Controls.Add(this.freq4);
             this.panel3.Controls.Add(this.label36);
             this.panel3.Location = new System.Drawing.Point(12, 324);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(231, 110);
+            this.panel3.Size = new System.Drawing.Size(200, 110);
             this.panel3.TabIndex = 66;
+            // 
+            // profile4radioButton
+            // 
+            this.profile4radioButton.AutoSize = true;
+            this.profile4radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile4radioButton.Name = "profile4radioButton";
+            this.profile4radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile4radioButton.TabIndex = 71;
+            this.profile4radioButton.Tag = "profile4";
+            this.profile4radioButton.Text = "DDS Profile 4";
+            this.profile4radioButton.UseVisualStyleBackColor = true;
+            this.profile4radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label41
             // 
             this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(122, 78);
+            this.label41.Location = new System.Drawing.Point(100, 78);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(50, 13);
             this.label41.TabIndex = 69;
@@ -1479,25 +1518,16 @@
             this.phase4.Name = "phase4";
             this.phase4.Size = new System.Drawing.Size(65, 20);
             this.phase4.TabIndex = 68;
-            this.phase4.ValueChanged += new System.EventHandler(this.phase4_ValueChanged);
+            this.phase4.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(122, 53);
+            this.label18.Location = new System.Drawing.Point(100, 53);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(70, 13);
             this.label18.TabIndex = 22;
             this.label18.Text = "Amplitude (%)";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(4, 4);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(71, 13);
-            this.label29.TabIndex = 65;
-            this.label29.Text = "DDS Profile 4";
             // 
             // amp4
             // 
@@ -1510,7 +1540,7 @@
             0,
             0,
             0});
-            this.amp4.ValueChanged += new System.EventHandler(this.amp4_ValueChanged);
+            this.amp4.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq4
             // 
@@ -1528,16 +1558,18 @@
             this.freq4.Name = "freq4";
             this.freq4.Size = new System.Drawing.Size(90, 20);
             this.freq4.TabIndex = 62;
+            this.freq4.ThousandsSeparator = true;
             this.freq4.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq4.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(122, 28);
+            this.label36.Location = new System.Drawing.Point(100, 28);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(79, 13);
             this.label36.TabIndex = 64;
@@ -1546,17 +1578,29 @@
             // panel6
             // 
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel6.Controls.Add(this.profile3radioButton);
             this.panel6.Controls.Add(this.label44);
             this.panel6.Controls.Add(this.phase3);
             this.panel6.Controls.Add(this.label21);
-            this.panel6.Controls.Add(this.label28);
             this.panel6.Controls.Add(this.amp3);
             this.panel6.Controls.Add(this.freq3);
             this.panel6.Controls.Add(this.label35);
-            this.panel6.Location = new System.Drawing.Point(261, 202);
+            this.panel6.Location = new System.Drawing.Point(230, 202);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(231, 110);
+            this.panel6.Size = new System.Drawing.Size(200, 110);
             this.panel6.TabIndex = 66;
+            // 
+            // profile3radioButton
+            // 
+            this.profile3radioButton.AutoSize = true;
+            this.profile3radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile3radioButton.Name = "profile3radioButton";
+            this.profile3radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile3radioButton.TabIndex = 70;
+            this.profile3radioButton.Tag = "profile3";
+            this.profile3radioButton.Text = "DDS Profile 3";
+            this.profile3radioButton.UseVisualStyleBackColor = true;
+            this.profile3radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label44
             // 
@@ -1584,25 +1628,16 @@
             this.phase3.Name = "phase3";
             this.phase3.Size = new System.Drawing.Size(65, 20);
             this.phase3.TabIndex = 68;
-            this.phase3.ValueChanged += new System.EventHandler(this.phase3_ValueChanged);
+            this.phase3.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(122, 53);
+            this.label21.Location = new System.Drawing.Point(100, 53);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(70, 13);
             this.label21.TabIndex = 22;
             this.label21.Text = "Amplitude (%)";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(4, 4);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(71, 13);
-            this.label28.TabIndex = 65;
-            this.label28.Text = "DDS Profile 3";
             // 
             // amp3
             // 
@@ -1615,7 +1650,7 @@
             0,
             0,
             0});
-            this.amp3.ValueChanged += new System.EventHandler(this.amp3_ValueChanged);
+            this.amp3.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq3
             // 
@@ -1633,16 +1668,18 @@
             this.freq3.Name = "freq3";
             this.freq3.Size = new System.Drawing.Size(90, 20);
             this.freq3.TabIndex = 62;
+            this.freq3.ThousandsSeparator = true;
             this.freq3.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq3.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(122, 28);
+            this.label35.Location = new System.Drawing.Point(100, 28);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(79, 13);
             this.label35.TabIndex = 64;
@@ -1651,22 +1688,34 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.profile2radioButton);
             this.panel2.Controls.Add(this.label40);
             this.panel2.Controls.Add(this.phase2);
             this.panel2.Controls.Add(this.label16);
-            this.panel2.Controls.Add(this.label27);
             this.panel2.Controls.Add(this.amp2);
             this.panel2.Controls.Add(this.freq2);
             this.panel2.Controls.Add(this.label34);
             this.panel2.Location = new System.Drawing.Point(12, 202);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(231, 110);
+            this.panel2.Size = new System.Drawing.Size(200, 110);
             this.panel2.TabIndex = 66;
+            // 
+            // profile2radioButton
+            // 
+            this.profile2radioButton.AutoSize = true;
+            this.profile2radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile2radioButton.Name = "profile2radioButton";
+            this.profile2radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile2radioButton.TabIndex = 70;
+            this.profile2radioButton.Tag = "profile2";
+            this.profile2radioButton.Text = "DDS Profile 2";
+            this.profile2radioButton.UseVisualStyleBackColor = true;
+            this.profile2radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(122, 78);
+            this.label40.Location = new System.Drawing.Point(100, 78);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(50, 13);
             this.label40.TabIndex = 68;
@@ -1689,25 +1738,16 @@
             this.phase2.Name = "phase2";
             this.phase2.Size = new System.Drawing.Size(65, 20);
             this.phase2.TabIndex = 67;
-            this.phase2.ValueChanged += new System.EventHandler(this.phase2_ValueChanged);
+            this.phase2.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(122, 53);
+            this.label16.Location = new System.Drawing.Point(100, 53);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(70, 13);
             this.label16.TabIndex = 22;
             this.label16.Text = "Amplitude (%)";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(4, 4);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(71, 13);
-            this.label27.TabIndex = 65;
-            this.label27.Text = "DDS Profile 2";
             // 
             // amp2
             // 
@@ -1720,7 +1760,7 @@
             0,
             0,
             0});
-            this.amp2.ValueChanged += new System.EventHandler(this.amp2_ValueChanged);
+            this.amp2.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq2
             // 
@@ -1738,16 +1778,18 @@
             this.freq2.Name = "freq2";
             this.freq2.Size = new System.Drawing.Size(90, 20);
             this.freq2.TabIndex = 62;
+            this.freq2.ThousandsSeparator = true;
             this.freq2.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq2.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(122, 28);
+            this.label34.Location = new System.Drawing.Point(100, 28);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(79, 13);
             this.label34.TabIndex = 64;
@@ -1756,22 +1798,34 @@
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel5.Controls.Add(this.profile1radioButton);
             this.panel5.Controls.Add(this.label43);
             this.panel5.Controls.Add(this.phase1);
             this.panel5.Controls.Add(this.label20);
-            this.panel5.Controls.Add(this.label26);
             this.panel5.Controls.Add(this.amp1);
             this.panel5.Controls.Add(this.freq1);
             this.panel5.Controls.Add(this.label33);
-            this.panel5.Location = new System.Drawing.Point(261, 80);
+            this.panel5.Location = new System.Drawing.Point(230, 80);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(231, 110);
+            this.panel5.Size = new System.Drawing.Size(200, 110);
             this.panel5.TabIndex = 66;
+            // 
+            // profile1radioButton
+            // 
+            this.profile1radioButton.AutoSize = true;
+            this.profile1radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile1radioButton.Name = "profile1radioButton";
+            this.profile1radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile1radioButton.TabIndex = 69;
+            this.profile1radioButton.Tag = "profile1";
+            this.profile1radioButton.Text = "DDS Profile 1";
+            this.profile1radioButton.UseVisualStyleBackColor = true;
+            this.profile1radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label43
             // 
             this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(122, 78);
+            this.label43.Location = new System.Drawing.Point(100, 78);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(50, 13);
             this.label43.TabIndex = 68;
@@ -1794,25 +1848,16 @@
             this.phase1.Name = "phase1";
             this.phase1.Size = new System.Drawing.Size(65, 20);
             this.phase1.TabIndex = 67;
-            this.phase1.ValueChanged += new System.EventHandler(this.phase1_ValueChanged);
+            this.phase1.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(122, 53);
+            this.label20.Location = new System.Drawing.Point(100, 53);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(70, 13);
             this.label20.TabIndex = 22;
             this.label20.Text = "Amplitude (%)";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(4, 4);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(71, 13);
-            this.label26.TabIndex = 65;
-            this.label26.Text = "DDS Profile 1";
             // 
             // amp1
             // 
@@ -1825,7 +1870,7 @@
             0,
             0,
             0});
-            this.amp1.ValueChanged += new System.EventHandler(this.amp1_ValueChanged);
+            this.amp1.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq1
             // 
@@ -1843,16 +1888,18 @@
             this.freq1.Name = "freq1";
             this.freq1.Size = new System.Drawing.Size(90, 20);
             this.freq1.TabIndex = 62;
+            this.freq1.ThousandsSeparator = true;
             this.freq1.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
+            this.freq1.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(122, 28);
+            this.label33.Location = new System.Drawing.Point(100, 28);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(79, 13);
             this.label33.TabIndex = 64;
@@ -1861,22 +1908,36 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.profile0radioButton);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.phase0);
             this.panel1.Controls.Add(this.label24);
-            this.panel1.Controls.Add(this.label25);
             this.panel1.Controls.Add(this.amp0);
             this.panel1.Controls.Add(this.freq0);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Location = new System.Drawing.Point(12, 80);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(231, 110);
+            this.panel1.Size = new System.Drawing.Size(200, 110);
             this.panel1.TabIndex = 12;
+            // 
+            // profile0radioButton
+            // 
+            this.profile0radioButton.AutoSize = true;
+            this.profile0radioButton.Checked = true;
+            this.profile0radioButton.Location = new System.Drawing.Point(4, 2);
+            this.profile0radioButton.Name = "profile0radioButton";
+            this.profile0radioButton.Size = new System.Drawing.Size(89, 17);
+            this.profile0radioButton.TabIndex = 68;
+            this.profile0radioButton.TabStop = true;
+            this.profile0radioButton.Tag = "profile0";
+            this.profile0radioButton.Text = "DDS Profile 0";
+            this.profile0radioButton.UseVisualStyleBackColor = true;
+            this.profile0radioButton.Click += new System.EventHandler(this.LaserBoxChanged);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(122, 78);
+            this.label13.Location = new System.Drawing.Point(100, 78);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 67;
@@ -1899,25 +1960,16 @@
             this.phase0.Name = "phase0";
             this.phase0.Size = new System.Drawing.Size(65, 20);
             this.phase0.TabIndex = 66;
-            this.phase0.ValueChanged += new System.EventHandler(this.phase0_ValueChanged);
+            this.phase0.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(122, 53);
+            this.label24.Location = new System.Drawing.Point(100, 53);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(70, 13);
             this.label24.TabIndex = 22;
             this.label24.Text = "Amplitude (%)";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(4, 4);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(71, 13);
-            this.label25.TabIndex = 65;
-            this.label25.Text = "DDS Profile 0";
             // 
             // amp0
             // 
@@ -1930,7 +1982,7 @@
             0,
             0,
             0});
-            this.amp0.ValueChanged += new System.EventHandler(this.amp0_ValueChanged);
+            this.amp0.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // freq0
             // 
@@ -1948,17 +2000,18 @@
             this.freq0.Name = "freq0";
             this.freq0.Size = new System.Drawing.Size(90, 20);
             this.freq0.TabIndex = 62;
+            this.freq0.ThousandsSeparator = true;
             this.freq0.Value = new decimal(new int[] {
             230000000,
             0,
             0,
             0});
-            this.freq0.ValueChanged += new System.EventHandler(this.freq0_ValueChanged);
+            this.freq0.ValueChanged += new System.EventHandler(this.DDSBoxChange);
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(122, 28);
+            this.label17.Location = new System.Drawing.Point(100, 28);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(79, 13);
             this.label17.TabIndex = 64;
@@ -2099,7 +2152,7 @@
             // 
             // OpenViewerButton
             // 
-            this.OpenViewerButton.Location = new System.Drawing.Point(1212, 687);
+            this.OpenViewerButton.Location = new System.Drawing.Point(1112, 687);
             this.OpenViewerButton.Name = "OpenViewerButton";
             this.OpenViewerButton.Size = new System.Drawing.Size(91, 37);
             this.OpenViewerButton.TabIndex = 59;
@@ -2126,7 +2179,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1324, 742);
+            this.ClientSize = new System.Drawing.Size(1264, 742);
             this.Controls.Add(this.ClearBoxButton);
             this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
@@ -2293,46 +2346,38 @@
         private System.IO.Ports.SerialPort COM12;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.NumericUpDown amp0;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.NumericUpDown amp1;
         private System.Windows.Forms.NumericUpDown freq1;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label32;
         private System.Windows.Forms.NumericUpDown amp7;
         private System.Windows.Forms.NumericUpDown freq7;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label31;
         private System.Windows.Forms.NumericUpDown amp6;
         private System.Windows.Forms.NumericUpDown freq6;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label30;
         private System.Windows.Forms.NumericUpDown amp5;
         private System.Windows.Forms.NumericUpDown freq5;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label29;
         private System.Windows.Forms.NumericUpDown amp4;
         private System.Windows.Forms.NumericUpDown freq4;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label28;
         private System.Windows.Forms.NumericUpDown amp3;
         private System.Windows.Forms.NumericUpDown freq3;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.NumericUpDown amp2;
         private System.Windows.Forms.NumericUpDown freq2;
         private System.Windows.Forms.Label label34;
@@ -2354,6 +2399,15 @@
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Button resetProfiles;
+        private System.Windows.Forms.RadioButton profile3radioButton;
+        private System.Windows.Forms.RadioButton profile2radioButton;
+        private System.Windows.Forms.RadioButton profile1radioButton;
+        private System.Windows.Forms.RadioButton profile0radioButton;
+        private System.Windows.Forms.RadioButton profile5radioButton;
+        private System.Windows.Forms.RadioButton profile4radioButton;
+        private System.Windows.Forms.RadioButton profile7radioButton;
+        private System.Windows.Forms.RadioButton profile6radioButton;
+        private System.Windows.Forms.Button SetDDSProfiles;
     }
 }
 
