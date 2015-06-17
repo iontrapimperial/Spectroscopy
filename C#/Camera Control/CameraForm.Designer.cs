@@ -72,6 +72,8 @@
             this.CountTypeLabel = new System.Windows.Forms.Label();
             this.gainUpDown = new System.Windows.Forms.NumericUpDown();
             this.gainLabel = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -210,6 +212,7 @@
             // 
             // subImaging
             // 
+            this.subImaging.Controls.Add(this.label8);
             this.subImaging.Controls.Add(this.verticalEndLabel);
             this.subImaging.Controls.Add(this.vertEndLabel);
             this.subImaging.Controls.Add(this.horizEndLabel);
@@ -671,11 +674,32 @@
             this.gainLabel.TabIndex = 27;
             this.gainLabel.Text = "Gain";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(36, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(58, 13);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Sub-Image";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 493);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(81, 13);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "Acquisition type";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.gainLabel);
             this.Controls.Add(this.gainUpDown);
             this.Controls.Add(this.CountTypeLabel);
@@ -706,7 +730,7 @@
             this.Controls.Add(this.Shutter);
             this.Name = "CameraForm";
             this.Text = "Camera Controller";
-            this.Load += new System.EventHandler(this.CameraForm_Load);
+            
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).EndInit();
@@ -778,6 +802,8 @@
         private System.Windows.Forms.Label CountTypeLabel;
         private System.Windows.Forms.NumericUpDown gainUpDown;
         private System.Windows.Forms.Label gainLabel;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }
 

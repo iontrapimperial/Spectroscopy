@@ -38,31 +38,11 @@ namespace Camera_Control
         double freqStart;
         BackgroundWorker bw = new BackgroundWorker();
         private static System.Windows.Forms.Timer aTimer;
-
-
-
-        /*
-        void UpdateDialogWindows();   // refreshes all windows
-        void FillRectangle();         // clears paint area
-        bool AcquireImageData();      // Acquires data from card
-        void PaintDataWindow();       // Prepares paint area on screen
-       // bool DrawLines(long ,long); 			// paints data to screen
-        int AllocateBuffers();        // Allocates memory for buffers
-        long gliStart, gliEnd, gliFreq;
-        void getFluorescence(int run);  
-        void FreeBuffers();           // Frees allocated memory
-        void flourThreshDetect(int threshold);          // Detects whether ion is flourescing based on set threshold
-        void PaintImage(long maxValue, long minValue, int Start); //Display data on screen
-        void paintGraph(int width, int height);
-        //void CreateIdentityPalette(HDC ScreenDC); //Palette for PaintData()
-        //BOOL ProcessMessages(UINT message, WPARAM wparam, LPARAM lparam){return FALSE;} // No messages to process in this example
-        //void findIons(int noIons, int ionLocations);
-
-        // Ion image processing parameters
+           
       
        
         // Set up acquisition parameters here to be set in common.c *****************
-       */
+     
         int[] ionLocations;					// locations of ions that are passed to the drawing function to display on screen
         int[,] fluorescenceData;				// 2D pointer array that will store the fluorenscence data for each ion.
         double[,] spectrumData;
@@ -294,11 +274,7 @@ namespace Camera_Control
 
         }
 
-        private void CameraForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
+  
         private void numIonsUpDown_ValueChanged(object sender, EventArgs e)
         {
 
@@ -608,8 +584,8 @@ namespace Camera_Control
                 {
                     ionLocations = new int[numIons];                    
                     myAndor.SetFastExtTrigger(1);
-                    myAndor.SetNumberAccumulations(1);
-                    myAndor.SetNumberKinetics(repeatNum*giNumberLoops);                    
+                    myAndor.SetNumberAccumulations(repeatNum);
+                    myAndor.SetNumberKinetics(giNumberLoops);                    
                     
                     fKineticTime = (float)0.0001;
                    // myAndor.SetExposureTime((float) 0.001);
@@ -635,7 +611,7 @@ namespace Camera_Control
                         errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
                         AcquireImageDataKinetic();                                               
                         myAndor.AbortAcquisition();
-                        //writeToFile();
+                        writeToFile();
                     //}
                 }
                 if (acqType == 3)
@@ -691,7 +667,7 @@ namespace Camera_Control
         {
             uint size;
             uint errorValue;
-            
+            Random rnd = new Random();
             size = (uint)(hDim * vDim);            
             myAndor.SendSoftwareTrigger();    // PHYSICAL CAMERA ACQUISITION STARTS
             errorMsgTxtBox.AppendText("trigger sent" + "\r\n"); 
@@ -707,7 +683,7 @@ namespace Camera_Control
                 errorMsgTxtBox.AppendText(errorValue.ToString());
                 return false;
             }
-            
+           
             
             if (!gblData)
             {														  // If there is no data the acq has
@@ -817,7 +793,7 @@ namespace Camera_Control
              
               */
              Thread.Sleep(5000);
-             for (i = 0; i < repeatNum * giNumberLoops; i++)
+             for (i = 0; i <giNumberLoops; i++)
              {
                  if (myAndor.GetOldestImage(pImageArray, size) != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                  {                 // ACQUISITION PERFORMED HERE!!
@@ -829,7 +805,8 @@ namespace Camera_Control
                  {
                      //if (i == 0) findIons();
                      errorMsgTxtBox.AppendText("Got Image: " + i + "\r\n");
-                     //drawCameraImage();
+                     drawCameraImage();
+                     getFluorescence(i);
                  }
              }
 
@@ -888,12 +865,13 @@ namespace Camera_Control
                  Console.WriteLine("Inside while loop");
                  size = (uint)(hDim * vDim);
                 // errorMsgTxtBox.AppendText("Hey there" + "\r\n");
-                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION
-                 // WaitForAcquisitionTimeOut(200);
+                
+                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION                  // WaitForAcquisitionTimeOut(200);
                 // errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
                  pImageArray = new int[size];
                  // ACQUISTION PERFORMED HERE!!!
                  errorValue = myAndor.GetOldestImage(pImageArray, size);
+                 //getFluorescence();
                 // findIons();      
              }
 
@@ -1182,6 +1160,8 @@ namespace Camera_Control
 
         void drawCameraImageCont()
         {
+           // abortCont = true;
+            //bw.CancelAsync();
             int hBoxDim = hBoxEnd - hBoxStart + 1;
             int vBoxDim = vBoxEnd - vBoxStart + 1;
             int hOffset = hBoxStart - hstart;
@@ -1282,7 +1262,9 @@ namespace Camera_Control
             pictureBox1.Image = b;
             pictureBox1.Refresh();
             pinnedArray.Free();
-        }
+           // abortCont = false;
+           // bw.RunWorkerAsync();
+        }  
         void writeToFile()
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\localadmin\Desktop\TestData\Raw.txt", true))
@@ -1333,11 +1315,21 @@ namespace Camera_Control
              
             errorMsgTxtBox.AppendText("Fluorescence: " + getFluorescenceCont() + "\r\n");
             drawCameraImageCont();
-            findIons();
-            drawCameraImage();
+            //findIons();
+            //drawCameraImage();
 
                                
             
+         }
+
+         private void label8_Click(object sender, EventArgs e)
+         {
+
+         }
+
+         private void label9_Click(object sender, EventArgs e)
+         {
+
          }
 
 
