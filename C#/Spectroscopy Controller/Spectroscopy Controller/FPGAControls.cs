@@ -47,6 +47,7 @@ namespace Spectroscopy_Controller
 
 
         delegate void CallbackDelegateOutput(string text);
+    
 
 
         /// <summary>

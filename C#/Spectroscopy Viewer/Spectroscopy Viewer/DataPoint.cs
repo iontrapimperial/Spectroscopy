@@ -300,6 +300,8 @@ namespace Spectroscopy_Viewer
             }
         }
 
+
+
         // Method to re-calculate number of bad counts due to low cooling counts, based on a changed threshold
         // Only re-checks those that might have changed
         private void updateBadCountsThreshold(int directionOfChange)

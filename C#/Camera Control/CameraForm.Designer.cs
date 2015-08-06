@@ -39,6 +39,7 @@
             this.comboTrigger = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.subImaging = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             this.verticalEndLabel = new System.Windows.Forms.Label();
             this.vertEndLabel = new System.Windows.Forms.Label();
             this.horizEndLabel = new System.Windows.Forms.Label();
@@ -63,6 +64,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.AddROI = new System.Windows.Forms.Button();
             this.vBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
             this.vBoxStartUpDown = new System.Windows.Forms.NumericUpDown();
             this.hBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
@@ -72,8 +74,13 @@
             this.CountTypeLabel = new System.Windows.Forms.Label();
             this.gainUpDown = new System.Windows.Forms.NumericUpDown();
             this.gainLabel = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.temperatureUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.temperatureBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.coolerBox = new System.Windows.Forms.CheckBox();
+            this.saveContData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -92,6 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -225,6 +233,15 @@
             this.subImaging.Name = "subImaging";
             this.subImaging.Size = new System.Drawing.Size(155, 163);
             this.subImaging.TabIndex = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(36, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(58, 13);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Sub-Image";
             // 
             // verticalEndLabel
             // 
@@ -521,6 +538,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.AddROI);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label6);
@@ -533,6 +551,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(155, 163);
             this.panel1.TabIndex = 23;
+            // 
+            // AddROI
+            // 
+            this.AddROI.Location = new System.Drawing.Point(16, 132);
+            this.AddROI.Name = "AddROI";
+            this.AddROI.Size = new System.Drawing.Size(116, 30);
+            this.AddROI.TabIndex = 14;
+            this.AddROI.Text = "Add ROI";
+            this.AddROI.UseVisualStyleBackColor = true;
+            this.AddROI.Click += new System.EventHandler(this.AddROI_Click);
             // 
             // vBoxEndUpDown
             // 
@@ -656,6 +684,11 @@
             // gainUpDown
             // 
             this.gainUpDown.Location = new System.Drawing.Point(113, 46);
+            this.gainUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.gainUpDown.Name = "gainUpDown";
             this.gainUpDown.Size = new System.Drawing.Size(85, 20);
             this.gainUpDown.TabIndex = 26;
@@ -674,16 +707,6 @@
             this.gainLabel.TabIndex = 27;
             this.gainLabel.Text = "Gain";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(36, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(58, 13);
-            this.label8.TabIndex = 28;
-            this.label8.Text = "Sub-Image";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -692,13 +715,87 @@
             this.label9.Size = new System.Drawing.Size(81, 13);
             this.label9.TabIndex = 28;
             this.label9.Text = "Acquisition type";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
+            // 
+            // temperatureUpDown
+            // 
+            this.temperatureUpDown.Location = new System.Drawing.Point(113, 137);
+            this.temperatureUpDown.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.temperatureUpDown.Minimum = new decimal(new int[] {
+            80,
+            0,
+            0,
+            -2147483648});
+            this.temperatureUpDown.Name = "temperatureUpDown";
+            this.temperatureUpDown.Size = new System.Drawing.Size(85, 20);
+            this.temperatureUpDown.TabIndex = 29;
+            this.temperatureUpDown.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.temperatureUpDown.ValueChanged += new System.EventHandler(this.temperatureUpDown_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(110, 121);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(86, 13);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "Temperature Set";
+            // 
+            // temperatureBox
+            // 
+            this.temperatureBox.Location = new System.Drawing.Point(113, 184);
+            this.temperatureBox.Name = "temperatureBox";
+            this.temperatureBox.Size = new System.Drawing.Size(83, 20);
+            this.temperatureBox.TabIndex = 31;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(110, 168);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(67, 13);
+            this.label11.TabIndex = 32;
+            this.label11.Text = "Temperature";
+            // 
+            // coolerBox
+            // 
+            this.coolerBox.AutoSize = true;
+            this.coolerBox.Location = new System.Drawing.Point(113, 89);
+            this.coolerBox.Name = "coolerBox";
+            this.coolerBox.Size = new System.Drawing.Size(59, 17);
+            this.coolerBox.TabIndex = 33;
+            this.coolerBox.Text = "Cooler ";
+            this.coolerBox.UseVisualStyleBackColor = true;
+            this.coolerBox.CheckedChanged += new System.EventHandler(this.coolerBox_CheckedChanged);
+            // 
+            // saveContData
+            // 
+            this.saveContData.Location = new System.Drawing.Point(113, 499);
+            this.saveContData.Name = "saveContData";
+            this.saveContData.Size = new System.Drawing.Size(70, 30);
+            this.saveContData.TabIndex = 34;
+            this.saveContData.Text = "Save Data";
+            this.saveContData.UseVisualStyleBackColor = true;
+            this.saveContData.Click += new System.EventHandler(this.saveContData_Click);
             // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.saveContData);
+            this.Controls.Add(this.coolerBox);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.temperatureBox);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.temperatureUpDown);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.gainLabel);
             this.Controls.Add(this.gainUpDown);
@@ -730,7 +827,6 @@
             this.Controls.Add(this.Shutter);
             this.Name = "CameraForm";
             this.Text = "Camera Controller";
-            
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).EndInit();
@@ -751,6 +847,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -804,6 +901,13 @@
         private System.Windows.Forms.Label gainLabel;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button AddROI;
+        private System.Windows.Forms.NumericUpDown temperatureUpDown;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox temperatureBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox coolerBox;
+        private System.Windows.Forms.Button saveContData;
     }
 }
 
