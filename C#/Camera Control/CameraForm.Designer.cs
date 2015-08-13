@@ -81,6 +81,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.coolerBox = new System.Windows.Forms.CheckBox();
             this.saveContData = new System.Windows.Forms.Button();
+            this.ClearROI = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -538,6 +539,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.ClearROI);
             this.panel1.Controls.Add(this.AddROI);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label5);
@@ -554,9 +556,9 @@
             // 
             // AddROI
             // 
-            this.AddROI.Location = new System.Drawing.Point(16, 132);
+            this.AddROI.Location = new System.Drawing.Point(3, 132);
             this.AddROI.Name = "AddROI";
-            this.AddROI.Size = new System.Drawing.Size(116, 30);
+            this.AddROI.Size = new System.Drawing.Size(59, 28);
             this.AddROI.TabIndex = 14;
             this.AddROI.Text = "Add ROI";
             this.AddROI.UseVisualStyleBackColor = true;
@@ -671,6 +673,7 @@
             this.comboCountType.Size = new System.Drawing.Size(85, 21);
             this.comboCountType.TabIndex = 24;
             this.comboCountType.Text = "Counts";
+            this.comboCountType.SelectedIndexChanged += new System.EventHandler(this.comboCountType_SelectedIndexChanged);
             // 
             // CountTypeLabel
             // 
@@ -784,6 +787,16 @@
             this.saveContData.Text = "Save Data";
             this.saveContData.UseVisualStyleBackColor = true;
             this.saveContData.Click += new System.EventHandler(this.saveContData_Click);
+            // 
+            // ClearROI
+            // 
+            this.ClearROI.Location = new System.Drawing.Point(80, 132);
+            this.ClearROI.Name = "ClearROI";
+            this.ClearROI.Size = new System.Drawing.Size(72, 28);
+            this.ClearROI.TabIndex = 15;
+            this.ClearROI.Text = "Clear ROI";
+            this.ClearROI.UseVisualStyleBackColor = true;
+            this.ClearROI.Click += new System.EventHandler(this.ClearROI_Click);
             // 
             // CameraForm
             // 
@@ -908,6 +921,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox coolerBox;
         private System.Windows.Forms.Button saveContData;
+        private System.Windows.Forms.Button ClearROI;
     }
 }
 

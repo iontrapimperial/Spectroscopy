@@ -44,7 +44,7 @@ namespace Camera_Control
         BackgroundWorker bw = new BackgroundWorker();
         private static System.Windows.Forms.Timer aTimer, tempTimer;
         List <int[]> fluorescContData = new List<int[]>();
-
+        int countType = 0;
 
 
 
@@ -101,8 +101,9 @@ namespace Camera_Control
             hBoxStart = new int[10];
             hBoxEnd = new int[10];
             vBoxStart = new int[10];
-            vBoxEnd = new int[10];  
+            vBoxEnd = new int[10];
 
+            
 
 
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -170,7 +171,7 @@ namespace Camera_Control
 
             // Set Vertical speed to recommended
             myAndor.GetFastestRecommendedVSSpeed(ref VSnumber, ref speed);
-            errorValue = myAndor.SetVSSpeed(0);
+            errorValue = myAndor.SetVSSpeed(3);
             myAndor.GetVSSpeed(0, ref speed);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
@@ -181,6 +182,19 @@ namespace Camera_Control
               MessageBoxDefaultButton.Button1);
             }
             Console.WriteLine("VSpeed:  " + speed);
+
+            
+            errorValue = myAndor.SetIsolatedCropMode(0, 1, 1, 1, 1);
+            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+            {
+                MessageBox.Show("Crop mode failed.",
+             "Error!",
+               MessageBoxButtons.OK,
+              MessageBoxIcon.Exclamation,
+              MessageBoxDefaultButton.Button1);
+            }
+
+
 
             // Set Horizontal Speed to max
             STemp = 0;
@@ -213,7 +227,7 @@ namespace Camera_Control
                 }
             }
 
-            errorValue = myAndor.SetVSAmplitude(2);
+            errorValue = myAndor.SetVSAmplitude(0);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Error setting VS amplitude.",
@@ -234,7 +248,7 @@ namespace Camera_Control
               MessageBoxDefaultButton.Button1);
             }
 
-            errorValue = myAndor.SetHSSpeed(0, 0);
+            errorValue = myAndor.SetHSSpeed(0, 2);
             myAndor.GetHSSpeed(ADnumber, 0, HSnumber, ref speed);
             Console.WriteLine("HSpeed: " + speed);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -245,7 +259,7 @@ namespace Camera_Control
               MessageBoxIcon.Exclamation,
               MessageBoxDefaultButton.Button1);
             }
-
+            
             if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_BASELINECLAMP) != 0)
             {
                 errorValue = myAndor.SetBaselineClamp(1);
@@ -338,7 +352,7 @@ namespace Camera_Control
 
 
 
-            int countType = 0;
+            
             //Set Exposure
             fExposure = (float)exposureUpDown.Value;
             errorValue = myAndor.SetExposureTime(fExposure);
@@ -396,11 +410,11 @@ namespace Camera_Control
             {
                 countType = 0;
             }
-            else if (comboTrigger.SelectedItem.ToString() == "Electrons")
+            else if (comboCountType.SelectedItem.ToString() == "Electrons")
             {
                 countType = 1;
             }
-            else if (comboTrigger.SelectedItem.ToString() == "Photons")
+            else if (comboCountType.SelectedItem.ToString() == "Photons")
             {
                 countType = 2;
             }
@@ -443,7 +457,7 @@ namespace Camera_Control
 
 
 
-            errorValue = myAndor.SetCountConvertMode(countType);
+            errorValue = myAndor.SetCountConvertMode(countType);            
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                 MessageBox.Show("Error setting count mode.",
             "Error!",
@@ -1019,9 +1033,12 @@ namespace Camera_Control
                 }
                 if (ignore == 0)
                 {  // if there is no overlap store position of ion.
+                    //double HH = (double)(400) / (double)hDim;
+                    int xPos = (int)((maxIndex % (hDim - (ionSquarePixelDim - 1))));
+                    int yPos = (int)((maxIndex / (hDim - (ionSquarePixelDim - 1))));
                     ionLocations[ionsFound] = maxIndex;
                     ionsFound++;
-                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position  " + maxIndex + " with counts " + maxValue + "\n");
+                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position x: " + xPos + "  y:  " +yPos+ "  with counts " + maxValue + "\n");
 
                 }
 
@@ -1320,7 +1337,7 @@ namespace Camera_Control
         }
         void writeToFile()
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\localadmin\Desktop\TestData\Raw.txt", true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\Raw.txt", true))
             {
                 for (int i = 0; i < fluorescenceData.GetLength(0); i++)
                 {
@@ -1332,7 +1349,7 @@ namespace Camera_Control
                     file.WriteLine();
                 }
             }
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\localadmin\Desktop\TestData\Processed.txt", true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\Processed.txt", true))
             {
                 for (int i = 0; i < spectrumData.GetLength(1); i++)
                 {
@@ -1347,7 +1364,7 @@ namespace Camera_Control
         }
         void writeToFileSimple()
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\localadmin\Desktop\TestData\Raw.txt", true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\Raw.txt", true))
             {
                 for (int i = 0; i < fluorescenceData.GetLength(0); i++)
                 {
@@ -1363,7 +1380,7 @@ namespace Camera_Control
 
         void writeToFileCont()
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\localadmin\Desktop\TestData\ContRaw.txt", true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ContRaw.txt", true))
             {
                
                 for (int i = 0; i < fluorescContData.Count; i++)
@@ -1376,11 +1393,31 @@ namespace Camera_Control
                     file.WriteLine();
                 }
             }
+            fluorescContData.Clear();
             errorMsgTxtBox.AppendText("Done saving.");
         }
 
+        private void comboCountType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboCountType.SelectedItem.ToString() == "Counts")
+            {
+                countType = 0;
+            }
+            else if (comboCountType.SelectedItem.ToString() == "Electrons")
+            {
+                countType = 1;
+            }
+            else if (comboCountType.SelectedItem.ToString() == "Photons")
+            {
+                countType = 2;
+            }
+            myAndor.SetCountConvertMode(countType);
+        }
 
-
+        private void ClearROI_Click(object sender, EventArgs e)
+        {
+            ROICount = 0;
+        }
 
         private void AbortAcquisition_Click(object sender, EventArgs e)
         {
@@ -1482,10 +1519,9 @@ namespace Camera_Control
                 errorMsgTxtBox.AppendText("Temperature Error");
             else
             {
-                if (temperature < MinTemp || temperature > MaxTemp)
-                    errorMsgTxtBox.AppendText("Temperature is out of range");
-                else
-                {
+                //if (temperature < MinTemp || temperature > MaxTemp)
+                  //  errorMsgTxtBox.AppendText("Temperature is out of range");
+                
                     // if it is in range, switch on cooler and set temp
                     errorValue = myAndor.CoolerON();
                     if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -1504,7 +1540,7 @@ namespace Camera_Control
                         else
                             errorMsgTxtBox.AppendText("Temperature has been set to " + setTemperature + " (C)");
                     }
-                }
+                
             }
         }
 
@@ -1596,7 +1632,7 @@ namespace Camera_Control
            metadata[0] = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
            // This is all from the CoreForm
            metadata[1] = "continuous";
-           metadata[2] = @"C:\Users\localadmin\Desktop\TestData\Processed.txt";
+           metadata[2] = @"C:\Users\IonTrap\Desktop\new\Processed.txt";
            metadata[3] = "60";
            metadata[4] = "234";
            metadata[5] = "667";
@@ -1621,9 +1657,9 @@ namespace Camera_Control
            }
 
            metadata[18 + numberOfSpectra] = "notes";
-
+         
            // Retrieve the folder path selected by the user
-           string FolderPath = @"C:\Users\localadmin\Desktop\TestData\Processed.txt";
+           string FolderPath = @"C:\Users\IonTrap\Desktop\new\Processed.txt";
            // Make sure the 
            if (FolderPath != null)
            {
@@ -1755,7 +1791,7 @@ namespace Camera_Control
        }
        */
     }
-         
+
 
 
 

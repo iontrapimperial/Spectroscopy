@@ -35,9 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ATMCD32CS, Version=2.98.30010.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ATMCD32CS.dll</HintPath>
+    <Reference Include="ATMCD32CS">
+      <HintPath>..\..\AndorCamera\ATMCD32CS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
