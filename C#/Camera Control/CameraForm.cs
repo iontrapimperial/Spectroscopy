@@ -23,8 +23,8 @@ namespace Camera_Control
         string model;                // headmodel
         int gblXPixels;       				// dims of
         int gblYPixels;       				// CCD chip
-        int VSnumber;                 // Vertical Speed Index
-        int HSnumber;                 // Horizontal Speed Index
+        int VSnumber = 0;                 // Vertical Speed Index
+        int HSnumber = 0;                 // Horizontal Speed Index
         int ADnumber;                 // AD Index
         public int acquisitionMode;   // read from xxxxWndw.c
         public int readMode;          // read from xxxxWndw.c
@@ -171,8 +171,9 @@ namespace Camera_Control
 
             // Set Vertical speed to recommended
             myAndor.GetFastestRecommendedVSSpeed(ref VSnumber, ref speed);
-            errorValue = myAndor.SetVSSpeed(3);
-            myAndor.GetVSSpeed(0, ref speed);
+            VSnumber = 0;
+            errorValue = myAndor.SetVSSpeed(VSnumber);
+            myAndor.GetVSSpeed(VSnumber, ref speed);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Error Setting VS Speed.",
@@ -195,10 +196,10 @@ namespace Camera_Control
             }
 
 
-
+            /*
             // Set Horizontal Speed to max
             STemp = 0;
-            HSnumber = 0;
+          
             ADnumber = 0;
             errorValue = myAndor.GetNumberADChannels(ref nAD);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -225,9 +226,9 @@ namespace Camera_Control
                         }
                     }
                 }
-            }
+            }*/
 
-            errorValue = myAndor.SetVSAmplitude(0);
+            errorValue = myAndor.SetVSAmplitude(2);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Error setting VS amplitude.",
@@ -248,7 +249,7 @@ namespace Camera_Control
               MessageBoxDefaultButton.Button1);
             }
 
-            errorValue = myAndor.SetHSSpeed(0, 2);
+            errorValue = myAndor.SetHSSpeed(0, HSnumber);
             myAndor.GetHSSpeed(ADnumber, 0, HSnumber, ref speed);
             Console.WriteLine("HSpeed: " + speed);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
