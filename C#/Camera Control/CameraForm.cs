@@ -1101,7 +1101,7 @@ namespace Camera_Control
                         for (j = 0; j < vBoxDim; j++)
                         {
 
-                            imageArray[i * hDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
+                            imageArray[i * hBoxDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
 
                         }
                     }
@@ -1502,7 +1502,7 @@ namespace Camera_Control
         private void OnTimedEvent(Object source, EventArgs e)
         {
 
-            int[] fluor = getFluorescenceCont();
+            int[] fluor = getFluorescenceContAdapt(NpixelNum);
 
             for (int i = 0; i < ROICount; i++)
             {
