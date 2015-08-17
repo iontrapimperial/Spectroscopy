@@ -45,6 +45,7 @@ namespace Camera_Control
         private static System.Windows.Forms.Timer aTimer, tempTimer;
         List <int[]> fluorescContData = new List<int[]>();
         int countType = 0;
+        int NpixelNum = 0;
 
 
 
@@ -805,7 +806,7 @@ namespace Camera_Control
         {
             uint size;
             int i;
-            int count = 0;
+            //int count = 0;
             Stopwatch sw = new Stopwatch();
             size = (uint)(hDim * vDim);
             fluorescenceData = new int[giNumberLoops, numIons];
@@ -926,7 +927,7 @@ namespace Camera_Control
                 errorValue = myAndor.GetOldestImage(pImageArray, size);
                 //getFluorescence();
                 // findIons();  
-                fluorescContData.Add(getFluorescenceCont());
+                fluorescContData.Add(getFluorescenceContAdapt(NpixelNum));
             }
 
 
@@ -1078,17 +1079,73 @@ namespace Camera_Control
         }
 
 
+        int[] getFluorescenceContAdapt(int N)
+        {
+            if (N != 0)
+            {
+                int k;
+                int[] fluorescence = new int[ROICount];
+                for (k = 0; k < ROICount; k++)
+                {
+                    int i, j;
+                    int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
+                    int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
+                    int hOffset = hBoxStart[k] - hstart;
+                    int vOffset = vBoxStart[k] - vstart;
+                    int[] imageArray = new int[hBoxDim * vBoxDim];
+
+                    for (i = 0; i < hBoxDim; i++)
+                    {
+
+                        for (j = 0; j < vBoxDim; j++)
+                        {
+
+                            imageArray[i * hDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
+
+                        }
+                    }
+                    for (i = 0; i < hBoxDim * vBoxDim; i++)
+                    {
+
+                        int temp;
+                        int maxIndex = i;                 //stores position of highest count value so far.
+                        int maxValue = imageArray[i];      // the highest value
+
+                        for (j = i + 1; j < hBoxDim * vBoxDim; j++)
+                        {
+                            if (imageArray[j] > maxValue)
+                            {         // updates the largest value and the position if a new maximum is found
+                                maxIndex = j;
+                                maxValue = imageArray[j];
+                            }
+                        }
+                        temp = imageArray[i];                    // in these three lines the sorting is performed by reversing the position of the elements
+                        imageArray[i] = imageArray[maxIndex];
+                        imageArray[maxIndex] = temp;
+                        fluorescence[k] += imageArray[i];
+
+                        if (i == N) break; // break out of for loop so that the sorting doesnt continue pointlessl
+                    }
+                }
+
+
+                return fluorescence;
+            }
+            else { return getFluorescenceCont(); }
+        }
+
+
         int[] getFluorescenceCont()
         {
             int k;
             int[] fluorescence = new int[ROICount];
-            for (k = 0; k < ROICount; k++) 
+            for (k = 0; k < ROICount; k++)
             {
-                int i, j;                   
+                int i, j;
                 int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
                 int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
                 int hOffset = hBoxStart[k] - hstart;
-                int vOffset = vBoxStart[k] - vstart;                
+                int vOffset = vBoxStart[k] - vstart;
                 for (i = 0; i < hBoxDim; i++)
                 {
                     for (j = 0; j < vBoxDim; j++)
@@ -1419,6 +1476,11 @@ namespace Camera_Control
             ROICount = 0;
         }
 
+        private void NpixelUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            NpixelNum = (int) NpixelUpDown.Value;
+        }
+
         private void AbortAcquisition_Click(object sender, EventArgs e)
         {
             abortCont = true;
@@ -1440,6 +1502,7 @@ namespace Camera_Control
         {
 
             int[] fluor = getFluorescenceCont();
+
             for (int i = 0; i < ROICount; i++)
             {
                 errorMsgTxtBox.AppendText("Region - "+i+"  Fluorescence: " + fluor[i] +"\r\n");

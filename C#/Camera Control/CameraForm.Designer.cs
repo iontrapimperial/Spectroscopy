@@ -64,6 +64,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ClearROI = new System.Windows.Forms.Button();
             this.AddROI = new System.Windows.Forms.Button();
             this.vBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
             this.vBoxStartUpDown = new System.Windows.Forms.NumericUpDown();
@@ -81,7 +82,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.coolerBox = new System.Windows.Forms.CheckBox();
             this.saveContData = new System.Windows.Forms.Button();
-            this.ClearROI = new System.Windows.Forms.Button();
+            this.NpixelUpDown = new System.Windows.Forms.NumericUpDown();
+            this.pixelNum = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -101,6 +103,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NpixelUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -539,6 +542,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.pixelNum);
+            this.panel1.Controls.Add(this.NpixelUpDown);
             this.panel1.Controls.Add(this.ClearROI);
             this.panel1.Controls.Add(this.AddROI);
             this.panel1.Controls.Add(this.label4);
@@ -549,10 +554,21 @@
             this.panel1.Controls.Add(this.vBoxStartUpDown);
             this.panel1.Controls.Add(this.hBoxEndUpDown);
             this.panel1.Controls.Add(this.hBoxStartUpDown);
-            this.panel1.Location = new System.Drawing.Point(700, 367);
+            this.panel1.Controls.Add(this.fluorBoxLabel);
+            this.panel1.Location = new System.Drawing.Point(700, 343);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(155, 163);
+            this.panel1.Size = new System.Drawing.Size(155, 203);
             this.panel1.TabIndex = 23;
+            // 
+            // ClearROI
+            // 
+            this.ClearROI.Location = new System.Drawing.Point(80, 132);
+            this.ClearROI.Name = "ClearROI";
+            this.ClearROI.Size = new System.Drawing.Size(72, 28);
+            this.ClearROI.TabIndex = 15;
+            this.ClearROI.Text = "Clear ROI";
+            this.ClearROI.UseVisualStyleBackColor = true;
+            this.ClearROI.Click += new System.EventHandler(this.ClearROI_Click);
             // 
             // AddROI
             // 
@@ -655,7 +671,7 @@
             // fluorBoxLabel
             // 
             this.fluorBoxLabel.AutoSize = true;
-            this.fluorBoxLabel.Location = new System.Drawing.Point(731, 367);
+            this.fluorBoxLabel.Location = new System.Drawing.Point(28, 0);
             this.fluorBoxLabel.Name = "fluorBoxLabel";
             this.fluorBoxLabel.Size = new System.Drawing.Size(92, 13);
             this.fluorBoxLabel.TabIndex = 14;
@@ -788,15 +804,27 @@
             this.saveContData.UseVisualStyleBackColor = true;
             this.saveContData.Click += new System.EventHandler(this.saveContData_Click);
             // 
-            // ClearROI
+            // NpixelUpDown
             // 
-            this.ClearROI.Location = new System.Drawing.Point(80, 132);
-            this.ClearROI.Name = "ClearROI";
-            this.ClearROI.Size = new System.Drawing.Size(72, 28);
-            this.ClearROI.TabIndex = 15;
-            this.ClearROI.Text = "Clear ROI";
-            this.ClearROI.UseVisualStyleBackColor = true;
-            this.ClearROI.Click += new System.EventHandler(this.ClearROI_Click);
+            this.NpixelUpDown.Location = new System.Drawing.Point(3, 180);
+            this.NpixelUpDown.Maximum = new decimal(new int[] {
+            64,
+            0,
+            0,
+            0});
+            this.NpixelUpDown.Name = "NpixelUpDown";
+            this.NpixelUpDown.Size = new System.Drawing.Size(72, 20);
+            this.NpixelUpDown.TabIndex = 16;
+            this.NpixelUpDown.ValueChanged += new System.EventHandler(this.NpixelUpDown_ValueChanged);
+            // 
+            // pixelNum
+            // 
+            this.pixelNum.AutoSize = true;
+            this.pixelNum.Location = new System.Drawing.Point(3, 163);
+            this.pixelNum.Name = "pixelNum";
+            this.pixelNum.Size = new System.Drawing.Size(86, 13);
+            this.pixelNum.TabIndex = 17;
+            this.pixelNum.Text = "Number of Pixels";
             // 
             // CameraForm
             // 
@@ -814,7 +842,6 @@
             this.Controls.Add(this.gainUpDown);
             this.Controls.Add(this.CountTypeLabel);
             this.Controls.Add(this.comboCountType);
-            this.Controls.Add(this.fluorBoxLabel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.AbortAcquisition);
             this.Controls.Add(this.errorMsgTxtBox);
@@ -861,6 +888,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NpixelUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -922,6 +950,8 @@
         private System.Windows.Forms.CheckBox coolerBox;
         private System.Windows.Forms.Button saveContData;
         private System.Windows.Forms.Button ClearROI;
+        private System.Windows.Forms.Label pixelNum;
+        private System.Windows.Forms.NumericUpDown NpixelUpDown;
     }
 }
 
