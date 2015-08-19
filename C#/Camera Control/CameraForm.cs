@@ -1516,10 +1516,12 @@ namespace Camera_Control
 
         private void TempMeasureEvent(Object source, EventArgs e)
         {
-
-            myAndor.GetTemperature(ref temperature);
+            uint tempStat = myAndor.GetTemperature(ref temperature);
             temperatureBox.Clear();
             temperatureBox.AppendText("" + temperature);
+            if(tempStat== ATMCD32CS.AndorSDK.DRV_TEMPERATURE_STABILIZED) errorMsgTxtBox.AppendText("Temperature stabilised \r\n");
+
+
 
 
 
