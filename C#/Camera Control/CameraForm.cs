@@ -1455,6 +1455,40 @@ namespace Camera_Control
             errorMsgTxtBox.AppendText("Done saving.");
         }
 
+        void writeToFileContNew()
+        {
+            Stream myStream;
+            
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                {
+                    System.IO.StreamWriter file = new System.IO.StreamWriter(myStream);
+                    for (int i = 0; i < fluorescContData.Count; i++)
+                    {
+                        myStream.W  (i * freqStep + freqStart);
+                        for (int j = 0; j < fluorescContData[i].GetLength(0); j++)
+                        {
+                            file.Write("\t" + fluorescContData[i][j] + "\t");
+                        }
+                        file.WriteLine();
+                    }
+                    myStream.Close();
+                }
+            }
+        }
+
+
+
+
+
+
         private void comboCountType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboCountType.SelectedItem.ToString() == "Counts")
@@ -1682,7 +1716,7 @@ namespace Camera_Control
         {
             if (abortCont == true)
             {
-                writeToFileCont();
+                writeToFileContNew();
             }
             else
             {
