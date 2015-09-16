@@ -1473,16 +1473,19 @@ namespace Camera_Control
                     System.IO.StreamWriter file = new System.IO.StreamWriter(myStream);
                     for (int i = 0; i < fluorescContData.Count; i++)
                     {
-                        myStream.W  (i * freqStep + freqStart);
+                        file.Write(i * freqStep + freqStart);
                         for (int j = 0; j < fluorescContData[i].GetLength(0); j++)
                         {
                             file.Write("\t" + fluorescContData[i][j] + "\t");
                         }
                         file.WriteLine();
                     }
+                    file.Close();
                     myStream.Close();
                 }
             }
+            fluorescContData.Clear();
+            errorMsgTxtBox.AppendText("Done saving.");
         }
 
 
