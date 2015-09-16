@@ -46,6 +46,7 @@ namespace Camera_Control
         List <int[]> fluorescContData = new List<int[]>();
         int countType = 0;
         int NpixelNum = 0;
+        bool tempStab = false;
 
 
 
@@ -1519,7 +1520,12 @@ namespace Camera_Control
             uint tempStat = myAndor.GetTemperature(ref temperature);
             temperatureBox.Clear();
             temperatureBox.AppendText("" + temperature);
-            if(tempStat== ATMCD32CS.AndorSDK.DRV_TEMPERATURE_STABILIZED) errorMsgTxtBox.AppendText("Temperature stabilised \r\n");
+           
+            if (tempStab == false && tempStat == ATMCD32CS.AndorSDK.DRV_TEMPERATURE_STABILIZED)
+            {
+                errorMsgTxtBox.AppendText(" Temperature stabilised \r\n");
+                tempStab = true;
+            }
 
 
 
@@ -1532,7 +1538,7 @@ namespace Camera_Control
         {
             uint errorValue;
             myAndor.GetTemperature(ref temperature);
-            if (temperature < 0)
+            if (temperature < -40)
             {
                 if (gblCooler == true)
                 {
@@ -1606,8 +1612,10 @@ namespace Camera_Control
                         else
                             errorMsgTxtBox.AppendText("Temperature has been set to " + setTemperature + " (C)");
                     }
-                
+               
             }
+
+
         }
 
         void SwitchCoolerOff() {
@@ -1620,8 +1628,10 @@ namespace Camera_Control
           }
           else{
            gblCooler=false;
-          errorMsgTxtBox.AppendText("Temperature control is disabled");   
+          errorMsgTxtBox.AppendText("Temperature control is disabled");
+                tempStab = false;  
          }
+         
           
         }
                        
@@ -1675,6 +1685,7 @@ namespace Camera_Control
             if (gblCooler == true)
             {
                 myAndor.SetTemperature(setTemperature);
+                tempStab = false;
             }
         }
 
