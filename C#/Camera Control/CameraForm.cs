@@ -661,6 +661,8 @@ namespace Camera_Control
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
                     aTimer.Interval = (int)(1000 * fKineticTime);
                     aTimer.Tick += new EventHandler(OnTimedEvent);
+                    pixelPosGlobal = trialExposure(NpixelNum);
+                    Console.WriteLine("Acquired Trial exposure");
                     errorValue = myAndor.StartAcquisition();
                     if (giTrigger == 6)
                         errorMsgTxtBox.AppendText("Waiting for external trigger" + "\r\n");
@@ -922,7 +924,7 @@ namespace Camera_Control
             while (abortCont == false)
             {
                 //sw.Start();
-                Console.WriteLine("Inside while loop");
+                Console.WriteLine("Start while loop");
                 size = (uint)(hDim * vDim);
                 // errorMsgTxtBox.AppendText("Hey there" + "\r\n");
 
@@ -930,12 +932,13 @@ namespace Camera_Control
                 // errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
                 pImageArray = new int[size];
                 // ACQUISTION PERFORMED HERE!!!
+                Console.WriteLine("Get image in while loop");
                 errorValue = myAndor.GetOldestImage(pImageArray, size);
                 //getFluorescence();
-                // findIons();  
+                Console.WriteLine("Get fluorescence in loop");
                 fluorescContData.Add(getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal));
             }
-
+            Console.WriteLine("The damn loop ended");
 
 
             return true;
@@ -945,102 +948,104 @@ namespace Camera_Control
 
         int[,] trialExposure(int N)
         {
-            uint errorValue = 0;
-            uint size = (uint)(hDim * vDim);
-            int tempAcqType = acquisitionMode;
-            int[,] boob = new int[2, 2];
-            myAndor.SetExposureTime((float)5000);
-            acquisitionMode = 0;
-            errorValue = myAndor.StartAcquisition();
-            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                  
+            if (N != 0)
             {
-                errorMsgTxtBox.AppendText("Error Starting Acquisition" + "\r\n");
-                errorMsgTxtBox.AppendText(errorValue.ToString());
-                myAndor.AbortAcquisition();
-                return boob;
-            }
-            else
-            {
-                errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
+                uint errorValue = 0;
+                uint size = (uint)(hDim * vDim);
+                int tempAcqType = acquisitionMode;               
+                myAndor.SetExposureTime((float)5);
+
+                errorValue = myAndor.SetAcquisitionMode(1);
+                if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                    MessageBox.Show("Error setting acquisition mode at start of trial exposure.",
+                "Error!",
+                  MessageBoxButtons.OK,
+                 MessageBoxIcon.Exclamation,
+                 MessageBoxDefaultButton.Button1);
+
+
+                errorValue = myAndor.StartAcquisition();
+                Console.WriteLine("acq started for trial");
+
                 myAndor.SendSoftwareTrigger();    // PHYSICAL CAMERA ACQUISITION STARTS
-                errorMsgTxtBox.AppendText("trigger sent" + "\r\n");
+
                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION
-                                                    // WaitForAcquisitionTimeOut(200);
-                errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
+
                 pImageArray = new int[size];
                 // ACQUISTION PERFORMED HERE!!!
+                Console.WriteLine("acquiring trial image");
                 errorValue = myAndor.GetAcquiredData(pImageArray, size);
-                if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                int k;
+                int[,] trialFluorescence = new int[ROICount, N];
+                for (k = 0; k < ROICount; k++)
                 {
-                    errorMsgTxtBox.AppendText("Error Starting Acquisition" + "\r\n");
-                    errorMsgTxtBox.AppendText(errorValue.ToString());
-                }
-                else
-                {
-                    errorMsgTxtBox.AppendText("Acquisition complete" + "\r\n");
-                }
+                    int i, j;
+                    int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
+                    int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
+                    int hOffset = hBoxStart[k] - hstart;
+                    int vOffset = vBoxStart[k] - vstart;
+                    int[] imageArray = new int[hBoxDim * vBoxDim];
 
-                if (N != 0)
-                {
-                    int k;
-                    int[,] trialFluorescence = new int[ROICount, N];
-                    for (k = 0; k < ROICount; k++)
+                    for (i = 0; i < hBoxDim; i++)
                     {
-                        int i, j;
-                        int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
-                        int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
-                        int hOffset = hBoxStart[k] - hstart;
-                        int vOffset = vBoxStart[k] - vstart;
-                        int[] imageArray = new int[hBoxDim * vBoxDim];
 
-                        for (i = 0; i < hBoxDim; i++)
+                        for (j = 0; j < vBoxDim; j++)
                         {
 
-                            for (j = 0; j < vBoxDim; j++)
-                            {
+                            imageArray[i * hBoxDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
 
-                                imageArray[i * hBoxDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
-
-                            }
-                        }
-                        for (i = 0; i < hBoxDim * vBoxDim; i++)
-                        {
-
-                            int temp;
-                            int maxIndex = i;                 //stores position of highest count value so far.
-                            int maxValue = imageArray[i];      // the highest value
-
-                            for (j = i + 1; j < hBoxDim * vBoxDim; j++)
-                            {
-                                if (imageArray[j] > maxValue)
-                                {         // updates the largest value and the position if a new maximum is found
-                                    maxIndex = j;
-                                    maxValue = imageArray[j];
-                                }
-                            }
-                            temp = imageArray[i];                    // in these three lines the sorting is performed by reversing the position of the elements
-                            imageArray[i] = imageArray[maxIndex];
-                            imageArray[maxIndex] = temp;
-                            trialFluorescence[k, i] = maxIndex;
-
-                            if (i == N) break; // break out of for loop so that the sorting doesnt continue pointlessl
                         }
                     }
-                    myAndor.AbortAcquisition();
-                    myAndor.SetExposureTime((float)exposureUpDown.Value);
-                    findIons();
-                    drawCameraImage();
-                    return trialFluorescence;
+                    for (i = 0; i < hBoxDim * vBoxDim; i++)
+                    {
 
+                        int temp;
+                        int maxIndex = i;                 //stores position of highest count value so far.
+                        int maxValue = imageArray[i];      // the highest value
 
+                        for (j = i + 1; j < hBoxDim * vBoxDim; j++)
+                        {
+                            if (imageArray[j] > maxValue)
+                            {         // updates the largest value and the position if a new maximum is found
+                                maxIndex = j;
+                                maxValue = imageArray[j];
+                            }
+                        }
+                        temp = imageArray[i];                    // in these three lines the sorting is performed by reversing the position of the elements
+                        imageArray[i] = imageArray[maxIndex];
+                        imageArray[maxIndex] = temp;
+                        trialFluorescence[k, i] = maxIndex;
 
+                        if (i == N-1) break; // break out of for loop so that the sorting doesnt continue pointlessl
+                    }
                 }
-                return null;
+                myAndor.AbortAcquisition();
+                findIons();
+                drawCameraImage();
+                errorValue = myAndor.SetAcquisitionMode(5);
+                if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                    MessageBox.Show("Error setting acquisition mode in trial.",
+                "Error!",
+                  MessageBoxButtons.OK,
+                 MessageBoxIcon.Exclamation,
+                 MessageBoxDefaultButton.Button1);
+                myAndor.SetExposureTime((float)exposureUpDown.Value);
+                Console.WriteLine("returning fluorescence");
+                return trialFluorescence;
             }
+            else { return null; }
+        }
 
 
 
-            }
+               
+              
+            
+
+
+
+            
 
 
 
@@ -1240,8 +1245,9 @@ namespace Camera_Control
         int[] getFluorescenceContAdaptExp(int N, int[,] brightestPixelPos)
         {
 
-            if (N != 0)
+            if (N != 0 && brightestPixelPos!=null)
             {
+               
                 int k;
                 int[] fluorescence = new int[ROICount];
                 for (k = 0; k < ROICount; k++)
@@ -1265,6 +1271,7 @@ namespace Camera_Control
                     }
                     for (i = 0; i < brightestPixelPos.GetLength(1); i++)
                     {
+                       
                         fluorescence[k] += imageArray[brightestPixelPos[k, i]];
                     }
                 }
@@ -1483,7 +1490,7 @@ namespace Camera_Control
             int k;
             for (k = 0; k < ROICount;k++)
             {
-                Console.WriteLine("draw roi: " + k);
+                //Console.WriteLine("draw roi: " + k);
                 int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
                 int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
                 int hOffset = hBoxStart[k] - hstart;
@@ -1675,8 +1682,7 @@ namespace Camera_Control
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             // errorMsgTxtBox.AppendText("Hi");
-            // Run your while loop here and return result.
-            pixelPosGlobal = trialExposure(NpixelNum);
+            // Run your while loop here and return result.            
             AcquireImageDataCont();
         }
 
@@ -1684,14 +1690,16 @@ namespace Camera_Control
 
         private void OnTimedEvent(Object source, EventArgs e)
         {
-
+            Console.WriteLine("Getting fluorescence ");
             int[] fluor = getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal);
 
             for (int i = 0; i < ROICount; i++)
             {
                 errorMsgTxtBox.AppendText("Region - "+i+"  Fluorescence: " + fluor[i] +"\r\n");
             }
+            //Console.WriteLine("Ready to draw");
             drawCameraImageCont();
+           // Console.WriteLine("Finished drawing");
             //findIons();
             //drawCameraImage();
 
