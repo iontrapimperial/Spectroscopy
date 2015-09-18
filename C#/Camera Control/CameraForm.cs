@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -35,8 +36,12 @@ namespace Camera_Control
         const int SPI_GETSCREENSAVERRUNNING = 114;  // screensaver running ID
         const int Color = 256;// 65536;                      // Number of colors in the palette
         int hbin, vbin, hstart, hend, vstart, vend, hDim, vDim;
-        int[] hBoxStart, hBoxEnd, vBoxStart, vBoxEnd;
+        int[] hBoxStart = new int[10];
+        int[] hBoxEnd = new int[10];
+        int[] vBoxStart = new int[10];
+        int[] vBoxEnd = new int[10];
         int ROICount = 0;
+
         int temperature = 20;                                                              
         int setTemperature; 
         // Function Prototypes
@@ -48,6 +53,8 @@ namespace Camera_Control
         int countType = 0;
         int NpixelNum = 0;
         bool tempStab = false;
+        Stopwatch s = new Stopwatch();
+        long frameRefreshTime=0;
 
 
 
@@ -85,6 +92,7 @@ namespace Camera_Control
         {
             this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
             aTimer = new System.Windows.Forms.Timer();
+            aTimer.Tick += new EventHandler(OnTimedEvent);
             tempTimer = new System.Windows.Forms.Timer();
             tempTimer.Interval = (int)(10000);
             tempTimer.Tick += new EventHandler(TempMeasureEvent);
@@ -101,10 +109,7 @@ namespace Camera_Control
             InitializeComponent();
             errorValue = myAndor.Initialize(Directory.GetCurrentDirectory());
 
-            hBoxStart = new int[10];
-            hBoxEnd = new int[10];
-            vBoxStart = new int[10];
-            vBoxEnd = new int[10];
+            
 
             
 
@@ -659,8 +664,8 @@ namespace Camera_Control
                     myAndor.SetTriggerMode(0);
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);                            
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
-                    aTimer.Interval = (int)(1000 * fKineticTime);
-                    aTimer.Tick += new EventHandler(OnTimedEvent);
+                    aTimer.Interval =  (int)(1000 * fKineticTime);
+                    frameRefreshTime = 0;
                     pixelPosGlobal = trialExposure(NpixelNum);
                     Console.WriteLine("Acquired Trial exposure");
                     errorValue = myAndor.StartAcquisition();
@@ -688,6 +693,7 @@ namespace Camera_Control
                             Thread.Sleep(100);
                             aTimer.Enabled = true;
                             aTimer.Start();
+                            s = Stopwatch.StartNew();
                             Console.WriteLine("after time start");
                         }
 
@@ -920,11 +926,11 @@ namespace Camera_Control
             uint errorValue;
             
             //Stopwatch sw = new Stopwatch();
-            Console.WriteLine("Outside while loop");
+            //Console.WriteLine("Outside while loop");
             while (abortCont == false)
             {
                 //sw.Start();
-                Console.WriteLine("Start while loop");
+               // Console.WriteLine("Start while loop");
                 size = (uint)(hDim * vDim);
                 // errorMsgTxtBox.AppendText("Hey there" + "\r\n");
 
@@ -937,6 +943,7 @@ namespace Camera_Control
                 //getFluorescence();
                 Console.WriteLine("Get fluorescence in loop");
                 fluorescContData.Add(getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal));
+                //fluorescContData.Add(getFluorescenceContAdapt(NpixelNum));
             }
             Console.WriteLine("The damn loop ended");
 
@@ -948,12 +955,12 @@ namespace Camera_Control
 
         int[,] trialExposure(int N)
         {
-                  
+
             if (N != 0)
             {
                 uint errorValue = 0;
                 uint size = (uint)(hDim * vDim);
-                int tempAcqType = acquisitionMode;               
+                int tempAcqType = acquisitionMode;
                 myAndor.SetExposureTime((float)5);
 
                 errorValue = myAndor.SetAcquisitionMode(1);
@@ -986,7 +993,7 @@ namespace Camera_Control
                     int hOffset = hBoxStart[k] - hstart;
                     int vOffset = vBoxStart[k] - vstart;
                     int[] imageArray = new int[hBoxDim * vBoxDim];
-
+                    Console.WriteLine("hbox " + hBoxDim + " v " + vBoxDim);
                     for (i = 0; i < hBoxDim; i++)
                     {
 
@@ -994,7 +1001,7 @@ namespace Camera_Control
                         {
 
                             imageArray[i * hBoxDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
-
+                            //Console.WriteLine("image " + (i * hBoxDim + j) +" value " + imageArray[i * hBoxDim + j]);
                         }
                     }
                     for (i = 0; i < hBoxDim * vBoxDim; i++)
@@ -1016,8 +1023,8 @@ namespace Camera_Control
                         imageArray[i] = imageArray[maxIndex];
                         imageArray[maxIndex] = temp;
                         trialFluorescence[k, i] = maxIndex;
-
-                        if (i == N-1) break; // break out of for loop so that the sorting doesnt continue pointlessl
+                        Console.WriteLine("Position " + i + " for box " + k+ " = "+ maxIndex);
+                        if (i == N - 1) break; // break out of for loop so that the sorting doesnt continue pointlessl
                     }
                 }
                 myAndor.AbortAcquisition();
@@ -1252,11 +1259,13 @@ namespace Camera_Control
                 int[] fluorescence = new int[ROICount];
                 for (k = 0; k < ROICount; k++)
                 {
+                    //Console.WriteLine("in the adaptexp loop" +k);
                     int i, j;
                     int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
                     int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
                     int hOffset = hBoxStart[k] - hstart;
                     int vOffset = vBoxStart[k] - vstart;
+                   // Console.WriteLine("hbox " + hBoxDim + " v " + vBoxDim);
                     int[] imageArray = new int[hBoxDim * vBoxDim];
 
                     for (i = 0; i < hBoxDim; i++)
@@ -1266,13 +1275,13 @@ namespace Camera_Control
                         {
 
                             imageArray[i * hBoxDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
-
+                           // Console.WriteLine("image array valiues: "+imageArray[i * hBoxDim + j]);
                         }
                     }
                     for (i = 0; i < brightestPixelPos.GetLength(1); i++)
                     {
-                       
-                        fluorescence[k] += imageArray[brightestPixelPos[k, i]];
+                        Console.WriteLine("k: " + k+ "i:"+i);
+                       fluorescence[k] += imageArray[brightestPixelPos[k, i]];
                     }
                 }
 
@@ -1296,15 +1305,18 @@ namespace Camera_Control
             for (k = 0; k < ROICount; k++)
             {
                 int i, j;
+              
                 int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
                 int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
                 int hOffset = hBoxStart[k] - hstart;
                 int vOffset = vBoxStart[k] - vstart;
+                
                 for (i = 0; i < hBoxDim; i++)
                 {
                     for (j = 0; j < vBoxDim; j++)
                     {
                         fluorescence[k] += pImageArray[i * hDim + j + hOffset + vOffset * hDim];
+                       
                     }
                 }
             }
@@ -1688,20 +1700,28 @@ namespace Camera_Control
 
         // when you click on some cancel button  
 
-        private void OnTimedEvent(Object source, EventArgs e)
+        private void OnTimedEvent(Object source, EventArgs c)
         {
-            Console.WriteLine("Getting fluorescence ");
-            int[] fluor = getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal);
 
+            Console.WriteLine("Getting fluorescence ");
+            
+             int[] fluor = getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal);
+            //int[] fluor = getFluorescenceContAdapt(NpixelNum);//fluorescContData.Last<int[]>();//         
             for (int i = 0; i < ROICount; i++)
             {
-                errorMsgTxtBox.AppendText("Region - "+i+"  Fluorescence: " + fluor[i] +"\r\n");
+                errorMsgTxtBox.AppendText("Region - " + i + "  Fluorescence: " + fluor[i] + "\r\n");
             }
             //Console.WriteLine("Ready to draw");
+
+            // Tested code here
+
             drawCameraImageCont();
-           // Console.WriteLine("Finished drawing");
-            //findIons();
-            //drawCameraImage();
+            
+            long temp = s.ElapsedMilliseconds;
+            double fps = 1000 / ((double)(temp - frameRefreshTime));           
+            frameRefreshTime = temp;
+            Console.WriteLine("Frames per second: {0} 1/s", fps);
+
 
         }
 
@@ -1827,11 +1847,15 @@ namespace Camera_Control
                        
        
         private void AddROI_Click(object sender, EventArgs e)
+
         {
             hBoxStart[ROICount] = (int)hBoxStartUpDown.Value;
             hBoxEnd[ROICount] = (int)hBoxEndUpDown.Value;
             vBoxStart[ROICount] = (int)vBoxStartUpDown.Value;
             vBoxEnd[ROICount] = (int)vBoxEndUpDown.Value;
+            Console.WriteLine("hBoxstart "+ hBoxStart[ROICount]+ " hboxend" + hBoxEnd[ROICount]);
+
+            /*
             if (hBoxStart[ROICount] < hstart)
             {
                 hBoxStart[ROICount] = hstart;
@@ -1848,7 +1872,7 @@ namespace Camera_Control
             {
                 vBoxEnd[ROICount] = vend;
             }
-
+            */
 
 
             ROICount++;
