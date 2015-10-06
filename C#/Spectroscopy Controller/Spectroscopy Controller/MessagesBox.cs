@@ -7,10 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace Spectroscopy_Controller
+
 {
+    //System.Windows.Forms.
     public partial class CoreForm : Form
     {
-
+        
         /// <summary>
         /// Updates size of box column so that horizontal scrollbar is not required.
         /// </summary>
@@ -45,6 +47,7 @@ namespace Spectroscopy_Controller
                     L.Font = new Font(L.Font, FontStyle.Bold);
                 }
                 MessagesBox.Items.Add(L);
+               
             }
             MessagesBox.Items[MessagesBox.Items.Count - 1].EnsureVisible();
         }

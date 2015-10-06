@@ -68,6 +68,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.carrierCheck = new System.Windows.Forms.CheckBox();
             this.StopButton = new System.Windows.Forms.Button();
             this.PauseButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
@@ -173,6 +174,7 @@
             this.LiveLaserBox397B1 = new System.Windows.Forms.CheckBox();
             this.debugmessagebox = new System.Windows.Forms.GroupBox();
             this.MessagesBox = new System.Windows.Forms.ListView();
+            this.Messages = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.saveXMLFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openXMLFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.openHexFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -180,7 +182,6 @@
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
             this.COM12 = new System.IO.Ports.SerialPort(this.components);
-            this.Messages = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -659,6 +660,7 @@
             // 
             // SpectroGroup
             // 
+            this.SpectroGroup.Controls.Add(this.carrierCheck);
             this.SpectroGroup.Controls.Add(this.StopButton);
             this.SpectroGroup.Controls.Add(this.PauseButton);
             this.SpectroGroup.Controls.Add(this.StartButton);
@@ -694,6 +696,17 @@
             this.SpectroGroup.TabIndex = 56;
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
+            // 
+            // carrierCheck
+            // 
+            this.carrierCheck.AutoSize = true;
+            this.carrierCheck.Location = new System.Drawing.Point(150, 309);
+            this.carrierCheck.Name = "carrierCheck";
+            this.carrierCheck.Size = new System.Drawing.Size(56, 17);
+            this.carrierCheck.TabIndex = 62;
+            this.carrierCheck.Text = "Carrier";
+            this.carrierCheck.UseVisualStyleBackColor = true;
+            this.carrierCheck.CheckedChanged += new System.EventHandler(this.carrierCheck_CheckedChanged);
             // 
             // StopButton
             // 
@@ -2128,31 +2141,36 @@
             this.MessagesBox.UseCompatibleStateImageBehavior = false;
             this.MessagesBox.View = System.Windows.Forms.View.Details;
             // 
+            // Messages
+            // 
+            this.Messages.Text = "";
+            this.Messages.Width = 707;
+            // 
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\xml";
+            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\xml";
             this.saveXMLFileDialog.RestoreDirectory = true;
             this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
             // 
             this.openXMLFileDialog.Filter = "Xml File|*.xml";
-            this.openXMLFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\xml";
+            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\xml";
             this.openXMLFileDialog.RestoreDirectory = true;
             this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
             this.openHexFileDialog.Filter = "Hex File|*.hex";
-            this.openHexFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\Hex";
+            this.openHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\Hex";
             this.openHexFileDialog.RestoreDirectory = true;
             this.openHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openHexFileDialog_FileOk);
             // 
             // saveHexFileDialog
             // 
             this.saveHexFileDialog.Filter = "Hex File|*.hex";
-            this.saveHexFileDialog.InitialDirectory = "D:\\Dropbox\\Current Data\\Hex";
+            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\Hex";
             this.saveHexFileDialog.RestoreDirectory = true;
             this.saveHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveHexFileDialog_FileOk);
             // 
@@ -2180,11 +2198,6 @@
             // COM12
             // 
             this.COM12.PortName = "COM12";
-            // 
-            // Messages
-            // 
-            this.Messages.Text = "";
-            this.Messages.Width = 707;
             // 
             // CoreForm
             // 
@@ -2420,6 +2433,7 @@
         private System.Windows.Forms.RadioButton profile6radioButton;
         private System.Windows.Forms.Button SetDDSProfiles;
         private System.Windows.Forms.ColumnHeader Messages;
+        private System.Windows.Forms.CheckBox carrierCheck;
     }
 }
 

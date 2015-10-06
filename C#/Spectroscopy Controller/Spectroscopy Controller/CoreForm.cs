@@ -33,7 +33,7 @@ namespace Spectroscopy_Controller
         private bool PauseExperiment = false;
 
         private bool bIsFreqGenEnabled = false;
-
+        public bool includeCarrier = false;
         private bool IsViewerOpen = false;
 
         public bool updating = false;
@@ -62,7 +62,8 @@ namespace Spectroscopy_Controller
         private int[] startFreqArray;
 
         public CoreForm()
-        {   
+        {
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
 
             specTypeBox.SelectedItem = "Continuous";
@@ -87,7 +88,8 @@ namespace Spectroscopy_Controller
             for (int i = 0; i < 63; i++) reset += "256" + ",";
             reset += "256";
 
-            COM12.WriteLine(reset);   
+            COM12.WriteLine(reset);
+            string mystring = COM12.ReadLine();
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -608,32 +610,62 @@ namespace Spectroscopy_Controller
                                 bIsFreqGenEnabled = true;
 
                                 //Calculate frequency offset of sideband start frequencies from sideband centres
-                                int offsetFreq = (int)stepSize*sbWidth/2;
+                                int offsetFreq = (int)stepSize * sbWidth / 2;
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
 
                                 int windowSpace = 0;
-                                if (specDir == "Axial") windowSpace = (int)(axFreq/2);
-                                else if (specDir == "Radial") windowSpace = (int)(modcycFreq/2);
-
-                                //Array of start frequencies for each sideband (from furthest red to furthest blue)            
-                                startFreqArray = new int[sbToScan * 2 + 1];
-                                for (int sb = 0; sb < (sbToScan * 2 + 1); sb++)
+                                if (specDir == "Axial") windowSpace = (int)(axFreq / 2);
+                                else if (specDir == "Radial") windowSpace = (int)(modcycFreq / 2);
+                                if (includeCarrier == true || sbToScan == 0)
                                 {
-                                    startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
+                                    //Array of start frequencies for each sideband (from furthest red to furthest blue)            
+                                    startFreqArray = new int[sbToScan * 2 + 1];
+                                    for (int sb = 0; sb < (sbToScan * 2 + 1); sb++)
+                                    {
+                                        startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
+                                    }
+
+                                    // We want a file for each sideband with appropriate naming
+                                    // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                                    int numberOfFiles = (int)(sbToScan * 2 + 1);
+                                    // Create array of filenames & array of files
+                                    myFileName = new string[numberOfFiles];
+                                    myFile = new TextWriter[numberOfFiles];
+
+                                    // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                                    RabiSelector myRabiSelector = new RabiSelector();
+
+                                    // Generate filenames and actually create files
+                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
                                 }
 
-                                // We want a file for each sideband with appropriate naming
-                                // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                                int numberOfFiles = (int)(sbToScan * 2 + 1);
-                                // Create array of filenames & array of files
-                                myFileName = new string[numberOfFiles];
-                                myFile = new TextWriter[numberOfFiles];
-                                
-                                // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
-                                RabiSelector myRabiSelector = new RabiSelector();
+                                else
+                                {
+                                    //Array of start frequencies for each sideband (from furthest red to furthest blue)            
+                                    startFreqArray = new int[sbToScan * 2];
+                                    for (int sb = 0; sb < (sbToScan * 2); sb++)
+                                    {
+                                        int sbPos = sbToScan - sb;
+                                        if (sbPos > 0) { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos)); }
+                                        else { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos-1)); }                                    
+                                       
 
-                                // Generate filenames and actually create files
-                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                                    }
+
+                                    // We want a file for each sideband with appropriate naming
+                                    // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                                    int numberOfFiles = (int)(sbToScan * 2);
+                                    // Create array of filenames & array of files
+                                    myFileName = new string[numberOfFiles];
+                                    myFile = new TextWriter[numberOfFiles];
+
+                                    // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                                    RabiSelector myRabiSelector = new RabiSelector();
+
+                                    // Generate filenames and actually create files
+                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                                }
+                                
                             }
                             else if (specType == "Fixed")
                             {
@@ -761,15 +793,13 @@ namespace Spectroscopy_Controller
                 if (specType == "Windowed")
                 {
                     myFileName[i] += "_";
-
                     // Add preceding 0s to keep format of sideband number as XXX
                     if (sbCurrent < 10) sbCurrentString = "00";
                     else if (sbCurrent < 100) sbCurrentString = "0";
                     else sbCurrentString = "";
-
                     // Add current sideband number to filename
-                    sbCurrentString += sbCurrent;
-                    // If not on carrier, add R or B
+                   sbCurrentString += sbCurrent;
+                      // If not on carrier, add R or B
                     if (sbCurrent != 0) sbCurrentString += sbRedOrBlue;
 
                     // Add string to filename
@@ -869,19 +899,35 @@ namespace Spectroscopy_Controller
                 //*********************//
                 if (specType == "Windowed")
                 {
-
-                    // If we are still on the red side, just decrease the sideband number
-                    if (i < sbToScan) sbCurrent--;
-                    else if (i == sbToScan)
-                    // If we have reached the carrier
+                    if (includeCarrier == true)
                     {
-                        // Change R to B
-                        sbRedOrBlue = 'B';
-                        // Increase sideband number
-                        sbCurrent++;
+                        // If we are still on the red side, just decrease the sideband number
+                        if (i < sbToScan) sbCurrent--;
+                        else if (i == sbToScan)
+                        // If we have reached the carrier
+                        {
+                            // Change R to B
+                            sbRedOrBlue = 'B';
+                            // Increase sideband number
+                            sbCurrent++;
+                        }
+                        // If we are on the blue side, just increase the sideband number
+                        else sbCurrent++;
                     }
-                    // If we are on the blue side, just increase the sideband number
-                    else sbCurrent++;
+                    else
+                    {
+                        if (i < sbToScan) sbCurrent--;
+                        else if (i == sbToScan-1)
+                        // If we have reached the carrier
+                        {
+                            // Change R to B
+                            sbRedOrBlue = 'B';
+                            // Increase sideband number
+                            sbCurrent=1;
+                        }
+                        // If we are on the blue side, just increase the sideband number
+                        else sbCurrent++;
+                    }
                 }
 
             } //End of loop which goes through each file
@@ -1000,6 +1046,12 @@ namespace Spectroscopy_Controller
         private void specDirBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateWindowParam();
+        }
+
+        private void carrierCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (carrierCheck.Checked == true) includeCarrier = true;
+            else { includeCarrier = false; }
         }
 
         private void updateWindowParam()
@@ -1315,6 +1367,28 @@ namespace Spectroscopy_Controller
             DDS.GetFTW(f6, out FTW6Byte[0], out FTW6Byte[1], out FTW6Byte[2], out FTW6Byte[3]);
             DDS.GetFTW(f7, out FTW7Byte[0], out FTW7Byte[1], out FTW7Byte[2], out FTW7Byte[3]);
 
+            //int localFTW7 = DDS.CalculateFTW(Convert.ToInt32(f7));
+            //MessagesBox.Items.Add("Local FTW = " + localFTW7);
+
+            /*ListViewItem L0 = new ListViewItem(f0.ToString());
+            MessagesBox.Items.Add(L0);
+            ListViewItem L1 = new ListViewItem(f1.ToString());
+            MessagesBox.Items.Add(L1); 
+            ListViewItem L2 = new ListViewItem(f2.ToString());
+            MessagesBox.Items.Add(L2); 
+            ListViewItem L3 = new ListViewItem(f3.ToString());
+            MessagesBox.Items.Add(L3); 
+            ListViewItem L4 = new ListViewItem(f4.ToString());
+            MessagesBox.Items.Add(L4); 
+            ListViewItem L5 = new ListViewItem(f5.ToString());
+            MessagesBox.Items.Add(L5); 
+            ListViewItem L6 = new ListViewItem(f6.ToString());
+            MessagesBox.Items.Add(L6); 
+            ListViewItem L7 = new ListViewItem(f7.ToString());
+            MessagesBox.Items.Add(L7);*/
+
+
+
             COM12.WriteLine(ASF0Byte[0] + "," + ASF0Byte[1] + "," + POW0Byte[0] + "," + POW0Byte[1] + "," + FTW0Byte[0] + "," + FTW0Byte[1] + "," + FTW0Byte[2] + "," + FTW0Byte[3] + "," +
                             ASF1Byte[0] + "," + ASF1Byte[1] + "," + POW1Byte[0] + "," + POW1Byte[1] + "," + FTW1Byte[0] + "," + FTW1Byte[1] + "," + FTW1Byte[2] + "," + FTW1Byte[3] + "," +
                             ASF2Byte[0] + "," + ASF2Byte[1] + "," + POW2Byte[0] + "," + POW2Byte[1] + "," + FTW2Byte[0] + "," + FTW2Byte[1] + "," + FTW2Byte[2] + "," + FTW2Byte[3] + "," +
@@ -1325,12 +1399,30 @@ namespace Spectroscopy_Controller
                             ASF7Byte[0] + "," + ASF7Byte[1] + "," + POW7Byte[0] + "," + POW7Byte[1] + "," + FTW7Byte[0] + "," + FTW7Byte[1] + "," + FTW7Byte[2] + "," + FTW7Byte[3]);
             // send bytes separated by a comma
 
-            string incoming = COM12.ReadLine();
+            string incoming = COM12.ReadTo("\n");
             int check = Convert.ToInt32(incoming);
+            //MessagesBox.Items.Add("Check = " + check);
             if(check != 1)
             {
                 MessageBox.Show("There has been an error during the transfer.");
             }
+
+            System.Threading.Thread.Sleep(250); //Added a pause so that there is time to update the DDS before we restart the experiment
+
+            // Debug messages to ensure DDS is being sent correct things by the Arduino
+            string freqcheckin = COM12.ReadTo("\n");
+            int freqcheck = Convert.ToInt32(freqcheckin);
+            double myfreq = freqcheck * Math.Pow(10, 9) / Math.Pow(2, 32);
+            MessagesBox.Items.Add("Profile 0 frequency = " + myfreq);
+
+            //freqcheckin = COM12.ReadTo("\n");
+            //freqcheck = Convert.ToInt32(freqcheckin);
+            //MessagesBox.Items.Add("Profile 7 421 FTW = " + freqcheck);
+
+            //string incoming2 = COM12.ReadTo("\n");
+            //int check2 = Convert.ToInt32(incoming2);
+            //MessagesBox.Items.Add("Check2 = " + check2);
+
         }
         
         private void resetDDS_Click(object sender, EventArgs e)
