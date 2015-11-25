@@ -638,14 +638,7 @@ namespace Spectroscopy_Viewer
                     }
                     else
                     {   // For subsequent spectra, go through and add the data to existing lists
-                        for (int j = 0; j < histogramSize; j++)
-                        {
-                            // Sum the data from each spectrum into the full list
-                            histogramCool[j] += tempHistogramCool[j];
-                            histogramCount[j] += tempHistogramCount[j];
 
-                            histogramAll[j] = histogramCool[j] + histogramCount[j];
-                        }
 
                         // If the histogram for the current spectrum is larger than the existing histogram
                         if (tempHistogramSize > histogramSize)
@@ -663,7 +656,18 @@ namespace Spectroscopy_Viewer
                             }
 
                             // Update size of list (could use tempHistogramSize, but recalculate just in case)
-                            histogramSize = histogramCool.Count();
+                            histogramSize = tempHistogramSize;//histogramCool.Count();
+                        }
+                        else
+                        {
+                            for (int j = 0; j < tempHistogramSize; j++)
+                            {
+                                // Sum the data from each spectrum into the full list
+                                histogramCool[j] += tempHistogramCool[j];
+                                histogramCount[j] += tempHistogramCount[j];
+
+                                histogramAll[j] = histogramCool[j] + histogramCount[j];
+                            }
                         }
                     }
                 }       // End of loop which goes through spectra and creates histogram

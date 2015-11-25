@@ -102,7 +102,8 @@ namespace Spectroscopy_Viewer
 
             // Set spectrum number & name
             this.spectrumNumber = spectrumNumberPassed;
-            this.spectrumName = metadata[18 + spectrumNumber];
+            this.spectrumName = metadata[18];
+            //Console.WriteLine("name " + metadata[18 + spectrumNumber] + " "+ spectrumNumber);
             // Create empty list of data points
             myDataPoints = new List<dataPoint>();
 

@@ -49,7 +49,8 @@ namespace Spectroscopy_Controller
             using (BinaryReader b = new BinaryReader(F))
             {
                 int FileSize = (int)b.BaseStream.Length;
-                WriteMessage("File name: " + openHexFileDialog.FileName);
+                hexFileName = openHexFileDialog.FileName;
+                WriteMessage("File name: " + hexFileName);
                 WriteMessage("Length: " + FileSize.ToString() + " Bytes\r\n");
                 
                 if (FileSize > 8000000) //should this be 2^23-1 (8 388 607) instead?

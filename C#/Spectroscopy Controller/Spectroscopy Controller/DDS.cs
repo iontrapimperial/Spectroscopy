@@ -127,7 +127,11 @@ namespace Spectroscopy_Controller
             POWbyte0 = "0";
             POWbyte1 = "0";
 
-            int POW = CalculatePOW(Convert.ToDouble(value)); // calculates POW
+            double phase = 0;
+            if (value <= 360) phase = Convert.ToDouble(value);
+            else phase = Convert.ToDouble(value - 360);
+
+            int POW = CalculatePOW(phase); // calculates POW
             string POWBinary = Calculate16Binary(POW); // converts in binary string 
 
             POWbyte0 = CalculateByte(POWBinary, 0);

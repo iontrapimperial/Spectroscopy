@@ -68,6 +68,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.phaseStep = new System.Windows.Forms.NumericUpDown();
             this.carrierCheck = new System.Windows.Forms.CheckBox();
             this.StopButton = new System.Windows.Forms.Button();
             this.PauseButton = new System.Windows.Forms.Button();
@@ -196,6 +198,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TicksBox)).BeginInit();
             this.DesignerGroup.SuspendLayout();
             this.SpectroGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.phaseStep)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.magFreqBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modcycFreqBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sbWidthBox)).BeginInit();
@@ -245,7 +248,7 @@
             // 
             FileSendBox.AutoSize = true;
             FileSendBox.Controls.Add(this.ProgressLabel);
-            FileSendBox.Location = new System.Drawing.Point(134, 343);
+            FileSendBox.Location = new System.Drawing.Point(131, 363);
             FileSendBox.Name = "FileSendBox";
             FileSendBox.Size = new System.Drawing.Size(137, 58);
             FileSendBox.TabIndex = 49;
@@ -301,7 +304,7 @@
             // 
             this.PulseTree.Location = new System.Drawing.Point(12, 50);
             this.PulseTree.Name = "PulseTree";
-            this.PulseTree.Size = new System.Drawing.Size(254, 415);
+            this.PulseTree.Size = new System.Drawing.Size(254, 435);
             this.PulseTree.TabIndex = 0;
             this.PulseTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.PulseTree_AfterSelect);
             // 
@@ -362,7 +365,7 @@
             // 
             // SaveStateButton
             // 
-            this.SaveStateButton.Location = new System.Drawing.Point(272, 297);
+            this.SaveStateButton.Location = new System.Drawing.Point(272, 315);
             this.SaveStateButton.Name = "SaveStateButton";
             this.SaveStateButton.Size = new System.Drawing.Size(216, 30);
             this.SaveStateButton.TabIndex = 48;
@@ -377,7 +380,7 @@
             this.PulseTypeTabs.Location = new System.Drawing.Point(272, 50);
             this.PulseTypeTabs.Name = "PulseTypeTabs";
             this.PulseTypeTabs.SelectedIndex = 0;
-            this.PulseTypeTabs.Size = new System.Drawing.Size(216, 245);
+            this.PulseTypeTabs.Size = new System.Drawing.Size(216, 259);
             this.PulseTypeTabs.TabIndex = 47;
             // 
             // LoopTabPage
@@ -388,7 +391,7 @@
             this.LoopTabPage.Location = new System.Drawing.Point(4, 22);
             this.LoopTabPage.Name = "LoopTabPage";
             this.LoopTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.LoopTabPage.Size = new System.Drawing.Size(208, 219);
+            this.LoopTabPage.Size = new System.Drawing.Size(208, 233);
             this.LoopTabPage.TabIndex = 0;
             this.LoopTabPage.Text = "Create Loop";
             this.LoopTabPage.UseVisualStyleBackColor = true;
@@ -444,7 +447,7 @@
             this.PulseTabPage.Location = new System.Drawing.Point(4, 22);
             this.PulseTabPage.Name = "PulseTabPage";
             this.PulseTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.PulseTabPage.Size = new System.Drawing.Size(208, 219);
+            this.PulseTabPage.Size = new System.Drawing.Size(208, 233);
             this.PulseTabPage.TabIndex = 1;
             this.PulseTabPage.Text = "Create Laser Pulse";
             this.PulseTabPage.UseVisualStyleBackColor = true;
@@ -589,7 +592,7 @@
             // CreateFromTemplateButton
             // 
             this.CreateFromTemplateButton.Image = ((System.Drawing.Image)(resources.GetObject("CreateFromTemplateButton.Image")));
-            this.CreateFromTemplateButton.Location = new System.Drawing.Point(272, 343);
+            this.CreateFromTemplateButton.Location = new System.Drawing.Point(272, 363);
             this.CreateFromTemplateButton.Name = "CreateFromTemplateButton";
             this.CreateFromTemplateButton.Size = new System.Drawing.Size(105, 58);
             this.CreateFromTemplateButton.TabIndex = 50;
@@ -599,7 +602,7 @@
             // OpenXMLButton
             // 
             this.OpenXMLButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenXMLButton.Image")));
-            this.OpenXMLButton.Location = new System.Drawing.Point(383, 343);
+            this.OpenXMLButton.Location = new System.Drawing.Point(383, 363);
             this.OpenXMLButton.Name = "OpenXMLButton";
             this.OpenXMLButton.Size = new System.Drawing.Size(105, 58);
             this.OpenXMLButton.TabIndex = 51;
@@ -609,7 +612,7 @@
             // SaveXMLButton
             // 
             this.SaveXMLButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveXMLButton.Image")));
-            this.SaveXMLButton.Location = new System.Drawing.Point(272, 407);
+            this.SaveXMLButton.Location = new System.Drawing.Point(272, 427);
             this.SaveXMLButton.Name = "SaveXMLButton";
             this.SaveXMLButton.Size = new System.Drawing.Size(105, 58);
             this.SaveXMLButton.TabIndex = 52;
@@ -619,7 +622,7 @@
             // BinaryCompileButton
             // 
             this.BinaryCompileButton.Image = ((System.Drawing.Image)(resources.GetObject("BinaryCompileButton.Image")));
-            this.BinaryCompileButton.Location = new System.Drawing.Point(383, 407);
+            this.BinaryCompileButton.Location = new System.Drawing.Point(383, 427);
             this.BinaryCompileButton.Name = "BinaryCompileButton";
             this.BinaryCompileButton.Size = new System.Drawing.Size(105, 58);
             this.BinaryCompileButton.TabIndex = 53;
@@ -629,7 +632,7 @@
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(272, 333);
+            this.label2.Location = new System.Drawing.Point(272, 351);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(216, 5);
             this.label2.TabIndex = 54;
@@ -653,13 +656,15 @@
             this.DesignerGroup.Controls.Add(this.PulseTree);
             this.DesignerGroup.Location = new System.Drawing.Point(12, 5);
             this.DesignerGroup.Name = "DesignerGroup";
-            this.DesignerGroup.Size = new System.Drawing.Size(497, 475);
+            this.DesignerGroup.Size = new System.Drawing.Size(497, 499);
             this.DesignerGroup.TabIndex = 55;
             this.DesignerGroup.TabStop = false;
             this.DesignerGroup.Text = "Pulse Sequence Designer";
             // 
             // SpectroGroup
             // 
+            this.SpectroGroup.Controls.Add(this.label25);
+            this.SpectroGroup.Controls.Add(this.phaseStep);
             this.SpectroGroup.Controls.Add(this.carrierCheck);
             this.SpectroGroup.Controls.Add(this.StopButton);
             this.SpectroGroup.Controls.Add(this.PauseButton);
@@ -692,15 +697,42 @@
             this.SpectroGroup.Controls.Add(this.specTypeBox);
             this.SpectroGroup.Location = new System.Drawing.Point(520, 5);
             this.SpectroGroup.Name = "SpectroGroup";
-            this.SpectroGroup.Size = new System.Drawing.Size(262, 474);
+            this.SpectroGroup.Size = new System.Drawing.Size(262, 499);
             this.SpectroGroup.TabIndex = 56;
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
             // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(15, 311);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(75, 13);
+            this.label25.TabIndex = 64;
+            this.label25.Text = "Phase Step (°)";
+            // 
+            // phaseStep
+            // 
+            this.phaseStep.DecimalPlaces = 2;
+            this.phaseStep.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.phaseStep.Location = new System.Drawing.Point(150, 309);
+            this.phaseStep.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.phaseStep.Name = "phaseStep";
+            this.phaseStep.Size = new System.Drawing.Size(104, 20);
+            this.phaseStep.TabIndex = 63;
+            // 
             // carrierCheck
             // 
             this.carrierCheck.AutoSize = true;
-            this.carrierCheck.Location = new System.Drawing.Point(150, 309);
+            this.carrierCheck.Location = new System.Drawing.Point(150, 339);
             this.carrierCheck.Name = "carrierCheck";
             this.carrierCheck.Size = new System.Drawing.Size(56, 17);
             this.carrierCheck.TabIndex = 62;
@@ -711,7 +743,7 @@
             // StopButton
             // 
             this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
-            this.StopButton.Location = new System.Drawing.Point(196, 407);
+            this.StopButton.Location = new System.Drawing.Point(193, 427);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(58, 58);
             this.StopButton.TabIndex = 61;
@@ -721,7 +753,7 @@
             // PauseButton
             // 
             this.PauseButton.Image = ((System.Drawing.Image)(resources.GetObject("PauseButton.Image")));
-            this.PauseButton.Location = new System.Drawing.Point(134, 407);
+            this.PauseButton.Location = new System.Drawing.Point(131, 427);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(58, 58);
             this.PauseButton.TabIndex = 58;
@@ -731,7 +763,7 @@
             // StartButton
             // 
             this.StartButton.Image = ((System.Drawing.Image)(resources.GetObject("StartButton.Image")));
-            this.StartButton.Location = new System.Drawing.Point(70, 407);
+            this.StartButton.Location = new System.Drawing.Point(67, 427);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(58, 58);
             this.StartButton.TabIndex = 59;
@@ -741,7 +773,7 @@
             // ResetButton
             // 
             this.ResetButton.Image = ((System.Drawing.Image)(resources.GetObject("ResetButton.Image")));
-            this.ResetButton.Location = new System.Drawing.Point(6, 407);
+            this.ResetButton.Location = new System.Drawing.Point(3, 427);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(58, 58);
             this.ResetButton.TabIndex = 57;
@@ -751,7 +783,7 @@
             // OpenUSBButton
             // 
             this.OpenUSBButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenUSBButton.Image")));
-            this.OpenUSBButton.Location = new System.Drawing.Point(6, 343);
+            this.OpenUSBButton.Location = new System.Drawing.Point(3, 363);
             this.OpenUSBButton.Name = "OpenUSBButton";
             this.OpenUSBButton.Size = new System.Drawing.Size(58, 58);
             this.OpenUSBButton.TabIndex = 60;
@@ -794,7 +826,7 @@
             // UploadButton
             // 
             this.UploadButton.Image = ((System.Drawing.Image)(resources.GetObject("UploadButton.Image")));
-            this.UploadButton.Location = new System.Drawing.Point(70, 343);
+            this.UploadButton.Location = new System.Drawing.Point(67, 363);
             this.UploadButton.Name = "UploadButton";
             this.UploadButton.Size = new System.Drawing.Size(58, 58);
             this.UploadButton.TabIndex = 55;
@@ -894,7 +926,7 @@
             // 
             // stepSizeBox
             // 
-            this.stepSizeBox.DecimalPlaces = 1;
+            this.stepSizeBox.DecimalPlaces = 3;
             this.stepSizeBox.Increment = new decimal(new int[] {
             1,
             0,
@@ -902,7 +934,7 @@
             65536});
             this.stepSizeBox.Location = new System.Drawing.Point(150, 231);
             this.stepSizeBox.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -927,7 +959,7 @@
             // 
             // carFreqBox
             // 
-            this.carFreqBox.DecimalPlaces = 3;
+            this.carFreqBox.DecimalPlaces = 5;
             this.carFreqBox.Increment = new decimal(new int[] {
             1,
             0,
@@ -960,7 +992,7 @@
             // 
             // startFreqBox
             // 
-            this.startFreqBox.DecimalPlaces = 3;
+            this.startFreqBox.DecimalPlaces = 5;
             this.startFreqBox.Increment = new decimal(new int[] {
             1,
             0,
@@ -1196,7 +1228,7 @@
             131072});
             this.phase7.Location = new System.Drawing.Point(29, 75);
             this.phase7.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1216,6 +1248,7 @@
             // 
             // amp7
             // 
+            this.amp7.DecimalPlaces = 1;
             this.amp7.Location = new System.Drawing.Point(44, 50);
             this.amp7.Name = "amp7";
             this.amp7.Size = new System.Drawing.Size(50, 20);
@@ -1245,7 +1278,7 @@
             this.freq7.TabIndex = 62;
             this.freq7.ThousandsSeparator = true;
             this.freq7.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1306,7 +1339,7 @@
             131072});
             this.phase6.Location = new System.Drawing.Point(29, 75);
             this.phase6.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1326,6 +1359,7 @@
             // 
             // amp6
             // 
+            this.amp6.DecimalPlaces = 1;
             this.amp6.Location = new System.Drawing.Point(44, 50);
             this.amp6.Name = "amp6";
             this.amp6.Size = new System.Drawing.Size(50, 20);
@@ -1355,7 +1389,7 @@
             this.freq6.TabIndex = 62;
             this.freq6.ThousandsSeparator = true;
             this.freq6.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1416,7 +1450,7 @@
             131072});
             this.phase5.Location = new System.Drawing.Point(29, 75);
             this.phase5.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1436,6 +1470,7 @@
             // 
             // amp5
             // 
+            this.amp5.DecimalPlaces = 1;
             this.amp5.Location = new System.Drawing.Point(44, 50);
             this.amp5.Name = "amp5";
             this.amp5.Size = new System.Drawing.Size(50, 20);
@@ -1465,7 +1500,7 @@
             this.freq5.TabIndex = 62;
             this.freq5.ThousandsSeparator = true;
             this.freq5.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1526,7 +1561,7 @@
             131072});
             this.phase4.Location = new System.Drawing.Point(29, 75);
             this.phase4.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1546,6 +1581,7 @@
             // 
             // amp4
             // 
+            this.amp4.DecimalPlaces = 1;
             this.amp4.Location = new System.Drawing.Point(44, 50);
             this.amp4.Name = "amp4";
             this.amp4.Size = new System.Drawing.Size(50, 20);
@@ -1575,7 +1611,7 @@
             this.freq4.TabIndex = 62;
             this.freq4.ThousandsSeparator = true;
             this.freq4.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1636,7 +1672,7 @@
             131072});
             this.phase3.Location = new System.Drawing.Point(29, 75);
             this.phase3.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1656,6 +1692,7 @@
             // 
             // amp3
             // 
+            this.amp3.DecimalPlaces = 1;
             this.amp3.Location = new System.Drawing.Point(44, 50);
             this.amp3.Name = "amp3";
             this.amp3.Size = new System.Drawing.Size(50, 20);
@@ -1685,7 +1722,7 @@
             this.freq3.TabIndex = 62;
             this.freq3.ThousandsSeparator = true;
             this.freq3.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1746,7 +1783,7 @@
             131072});
             this.phase2.Location = new System.Drawing.Point(29, 75);
             this.phase2.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1766,6 +1803,7 @@
             // 
             // amp2
             // 
+            this.amp2.DecimalPlaces = 1;
             this.amp2.Location = new System.Drawing.Point(44, 50);
             this.amp2.Name = "amp2";
             this.amp2.Size = new System.Drawing.Size(50, 20);
@@ -1795,7 +1833,7 @@
             this.freq2.TabIndex = 62;
             this.freq2.ThousandsSeparator = true;
             this.freq2.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1856,7 +1894,7 @@
             131072});
             this.phase1.Location = new System.Drawing.Point(29, 75);
             this.phase1.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1876,6 +1914,7 @@
             // 
             // amp1
             // 
+            this.amp1.DecimalPlaces = 1;
             this.amp1.Location = new System.Drawing.Point(44, 50);
             this.amp1.Name = "amp1";
             this.amp1.Size = new System.Drawing.Size(50, 20);
@@ -1905,7 +1944,7 @@
             this.freq1.TabIndex = 62;
             this.freq1.ThousandsSeparator = true;
             this.freq1.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -1968,7 +2007,7 @@
             131072});
             this.phase0.Location = new System.Drawing.Point(29, 75);
             this.phase0.Maximum = new decimal(new int[] {
-            360,
+            3600,
             0,
             0,
             0});
@@ -1988,6 +2027,7 @@
             // 
             // amp0
             // 
+            this.amp0.DecimalPlaces = 1;
             this.amp0.Location = new System.Drawing.Point(44, 50);
             this.amp0.Name = "amp0";
             this.amp0.Size = new System.Drawing.Size(50, 20);
@@ -2017,7 +2057,7 @@
             this.freq0.TabIndex = 62;
             this.freq0.ThousandsSeparator = true;
             this.freq0.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             0});
@@ -2122,7 +2162,7 @@
             // debugmessagebox
             // 
             this.debugmessagebox.Controls.Add(this.MessagesBox);
-            this.debugmessagebox.Location = new System.Drawing.Point(12, 485);
+            this.debugmessagebox.Location = new System.Drawing.Point(12, 510);
             this.debugmessagebox.Name = "debugmessagebox";
             this.debugmessagebox.Size = new System.Drawing.Size(770, 186);
             this.debugmessagebox.TabIndex = 58;
@@ -2203,7 +2243,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 677);
+            this.ClientSize = new System.Drawing.Size(1264, 712);
             this.Controls.Add(this.ClearBoxButton);
             this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
@@ -2228,6 +2268,7 @@
             this.DesignerGroup.PerformLayout();
             this.SpectroGroup.ResumeLayout(false);
             this.SpectroGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.phaseStep)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.magFreqBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.modcycFreqBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sbWidthBox)).EndInit();
@@ -2434,6 +2475,8 @@
         private System.Windows.Forms.Button SetDDSProfiles;
         private System.Windows.Forms.ColumnHeader Messages;
         private System.Windows.Forms.CheckBox carrierCheck;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.NumericUpDown phaseStep;
     }
 }
 

@@ -77,7 +77,8 @@ namespace Spectroscopy_Viewer
 
                 // Loop through incoming data array
                 int m = 0;
-                while (m < IncomingData.Length)                
+                int datLength = IncomingData.Length;
+                while (m < datLength)                
                 {
                     // Fill a separate list for each interleaved spectrum
                     for (int k = 0; k < numberInterleaved; k++)

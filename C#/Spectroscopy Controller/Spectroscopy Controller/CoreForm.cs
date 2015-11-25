@@ -41,7 +41,7 @@ namespace Spectroscopy_Controller
         //Logic to select which DDS profile is used
         private List<bool> profilePins = new List<bool> {true,true,true};
         private List<RadioButton> profileRadioButtons = new List<RadioButton>();
-        
+        public string hexFileName;
         //Trap and ion parameters
         private float dnought = 0.0189F;
         private float bField = 1.845F;
@@ -477,7 +477,13 @@ namespace Spectroscopy_Controller
                 FPGA.SendResetSignal();
             }
 
-            freq0.Enabled = true;
+            panel1.Enabled = true;
+            panel3.Enabled = true;
+
+            /*freq0.Enabled = true;
+            freq4.Enabled = true;
+            phase0.Enabled = true;
+            */
             SetOutputs();
         }
 
@@ -565,7 +571,7 @@ namespace Spectroscopy_Controller
                         // Fill in remaining metadata from form
                         metadata[13] = myExperimentDialog.NumberOfRepeats.Value.ToString();
                         metadata[14] = myExperimentDialog.NumberOfSpectra.Value.ToString();
-                        metadata[15] = "N/A";
+                        metadata[15] = hexFileName;
                         metadata[16] = "N/A";   // For fixed spectra only
                         metadata[17] = "N/A";   // For fixed spectra only
 
@@ -573,6 +579,7 @@ namespace Spectroscopy_Controller
                         for (int i = 0; i < numberOfSpectra; i++)
                         {
                             metadata[i + 18] = myExperimentDialog.SpectrumNames[i].Text;
+                            Console.WriteLine("coreName: " + metadata[i + 18] + " num " + (i + 18));
                         }
 
                         metadata[18 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
@@ -722,9 +729,18 @@ namespace Spectroscopy_Controller
                             bShouldQuitThread = false;
 
                             //Disable spectroscopy frequency box and set value to start frequency
-                            freq0.Enabled = false;
+                            /*freq0.Enabled = false;
+                            freq4.Enabled = false;
+                            phase0.Enabled = false;*/
+
+                            panel1.Enabled = false;
+                            panel3.Enabled = false;
+
                             freq0.Value = startFreq;
-                            
+                            freq4.Value = startFreq;
+
+                            LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+
                             SendSetupFinish();
 
                             // Start experiment
@@ -885,7 +901,7 @@ namespace Spectroscopy_Controller
                 }
                 // Notes section
                 myFile[i].WriteLine("Notes:");
-                myFile[i].WriteLine("#" + myExperimentDialog.NotesBox.Text);
+                myFile[i].WriteLine("#" + myExperimentDialog.NotesBox.Text + " HEX: " +hexFileName);
                 // Title for data
                 myFile[i].WriteLine("Data:");
 
@@ -917,7 +933,7 @@ namespace Spectroscopy_Controller
                     else
                     {
                         if (i < sbToScan) sbCurrent--;
-                        else if (i == sbToScan-1)
+                        if (i == sbToScan-1)
                         // If we have reached the carrier
                         {
                             // Change R to B
@@ -1415,9 +1431,10 @@ namespace Spectroscopy_Controller
             double myfreq = freqcheck * Math.Pow(10, 9) / Math.Pow(2, 32);
             MessagesBox.Items.Add("Profile 0 frequency = " + myfreq);
 
-            //freqcheckin = COM12.ReadTo("\n");
-            //freqcheck = Convert.ToInt32(freqcheckin);
-            //MessagesBox.Items.Add("Profile 7 421 FTW = " + freqcheck);
+            string freqcheckin4 = COM12.ReadTo("\n");
+            int freqcheck4 = Convert.ToInt32(freqcheckin4);
+            double myfreq4 = freqcheck4 * Math.Pow(10, 9) / Math.Pow(2, 32);
+            MessagesBox.Items.Add("Profile 4 frequency = " + myfreq4);
 
             //string incoming2 = COM12.ReadTo("\n");
             //int check2 = Convert.ToInt32(incoming2);
@@ -1442,14 +1459,14 @@ namespace Spectroscopy_Controller
 
             if (MessageBox.Show("Are you sure you want to reset the DDS profiles to default values?", "Profile reset confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                freq0.Value = 230000000;
-                freq1.Value = 230000000;
-                freq2.Value = 230000000;
-                freq3.Value = 230000000;
-                freq4.Value = 230000000;
-                freq5.Value = 230000000;
-                freq6.Value = 230000000;
-                freq7.Value = 230000000;
+                freq0.Value = 255000000;
+                freq1.Value = 255000000;
+                freq2.Value = 255000000;
+                freq3.Value = 255000000;
+                freq4.Value = 255000000;
+                freq5.Value = 255000000;
+                freq6.Value = 255000000;
+                freq7.Value = 255000000;
 
                 amp0.Value = 100;
                 amp1.Value = 100;

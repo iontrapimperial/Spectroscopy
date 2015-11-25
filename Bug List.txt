@@ -1,8 +1,5 @@
-- The name of the last spectrum doesn't show up in the spectroscopy viewer
 - Can't do Rabi oscillations
-- Need to reduce FPGA step size
 
-- DDS does not update probe frequency on first step of spectrum, only when frequency change is called in subsequent steps
-- Histogram on spectroscopy viewer crashes when more than one spectrum taken at once
 - Thresholds must be adjusted twice at start, otherwise spectrum plots vertical line nonsense
-- The message box doesn't move if you resize the viewer window
+
+- wih doppler spectra wiht more than one sideband and no carrier, filenames get messed up

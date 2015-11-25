@@ -93,7 +93,7 @@ namespace Spectroscopy_Controller
             }
 
             // Create list for storing readings, get ready for 2000 data points
-            List<int> Readings = new List<int>(2000);
+            List<int> Readings = new List<int>(10000);
 
             while (FPGAReadThread.IsAlive && bShouldQuitThread == false)
             {
@@ -233,6 +233,9 @@ namespace Spectroscopy_Controller
                         if (specType == "Fixed")
                         {
                             CurrentPulseLength += fixed_stepSize;
+                            phase4.Value += phaseStep.Value;
+                            LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+
                         }
 
                         FPGA.ResetDevice();
@@ -266,6 +269,8 @@ namespace Spectroscopy_Controller
                                     {
                                         Frequency += stepSize;
                                         freq0.Value = Frequency;
+                                        freq4.Value = Frequency;
+                                        phase4.Value += phaseStep.Value;
                                         LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
                                         SetDDSProfiles.Enabled = false;
                                         CurrentWindowStep++;
@@ -288,6 +293,8 @@ namespace Spectroscopy_Controller
 
                                                 Frequency = startFreqArray[CurrentSideband];
                                                 freq0.Value = Frequency;
+                                                freq4.Value = Frequency;
+                                                phase4.Value += phaseStep.Value;
                                                 LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
                                                 SetDDSProfiles.Enabled = false;
                                                 CurrentWindowStep = 0;
@@ -312,6 +319,8 @@ namespace Spectroscopy_Controller
 
                                                 Frequency = startFreqArray[CurrentSideband];
                                                 freq0.Value = Frequency;
+                                                freq4.Value = Frequency;
+                                                phase4.Value += phaseStep.Value;
                                                 LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
                                                 SetDDSProfiles.Enabled = false;
                                                 CurrentWindowStep = 0;
@@ -334,6 +343,8 @@ namespace Spectroscopy_Controller
                                 {
                                     Frequency += stepSize;
                                     freq0.Value = Frequency;
+                                    freq4.Value = Frequency;
+                                    phase4.Value += phaseStep.Value;
                                     LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
                                     SetDDSProfiles.Enabled = false;
                                     CurrentWindowStep++;
