@@ -1351,6 +1351,10 @@ namespace Spectroscopy_Viewer
             }
         }
 
+        private void tabPageSpectra_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 } 
     

@@ -186,6 +186,7 @@
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
+            this.tabPageSpectra.Click += new System.EventHandler(this.tabPageSpectra_Click);
             // 
             // userDisplayText
             // 

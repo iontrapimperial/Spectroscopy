@@ -344,7 +344,7 @@ namespace Spectroscopy_Viewer
         {
             dataPoint dataPointTemp;        // dataPoint object used in loop
             int frequency = new int();
-            if (startLength != 0)
+            if (startLength != 0 || metadata[1] == "Fixed")
             {
                 frequency = startLength;
             }

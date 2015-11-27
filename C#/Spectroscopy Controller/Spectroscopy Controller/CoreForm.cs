@@ -932,15 +932,16 @@ namespace Spectroscopy_Controller
                     }
                     else
                     {
-                        if (i < sbToScan) sbCurrent--;
                         if (i == sbToScan-1)
                         // If we have reached the carrier
                         {
                             // Change R to B
                             sbRedOrBlue = 'B';
                             // Increase sideband number
-                            sbCurrent=1;
+                            sbCurrent = 1;
                         }
+                        else if (i < sbToScan) sbCurrent--;
+                       
                         // If we are on the blue side, just increase the sideband number
                         else sbCurrent++;
                     }
