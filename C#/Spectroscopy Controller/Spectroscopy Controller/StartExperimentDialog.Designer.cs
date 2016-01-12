@@ -36,7 +36,7 @@
             this.NumberOfSpectra = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelButon = new System.Windows.Forms.Button();
             this.ChooseFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.spectrumNameGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -132,13 +132,13 @@
             // 
             // CancelButton
             // 
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(358, 157);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 9;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButon.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelButon.Location = new System.Drawing.Point(358, 157);
+            this.CancelButon.Name = "CancelButton";
+            this.CancelButon.Size = new System.Drawing.Size(75, 23);
+            this.CancelButon.TabIndex = 9;
+            this.CancelButon.Text = "Cancel";
+            this.CancelButon.UseVisualStyleBackColor = true;
             // 
             // ChooseFolderDialog
             // 
@@ -179,11 +179,10 @@
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton;
             this.ClientSize = new System.Drawing.Size(629, 192);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.spectrumNameGroupBox);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.CancelButon);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.NumberOfSpectra);
@@ -211,7 +210,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelButon;
         private System.Windows.Forms.FolderBrowserDialog ChooseFolderDialog;
         public System.Windows.Forms.TextBox ExperimentName;
         public System.Windows.Forms.NumericUpDown NumberOfRepeats;

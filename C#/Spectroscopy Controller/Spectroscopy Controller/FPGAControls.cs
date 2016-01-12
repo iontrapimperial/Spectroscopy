@@ -94,7 +94,7 @@ namespace Spectroscopy_Controller
             }
 
             // Create list for storing readings, get ready for 2000 data points
-            List<int> Readings = new List<int>(2000);
+            List<int> Readings = new List<int>(10000);
 
             while (FPGAReadThread.IsAlive && bShouldQuitThread == false)
             {
@@ -234,6 +234,9 @@ namespace Spectroscopy_Controller
                         if (specType == "Fixed")
                         {
                             CurrentPulseLength += fixed_stepSize;
+                            phase4.Value += phaseStep.Value;
+                            LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+
                         }
 
                         FPGA.ResetDevice();
@@ -266,7 +269,11 @@ namespace Spectroscopy_Controller
                                     if (CurrentWindowStep < sbWidth)
                                     {
                                         Frequency += stepSize;
-                                        GPIB.SetFrequency(Frequency);
+                                        freq0.Value = Frequency;
+                                        freq4.Value = Frequency;
+                                        phase4.Value += phaseStep.Value;
+                                        LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                        SetDDSProfiles.Enabled = false;
                                         CurrentWindowStep++;
                                     }
                                     else if (CurrentWindowStep >= sbWidth)
@@ -277,24 +284,57 @@ namespace Spectroscopy_Controller
                                         myFile.Close();
 
                                         CurrentSideband++;
-
-                                        if (CurrentSideband < (sbToScan * 2) + 1)
+                                        if (includeCarrier == true)
                                         {
-                                            // New sideband, so open the next file, using filename from array
-                                            myFile = new StreamWriter(myFileName[CurrentSideband], true);
+                                            if (CurrentSideband < (sbToScan * 2) + 1)
+                                            {
+                                                // New sideband, so open the next file, using filename from array
+                                                myFile = new StreamWriter(myFileName[CurrentSideband], true);
 
 
-                                            Frequency = startFreqArray[CurrentSideband];
-                                            GPIB.SetFrequency(Frequency);
-                                            CurrentWindowStep = 0;
+                                                Frequency = startFreqArray[CurrentSideband];
+                                                freq0.Value = Frequency;
+                                                freq4.Value = Frequency;
+                                                phase4.Value += phaseStep.Value;
+                                                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                                SetDDSProfiles.Enabled = false;
+                                                CurrentWindowStep = 0;
+                                            }
+                                            //if we reach end of final sideband, stop experiment (need to test this section)
+                                            else
+                                            {
+
+                                                MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
+                                                bShouldQuitThread = true;
+                                                // break;       // might need this??
+                                            }
+
                                         }
-                                        //if we reach end of final sideband, stop experiment (need to test this section)
                                         else
                                         {
+                                            if (CurrentSideband < (sbToScan * 2))
+                                            {
+                                                // New sideband, so open the next file, using filename from array
+                                                myFile = new StreamWriter(myFileName[CurrentSideband], true);
 
-                                            MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
-                                            bShouldQuitThread = true;
-                                            // break;       // might need this??
+
+                                                Frequency = startFreqArray[CurrentSideband];
+                                                freq0.Value = Frequency;
+                                                freq4.Value = Frequency;
+                                                phase4.Value += phaseStep.Value;
+                                                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                                SetDDSProfiles.Enabled = false;
+                                                CurrentWindowStep = 0;
+                                            }
+                                            //if we reach end of final sideband, stop experiment (need to test this section)
+                                            else
+                                            {
+
+                                                MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
+                                                bShouldQuitThread = true;
+                                                // break;       // might need this??
+                                            }
+
                                         }
 
                                     }
@@ -303,7 +343,11 @@ namespace Spectroscopy_Controller
                                 else if (specType == "Continuous")
                                 {
                                     Frequency += stepSize;
-                                    GPIB.SetFrequency(Frequency);
+                                    freq0.Value = Frequency;
+                                    freq4.Value = Frequency;
+                                    phase4.Value += phaseStep.Value;
+                                    LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                    SetDDSProfiles.Enabled = false;
                                     CurrentWindowStep++;
                                 }
                                 

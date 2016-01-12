@@ -2083,10 +2083,18 @@ namespace Spectroscopy_Controller
             // Check for our required function pointers being set up
             if (pFT_Close != IntPtr.Zero)
             {
-                tFT_Close FT_Close = (tFT_Close)Marshal.GetDelegateForFunctionPointer(pFT_Close, typeof(tFT_Close));
-
+                Cunt:
+                try {
+                    tFT_Close FT_Close = (tFT_Close)Marshal.GetDelegateForFunctionPointer(pFT_Close, typeof(tFT_Close));
+                    ftStatus = FT_Close(ftHandle);
+                }
+                catch
+                {
+                    Thread.Sleep(1000);
+                    goto Cunt;
+                }
                 // Call FT_Close
-                ftStatus = FT_Close(ftHandle);
+                
 
                 if (ftStatus == FT_STATUS.FT_OK)
                 {

@@ -79,7 +79,7 @@ namespace Spectroscopy_Controller
         }
 
 
-        public static void SetLasers(bool L397B1, bool L397B2, bool L729, bool L854, bool LRF1, bool LRF2, bool L854P, bool L854F, bool LAux1, bool LAux2 )
+        public static void SetLasers(bool L397B1, bool L397B2, bool L729, bool L854, bool P0, bool P1, bool L854P, bool L854F, bool LAux1, bool P2 )
         {
             if (!bUSBPortIsOpen)
                 return;
@@ -87,17 +87,17 @@ namespace Spectroscopy_Controller
             byte Data= 0;
             Data += (byte)(GetIntFromBool(L854F) << 7);
             Data += (byte)(GetIntFromBool(L854P) << 6);
-            Data += (byte)(GetIntFromBool(LRF2) << 5);
-            Data += (byte)(GetIntFromBool(LRF1) << 4);
+            Data += (byte)(GetIntFromBool(P1) << 5);
+            Data += (byte)(GetIntFromBool(P0) << 4);
             Data += (byte)(GetIntFromBool(L854) << 3);
             Data += (byte)(GetIntFromBool(L729) << 2);
             Data += (byte)(GetIntFromBool(L397B2) << 1);
             Data += (byte)(GetIntFromBool(L397B1) << 0);
 
             byte Data2 = 252;
-            Data2 += (byte)(GetIntFromBool(LAux2) << 1);
+            Data2 += (byte)(GetIntFromBool(P2) << 1);
             Data2 += (byte)(GetIntFromBool(LAux1) << 0);
-
+                
             byte[] x = new byte[8];
             x[0] = LASER_SETUP;
             x[1] = LASER_CMD;

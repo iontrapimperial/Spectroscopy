@@ -49,7 +49,8 @@ namespace Spectroscopy_Controller
             using (BinaryReader b = new BinaryReader(F))
             {
                 int FileSize = (int)b.BaseStream.Length;
-                WriteMessage("File name: " + openHexFileDialog.FileName);
+                hexFileName = openHexFileDialog.FileName;
+                WriteMessage("File name: " + hexFileName);
                 WriteMessage("Length: " + FileSize.ToString() + " Bytes\r\n");
                 
                 if (FileSize > 8000000) //should this be 2^23-1 (8 388 607) instead?
@@ -110,9 +111,9 @@ namespace Spectroscopy_Controller
         {
             bStopSignalPresent = false;
             InstructionsWritten = 0;
-            using (BinaryWriter Writer = new BinaryWriter(File.Open(saveHexFileDialog.FileName, FileMode.Create)))
+            using (BinaryWriter Writer = new BinaryWriter(File.Open(openHexFileDialog.InitialDirectory + "\\" + Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex", FileMode.Create)))
             {
-                WriteMessage("Writing to file: " + saveHexFileDialog.FileName);
+                WriteMessage("Writing to file: " + openHexFileDialog.InitialDirectory + "\\" + Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex");
                 ParseNodeCollection(PulseTree.Nodes, Writer);
 
                 if (InstructionsWritten == 0)
@@ -211,15 +212,15 @@ namespace Spectroscopy_Controller
             else MessageBox.Show("Byte Conversion Problem (Are you big endian?)");
 
             //Fill last 5 bits of Data[1] with laser state logic
-            Data[1] += (byte)(GetIntFromBool(State.LaserAux2) << 4);
+            Data[1] += (byte)(GetIntFromBool(State.Laser729P2) << 4);
             Data[1] += (byte)(GetIntFromBool(State.LaserAux1) << 3);
             Data[1] += (byte)(GetIntFromBool(State.Laser854FREQ) << 2);
             Data[1] += (byte)(GetIntFromBool(State.Laser854POWER) << 1);
-            Data[1] += (byte)(GetIntFromBool(State.Laser729RF2));
+            Data[1] += (byte)(GetIntFromBool(State.Laser729P1));
 
             // Write one more byte (Data[0]) for lasers (bits 7:3)... 
             Data[0] = 0;
-            Data[0] += (byte)(GetIntFromBool(State.Laser729RF1) << 7);
+            Data[0] += (byte)(GetIntFromBool(State.Laser729P0) << 7);
             Data[0] += (byte)(GetIntFromBool(State.Laser854) << 6);
             Data[0] += (byte)(GetIntFromBool(State.Laser729) << 5);
             Data[0] += (byte)(GetIntFromBool(State.Laser397B2) << 4);

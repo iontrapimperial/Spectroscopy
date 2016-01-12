@@ -362,7 +362,7 @@ namespace Spectroscopy_Viewer
         private void loadFileButton_Click(object sender, EventArgs e)
         {
             // Configuring dialog to open a new data file
-            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data";      // Initialise to share drive
+            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
             openDataFile.RestoreDirectory = false;           // Open to last viewed directory
             openDataFile.FileName = "";                     // Set default filename to blank
             openDataFile.Multiselect = true;                // Allow selection of multiple files
@@ -545,7 +545,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -638,14 +638,7 @@ namespace Spectroscopy_Viewer
                     }
                     else
                     {   // For subsequent spectra, go through and add the data to existing lists
-                        for (int j = 0; j < histogramSize; j++)
-                        {
-                            // Sum the data from each spectrum into the full list
-                            histogramCool[j] += tempHistogramCool[j];
-                            histogramCount[j] += tempHistogramCount[j];
 
-                            histogramAll[j] = histogramCool[j] + histogramCount[j];
-                        }
 
                         // If the histogram for the current spectrum is larger than the existing histogram
                         if (tempHistogramSize > histogramSize)
@@ -663,7 +656,18 @@ namespace Spectroscopy_Viewer
                             }
 
                             // Update size of list (could use tempHistogramSize, but recalculate just in case)
-                            histogramSize = histogramCool.Count();
+                            histogramSize = tempHistogramSize;//histogramCool.Count();
+                        }
+                        else
+                        {
+                            for (int j = 0; j < tempHistogramSize; j++)
+                            {
+                                // Sum the data from each spectrum into the full list
+                                histogramCool[j] += tempHistogramCool[j];
+                                histogramCount[j] += tempHistogramCount[j];
+
+                                histogramAll[j] = histogramCool[j] + histogramCount[j];
+                            }
                         }
                     }
                 }       // End of loop which goes through spectra and creates histogram
@@ -760,31 +764,33 @@ namespace Spectroscopy_Viewer
         private void histogramAutoScale(int[] data)
         {
             // Specify an interval to round to based on size of data
-            int maxData = data.Max();
-            int interval = new int();
-            if (maxData <= 100)
-            {
-                interval = 20;
-            }
-            else if (maxData <= 250)
-            {
-                interval = 50;
-            }
-            else if (maxData <= 500)
-            {
-                interval = 100;
-            }
-            else
-            {
-                interval = 200;
-            }
+            
+                int maxData = data.DefaultIfEmpty().Max();
+                int interval = new int();
+                if (maxData <= 100)
+                {
+                    interval = 20;
+                }
+                else if (maxData <= 250)
+                {
+                    interval = 50;
+                }
+                else if (maxData <= 500)
+                {
+                    interval = 100;
+                }
+                else
+                {
+                    interval = 200;
+                }
 
-            // Find out how many intervals fit into the data range
-            // (rounded down to an integer)
-            int x = data.Max() / interval;
+                // Find out how many intervals fit into the data range
+                // (rounded down to an integer)
+                int x = data.DefaultIfEmpty().Max() / interval;
 
-            // Set the max to one interval greater
-            histogramChart.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
+                // Set the max to one interval greater
+                histogramChart.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
+            
         }
 
         // Method to respond to "Auto" checkbox (under Histogram tab, Maximum bin group) changing
@@ -825,7 +831,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Desktop\\Current Data";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -1345,11 +1351,10 @@ namespace Spectroscopy_Viewer
             }
         }
 
-        private void zedGraphSpectra_Load(object sender, EventArgs e)
+        private void tabPageSpectra_Click(object sender, EventArgs e)
         {
 
         }
-
     }
 } 
     

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
@@ -108,7 +109,7 @@
             this.coolingThresholdSelect.Size = new System.Drawing.Size(90, 20);
             this.coolingThresholdSelect.TabIndex = 3;
             this.coolingThresholdSelect.Value = new decimal(new int[] {
-            15,
+            6,
             0,
             0,
             0});
@@ -131,7 +132,7 @@
             this.countThresholdSelect.Size = new System.Drawing.Size(90, 20);
             this.countThresholdSelect.TabIndex = 5;
             this.countThresholdSelect.Value = new decimal(new int[] {
-            4,
+            7,
             0,
             0,
             0});
@@ -186,14 +187,16 @@
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
+            this.tabPageSpectra.Click += new System.EventHandler(this.tabPageSpectra_Click);
             // 
             // userDisplayText
             // 
-            this.userDisplayText.Location = new System.Drawing.Point(8, 511);
+            this.userDisplayText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.userDisplayText.Location = new System.Drawing.Point(3, 514);
             this.userDisplayText.Multiline = true;
             this.userDisplayText.Name = "userDisplayText";
             this.userDisplayText.ReadOnly = true;
-            this.userDisplayText.Size = new System.Drawing.Size(389, 61);
+            this.userDisplayText.Size = new System.Drawing.Size(966, 61);
             this.userDisplayText.TabIndex = 9;
             // 
             // spectrumExportDataButton
@@ -319,9 +322,9 @@
             // histogramChart
             // 
             chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
-                        | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
-                        | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
+            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
             chartArea1.Name = "ChartArea1";
             this.histogramChart.ChartAreas.Add(chartArea1);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);

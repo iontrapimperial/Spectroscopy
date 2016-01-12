@@ -23,7 +23,7 @@ namespace Spectroscopy_Controller
             XmlWriterSettings WriterSettings = new XmlWriterSettings();
             WriterSettings.Indent = true;
             WriterSettings.IndentChars = "\t";
-
+            
             using (XmlWriter Writer = XmlWriter.Create(saveXMLFileDialog.FileName, WriterSettings))
             {
                 Writer.WriteStartDocument();
@@ -84,12 +84,12 @@ namespace Spectroscopy_Controller
             Writer.WriteAttributeString("Laser397B2", GetStringFromBool(State.Laser397B2));
             Writer.WriteAttributeString("Laser729", GetStringFromBool(State.Laser729));
             Writer.WriteAttributeString("Laser854", GetStringFromBool(State.Laser854));
-            Writer.WriteAttributeString("Laser729RF1", GetStringFromBool(State.Laser729RF1));
-            Writer.WriteAttributeString("Laser729RF2", GetStringFromBool(State.Laser729RF2));
+            Writer.WriteAttributeString("Laser729RF1", GetStringFromBool(State.Laser729P0));
+            Writer.WriteAttributeString("Laser729RF2", GetStringFromBool(State.Laser729P1));
             Writer.WriteAttributeString("Laser854POWER", GetStringFromBool(State.Laser854POWER));
             Writer.WriteAttributeString("Laser854FREQ", GetStringFromBool(State.Laser854FREQ));
             Writer.WriteAttributeString("LaserAux1", GetStringFromBool(State.LaserAux1));
-            Writer.WriteAttributeString("LaserAux2", GetStringFromBool(State.LaserAux2));
+            Writer.WriteAttributeString("LaserAux2", GetStringFromBool(State.Laser729P2));
 
 
             if (State.StateType == LaserState.PulseType.STARTLOOP)
@@ -319,22 +319,22 @@ namespace Spectroscopy_Controller
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.Laser729RF1 = true;
+                        State.Laser729P0 = true;
                     }
                     else
                     {
-                        State.Laser729RF1 = false;
+                        State.Laser729P0 = false;
                     }
                 }
                 else if (XMLFile.Name.ToUpper() == "Laser729RF2".ToUpper())
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.Laser729RF2 = true;
+                        State.Laser729P1 = true;
                     }
                     else
                     {
-                        State.Laser729RF2 = false;
+                        State.Laser729P1 = false;
                     }
                 }
                 else if (XMLFile.Name.ToUpper() == "Laser854POWER".ToUpper())
@@ -374,11 +374,11 @@ namespace Spectroscopy_Controller
                 {
                     if (XMLFile.Value.ToUpper() == "on".ToUpper())
                     {
-                        State.LaserAux2 = true;
+                        State.Laser729P2 = true;
                     }
                     else
                     {
-                        State.LaserAux2 = false;
+                        State.Laser729P2 = false;
                     }
                 }
                 else if (XMLFile.Name.ToUpper() == "Type".ToUpper())

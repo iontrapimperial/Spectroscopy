@@ -121,6 +121,11 @@
             // startLengthSelect
             // 
             this.startLengthSelect.Location = new System.Drawing.Point(166, 14);
+            this.startLengthSelect.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.startLengthSelect.Name = "startLengthSelect";
             this.startLengthSelect.Size = new System.Drawing.Size(81, 20);
             this.startLengthSelect.TabIndex = 7;
@@ -133,6 +138,11 @@
             // stepSizeSelect
             // 
             this.stepSizeSelect.Location = new System.Drawing.Point(166, 41);
+            this.stepSizeSelect.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.stepSizeSelect.Name = "stepSizeSelect";
             this.stepSizeSelect.Size = new System.Drawing.Size(81, 20);
             this.stepSizeSelect.TabIndex = 8;
@@ -157,6 +167,11 @@
             // stepsSelect
             // 
             this.stepsSelect.Location = new System.Drawing.Point(166, 94);
+            this.stepsSelect.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.stepsSelect.Name = "stepsSelect";
             this.stepsSelect.Size = new System.Drawing.Size(81, 20);
             this.stepsSelect.TabIndex = 10;
