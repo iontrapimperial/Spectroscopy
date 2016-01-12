@@ -44,6 +44,7 @@
             this.AddRootButton = new System.Windows.Forms.Button();
             this.SaveStateButton = new System.Windows.Forms.Button();
             this.PulseTypeTabs = new System.Windows.Forms.TabControl();
+            this.COM12 = new System.IO.Ports.SerialPort(this.components);
             this.LoopTabPage = new System.Windows.Forms.TabPage();
             this.FPGALoopSelect = new System.Windows.Forms.CheckBox();
             this.LoopNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -184,6 +185,7 @@
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
             this.OpenCamera = new System.Windows.Forms.Button();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -2237,7 +2239,7 @@
             // 
             // OpenCamera
             // 
-            this.OpenCamera.Location = new System.Drawing.Point(1054, 55);
+            this.OpenCamera.Location = new System.Drawing.Point(972, 621);
             this.OpenCamera.Name = "OpenCamera";
             this.OpenCamera.Size = new System.Drawing.Size(91, 40);
             this.OpenCamera.TabIndex = 61;
@@ -2486,6 +2488,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown phaseStep;
         private System.Windows.Forms.Button OpenCamera;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }
 

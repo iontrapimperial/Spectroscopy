@@ -1367,9 +1367,7 @@ namespace Spectroscopy_Controller
         // Function to calculate and send the data to send to the DDS registers
         public void LoadDDS(decimal f0, decimal f1, decimal f2, decimal f3, decimal f4, decimal f5, decimal f6, decimal f7, decimal amp0, decimal amp1, decimal amp2, decimal amp3, decimal amp4, decimal amp5, decimal amp6, decimal amp7, decimal phase0, decimal phase1, decimal phase2, decimal phase3, decimal phase4, decimal phase5, decimal phase6, decimal phase7)
         {
-            if (COM12.IsOpen == false) COM12.Open();
-
-        
+            if (COM12.IsOpen == false) COM12.Open();    
        
 
         
@@ -1377,7 +1375,7 @@ namespace Spectroscopy_Controller
 
 
 
-        /*private void fPGAToolStripMenuItem_Click(object sender, EventArgs e)      //Greys out end read thread item when not running
+        
             string[] ASF0Byte = new string[2];
             string[] ASF1Byte = new string[2];
             string[] ASF2Byte = new string[2];
@@ -1451,6 +1449,7 @@ namespace Spectroscopy_Controller
             MessagesBox.Items.Add(L6); 
             ListViewItem L7 = new ListViewItem(f7.ToString());
             MessagesBox.Items.Add(L7);*/
+
 
 
 
