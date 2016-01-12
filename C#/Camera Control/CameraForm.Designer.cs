@@ -64,6 +64,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pixelNum = new System.Windows.Forms.Label();
+            this.NpixelUpDown = new System.Windows.Forms.NumericUpDown();
             this.ClearROI = new System.Windows.Forms.Button();
             this.AddROI = new System.Windows.Forms.Button();
             this.vBoxEndUpDown = new System.Windows.Forms.NumericUpDown();
@@ -82,8 +84,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.coolerBox = new System.Windows.Forms.CheckBox();
             this.saveContData = new System.Windows.Forms.Button();
-            this.NpixelUpDown = new System.Windows.Forms.NumericUpDown();
-            this.pixelNum = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.kinCycTime = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -97,13 +99,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.numLoopsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NpixelUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vBoxEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vBoxStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NpixelUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kinCycTime)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -235,7 +238,7 @@
             this.subImaging.Controls.Add(this.horStartUpDown);
             this.subImaging.Location = new System.Drawing.Point(16, 224);
             this.subImaging.Name = "subImaging";
-            this.subImaging.Size = new System.Drawing.Size(155, 163);
+            this.subImaging.Size = new System.Drawing.Size(156, 132);
             this.subImaging.TabIndex = 10;
             // 
             // label8
@@ -300,7 +303,7 @@
             this.vertEndUpDown.Size = new System.Drawing.Size(72, 20);
             this.vertEndUpDown.TabIndex = 3;
             this.vertEndUpDown.Value = new decimal(new int[] {
-            512,
+            130,
             0,
             0,
             0});
@@ -322,7 +325,7 @@
             this.verStartUpDown.Size = new System.Drawing.Size(72, 20);
             this.verStartUpDown.TabIndex = 2;
             this.verStartUpDown.Value = new decimal(new int[] {
-            1,
+            90,
             0,
             0,
             0});
@@ -344,7 +347,7 @@
             this.horEndUpDown.Size = new System.Drawing.Size(72, 20);
             this.horEndUpDown.TabIndex = 1;
             this.horEndUpDown.Value = new decimal(new int[] {
-            512,
+            370,
             0,
             0,
             0});
@@ -366,7 +369,7 @@
             this.horStartUpDown.Size = new System.Drawing.Size(72, 20);
             this.horStartUpDown.TabIndex = 0;
             this.horStartUpDown.Value = new decimal(new int[] {
-            1,
+            330,
             0,
             0,
             0});
@@ -380,7 +383,7 @@
             0});
             this.threshUpDown.Location = new System.Drawing.Point(19, 414);
             this.threshUpDown.Maximum = new decimal(new int[] {
-            10000,
+            1000000,
             0,
             0,
             0});
@@ -461,7 +464,9 @@
             "Single",
             "Multi",
             "Kinetic Series",
-            "Continuous"});
+            "Continuous",
+            "Experiment",
+            "Spectrum"});
             this.acqTypeComboBox.Location = new System.Drawing.Point(19, 509);
             this.acqTypeComboBox.Name = "acqTypeComboBox";
             this.acqTypeComboBox.Size = new System.Drawing.Size(85, 21);
@@ -560,6 +565,28 @@
             this.panel1.Size = new System.Drawing.Size(155, 203);
             this.panel1.TabIndex = 23;
             // 
+            // pixelNum
+            // 
+            this.pixelNum.AutoSize = true;
+            this.pixelNum.Location = new System.Drawing.Point(3, 163);
+            this.pixelNum.Name = "pixelNum";
+            this.pixelNum.Size = new System.Drawing.Size(86, 13);
+            this.pixelNum.TabIndex = 17;
+            this.pixelNum.Text = "Number of Pixels";
+            // 
+            // NpixelUpDown
+            // 
+            this.NpixelUpDown.Location = new System.Drawing.Point(3, 180);
+            this.NpixelUpDown.Maximum = new decimal(new int[] {
+            64,
+            0,
+            0,
+            0});
+            this.NpixelUpDown.Name = "NpixelUpDown";
+            this.NpixelUpDown.Size = new System.Drawing.Size(72, 20);
+            this.NpixelUpDown.TabIndex = 16;
+            this.NpixelUpDown.ValueChanged += new System.EventHandler(this.NpixelUpDown_ValueChanged);
+            // 
             // ClearROI
             // 
             this.ClearROI.Location = new System.Drawing.Point(80, 132);
@@ -597,7 +624,7 @@
             this.vBoxEndUpDown.Size = new System.Drawing.Size(72, 20);
             this.vBoxEndUpDown.TabIndex = 3;
             this.vBoxEndUpDown.Value = new decimal(new int[] {
-            512,
+            116,
             0,
             0,
             0});
@@ -619,7 +646,7 @@
             this.vBoxStartUpDown.Size = new System.Drawing.Size(72, 20);
             this.vBoxStartUpDown.TabIndex = 2;
             this.vBoxStartUpDown.Value = new decimal(new int[] {
-            1,
+            112,
             0,
             0,
             0});
@@ -641,7 +668,7 @@
             this.hBoxEndUpDown.Size = new System.Drawing.Size(72, 20);
             this.hBoxEndUpDown.TabIndex = 1;
             this.hBoxEndUpDown.Value = new decimal(new int[] {
-            512,
+            343,
             0,
             0,
             0});
@@ -663,7 +690,7 @@
             this.hBoxStartUpDown.Size = new System.Drawing.Size(72, 20);
             this.hBoxStartUpDown.TabIndex = 0;
             this.hBoxStartUpDown.Value = new decimal(new int[] {
-            1,
+            339,
             0,
             0,
             0});
@@ -804,33 +831,41 @@
             this.saveContData.UseVisualStyleBackColor = true;
             this.saveContData.Click += new System.EventHandler(this.saveContData_Click);
             // 
-            // NpixelUpDown
+            // label12
             // 
-            this.NpixelUpDown.Location = new System.Drawing.Point(3, 180);
-            this.NpixelUpDown.Maximum = new decimal(new int[] {
-            64,
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(19, 359);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(75, 13);
+            this.label12.TabIndex = 35;
+            this.label12.Text = "Kin. Cyc. Time";
+            // 
+            // kinCycTime
+            // 
+            this.kinCycTime.DecimalPlaces = 3;
+            this.kinCycTime.Location = new System.Drawing.Point(19, 375);
+            this.kinCycTime.Maximum = new decimal(new int[] {
+            1000,
             0,
             0,
             0});
-            this.NpixelUpDown.Name = "NpixelUpDown";
-            this.NpixelUpDown.Size = new System.Drawing.Size(72, 20);
-            this.NpixelUpDown.TabIndex = 16;
-            this.NpixelUpDown.ValueChanged += new System.EventHandler(this.NpixelUpDown_ValueChanged);
-            // 
-            // pixelNum
-            // 
-            this.pixelNum.AutoSize = true;
-            this.pixelNum.Location = new System.Drawing.Point(3, 163);
-            this.pixelNum.Name = "pixelNum";
-            this.pixelNum.Size = new System.Drawing.Size(86, 13);
-            this.pixelNum.TabIndex = 17;
-            this.pixelNum.Text = "Number of Pixels";
+            this.kinCycTime.Name = "kinCycTime";
+            this.kinCycTime.Size = new System.Drawing.Size(72, 20);
+            this.kinCycTime.TabIndex = 36;
+            this.kinCycTime.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.kinCycTime.ValueChanged += new System.EventHandler(this.kinCycTime_ValueChanged);
             // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.kinCycTime);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.saveContData);
             this.Controls.Add(this.coolerBox);
             this.Controls.Add(this.label11);
@@ -866,7 +901,9 @@
             this.Controls.Add(this.ShutDown);
             this.Controls.Add(this.Shutter);
             this.Name = "CameraForm";
+            this.RightToLeftLayout = true;
             this.Text = "Camera Controller";
+            this.Load += new System.EventHandler(this.CameraForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).EndInit();
@@ -882,13 +919,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NpixelUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vBoxEndUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vBoxStartUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxEndUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hBoxStartUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NpixelUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kinCycTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -952,6 +990,8 @@
         private System.Windows.Forms.Button ClearROI;
         private System.Windows.Forms.Label pixelNum;
         private System.Windows.Forms.NumericUpDown NpixelUpDown;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown kinCycTime;
     }
 }
 
