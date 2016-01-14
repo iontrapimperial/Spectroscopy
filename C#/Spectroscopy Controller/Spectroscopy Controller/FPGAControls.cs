@@ -306,6 +306,7 @@ namespace Spectroscopy_Controller
 
                                                 MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                 bShouldQuitThread = true;
+                                                myCamera.stopExp();
                                                 // break;       // might need this??
                                             }
 
@@ -332,6 +333,7 @@ namespace Spectroscopy_Controller
 
                                                 MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                 bShouldQuitThread = true;
+                                                myCamera.stopExp();
                                                 // break;       // might need this??
                                             }
 
@@ -381,6 +383,7 @@ namespace Spectroscopy_Controller
                             WriteMessage("Received experiment stop command!\r\n");
                             MessageBox.Show("Experiment Finished!", "Bang");
                             bShouldQuitThread = true;
+                            myCamera.stopExp();
                         }
                         else
                         {
@@ -393,7 +396,7 @@ namespace Spectroscopy_Controller
                         WriteMessage("Received corrupted data (Unrecoverable)!\r\n");
                     }
                 }
-            }
+           } 
 
 
             // If it's a windowed spectrum, we will already have closed the file. Otherwise, need to flush & close it

@@ -18,6 +18,7 @@ namespace Camera_Control
 {
     public partial class CameraForm : Form
     {
+
         AndorSDK myAndor = new AndorSDK();
         private int shutter = 1;
         ATMCD32CS.AndorSDK.AndorCapabilities caps;                     // AndorCapabilities structure
@@ -60,7 +61,9 @@ namespace Camera_Control
         long frameRefreshTime=0;
         float kineticCycleTime;
         float fExposure;
-
+        bool PauseExperiment = true;
+        Thread CameraReadThread;
+        bool bShouldQuitCamThread = false;
 
         // Set up acquisition parameters here to be set in common.c *****************
 
@@ -108,15 +111,9 @@ namespace Camera_Control
             readMode = 4;
             acquisitionMode = 7;
             uint errorValue;
-            float speed = 0, STemp;
-            int iSpeed, iAD, nAD = 0, index = 0;
+            float speed = 0;
             InitializeComponent();
             errorValue = myAndor.Initialize(Directory.GetCurrentDirectory());
-
-            
-
-            
-
 
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
@@ -342,6 +339,39 @@ namespace Camera_Control
         private void startAcqButton_Click(object sender, EventArgs e)
         {
             setSystem();
+        }
+
+        public void startSpectrum()
+        {
+            acqTypeComboBox.ValueMember = "Spectrum";
+            if ((CameraReadThread != null) && (CameraReadThread.IsAlive))
+            {
+                CameraReadThread.Abort();
+                CameraReadThread.Join();
+            }
+            CameraReadThread = new Thread(new ThreadStart(this.setSystem));
+            CameraReadThread.Name = "CameraCommThread";
+            CameraReadThread.Start();
+            // Disable start & open USB buttons
+           // StartButton.Enabled = false;
+           // OpenUSBButton.Enabled = false;
+            //Always enable Stop and pause buttons when running
+          //  StopButton.Enabled = true;
+           // PauseButton.Enabled = true;
+
+
+            //setSystem();
+        }
+
+
+        public void pause()
+        {
+            PauseExperiment = !PauseExperiment;
+        }
+
+        public void stopExp()
+        {
+            bShouldQuitCamThread=true;
         }
 
         //Sets up hardware
@@ -779,10 +809,10 @@ namespace Camera_Control
                 if (acqType == 5)
                 {
                     ionLocations = new int[numIons];
-                   // findIonsTrial();
-                   // Thread.Sleep(5000);
+                    // findIonsTrial();
+                    // Thread.Sleep(5000);
+                   
 
-                
                     myAndor.SetFrameTransferMode(0);
                     myAndor.SetNumberAccumulations(1);
                     myAndor.SetKineticCycleTime(kineticCycleTime/1000);                    
@@ -805,18 +835,29 @@ namespace Camera_Control
                     }
                      */
 
-                    //{                           
-                    errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
-                    for (i = 0; i <repeatNum; i++)
+                    /* OLD ACQUIRE METHOD WITH NUMBER OF REPEATS                     
+                   errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
+                   for (i = 0; i <repeatNum; i++)
+                   {
+                       Thread.Sleep(3000);
+                       AcquireImageDataSpectrum();
+                       repeatPos++;
+                   }*/
+
+                    while (CameraReadThread.IsAlive && bShouldQuitCamThread == false)
                     {
                         Thread.Sleep(3000);
                         AcquireImageDataSpectrum();
                         repeatPos++;
+                        while (PauseExperiment)
+                        {
+                            //sleep for 1ms so we don't use all the CPU cycles
+                            System.Threading.Thread.Sleep(1000);
+                        }
                     }
-                    //AcquireImageDataSpectrum();
-                    //myAndor.AbortAcquisition();
-                    writeToFile();
-                    //}
+
+                        writeToFile();
+                   
                 }
 
                 Console.WriteLine("Set system done");
@@ -2327,173 +2368,7 @@ namespace Camera_Control
                 errorMsgTxtBox.AppendText("Stop acquisition before saving");
             }
         }
-        /*
-       private void viewInitiate()
-       {
-
-           // Create & fill in metadata
-           string[] metadata = new string[23];
-           metadata[0] = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
-           // This is all from the CoreForm
-           metadata[1] = "continuous";
-           metadata[2] = @"C:\Users\IonTrap\Desktop\new\Processed.txt";
-           metadata[3] = "60";
-           metadata[4] = "234";
-           metadata[5] = "667";
-           metadata[6] = "41";
-           metadata[7] = "230";
-           metadata[8] = "230";
-           metadata[9] = "1";
-           metadata[10] = "1";
-           metadata[11] = "20";
-           metadata[12] = "13";
-           // Fill in remaining metadata from form
-           metadata[13] = "100";
-           metadata[14] = "1";
-           metadata[15] = "N/A";
-           metadata[16] = "N/A";   // For fixed spectra only
-           metadata[17] = "N/A";   // For fixed spectra only
-
-           int numberOfSpectra = 1;
-           for (int i = 0; i < numberOfSpectra; i++)
-           {
-               metadata[i + 18] = "test";
-           }
-
-           metadata[18 + numberOfSpectra] = "notes";
-         
-           // Retrieve the folder path selected by the user
-           string FolderPath = @"C:\Users\IonTrap\Desktop\new\Processed.txt";
-           // Make sure the 
-           if (FolderPath != null)
-           {
-               TextWriter[] myFile;        // Declare array of files
-
-               // If "Continuous" experiment type has been selected
-               if (specType == "Continuous")
-               {
-                   //Turn on frequency generator
-                   bIsFreqGenEnabled = true;
-
-                   //Start frequency is the value taken directly from the form, no windowing
-                   startFreqArray = new int[1];
-                   startFreqArray[0] = startFreq;
-
-                   // Create a single file and put all readings in there
-                   myFileName = new string[1];
-                   myFile = new TextWriter[1];
-
-                   // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
-                   RabiSelector myRabiSelector = new RabiSelector();
-
-                   // Create the file with appropriate name & write metadata to it
-                   writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
-               }
-               else if (specType == "Windowed")
-               {
-                   //Turn on frequency generator
-                   bIsFreqGenEnabled = true;
-
-                   //Calculate frequency offset of sideband start frequencies from sideband centres
-                   int offsetFreq = (int)stepSize * sbWidth / 2;
-                   //Determine window spacing from trap frequencys and the type of spectrum selected
-
-                   int windowSpace = 0;
-                   if (specDir == "Axial") windowSpace = (int)(axFreq / 2);
-                   else if (specDir == "Radial") windowSpace = (int)(modcycFreq / 2);
-
-                   //Array of start frequencies for each sideband (from furthest red to furthest blue)            
-                   startFreqArray = new int[sbToScan * 2 + 1];
-                   for (int sb = 0; sb < (sbToScan * 2 + 1); sb++)
-                   {
-                       startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
-                   }
-
-                   // We want a file for each sideband with appropriate naming
-                   // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                   int numberOfFiles = (int)(sbToScan * 2 + 1);
-                   // Create array of filenames & array of files
-                   myFileName = new string[numberOfFiles];
-                   myFile = new TextWriter[numberOfFiles];
-
-                   // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
-                   RabiSelector myRabiSelector = new RabiSelector();
-
-                   // Generate filenames and actually create files
-                   writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
-               }
-               else if (specType == "Fixed")
-               {
-                   // Maybe put a box for user to input which pulses are varied in length
-
-                   //Start frequency is the value taken directly from the form, no windowing
-                   startFreqArray = new int[1];
-                   startFreqArray[0] = startFreq;
-
-                   // Show form for user to enter details about fixed frequency sequence
-                   // (need starting pulse length & step size)
-                   RabiSelector myRabiSelector = new RabiSelector();
-                   myRabiSelector.generateSequenceButton.Enabled = false;
-                   myRabiSelector.pulseSelectBox.Enabled = false;
-                   myRabiSelector.repeatsSelect.Enabled = false;
-                   myRabiSelector.ShowDialog();
-
-                   // Get starting pulse length & step size from user form
-                   fixed_startLength = (int)myRabiSelector.startLengthSelect.Value;
-                   fixed_stepSize = (int)myRabiSelector.stepSizeSelect.Value;
-                   // Change step size in metadata
-                   metadata[9] = fixed_stepSize.ToString();
-                   metadata[16] = fixed_startLength.ToString();
-                   metadata[17] = myRabiSelector.stepsSelect.Value.ToString();
-
-                   // Create a single file and put all readings in there
-                   myFileName = new string[1];
-                   myFile = new TextWriter[1];
-
-                   writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
-
-                   bIsFreqGenEnabled = false;
-               }
-
-               // If myViewer is not open
-               if (IsViewerOpen)
-               {
-                   myViewer.Close();
-                   IsViewerOpen = false;
-               }
-               // Create new instance of viewer
-               myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
-               // Set up event handler to deal with viewer closing - must be done after it is constructed
-               myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
-               // Set up event handler to deal with event raised when pause button on viewer is clicked
-               // This should trigger the pause button in the main window
-               myViewer.PauseEvent += new SpectroscopyViewerForm.PauseEventHandler(PauseButton_Click);
-               // Show viewer
-               myViewer.Show();
-               // Set boolean  to indicate that viewer is open
-               IsViewerOpen = true;
-
-               // Code required to start the experiment running:
-               bShouldQuitThread = false;
-
-               GPIB.InitDevice(19);
-               GPIB.SetAmplitude(rfAmp);
-               GPIB.SetFrequency(startFreq);
-
-               SendSetupFinish();
-
-               // Start experiment
-               StartReadingData();
-           }
-           else
-           {
-               MessageBox.Show("Error selecting folder. Please try again.");
-
-           }
-            
-
-       }
-       */
+      
     }
 
 

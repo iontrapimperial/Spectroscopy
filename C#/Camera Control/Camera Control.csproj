@@ -33,9 +33,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ATMCD32CS">
+    <Reference Include="ATMCD32CS, Version=2.98.30010.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\AndorCamera\ATMCD32CS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -59,9 +61,6 @@
     <Compile Include="Image8Bit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CameraForm.resx">
-      <DependentUpon>CameraForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -80,6 +79,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\x86\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ATMCD32CS.dll" />
+    <Content Include="atmcd32d.dll" />
+    <Content Include="bin\ATMCD32CS.dll" />
+    <Content Include="bin\atmcd32d.dll" />
+    <Content Include="bin\Release\ATMCD32CS.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

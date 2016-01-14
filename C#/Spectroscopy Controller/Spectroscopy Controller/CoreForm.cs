@@ -33,7 +33,7 @@ namespace Spectroscopy_Controller
         TreeNode PreviewNode = new TreeNode();
         //TemplateSelector TemplateForm;
 
-        private bool PauseExperiment = false;
+        public bool PauseExperiment = false;
 
         private bool bIsFreqGenEnabled = false;
         public bool includeCarrier = false;
@@ -94,7 +94,7 @@ namespace Spectroscopy_Controller
             reset += "256";
 
             COM12.WriteLine(reset);
-            string mystring = COM12.ReadLine();
+           // string mystring = COM12.ReadLine();
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -500,6 +500,7 @@ namespace Spectroscopy_Controller
             if (PauseExperiment == true)
             {
                 PauseExperiment = false;        // Set flag
+                myCamera.pause();
                 PauseButton.Enabled = true;     // Re-enable pause button
                 StartButton.Enabled = false;    // Disable start button
                 OpenUSBButton.Enabled = false;  // Disable open USB button
@@ -750,6 +751,7 @@ namespace Spectroscopy_Controller
 
                             // Start experiment
                             StartReadingData();
+                            myCamera.startSpectrum();
                         }
                         else
                         {
@@ -1121,7 +1123,7 @@ namespace Spectroscopy_Controller
             {
                 myCamera = new Camera_Control.CameraForm();
                 myCamera.FormClosing += new FormClosingEventHandler(myCamera_FormClosing);
-                // myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
+              //  myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
                 myCamera.Show();
                 IsCameraOpen = true;
             }
