@@ -44,7 +44,6 @@
             this.AddRootButton = new System.Windows.Forms.Button();
             this.SaveStateButton = new System.Windows.Forms.Button();
             this.PulseTypeTabs = new System.Windows.Forms.TabControl();
-            this.COM12 = new System.IO.Ports.SerialPort(this.components);
             this.LoopTabPage = new System.Windows.Forms.TabPage();
             this.FPGALoopSelect = new System.Windows.Forms.CheckBox();
             this.LoopNumberBox = new System.Windows.Forms.NumericUpDown();
@@ -61,6 +60,7 @@
             this.LaserBox729 = new System.Windows.Forms.CheckBox();
             this.LaserBox397B2 = new System.Windows.Forms.CheckBox();
             this.LaserBox397B1 = new System.Windows.Forms.CheckBox();
+            this.COM12 = new System.IO.Ports.SerialPort(this.components);
             this.NameBox = new System.Windows.Forms.TextBox();
             this.CreateFromTemplateButton = new System.Windows.Forms.Button();
             this.OpenXMLButton = new System.Windows.Forms.Button();
@@ -185,7 +185,6 @@
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
             this.OpenCamera = new System.Windows.Forms.Button();
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -582,6 +581,10 @@
             this.LaserBox397B1.TabIndex = 31;
             this.LaserBox397B1.Text = "397 B1";
             this.LaserBox397B1.UseVisualStyleBackColor = true;
+            // 
+            // COM12
+            // 
+            this.COM12.PortName = "COM12";
             // 
             // NameBox
             // 
@@ -2488,7 +2491,6 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown phaseStep;
         private System.Windows.Forms.Button OpenCamera;
-        private System.IO.Ports.SerialPort serialPort1;
     }
 }
 

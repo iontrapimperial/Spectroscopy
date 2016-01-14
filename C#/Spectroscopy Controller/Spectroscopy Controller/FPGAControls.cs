@@ -304,9 +304,10 @@ namespace Spectroscopy_Controller
                                             else
                                             {
 
+                                                myCamera.stopExp();
                                                 MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                 bShouldQuitThread = true;
-                                                myCamera.stopExp();
+                                                
                                                 // break;       // might need this??
                                             }
 
@@ -330,10 +331,10 @@ namespace Spectroscopy_Controller
                                             //if we reach end of final sideband, stop experiment (need to test this section)
                                             else
                                             {
-
+                                                myCamera.stopExp();
                                                 MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                 bShouldQuitThread = true;
-                                                myCamera.stopExp();
+                                                
                                                 // break;       // might need this??
                                             }
 
@@ -380,10 +381,11 @@ namespace Spectroscopy_Controller
                         int ExtraData = BitConverter.ToInt32(Data, 0);
                         if (ExtraData == 0xFC32DA)
                         {
+                            myCamera.stopExp();
                             WriteMessage("Received experiment stop command!\r\n");
                             MessageBox.Show("Experiment Finished!", "Bang");
                             bShouldQuitThread = true;
-                            myCamera.stopExp();
+                            
                         }
                         else
                         {
@@ -407,7 +409,7 @@ namespace Spectroscopy_Controller
             }
 
             this.ExperimentFinished();
-
+            myCamera.stopExp();
             FPGA.ResetDevice();
         }
 

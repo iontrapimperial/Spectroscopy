@@ -86,15 +86,14 @@ namespace Spectroscopy_Controller
             PauseButton.Enabled = false;
 
             COM12.BaudRate = 9600; 
-            if (COM12.IsOpen == false) COM12.Open(); // open serial port
+          if (COM12.IsOpen == false) COM12.Open(); // open serial port
 
             string reset = "";
 
             for (int i = 0; i < 63; i++) reset += "256" + ",";
             reset += "256";
-
             COM12.WriteLine(reset);
-           // string mystring = COM12.ReadLine();
+           string mystring = COM12.ReadLine();
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -426,7 +425,8 @@ namespace Spectroscopy_Controller
         private void StopButton_Click(object sender, EventArgs e)
         {
             // Signal to stop the experiment
-            //bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
+            bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
+            myCamera.stopExp();
             // Print message to user
             WriteMessage("Experiment stopped by user\r\n");
             // Call method to deal with enabling/disabling buttons etc
@@ -463,6 +463,7 @@ namespace Spectroscopy_Controller
         private void ResetButton_Click(object sender, EventArgs e)
         {
             this.Reset();
+            myCamera.stopExp();
             this.ExperimentFinished();
         }
 
@@ -781,6 +782,7 @@ namespace Spectroscopy_Controller
                 {
                     // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
                     PauseExperiment = true;
+                    myCamera.pause();
                     PauseButton.Enabled = false;
                     StartButton.Enabled = true;
                 }

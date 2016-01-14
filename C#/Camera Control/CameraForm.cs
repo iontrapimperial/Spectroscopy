@@ -52,6 +52,7 @@ namespace Camera_Control
         BackgroundWorker bw = new BackgroundWorker();
         private static System.Windows.Forms.Timer aTimer, tempTimer;
         List <int[]> fluorescContData = new List<int[]>();
+        List<double[]> spectrumContData = new List<double[]>();
         List<int[]> fluorescData = new List<int[]>();
         Queue<int[]> imageContData = new Queue<int[]>(10);
         int countType = 0;
@@ -61,7 +62,7 @@ namespace Camera_Control
         long frameRefreshTime=0;
         float kineticCycleTime;
         float fExposure;
-        bool PauseExperiment = true;
+        bool PauseExperiment = false;
         Thread CameraReadThread;
         bool bShouldQuitCamThread = false;
 
@@ -343,7 +344,8 @@ namespace Camera_Control
 
         public void startSpectrum()
         {
-            acqTypeComboBox.ValueMember = "Spectrum";
+            acqTypeComboBox.Text = "Spectrum";
+            Console.WriteLine("Camera Spectrum function");
             if ((CameraReadThread != null) && (CameraReadThread.IsAlive))
             {
                 CameraReadThread.Abort();
@@ -352,15 +354,16 @@ namespace Camera_Control
             CameraReadThread = new Thread(new ThreadStart(this.setSystem));
             CameraReadThread.Name = "CameraCommThread";
             CameraReadThread.Start();
+            bShouldQuitCamThread = false;
             // Disable start & open USB buttons
-           // StartButton.Enabled = false;
-           // OpenUSBButton.Enabled = false;
+            // StartButton.Enabled = false;
+            // OpenUSBButton.Enabled = false;
             //Always enable Stop and pause buttons when running
-          //  StopButton.Enabled = true;
-           // PauseButton.Enabled = true;
+            //  StopButton.Enabled = true;
+            // PauseButton.Enabled = true;
 
 
-            //setSystem();
+            // setSystem();
         }
 
 
@@ -377,7 +380,7 @@ namespace Camera_Control
         //Sets up hardware
         void setSystem()
         {
-
+            Console.WriteLine("In set system");
 
 
             float fAccumTime = 0, fKineticTime = 0;
@@ -811,13 +814,13 @@ namespace Camera_Control
                     ionLocations = new int[numIons];
                     // findIonsTrial();
                     // Thread.Sleep(5000);
-                   
-
+                    Console.WriteLine("In spectrum acq");
+                    repeatPos = 0;
                     myAndor.SetFrameTransferMode(0);
                     myAndor.SetNumberAccumulations(1);
                     myAndor.SetKineticCycleTime(kineticCycleTime/1000);                    
                     myAndor.SetNumberKinetics(giNumberLoops);                    
-                    myAndor.SetExposureTime(fExposure);                
+                    myAndor.SetExposureTime((float)exposureUpDown.Value);                
 
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
@@ -846,7 +849,8 @@ namespace Camera_Control
 
                     while (CameraReadThread.IsAlive && bShouldQuitCamThread == false)
                     {
-                        Thread.Sleep(3000);
+                        Thread.Sleep(2000);
+                        Console.WriteLine("IN cam loop");
                         AcquireImageDataSpectrum();
                         repeatPos++;
                         while (PauseExperiment)
@@ -854,9 +858,10 @@ namespace Camera_Control
                             //sleep for 1ms so we don't use all the CPU cycles
                             System.Threading.Thread.Sleep(1000);
                         }
+                        Thread.Sleep(1000);
                     }
 
-                        writeToFile();
+                      writeToFileSpec();
                    
                 }
 
@@ -1153,8 +1158,8 @@ namespace Camera_Control
             return true;
 
         }
-
-        bool AcquireImageDataSpectrum()
+        /*
+        bool AcquireImageDataSpectrumOLD()
         {
             uint size;
             int i;
@@ -1198,7 +1203,61 @@ namespace Camera_Control
             writeToFileSimple();
             myAndor.AbortAcquisition();
             return true;
+        }*/
+        bool AcquireImageDataSpectrum()
+        {
+            uint size;
+            int i;
+            // findIonsTrial();       
+            size = (uint)(hDim * vDim);
+            fluorescenceData = new int[giNumberLoops, numIons];
+            pImageArray = new int[size];
+            // Loop over multiple image acquisitions
+
+            myAndor.StartAcquisition();
+
+            for (i = 0; i < giNumberLoops; i++)
+            {
+                int status=0;
+                myAndor.GetStatus(ref status); 
+                if (status != AndorSDK.DRV_IDLE) myAndor.WaitForAcquisition();
+                else
+                {
+                    myAndor.AbortAcquisition();
+                }
+
+
+
+                if (myAndor.GetOldestImage(pImageArray, size) != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                {                 // ACQUISITION PERFORMED HERE!!
+                    errorMsgTxtBox.AppendText("Acquisition Error" + "\r\n");
+
+                    //i = giNumberLoops;
+                }
+                else
+                {
+                    //if (i == 0) findIons();
+                    errorMsgTxtBox.AppendText("Got Image: " + i + "\r\n");
+                    // findIons();
+                    drawCameraImage();
+                    fluorescData.Add(getFluorescenceCont());
+
+                }
+                for (int j = 0; j < numIons; j++)
+                {
+                    errorMsgTxtBox.AppendText("FlourDetec  " + fluorescData.Last()[j] + "\r\n");
+                }
+            }
+
+            
+
+            //flourThreshDetect(repeatPos, threshold, giNumberLoops);
+            spectrumContData.Add(flourThreshDetectSpec(repeatPos, threshold, giNumberLoops));
+            //writeToFileSimple();
+            myAndor.AbortAcquisition();
+            return true;
         }
+
 
 
 
@@ -1755,6 +1814,29 @@ namespace Camera_Control
 
 
         }
+        double[] flourThreshDetectSpec(int repeatN, int threshold, int loopNum)
+        {
+            int i, j, flourCount;
+            double[] spectrumDatLoc = new double[numIons];
+            for (i = 0; i < numIons; i++)
+            {
+                flourCount = 0;
+                for (j = repeatN*loopNum+1; j < loopNum+ repeatN * loopNum ; j += 2)
+                {
+                    if (fluorescData[j][i] > threshold)
+                        flourCount++;
+                }
+                double exc = 1 - (double)flourCount * 2 / loopNum;
+                errorMsgTxtBox.AppendText("The ion number: " + i + " has been fractionally excited  " + exc + "\n");
+                spectrumDatLoc[i] = exc;
+
+            }
+            return spectrumDatLoc;
+
+
+        }
+
+
 
         void drawCameraImage()
         {
@@ -2057,6 +2139,42 @@ namespace Camera_Control
             fluorescContData.Clear();
             errorMsgTxtBox.AppendText("Done saving.");
         }
+        void writeToFileSpec()
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ContRaw.txt", true))
+            {
+
+                for (int i = 0; i < fluorescData.Count; i++)
+                {
+                    file.Write(i * freqStep + freqStart);
+                    for (int j = 0; j < fluorescData[i].GetLength(0); j++)
+                    {
+                        file.Write("\t" + fluorescData[i][j] + "\t");
+                    }
+                    file.WriteLine();
+                }
+            }
+            fluorescData.Clear();
+            errorMsgTxtBox.AppendText("Done saving.");
+            using(System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ProcessedSpec.txt", true))
+            {
+
+                for (int i = 0; i < spectrumContData.Count; i++)
+                {
+                    file.Write(i * freqStep + freqStart);
+                    for (int j = 0; j < spectrumContData[i].GetLength(0); j++)
+                    {
+                        file.Write("\t" + spectrumContData[i][j] + "\t");
+                    }
+                    file.WriteLine();
+                }
+            }
+            spectrumContData.Clear();
+            errorMsgTxtBox.AppendText("Done saving spec.");
+        }
+
+
+
 
         void writeToFileContNew()
         {

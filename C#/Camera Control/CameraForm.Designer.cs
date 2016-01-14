@@ -179,7 +179,7 @@
             1,
             0,
             0,
-            131072});
+            196608});
             this.exposureUpDown.Location = new System.Drawing.Point(16, 137);
             this.exposureUpDown.Maximum = new decimal(new int[] {
             10,
@@ -190,10 +190,10 @@
             this.exposureUpDown.Size = new System.Drawing.Size(83, 20);
             this.exposureUpDown.TabIndex = 6;
             this.exposureUpDown.Value = new decimal(new int[] {
-            1,
+            8,
             0,
             0,
-            65536});
+            196608});
             // 
             // label2
             // 
@@ -391,7 +391,7 @@
             this.threshUpDown.Size = new System.Drawing.Size(72, 20);
             this.threshUpDown.TabIndex = 11;
             this.threshUpDown.Value = new decimal(new int[] {
-            1000,
+            20,
             0,
             0,
             0});
@@ -853,10 +853,10 @@
             this.kinCycTime.Size = new System.Drawing.Size(72, 20);
             this.kinCycTime.TabIndex = 36;
             this.kinCycTime.Value = new decimal(new int[] {
-            20,
+            1012,
             0,
             0,
-            0});
+            131072});
             this.kinCycTime.ValueChanged += new System.EventHandler(this.kinCycTime_ValueChanged);
             // 
             // CameraForm
