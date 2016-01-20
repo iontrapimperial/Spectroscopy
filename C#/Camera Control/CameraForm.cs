@@ -43,7 +43,8 @@ namespace Camera_Control
         int[] vBoxEnd = new int[10];
         int ROICount = 0;
         bool isDrawing = false;
-        bool isUpdatingImageArray = false; 
+        bool isUpdatingImageArray = false;
+        bool isAcquiring = false;
         int temperature = 20;                                                              
         int setTemperature; 
         // Function Prototypes
@@ -849,9 +850,12 @@ namespace Camera_Control
 
                     while (CameraReadThread.IsAlive && bShouldQuitCamThread == false)
                     {
-                        Thread.Sleep(2000);
+                        Thread.Sleep(500);
                         Console.WriteLine("IN cam loop");
+                        
+                        isAcquiring = true;
                         AcquireImageDataSpectrum();
+                        isAcquiring = false;
                         repeatPos++;
                         while (PauseExperiment)
                         {
@@ -859,6 +863,7 @@ namespace Camera_Control
                             System.Threading.Thread.Sleep(1000);
                         }
                         Thread.Sleep(1000);
+                        
                     }
 
                       writeToFileSpec();
@@ -1210,7 +1215,7 @@ namespace Camera_Control
             int i;
             // findIonsTrial();       
             size = (uint)(hDim * vDim);
-            fluorescenceData = new int[giNumberLoops, numIons];
+            //fluorescenceData = new int[giNumberLoops, numIons];
             pImageArray = new int[size];
             // Loop over multiple image acquisitions
 
@@ -1241,6 +1246,7 @@ namespace Camera_Control
                     // findIons();
                     drawCameraImage();
                     fluorescData.Add(getFluorescenceCont());
+                    //fluorescData.Add(0);
 
                 }
                 for (int j = 0; j < numIons; j++)
@@ -1661,7 +1667,34 @@ namespace Camera_Control
             }            
         }
 
+        public int [,] getCameraData(int rep)        
+        {
+               int i, j;
+               int[,] spectrumDatLoc = new int[numIons,giNumberLoops*2];
+               int check = 2;
+               int startLoop = (rep) * giNumberLoops;
+               int maxLoop = giNumberLoops + (repeatPos-1) * giNumberLoops;
+            for (i = 0; i < numIons; i++)
+            {
+                for (j = 0; j < giNumberLoops*2; j++)
+                {
+                    if (check % 2 == 0)
+                    {
+                        spectrumDatLoc[i, j] = fluorescData[startLoop+j/2][i];                       
+                        check++;
+                    }
+                    else
+                    {
+                        
+                        spectrumDatLoc[i, j] = 0;
+                        check++;
+                    }
 
+                }
+            }
+            return spectrumDatLoc;
+
+            }
 
 
         int[] getFluorescenceContAdapt(int N)
@@ -1831,6 +1864,8 @@ namespace Camera_Control
                 spectrumDatLoc[i] = exc;
 
             }
+           
+
             return spectrumDatLoc;
 
 
@@ -2143,7 +2178,7 @@ namespace Camera_Control
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ContRaw.txt", true))
             {
-
+                /*
                 for (int i = 0; i < fluorescData.Count; i++)
                 {
                     file.Write(i * freqStep + freqStart);
@@ -2153,6 +2188,19 @@ namespace Camera_Control
                     }
                     file.WriteLine();
                 }
+                */
+                int[,] writeData = this.getCameraData(repeatPos-1);
+                for (int j = 0; j < writeData.GetLength(1); j++)
+                {
+                    file.Write(j * freqStep + freqStart);
+                    for (int i = 0; i < writeData.GetLength(0); i++)
+                    {
+                        file.Write("\t" + writeData[i,j] + "\t");
+                    }
+                    file.WriteLine();
+                }
+
+
             }
             fluorescData.Clear();
             errorMsgTxtBox.AppendText("Done saving.");
@@ -2484,6 +2532,20 @@ namespace Camera_Control
             else
             {
                 errorMsgTxtBox.AppendText("Stop acquisition before saving");
+            }
+        }
+
+        public bool isCamAcquiring()
+        {
+            int status = 0;
+            myAndor.GetStatus(ref status);
+            if (status != AndorSDK.DRV_IDLE || isAcquiring==true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
       

@@ -223,8 +223,20 @@ namespace Spectroscopy_Controller
                         // Only send live data to the viewer if it is open
                         if (this.IsViewerOpen)
                         {
-                            if (specType == "Fixed") myViewer.addLiveData(Readings, CurrentWindowStep, 0, CurrentPulseLength);
-                            else myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
+                            while (myCamera.isCamAcquiring() == true)
+                            {
+                                System.Threading.Thread.Sleep(100);
+                            }
+                            if (specType == "Fixed")
+                            {
+                                myViewer.addLiveData(Readings, CurrentWindowStep, 0, CurrentPulseLength);
+                                myViewer.addLiveDataCAM(myCamera.getCameraData(CurrentWindowStep), CurrentWindowStep, 0, CurrentPulseLength);
+                            }
+                            else
+                            {
+                                myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
+                                myViewer.addLiveDataCAM(myCamera.getCameraData(CurrentWindowStep), CurrentWindowStep, startFreqArray[CurrentSideband], 0);
+                            }
                         }
                         // Clear buffers for writing to file, gets ready for writing more data next time
                         myFile.Flush();  
@@ -303,8 +315,8 @@ namespace Spectroscopy_Controller
                                             //if we reach end of final sideband, stop experiment (need to test this section)
                                             else
                                             {
-
-                                                myCamera.stopExp();
+                                                if (useCameraSpectrum == true)
+                                                 myCamera.stopExp();
                                                 MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                 bShouldQuitThread = true;
                                                 
@@ -331,7 +343,8 @@ namespace Spectroscopy_Controller
                                             //if we reach end of final sideband, stop experiment (need to test this section)
                                             else
                                             {
-                                                myCamera.stopExp();
+                                                if (useCameraSpectrum == true)
+                                                    myCamera.stopExp();
                                                 MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                 bShouldQuitThread = true;
                                                 
@@ -381,7 +394,8 @@ namespace Spectroscopy_Controller
                         int ExtraData = BitConverter.ToInt32(Data, 0);
                         if (ExtraData == 0xFC32DA)
                         {
-                            myCamera.stopExp();
+                            if (useCameraSpectrum == true)
+                                myCamera.stopExp();
                             WriteMessage("Received experiment stop command!\r\n");
                             MessageBox.Show("Experiment Finished!", "Bang");
                             bShouldQuitThread = true;
@@ -409,7 +423,8 @@ namespace Spectroscopy_Controller
             }
 
             this.ExperimentFinished();
-            myCamera.stopExp();
+            if (useCameraSpectrum == true)
+                myCamera.stopExp();
             FPGA.ResetDevice();
         }
 

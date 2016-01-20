@@ -69,6 +69,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.cameraCheck = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
             this.phaseStep = new System.Windows.Forms.NumericUpDown();
             this.carrierCheck = new System.Windows.Forms.CheckBox();
@@ -668,6 +669,7 @@
             // 
             // SpectroGroup
             // 
+            this.SpectroGroup.Controls.Add(this.cameraCheck);
             this.SpectroGroup.Controls.Add(this.label25);
             this.SpectroGroup.Controls.Add(this.phaseStep);
             this.SpectroGroup.Controls.Add(this.carrierCheck);
@@ -706,6 +708,17 @@
             this.SpectroGroup.TabIndex = 56;
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
+            // 
+            // cameraCheck
+            // 
+            this.cameraCheck.AutoSize = true;
+            this.cameraCheck.Location = new System.Drawing.Point(18, 339);
+            this.cameraCheck.Name = "cameraCheck";
+            this.cameraCheck.Size = new System.Drawing.Size(110, 17);
+            this.cameraCheck.TabIndex = 65;
+            this.cameraCheck.Text = "Camera Spectrum";
+            this.cameraCheck.UseVisualStyleBackColor = true;
+            this.cameraCheck.CheckedChanged += new System.EventHandler(this.cameraCheck_CheckedChanged);
             // 
             // label25
             // 
@@ -980,7 +993,7 @@
             this.carFreqBox.Size = new System.Drawing.Size(104, 20);
             this.carFreqBox.TabIndex = 11;
             this.carFreqBox.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             393216});
@@ -1013,7 +1026,7 @@
             this.startFreqBox.Size = new System.Drawing.Size(104, 20);
             this.startFreqBox.TabIndex = 9;
             this.startFreqBox.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             393216});
@@ -2491,6 +2504,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown phaseStep;
         private System.Windows.Forms.Button OpenCamera;
+        private System.Windows.Forms.CheckBox cameraCheck;
     }
 }
 

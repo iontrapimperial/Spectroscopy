@@ -34,7 +34,7 @@ namespace Spectroscopy_Controller
         //TemplateSelector TemplateForm;
 
         public bool PauseExperiment = false;
-
+        private bool useCameraSpectrum = false; 
         private bool bIsFreqGenEnabled = false;
         public bool includeCarrier = false;
         private bool IsViewerOpen = false;
@@ -63,7 +63,7 @@ namespace Spectroscopy_Controller
         private float trapV, angaxFreq, angmodcycFreq, angmagFreq, rfAmp;
         // Parameters for a fixed frequency run
         private int fixed_startLength, fixed_stepSize;
-
+        public int numOfIons = 1; 
         private int[] startFreqArray;
 
         public CoreForm()
@@ -426,6 +426,7 @@ namespace Spectroscopy_Controller
         {
             // Signal to stop the experiment
             bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
+            if(useCameraSpectrum ==true && IsCameraOpen== true)
             myCamera.stopExp();
             // Print message to user
             WriteMessage("Experiment stopped by user\r\n");
@@ -463,7 +464,8 @@ namespace Spectroscopy_Controller
         private void ResetButton_Click(object sender, EventArgs e)
         {
             this.Reset();
-            myCamera.stopExp();
+            if (useCameraSpectrum == true && IsCameraOpen == true)
+                myCamera.stopExp();
             this.ExperimentFinished();
         }
 
@@ -498,10 +500,18 @@ namespace Spectroscopy_Controller
         private void StartButton_Click(object sender, EventArgs e)
         {
             // If we are restarting the experiment after it being paused, just reset the PauseExperiment flag
+            
+            if (useCameraSpectrum == true && IsCameraOpen == false)
+            {
+                OpenCameraWnd();
+                System.Threading.Thread.Sleep(5000);
+            }
+
             if (PauseExperiment == true)
             {
                 PauseExperiment = false;        // Set flag
-                myCamera.pause();
+                if (useCameraSpectrum == true && IsCameraOpen == true)
+                    myCamera.pause();
                 PauseButton.Enabled = true;     // Re-enable pause button
                 StartButton.Enabled = false;    // Disable start button
                 OpenUSBButton.Enabled = false;  // Disable open USB button
@@ -581,7 +591,7 @@ namespace Spectroscopy_Controller
                         metadata[15] = hexFileName;
                         metadata[16] = "N/A";   // For fixed spectra only
                         metadata[17] = "N/A";   // For fixed spectra only
-
+                        numOfIons= (int) myExperimentDialog.numOfIonsUpDown.Value;
                         int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
                         for (int i = 0; i < numberOfSpectra; i++)
                         {
@@ -721,7 +731,7 @@ namespace Spectroscopy_Controller
                                 IsViewerOpen = false;
                             }
                             // Create new instance of viewer
-                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata);
+                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum,numOfIons);
                             // Set up event handler to deal with viewer closing - must be done after it is constructed
                             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
                             // Set up event handler to deal with event raised when pause button on viewer is clicked
@@ -752,7 +762,8 @@ namespace Spectroscopy_Controller
 
                             // Start experiment
                             StartReadingData();
-                            myCamera.startSpectrum();
+                            if (useCameraSpectrum == true) 
+                                myCamera.startSpectrum();
                         }
                         else
                         {
@@ -782,7 +793,8 @@ namespace Spectroscopy_Controller
                 {
                     // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
                     PauseExperiment = true;
-                    myCamera.pause();
+                    if (useCameraSpectrum == true && IsCameraOpen == true)
+                        myCamera.pause();
                     PauseButton.Enabled = false;
                     StartButton.Enabled = true;
                 }
@@ -1132,6 +1144,11 @@ namespace Spectroscopy_Controller
 
         }
 
+        private void cameraCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cameraCheck.Checked == true) useCameraSpectrum = true;
+            else { useCameraSpectrum = false; }
+        }
 
         private void myViewer_FormClosing(object sender, EventArgs e)
         {
@@ -1566,6 +1583,8 @@ namespace Spectroscopy_Controller
             //}
            
         }
+       
+      
   
     }
 }

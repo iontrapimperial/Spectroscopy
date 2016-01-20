@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -48,12 +50,35 @@
             this.groupBoxMaxBin = new System.Windows.Forms.GroupBox();
             this.histogramMaxBinSelect = new System.Windows.Forms.NumericUpDown();
             this.histogramCheckBoxAuto = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxDisplay = new System.Windows.Forms.GroupBox();
             this.histogramDisplayAll = new System.Windows.Forms.RadioButton();
             this.histogramDisplayCount = new System.Windows.Forms.RadioButton();
             this.histogramDisplayCool = new System.Windows.Forms.RadioButton();
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
+            this.spectrumCamTab = new System.Windows.Forms.TabPage();
+            this.Ion = new System.Windows.Forms.Label();
+            this.ionBox = new System.Windows.Forms.ComboBox();
+            this.userDisplayTextCAM = new System.Windows.Forms.TextBox();
+            this.loadDataButtonCAM = new System.Windows.Forms.Button();
+            this.spectrumExportDataButtonCAM = new System.Windows.Forms.Button();
+            this.zedGraphSpectraCAM = new ZedGraph.ZedGraphControl();
+            this.updateThresholdsButtonCAM = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.coolingThresholdSelectCAM = new System.Windows.Forms.NumericUpDown();
+            this.countThresholdSelectCAM = new System.Windows.Forms.NumericUpDown();
+            this.histogramCamTab = new System.Windows.Forms.TabPage();
+            this.histogramExportDataButtonCAM = new System.Windows.Forms.Button();
+            this.groupBoxMaxBinCAM = new System.Windows.Forms.GroupBox();
+            this.histogramMaxBinSelectCAM = new System.Windows.Forms.NumericUpDown();
+            this.histogramCheckBoxAutoCAM = new System.Windows.Forms.CheckBox();
+            this.groupBoxDisplayCAM = new System.Windows.Forms.GroupBox();
+            this.histogramDisplayAllCAM = new System.Windows.Forms.RadioButton();
+            this.histogramDisplayCountCAM = new System.Windows.Forms.RadioButton();
+            this.histogramDisplayCoolCAM = new System.Windows.Forms.RadioButton();
+            this.histogramChartCAM = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.updateHistogramButtonCAM = new System.Windows.Forms.Button();
             this.pauseButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.restartViewerButton = new System.Windows.Forms.Button();
@@ -64,8 +89,16 @@
             this.tabPageHistogram.SuspendLayout();
             this.groupBoxMaxBin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelect)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).BeginInit();
+            this.spectrumCamTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelectCAM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelectCAM)).BeginInit();
+            this.histogramCamTab.SuspendLayout();
+            this.groupBoxMaxBinCAM.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelectCAM)).BeginInit();
+            this.groupBoxDisplayCAM.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramChartCAM)).BeginInit();
             this.SuspendLayout();
             // 
             // zedGraphSpectra
@@ -82,7 +115,6 @@
             this.zedGraphSpectra.ScrollMinY2 = 0D;
             this.zedGraphSpectra.Size = new System.Drawing.Size(775, 456);
             this.zedGraphSpectra.TabIndex = 0;
-           // this.zedGraphSpectra.Load += new System.EventHandler(this.zedGraphSpectra_Load);
             this.zedGraphSpectra.KeyDown += new System.Windows.Forms.KeyEventHandler(this.viewerForm_KeyDown);
             // 
             // openDataFile
@@ -162,6 +194,8 @@
             // 
             this.tabControl1.Controls.Add(this.tabPageSpectra);
             this.tabControl1.Controls.Add(this.tabPageHistogram);
+            this.tabControl1.Controls.Add(this.spectrumCamTab);
+            this.tabControl1.Controls.Add(this.histogramCamTab);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -185,9 +219,8 @@
             this.tabPageSpectra.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSpectra.Size = new System.Drawing.Size(972, 578);
             this.tabPageSpectra.TabIndex = 0;
-            this.tabPageSpectra.Text = "Spectra";
+            this.tabPageSpectra.Text = "Spectra PMT";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
-            this.tabPageSpectra.Click += new System.EventHandler(this.tabPageSpectra_Click);
             // 
             // userDisplayText
             // 
@@ -214,7 +247,7 @@
             // 
             this.tabPageHistogram.Controls.Add(this.histogramExportDataButton);
             this.tabPageHistogram.Controls.Add(this.groupBoxMaxBin);
-            this.tabPageHistogram.Controls.Add(this.groupBox1);
+            this.tabPageHistogram.Controls.Add(this.groupBoxDisplay);
             this.tabPageHistogram.Controls.Add(this.histogramChart);
             this.tabPageHistogram.Controls.Add(this.updateHistogramButton);
             this.tabPageHistogram.Location = new System.Drawing.Point(4, 22);
@@ -222,7 +255,7 @@
             this.tabPageHistogram.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageHistogram.Size = new System.Drawing.Size(972, 578);
             this.tabPageHistogram.TabIndex = 1;
-            this.tabPageHistogram.Text = "Histogram";
+            this.tabPageHistogram.Text = "Histogram PMT";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
             // 
             // histogramExportDataButton
@@ -272,17 +305,17 @@
             this.histogramCheckBoxAuto.UseVisualStyleBackColor = true;
             this.histogramCheckBoxAuto.CheckedChanged += new System.EventHandler(this.histogramCheckBoxAuto_CheckedChanged);
             // 
-            // groupBox1
+            // groupBoxDisplay
             // 
-            this.groupBox1.Controls.Add(this.histogramDisplayAll);
-            this.groupBox1.Controls.Add(this.histogramDisplayCount);
-            this.groupBox1.Controls.Add(this.histogramDisplayCool);
-            this.groupBox1.Location = new System.Drawing.Point(450, 7);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(157, 100);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Display";
+            this.groupBoxDisplay.Controls.Add(this.histogramDisplayAll);
+            this.groupBoxDisplay.Controls.Add(this.histogramDisplayCount);
+            this.groupBoxDisplay.Controls.Add(this.histogramDisplayCool);
+            this.groupBoxDisplay.Location = new System.Drawing.Point(450, 7);
+            this.groupBoxDisplay.Name = "groupBoxDisplay";
+            this.groupBoxDisplay.Size = new System.Drawing.Size(157, 100);
+            this.groupBoxDisplay.TabIndex = 6;
+            this.groupBoxDisplay.TabStop = false;
+            this.groupBoxDisplay.Text = "Display";
             // 
             // histogramDisplayAll
             // 
@@ -346,6 +379,287 @@
             this.updateHistogramButton.UseVisualStyleBackColor = true;
             this.updateHistogramButton.Click += new System.EventHandler(this.updateHistogramButton_Click);
             // 
+            // spectrumCamTab
+            // 
+            this.spectrumCamTab.Controls.Add(this.Ion);
+            this.spectrumCamTab.Controls.Add(this.ionBox);
+            this.spectrumCamTab.Controls.Add(this.userDisplayTextCAM);
+            this.spectrumCamTab.Controls.Add(this.loadDataButtonCAM);
+            this.spectrumCamTab.Controls.Add(this.spectrumExportDataButtonCAM);
+            this.spectrumCamTab.Controls.Add(this.zedGraphSpectraCAM);
+            this.spectrumCamTab.Controls.Add(this.updateThresholdsButtonCAM);
+            this.spectrumCamTab.Controls.Add(this.label3);
+            this.spectrumCamTab.Controls.Add(this.label4);
+            this.spectrumCamTab.Controls.Add(this.coolingThresholdSelectCAM);
+            this.spectrumCamTab.Controls.Add(this.countThresholdSelectCAM);
+            this.spectrumCamTab.Location = new System.Drawing.Point(4, 22);
+            this.spectrumCamTab.Name = "spectrumCamTab";
+            this.spectrumCamTab.Padding = new System.Windows.Forms.Padding(3);
+            this.spectrumCamTab.Size = new System.Drawing.Size(972, 578);
+            this.spectrumCamTab.TabIndex = 2;
+            this.spectrumCamTab.Text = "Spectra Cam";
+            this.spectrumCamTab.UseVisualStyleBackColor = true;
+            // 
+            // Ion
+            // 
+            this.Ion.AutoSize = true;
+            this.Ion.Location = new System.Drawing.Point(408, 3);
+            this.Ion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.Ion.Name = "Ion";
+            this.Ion.Size = new System.Drawing.Size(22, 13);
+            this.Ion.TabIndex = 19;
+            this.Ion.Text = "Ion";
+            // 
+            // ionBox
+            // 
+            this.ionBox.FormattingEnabled = true;
+            this.ionBox.Location = new System.Drawing.Point(411, 23);
+            this.ionBox.Name = "ionBox";
+            this.ionBox.Size = new System.Drawing.Size(109, 21);
+            this.ionBox.TabIndex = 18;
+            // 
+            // userDisplayTextCAM
+            // 
+            this.userDisplayTextCAM.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.userDisplayTextCAM.Location = new System.Drawing.Point(3, 514);
+            this.userDisplayTextCAM.Multiline = true;
+            this.userDisplayTextCAM.Name = "userDisplayTextCAM";
+            this.userDisplayTextCAM.ReadOnly = true;
+            this.userDisplayTextCAM.Size = new System.Drawing.Size(966, 61);
+            this.userDisplayTextCAM.TabIndex = 17;
+            // 
+            // loadDataButtonCAM
+            // 
+            this.loadDataButtonCAM.Location = new System.Drawing.Point(8, 6);
+            this.loadDataButtonCAM.Margin = new System.Windows.Forms.Padding(2);
+            this.loadDataButtonCAM.Name = "loadDataButtonCAM";
+            this.loadDataButtonCAM.Size = new System.Drawing.Size(163, 36);
+            this.loadDataButtonCAM.TabIndex = 10;
+            this.loadDataButtonCAM.Text = "Load file...";
+            this.loadDataButtonCAM.UseVisualStyleBackColor = true;
+            // 
+            // spectrumExportDataButtonCAM
+            // 
+            this.spectrumExportDataButtonCAM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.spectrumExportDataButtonCAM.Location = new System.Drawing.Point(646, 6);
+            this.spectrumExportDataButtonCAM.Name = "spectrumExportDataButtonCAM";
+            this.spectrumExportDataButtonCAM.Size = new System.Drawing.Size(137, 36);
+            this.spectrumExportDataButtonCAM.TabIndex = 16;
+            this.spectrumExportDataButtonCAM.Text = "Export spectrum data...";
+            this.spectrumExportDataButtonCAM.UseVisualStyleBackColor = true;
+            // 
+            // zedGraphSpectraCAM
+            // 
+            this.zedGraphSpectraCAM.Location = new System.Drawing.Point(8, 49);
+            this.zedGraphSpectraCAM.Margin = new System.Windows.Forms.Padding(4);
+            this.zedGraphSpectraCAM.Name = "zedGraphSpectraCAM";
+            this.zedGraphSpectraCAM.ScrollGrace = 0D;
+            this.zedGraphSpectraCAM.ScrollMaxX = 0D;
+            this.zedGraphSpectraCAM.ScrollMaxY = 0D;
+            this.zedGraphSpectraCAM.ScrollMaxY2 = 0D;
+            this.zedGraphSpectraCAM.ScrollMinX = 0D;
+            this.zedGraphSpectraCAM.ScrollMinY = 0D;
+            this.zedGraphSpectraCAM.ScrollMinY2 = 0D;
+            this.zedGraphSpectraCAM.Size = new System.Drawing.Size(775, 456);
+            this.zedGraphSpectraCAM.TabIndex = 9;
+            // 
+            // updateThresholdsButtonCAM
+            // 
+            this.updateThresholdsButtonCAM.Location = new System.Drawing.Point(525, 6);
+            this.updateThresholdsButtonCAM.Margin = new System.Windows.Forms.Padding(2);
+            this.updateThresholdsButtonCAM.Name = "updateThresholdsButtonCAM";
+            this.updateThresholdsButtonCAM.Size = new System.Drawing.Size(116, 37);
+            this.updateThresholdsButtonCAM.TabIndex = 15;
+            this.updateThresholdsButtonCAM.Text = "Update thresholds";
+            this.updateThresholdsButtonCAM.UseVisualStyleBackColor = true;
+            this.updateThresholdsButtonCAM.Click += new System.EventHandler(this.updateThresholdsButtonCAM_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(194, 3);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Cooling threshold";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(302, 3);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(81, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Count threshold";
+            // 
+            // coolingThresholdSelectCAM
+            // 
+            this.coolingThresholdSelectCAM.Location = new System.Drawing.Point(192, 23);
+            this.coolingThresholdSelectCAM.Margin = new System.Windows.Forms.Padding(2);
+            this.coolingThresholdSelectCAM.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.coolingThresholdSelectCAM.Name = "coolingThresholdSelectCAM";
+            this.coolingThresholdSelectCAM.Size = new System.Drawing.Size(90, 20);
+            this.coolingThresholdSelectCAM.TabIndex = 11;
+            this.coolingThresholdSelectCAM.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            // 
+            // countThresholdSelectCAM
+            // 
+            this.countThresholdSelectCAM.Location = new System.Drawing.Point(305, 23);
+            this.countThresholdSelectCAM.Margin = new System.Windows.Forms.Padding(2);
+            this.countThresholdSelectCAM.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.countThresholdSelectCAM.Name = "countThresholdSelectCAM";
+            this.countThresholdSelectCAM.Size = new System.Drawing.Size(90, 20);
+            this.countThresholdSelectCAM.TabIndex = 13;
+            this.countThresholdSelectCAM.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            // 
+            // histogramCamTab
+            // 
+            this.histogramCamTab.Controls.Add(this.histogramExportDataButtonCAM);
+            this.histogramCamTab.Controls.Add(this.groupBoxMaxBinCAM);
+            this.histogramCamTab.Controls.Add(this.groupBoxDisplayCAM);
+            this.histogramCamTab.Controls.Add(this.histogramChartCAM);
+            this.histogramCamTab.Controls.Add(this.updateHistogramButtonCAM);
+            this.histogramCamTab.Location = new System.Drawing.Point(4, 22);
+            this.histogramCamTab.Name = "histogramCamTab";
+            this.histogramCamTab.Padding = new System.Windows.Forms.Padding(3);
+            this.histogramCamTab.Size = new System.Drawing.Size(972, 578);
+            this.histogramCamTab.TabIndex = 3;
+            this.histogramCamTab.Text = "Histogram Cam";
+            this.histogramCamTab.UseVisualStyleBackColor = true;
+            // 
+            // histogramExportDataButtonCAM
+            // 
+            this.histogramExportDataButtonCAM.Location = new System.Drawing.Point(6, 54);
+            this.histogramExportDataButtonCAM.Name = "histogramExportDataButtonCAM";
+            this.histogramExportDataButtonCAM.Size = new System.Drawing.Size(136, 36);
+            this.histogramExportDataButtonCAM.TabIndex = 14;
+            this.histogramExportDataButtonCAM.Text = "Export histogram data...";
+            this.histogramExportDataButtonCAM.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxMaxBinCAM
+            // 
+            this.groupBoxMaxBinCAM.Controls.Add(this.histogramMaxBinSelectCAM);
+            this.groupBoxMaxBinCAM.Controls.Add(this.histogramCheckBoxAutoCAM);
+            this.groupBoxMaxBinCAM.Location = new System.Drawing.Point(612, 6);
+            this.groupBoxMaxBinCAM.Name = "groupBoxMaxBinCAM";
+            this.groupBoxMaxBinCAM.Size = new System.Drawing.Size(130, 100);
+            this.groupBoxMaxBinCAM.TabIndex = 13;
+            this.groupBoxMaxBinCAM.TabStop = false;
+            this.groupBoxMaxBinCAM.Text = "Maximum bin";
+            // 
+            // histogramMaxBinSelectCAM
+            // 
+            this.histogramMaxBinSelectCAM.Location = new System.Drawing.Point(11, 64);
+            this.histogramMaxBinSelectCAM.Name = "histogramMaxBinSelectCAM";
+            this.histogramMaxBinSelectCAM.Size = new System.Drawing.Size(98, 20);
+            this.histogramMaxBinSelectCAM.TabIndex = 8;
+            this.histogramMaxBinSelectCAM.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // histogramCheckBoxAutoCAM
+            // 
+            this.histogramCheckBoxAutoCAM.AutoSize = true;
+            this.histogramCheckBoxAutoCAM.Checked = true;
+            this.histogramCheckBoxAutoCAM.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.histogramCheckBoxAutoCAM.Location = new System.Drawing.Point(11, 31);
+            this.histogramCheckBoxAutoCAM.Name = "histogramCheckBoxAutoCAM";
+            this.histogramCheckBoxAutoCAM.Size = new System.Drawing.Size(48, 17);
+            this.histogramCheckBoxAutoCAM.TabIndex = 7;
+            this.histogramCheckBoxAutoCAM.Text = "Auto";
+            this.histogramCheckBoxAutoCAM.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxDisplayCAM
+            // 
+            this.groupBoxDisplayCAM.Controls.Add(this.histogramDisplayAllCAM);
+            this.groupBoxDisplayCAM.Controls.Add(this.histogramDisplayCountCAM);
+            this.groupBoxDisplayCAM.Controls.Add(this.histogramDisplayCoolCAM);
+            this.groupBoxDisplayCAM.Location = new System.Drawing.Point(449, 6);
+            this.groupBoxDisplayCAM.Name = "groupBoxDisplayCAM";
+            this.groupBoxDisplayCAM.Size = new System.Drawing.Size(157, 100);
+            this.groupBoxDisplayCAM.TabIndex = 12;
+            this.groupBoxDisplayCAM.TabStop = false;
+            this.groupBoxDisplayCAM.Text = "Display";
+            // 
+            // histogramDisplayAllCAM
+            // 
+            this.histogramDisplayAllCAM.AutoSize = true;
+            this.histogramDisplayAllCAM.Checked = true;
+            this.histogramDisplayAllCAM.Location = new System.Drawing.Point(6, 19);
+            this.histogramDisplayAllCAM.Name = "histogramDisplayAllCAM";
+            this.histogramDisplayAllCAM.Size = new System.Drawing.Size(60, 17);
+            this.histogramDisplayAllCAM.TabIndex = 3;
+            this.histogramDisplayAllCAM.TabStop = true;
+            this.histogramDisplayAllCAM.Text = "All data";
+            this.histogramDisplayAllCAM.UseVisualStyleBackColor = true;
+            // 
+            // histogramDisplayCountCAM
+            // 
+            this.histogramDisplayCountCAM.AutoSize = true;
+            this.histogramDisplayCountCAM.Location = new System.Drawing.Point(6, 67);
+            this.histogramDisplayCountCAM.Name = "histogramDisplayCountCAM";
+            this.histogramDisplayCountCAM.Size = new System.Drawing.Size(107, 17);
+            this.histogramDisplayCountCAM.TabIndex = 5;
+            this.histogramDisplayCountCAM.Text = "Count period only";
+            this.histogramDisplayCountCAM.UseVisualStyleBackColor = true;
+            // 
+            // histogramDisplayCoolCAM
+            // 
+            this.histogramDisplayCoolCAM.AutoSize = true;
+            this.histogramDisplayCoolCAM.Location = new System.Drawing.Point(6, 42);
+            this.histogramDisplayCoolCAM.Name = "histogramDisplayCoolCAM";
+            this.histogramDisplayCoolCAM.Size = new System.Drawing.Size(114, 17);
+            this.histogramDisplayCoolCAM.TabIndex = 4;
+            this.histogramDisplayCoolCAM.Text = "Cooling period only";
+            this.histogramDisplayCoolCAM.UseVisualStyleBackColor = true;
+            // 
+            // histogramChartCAM
+            // 
+            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
+            | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
+            chartArea2.Name = "ChartArea1";
+            this.histogramChartCAM.ChartAreas.Add(chartArea2);
+            this.histogramChartCAM.Location = new System.Drawing.Point(5, 96);
+            this.histogramChartCAM.Name = "histogramChartCAM";
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "seriesHistogram";
+            this.histogramChartCAM.Series.Add(series2);
+            this.histogramChartCAM.Size = new System.Drawing.Size(960, 397);
+            this.histogramChartCAM.TabIndex = 11;
+            this.histogramChartCAM.Text = "chart1";
+            // 
+            // updateHistogramButtonCAM
+            // 
+            this.updateHistogramButtonCAM.Location = new System.Drawing.Point(6, 6);
+            this.updateHistogramButtonCAM.Name = "updateHistogramButtonCAM";
+            this.updateHistogramButtonCAM.Size = new System.Drawing.Size(136, 36);
+            this.updateHistogramButtonCAM.TabIndex = 10;
+            this.updateHistogramButtonCAM.Text = "Update histogram";
+            this.updateHistogramButtonCAM.UseVisualStyleBackColor = true;
+            this.updateHistogramButtonCAM.Click += new System.EventHandler(this.updateHistogramButtonCAM_Click);
+            // 
             // pauseButton
             // 
             this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -391,9 +705,20 @@
             this.groupBoxMaxBin.ResumeLayout(false);
             this.groupBoxMaxBin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelect)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxDisplay.ResumeLayout(false);
+            this.groupBoxDisplay.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).EndInit();
+            this.spectrumCamTab.ResumeLayout(false);
+            this.spectrumCamTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelectCAM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelectCAM)).EndInit();
+            this.histogramCamTab.ResumeLayout(false);
+            this.groupBoxMaxBinCAM.ResumeLayout(false);
+            this.groupBoxMaxBinCAM.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelectCAM)).EndInit();
+            this.groupBoxDisplayCAM.ResumeLayout(false);
+            this.groupBoxDisplayCAM.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.histogramChartCAM)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -416,7 +741,7 @@
         private System.Windows.Forms.RadioButton histogramDisplayCount;
         private System.Windows.Forms.RadioButton histogramDisplayCool;
         private System.Windows.Forms.RadioButton histogramDisplayAll;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBoxDisplay;
         private System.Windows.Forms.GroupBox groupBoxMaxBin;
         private System.Windows.Forms.NumericUpDown histogramMaxBinSelect;
         private System.Windows.Forms.CheckBox histogramCheckBoxAuto;
@@ -426,7 +751,29 @@
         public System.Windows.Forms.TextBox userDisplayText;
         private System.Windows.Forms.Button restartViewerButton;
         private System.Windows.Forms.Button pauseButton;
-
+        private System.Windows.Forms.TabPage spectrumCamTab;
+        private System.Windows.Forms.TabPage histogramCamTab;
+        public System.Windows.Forms.TextBox userDisplayTextCAM;
+        private System.Windows.Forms.Button loadDataButtonCAM;
+        private System.Windows.Forms.Button spectrumExportDataButtonCAM;
+        private ZedGraph.ZedGraphControl zedGraphSpectraCAM;
+        private System.Windows.Forms.Button updateThresholdsButtonCAM;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown coolingThresholdSelectCAM;
+        private System.Windows.Forms.NumericUpDown countThresholdSelectCAM;
+        private System.Windows.Forms.Button histogramExportDataButtonCAM;
+        private System.Windows.Forms.GroupBox groupBoxMaxBinCAM;
+        private System.Windows.Forms.NumericUpDown histogramMaxBinSelectCAM;
+        private System.Windows.Forms.CheckBox histogramCheckBoxAutoCAM;
+        private System.Windows.Forms.GroupBox groupBoxDisplayCAM;
+        private System.Windows.Forms.RadioButton histogramDisplayAllCAM;
+        private System.Windows.Forms.RadioButton histogramDisplayCountCAM;
+        private System.Windows.Forms.RadioButton histogramDisplayCoolCAM;
+        private System.Windows.Forms.DataVisualization.Charting.Chart histogramChartCAM;
+        private System.Windows.Forms.Button updateHistogramButtonCAM;
+        private System.Windows.Forms.Label Ion;
+        private System.Windows.Forms.ComboBox ionBox;
     }
 }
 
