@@ -45,14 +45,14 @@ namespace Camera_Control
         bool isDrawing = false;
         bool isUpdatingImageArray = false;
         bool isAcquiring = false;
-        int temperature = 20;                                                              
-        int setTemperature; 
+        int temperature = 20;
+        int setTemperature;
         // Function Prototypes
         double freqStep;
         double freqStart;
         BackgroundWorker bw = new BackgroundWorker();
         private static System.Windows.Forms.Timer aTimer, tempTimer;
-        List <int[]> fluorescContData = new List<int[]>();
+        List<int[]> fluorescContData = new List<int[]>();
         List<double[]> spectrumContData = new List<double[]>();
         List<int[]> fluorescData = new List<int[]>();
         Queue<int[]> imageContData = new Queue<int[]>(10);
@@ -60,7 +60,7 @@ namespace Camera_Control
         int NpixelNum = 0;
         bool tempStab = false;
         Stopwatch s = new Stopwatch();
-        long frameRefreshTime=0;
+        long frameRefreshTime = 0;
         float kineticCycleTime;
         float fExposure;
         bool PauseExperiment = false;
@@ -195,7 +195,7 @@ namespace Camera_Control
             }
             Console.WriteLine("VSpeed:  " + speed);
 
-            
+
             errorValue = myAndor.SetIsolatedCropMode(0, 1, 1, 1, 1);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
@@ -271,7 +271,7 @@ namespace Camera_Control
               MessageBoxIcon.Exclamation,
               MessageBoxDefaultButton.Button1);
             }
-            
+
             if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_BASELINECLAMP) != 0)
             {
                 errorValue = myAndor.SetBaselineClamp(1);
@@ -285,7 +285,7 @@ namespace Camera_Control
                 }
             }
 
-           
+
 
         }
 
@@ -375,7 +375,7 @@ namespace Camera_Control
 
         public void stopExp()
         {
-            bShouldQuitCamThread=true;
+            bShouldQuitCamThread = true;
         }
 
         //Sets up hardware
@@ -711,7 +711,7 @@ namespace Camera_Control
 
                     // aTimer.SynchronizingObject = this;
                     ionLocations = new int[numIons];
-                  // myAndor.SetKineticCycleTime(1);
+                    // myAndor.SetKineticCycleTime(1);
                     myAndor.SetTriggerMode(0);
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
                     myAndor.SetKineticCycleTime(fExposure);
@@ -769,16 +769,16 @@ namespace Camera_Control
                     {
                         errorMsgTxtBox.AppendText("Please set trigger to external" + "\r\n");
                         return;
-                    }            
-                                          
+                    }
+
                     errorMsgTxtBox.AppendText("Starting Acquisition" + "\r\n");
                     aTimer.Interval = (int)(100);
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
                     frameRefreshTime = 0;
                     //pixelPosGlobal = trialExposure(NpixelNum);
-                    
-                    errorValue = myAndor.StartAcquisition();                   
+
+                    errorValue = myAndor.StartAcquisition();
                     if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                     {
                         errorMsgTxtBox.AppendText("Error Starting Acquisition" + "\r\n");
@@ -807,8 +807,8 @@ namespace Camera_Control
 
 
                     }
-                   
-                    
+
+
                 }
                 if (acqType == 5)
                 {
@@ -819,9 +819,9 @@ namespace Camera_Control
                     repeatPos = 0;
                     myAndor.SetFrameTransferMode(0);
                     myAndor.SetNumberAccumulations(1);
-                    myAndor.SetKineticCycleTime(kineticCycleTime/1000);                    
-                    myAndor.SetNumberKinetics(giNumberLoops);                    
-                    myAndor.SetExposureTime((float)exposureUpDown.Value);                
+                    myAndor.SetKineticCycleTime(kineticCycleTime / 1000);
+                    myAndor.SetNumberKinetics(giNumberLoops);
+                    myAndor.SetExposureTime((float)exposureUpDown.Value);
 
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
@@ -850,9 +850,15 @@ namespace Camera_Control
 
                     while (CameraReadThread.IsAlive && bShouldQuitCamThread == false)
                     {
+                        this.Shutter.Enabled = false;
+                        this.startAcqButton.Enabled = false;
+                        this.ShutDown.Enabled = false;
+                        this.AbortAcquisition.Enabled = false;
+
+
                         Thread.Sleep(500);
                         Console.WriteLine("IN cam loop");
-                        
+
                         isAcquiring = true;
                         AcquireImageDataSpectrum();
                         isAcquiring = false;
@@ -863,11 +869,14 @@ namespace Camera_Control
                             System.Threading.Thread.Sleep(1000);
                         }
                         Thread.Sleep(1000);
-                        
-                    }
 
-                      writeToFileSpec();
-                   
+                    }
+                    this.Shutter.Enabled = true;
+                    this.startAcqButton.Enabled = true;
+                    this.ShutDown.Enabled = true;
+                    this.AbortAcquisition.Enabled = true;
+                    writeToFileSpec();
+
                 }
 
                 Console.WriteLine("Set system done");
@@ -1036,17 +1045,17 @@ namespace Camera_Control
                         //myViewer.addLiveData(Readings, CurrentWindowStep, 0, CurrentPulseLength);
                     }
                 }
-            }                                      
+            }
 
 
-               
 
-                
-                for (int j = 0; j < numIons; j++)
-                {
-                    errorMsgTxtBox.AppendText("FlourDetec  " + fluorescenceData[0, j]);
-                }
-                 
+
+
+            for (int j = 0; j < numIons; j++)
+            {
+                errorMsgTxtBox.AppendText("FlourDetec  " + fluorescenceData[0, j]);
+            }
+
 
 
             /*
@@ -1095,7 +1104,7 @@ namespace Camera_Control
         {
             uint size;
             uint errorValue;
-            
+
             //Stopwatch sw = new Stopwatch();
             //Console.WriteLine("Outside while loop");
             while (abortCont == false)
@@ -1105,20 +1114,20 @@ namespace Camera_Control
                 if (imageContData.Count > 9) imageContData.Dequeue();
                 size = (uint)(hDim * vDim);
                 // errorMsgTxtBox.AppendText("Hey there" + "\r\n");
-               
+
                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION                  // WaitForAcquisitionTimeOut(200);
                                                     // errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
                 isUpdatingImageArray = true;
                 pImageArray = new int[size];
                 // ACQUISTION PERFORMED HERE!!!
-                
+
                 Console.WriteLine("Get image in while loop");
                 errorValue = myAndor.GetOldestImage(pImageArray, size);
                 imageContData.Enqueue(pImageArray);
                 isUpdatingImageArray = false;
                 //getFluorescence();
                 Console.WriteLine("Get fluorescence in loop");
-                fluorescContData.Add(getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal));
+                fluorescContData.Add(getFluorescenceContAdaptExp(NpixelNum, pixelPosGlobal));
                 //fluorescContData.Add(getFluorescenceContAdapt(NpixelNum));
             }
             Console.WriteLine("The damn loop ended");
@@ -1223,8 +1232,8 @@ namespace Camera_Control
 
             for (i = 0; i < giNumberLoops; i++)
             {
-                int status=0;
-                myAndor.GetStatus(ref status); 
+                int status = 0;
+                myAndor.GetStatus(ref status);
                 if (status != AndorSDK.DRV_IDLE) myAndor.WaitForAcquisition();
                 else
                 {
@@ -1255,7 +1264,7 @@ namespace Camera_Control
                 }
             }
 
-            
+
 
             //flourThreshDetect(repeatPos, threshold, giNumberLoops);
             spectrumContData.Add(flourThreshDetectSpec(repeatPos, threshold, giNumberLoops));
@@ -1338,7 +1347,7 @@ namespace Camera_Control
                         imageArray[i] = imageArray[maxIndex];
                         imageArray[maxIndex] = temp;
                         trialFluorescence[k, i] = maxIndex;
-                        Console.WriteLine("Position " + i + " for box " + k+ " = "+ maxIndex);
+                        Console.WriteLine("Position " + i + " for box " + k + " = " + maxIndex);
                         if (i == N - 1) break; // break out of for loop so that the sorting doesnt continue pointlessl
                     }
                 }
@@ -1471,31 +1480,39 @@ namespace Camera_Control
                     int yPos = (int)((maxIndex / (hDim - (ionSquarePixelDim - 1))));
                     ionLocations[ionsFound] = maxIndex;
                     ionsFound++;
-                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position x: " + xPos + "  y:  " + yPos + "  with counts " + maxValue + "\n");
-
+                    
+                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at positions (x1,x2): " +(hstart+ xPos) + " , " + (hstart+xPos+ionSquarePixelDim-1) +"  (y1,y2):  " + (vstart+yPos) + " , "+(vstart+yPos+ionSquarePixelDim-1)+ "  with counts " + maxValue + "\n");
+                   
+                        hBoxStart[ionsFound-1] = (hstart + xPos);
+                        hBoxEnd[ionsFound - 1] = (hstart + xPos + ionSquarePixelDim-1);
+                        vBoxStart[ionsFound - 1] = (vstart + yPos);
+                        vBoxEnd[ionsFound - 1] = (vstart + yPos + ionSquarePixelDim-1);
+                       
+                    
                 }
 
 
                 if (ionsFound == numIons) break; // break out of for loop so that the sorting doesnt continue pointlessly
 
             }
+            if (ROICount < numIons) ROICount = numIons;
         }
 
-            //------------------------------------------------------------------------------
-            //	FUNCTION NAME:	findIons()
-            //
-            //  RETURNS:				TRUE: Function succeeded
-            //									FALSE: No ions found. (Something went really wrong)
-            //
-            //  LAST MODIFIED:	Pavel	02/04/15
-            //
-            //  DESCRIPTION:    This function finds the ions by looking for the brightest squares of a user selected size. It ensures these squares
-            //						dont overlap. It updates the ionLocations pointer array.
-            //	ARGUMENTS: 			int noIons:     number of ions
-            //						long *ionLocations:   Returns the positions of the ions in coordinates of the new grid.
-            //
-            //------------------------------------------------------------------------------            
-            void findIonsTrial()
+        //------------------------------------------------------------------------------
+        //	FUNCTION NAME:	findIons()
+        //
+        //  RETURNS:				TRUE: Function succeeded
+        //									FALSE: No ions found. (Something went really wrong)
+        //
+        //  LAST MODIFIED:	Pavel	02/04/15
+        //
+        //  DESCRIPTION:    This function finds the ions by looking for the brightest squares of a user selected size. It ensures these squares
+        //						dont overlap. It updates the ionLocations pointer array.
+        //	ARGUMENTS: 			int noIons:     number of ions
+        //						long *ionLocations:   Returns the positions of the ions in coordinates of the new grid.
+        //
+        //------------------------------------------------------------------------------            
+        void findIonsTrial()
         {
 
             uint errorValue = 0;
@@ -1526,93 +1543,93 @@ namespace Camera_Control
 
             myAndor.AbortAcquisition();
             int i, j, k;
-                int[] gridData;
+            int[] gridData;
 
-                int gridDim = (hDim - ionSquarePixelDim + 1) * (vDim - ionSquarePixelDim + 1); // the size of the reduced grid is (N - boxSize  + )^2 for a square
-                gridData = new int[gridDim];
-                int gridLength = hDim - (ionSquarePixelDim - 1);
+            int gridDim = (hDim - ionSquarePixelDim + 1) * (vDim - ionSquarePixelDim + 1); // the size of the reduced grid is (N - boxSize  + )^2 for a square
+            gridData = new int[gridDim];
+            int gridLength = hDim - (ionSquarePixelDim - 1);
 
-                // these nested loops scan the data array one user defined box at a time and store the number of counts in these sub boxes
-                // because the data is stored in a 1D array things are a bit more complicated.
-                if (gblData == true && pImageArray != null)
-                {
-                    for (i = 0; i < gridDim; i++)
-                    { // this loops over all the elements in the reduced grid
-                        for (j = 0; j < ionSquarePixelDim; j++)
-                        { // this loop augments the vertical position
-                            for (k = i; k < ionSquarePixelDim + i; k++)
-                            { // This loop always scans horizontally by the box dimension
-                                gridData[i] += pImageArray[(ionSquarePixelDim - 1) * (i / gridLength) + j * hDim + k];
-                            } // j*hDim moves to the next line at, while the bit before is to force the skipping of boxes that try to loop over edges.
-                        }
-
-                    }
-
-                }
-
-
-
-                int ionsFound = 0; // Counter for how many ions found so far in loop
-                int ignore;       // tag for whether to record a particular ion or not
-
-                // loop for storing ion locations. This for loop is not meant to complete and it is expected to be terminated by a break.
-                // the code employs a partial quicksort.
+            // these nested loops scan the data array one user defined box at a time and store the number of counts in these sub boxes
+            // because the data is stored in a 1D array things are a bit more complicated.
+            if (gblData == true && pImageArray != null)
+            {
                 for (i = 0; i < gridDim; i++)
-                {
-                    ignore = 0;
-                    int temp;
-                    int maxIndex = i;                 //stores position of highest count value so far.
-                    int maxValue = gridData[i];      // the highest value
-
-                    for (j = i + 1; j < gridDim; j++)
-                    {
-                        if (gridData[j] > maxValue)
-                        {         // updates the largest value and the position if a new maximum is found
-                            maxIndex = j;
-                            maxValue = gridData[j];
-                        }
+                { // this loops over all the elements in the reduced grid
+                    for (j = 0; j < ionSquarePixelDim; j++)
+                    { // this loop augments the vertical position
+                        for (k = i; k < ionSquarePixelDim + i; k++)
+                        { // This loop always scans horizontally by the box dimension
+                            gridData[i] += pImageArray[(ionSquarePixelDim - 1) * (i / gridLength) + j * hDim + k];
+                        } // j*hDim moves to the next line at, while the bit before is to force the skipping of boxes that try to loop over edges.
                     }
-                    temp = gridData[i];                    // in these three lines the sorting is performed by reversing the position of the elements
-                    gridData[i] = gridData[maxIndex];
-                    gridData[maxIndex] = temp;
-                    /*if(ionsFound==0){
-                            ionLocations[ionsFound]=maxIndex;
-                            ionsFound++;
-                            printf("Ion %d", ionsFound );
-                            printf("  at position %d     ", maxIndex);
-                            ignore=1;
-                    }else{
-                    */
-
-
-                    if (ionsFound != 0)
-                    { // this ensures that the first (brightest) ion will be recorded with no checks.
-                        for (k = 0; k < ionsFound; k++)
-                        { // compares the position of the k-th bright position to all the previous ones to ensure there is no overlap
-                            if (Math.Abs(maxIndex % gridLength - ionLocations[k] % gridLength) < ionSquarePixelDim && Math.Abs((maxIndex - ionLocations[k])) / gridLength < ionSquarePixelDim)
-                            {//&&(ionLocations[ionsFound-1]-maxIndex)%(hDim-(ionSquarePixelDim))<ionSquarePixelDim){//-&&(maxIndex-hDim-ionSquarePixelDim+1)!=ionLocations[i-1]&&(maxIndex+hDim+ionSquarePixelDim-1)!=ionLocations[i-1]){
-                             //printf("blob  %d %d ", maxIndex, ionLocations[ionsFound-1]);
-                                ignore = 1; // Updates the tag for recording and exists loop as soon as overlap is found with at least one ion.
-                                break;
-                            }
-                        }
-                    }
-                    if (ignore == 0)
-                    {  // if there is no overlap store position of ion.
-                       //double HH = (double)(400) / (double)hDim;
-                        int xPos = (int)((maxIndex % (hDim - (ionSquarePixelDim - 1))));
-                        int yPos = (int)((maxIndex / (hDim - (ionSquarePixelDim - 1))));
-                        ionLocations[ionsFound] = maxIndex;
-                        ionsFound++;
-                        errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position x: " + xPos + "  y:  " + yPos + "  with counts " + maxValue + "\n");
-
-                    }
-
-
-                    if (ionsFound == numIons) break; // break out of for loop so that the sorting doesnt continue pointlessly
 
                 }
-            
+
+            }
+
+
+
+            int ionsFound = 0; // Counter for how many ions found so far in loop
+            int ignore;       // tag for whether to record a particular ion or not
+
+            // loop for storing ion locations. This for loop is not meant to complete and it is expected to be terminated by a break.
+            // the code employs a partial quicksort.
+            for (i = 0; i < gridDim; i++)
+            {
+                ignore = 0;
+                int temp;
+                int maxIndex = i;                 //stores position of highest count value so far.
+                int maxValue = gridData[i];      // the highest value
+
+                for (j = i + 1; j < gridDim; j++)
+                {
+                    if (gridData[j] > maxValue)
+                    {         // updates the largest value and the position if a new maximum is found
+                        maxIndex = j;
+                        maxValue = gridData[j];
+                    }
+                }
+                temp = gridData[i];                    // in these three lines the sorting is performed by reversing the position of the elements
+                gridData[i] = gridData[maxIndex];
+                gridData[maxIndex] = temp;
+                /*if(ionsFound==0){
+                        ionLocations[ionsFound]=maxIndex;
+                        ionsFound++;
+                        printf("Ion %d", ionsFound );
+                        printf("  at position %d     ", maxIndex);
+                        ignore=1;
+                }else{
+                */
+
+
+                if (ionsFound != 0)
+                { // this ensures that the first (brightest) ion will be recorded with no checks.
+                    for (k = 0; k < ionsFound; k++)
+                    { // compares the position of the k-th bright position to all the previous ones to ensure there is no overlap
+                        if (Math.Abs(maxIndex % gridLength - ionLocations[k] % gridLength) < ionSquarePixelDim && Math.Abs((maxIndex - ionLocations[k])) / gridLength < ionSquarePixelDim)
+                        {//&&(ionLocations[ionsFound-1]-maxIndex)%(hDim-(ionSquarePixelDim))<ionSquarePixelDim){//-&&(maxIndex-hDim-ionSquarePixelDim+1)!=ionLocations[i-1]&&(maxIndex+hDim+ionSquarePixelDim-1)!=ionLocations[i-1]){
+                         //printf("blob  %d %d ", maxIndex, ionLocations[ionsFound-1]);
+                            ignore = 1; // Updates the tag for recording and exists loop as soon as overlap is found with at least one ion.
+                            break;
+                        }
+                    }
+                }
+                if (ignore == 0)
+                {  // if there is no overlap store position of ion.
+                   //double HH = (double)(400) / (double)hDim;
+                    int xPos = (int)((maxIndex % (hDim - (ionSquarePixelDim - 1))));
+                    int yPos = (int)((maxIndex / (hDim - (ionSquarePixelDim - 1))));
+                    ionLocations[ionsFound] = maxIndex;
+                    ionsFound++;
+                    errorMsgTxtBox.AppendText("Ion " + ionsFound + " at position x: " + xPos + "  y:  " + yPos + "  with counts " + maxValue + "\n");
+
+                }
+
+
+                if (ionsFound == numIons) break; // break out of for loop so that the sorting doesnt continue pointlessly
+
+            }
+
 
             errorValue = myAndor.SetAcquisitionMode(tempAcqType);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -1625,7 +1642,7 @@ namespace Camera_Control
             Console.WriteLine("returning fluorescence");
         }
 
-        
+
 
         void getFluorescence(int run)
         {
@@ -1646,7 +1663,7 @@ namespace Camera_Control
         }
         void getFluorescenceROI(int run)
         {
-            int k;           
+            int k;
             for (k = 0; k < ROICount; k++)
             {
                 int i, j;
@@ -1660,32 +1677,32 @@ namespace Camera_Control
                 {
                     for (j = 0; j < vBoxDim; j++)
                     {
-                        fluorescenceData[run,k] += pImageArray[i * hDim + j + hOffset + vOffset * hDim];
+                        fluorescenceData[run, k] += pImageArray[i * hDim + j + hOffset + vOffset * hDim];
 
                     }
                 }
-            }            
+            }
         }
 
-        public int [,] getCameraData(int rep)        
+        public int[,] getCameraData(int rep)
         {
-               int i, j;
-               int[,] spectrumDatLoc = new int[numIons,giNumberLoops*2];
-               int check = 2;
-               int startLoop = (rep) * giNumberLoops;
-               int maxLoop = giNumberLoops + (repeatPos-1) * giNumberLoops;
+            int i, j;
+            int[,] spectrumDatLoc = new int[numIons, giNumberLoops * 2];
+            int check = 2;
+            int startLoop = (rep) * giNumberLoops;
+            int maxLoop = giNumberLoops + (repeatPos - 1) * giNumberLoops;
             for (i = 0; i < numIons; i++)
             {
-                for (j = 0; j < giNumberLoops*2; j++)
+                for (j = 0; j < giNumberLoops * 2; j++)
                 {
                     if (check % 2 == 0)
                     {
-                        spectrumDatLoc[i, j] = fluorescData[startLoop+j/2][i];                       
+                        spectrumDatLoc[i, j] = fluorescData[startLoop + j / 2][i];
                         check++;
                     }
                     else
                     {
-                        
+
                         spectrumDatLoc[i, j] = 0;
                         check++;
                     }
@@ -1694,7 +1711,7 @@ namespace Camera_Control
             }
             return spectrumDatLoc;
 
-            }
+        }
 
 
         int[] getFluorescenceContAdapt(int N)
@@ -1755,9 +1772,9 @@ namespace Camera_Control
         int[] getFluorescenceContAdaptExp(int N, int[,] brightestPixelPos)
         {
 
-            if (N != 0 && brightestPixelPos!=null)
+            if (N != 0 && brightestPixelPos != null)
             {
-               
+
                 int k;
                 int[] fluorescence = new int[ROICount];
                 for (k = 0; k < ROICount; k++)
@@ -1768,7 +1785,7 @@ namespace Camera_Control
                     int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
                     int hOffset = hBoxStart[k] - hstart;
                     int vOffset = vBoxStart[k] - vstart;
-                   // Console.WriteLine("hbox " + hBoxDim + " v " + vBoxDim);
+                    // Console.WriteLine("hbox " + hBoxDim + " v " + vBoxDim);
                     int[] imageArray = new int[hBoxDim * vBoxDim];
 
                     for (i = 0; i < hBoxDim; i++)
@@ -1778,13 +1795,13 @@ namespace Camera_Control
                         {
 
                             imageArray[i * hBoxDim + j] = pImageArray[i * hDim + j + hOffset + vOffset * hDim];
-                           // Console.WriteLine("image array valiues: "+imageArray[i * hBoxDim + j]);
+                            // Console.WriteLine("image array valiues: "+imageArray[i * hBoxDim + j]);
                         }
                     }
                     for (i = 0; i < brightestPixelPos.GetLength(1); i++)
                     {
-                      
-                       fluorescence[k] += imageArray[brightestPixelPos[k, i]];
+
+                        fluorescence[k] += imageArray[brightestPixelPos[k, i]];
                     }
                 }
 
@@ -1794,7 +1811,7 @@ namespace Camera_Control
             {
                 return getFluorescenceCont();
             }
-         
+
         }
 
 
@@ -1808,18 +1825,18 @@ namespace Camera_Control
             for (k = 0; k < ROICount; k++)
             {
                 int i, j;
-              
+
                 int hBoxDim = hBoxEnd[k] - hBoxStart[k] + 1;
                 int vBoxDim = vBoxEnd[k] - vBoxStart[k] + 1;
                 int hOffset = hBoxStart[k] - hstart;
                 int vOffset = vBoxStart[k] - vstart;
-                
+
                 for (i = 0; i < hBoxDim; i++)
                 {
                     for (j = 0; j < vBoxDim; j++)
                     {
                         fluorescence[k] += pImageArray[i * hDim + j + hOffset + vOffset * hDim];
-                       
+
                     }
                 }
             }
@@ -1834,12 +1851,12 @@ namespace Camera_Control
             for (i = 0; i < numIons; i++)
             {
                 flourCount = 0;
-                for (j = 1; j < loopNum+1; j+=2)
+                for (j = 1; j < loopNum + 1; j += 2)
                 {
                     if (fluorescenceData[j, i] > threshold)
                         flourCount++;
                 }
-                double exc =1 - (double)flourCount*2 / loopNum;
+                double exc = 1 - (double)flourCount * 2 / loopNum;
                 errorMsgTxtBox.AppendText("The ion number: " + i + " has been fractionally excited  " + exc + "\n");
                 spectrumData[i, repeatN - 1] = exc;
 
@@ -1854,7 +1871,7 @@ namespace Camera_Control
             for (i = 0; i < numIons; i++)
             {
                 flourCount = 0;
-                for (j = repeatN*loopNum+1; j < loopNum+ repeatN * loopNum ; j += 2)
+                for (j = repeatN * loopNum + 1; j < loopNum + repeatN * loopNum; j += 2)
                 {
                     if (fluorescData[j][i] > threshold)
                         flourCount++;
@@ -1864,7 +1881,7 @@ namespace Camera_Control
                 spectrumDatLoc[i] = exc;
 
             }
-           
+
 
             return spectrumDatLoc;
 
@@ -1974,15 +1991,16 @@ namespace Camera_Control
 
         void drawCameraImageCont()
         {
-            
-            if (isDrawing == true || imageContData.Count==0)
+
+            if (isDrawing == true || imageContData.Count == 0)
             {
                 return;
             }
-            try {
+            try
+            {
                 int[] tImageArray = imageContData.Dequeue();
                 long temp = s.ElapsedMilliseconds;
-               // int[] tImageArray = imageContData.Dequeue(); 
+                // int[] tImageArray = imageContData.Dequeue(); 
                 isDrawing = true;
                 long MaxValue;
                 long MinValue;
@@ -2095,15 +2113,15 @@ namespace Camera_Control
                 pinnedArray.Free();
                 // abortCont = false;
                 // bw.RunWorkerAsync();
-                
+
                 long temp2 = s.ElapsedMilliseconds;
                 double fps = 1000 / ((double)(temp2 - frameRefreshTime));
                 frameRefreshTime = temp2;
                 Console.WriteLine("Frames per second: {0} 1/s", fps);
-                
-               double time = s.ElapsedMilliseconds-temp;
-               
-               Console.WriteLine("Frames per second: {0} 1/s", time);
+
+                double time = s.ElapsedMilliseconds - temp;
+
+                Console.WriteLine("Frames per second: {0} 1/s", time);
             }
             finally
             {
@@ -2153,14 +2171,14 @@ namespace Camera_Control
                     }
                     file.WriteLine();
                 }
-            }            
+            }
         }
 
         void writeToFileCont()
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ContRaw.txt", true))
             {
-               
+
                 for (int i = 0; i < fluorescContData.Count; i++)
                 {
                     file.Write(i * freqStep + freqStart);
@@ -2189,13 +2207,13 @@ namespace Camera_Control
                     file.WriteLine();
                 }
                 */
-                int[,] writeData = this.getCameraData(repeatPos-1);
+                int[,] writeData = this.getCameraData(repeatPos - 1);
                 for (int j = 0; j < writeData.GetLength(1); j++)
                 {
                     file.Write(j * freqStep + freqStart);
                     for (int i = 0; i < writeData.GetLength(0); i++)
                     {
-                        file.Write("\t" + writeData[i,j] + "\t");
+                        file.Write("\t" + writeData[i, j] + "\t");
                     }
                     file.WriteLine();
                 }
@@ -2204,7 +2222,7 @@ namespace Camera_Control
             }
             fluorescData.Clear();
             errorMsgTxtBox.AppendText("Done saving.");
-            using(System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ProcessedSpec.txt", true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ProcessedSpec.txt", true))
             {
 
                 for (int i = 0; i < spectrumContData.Count; i++)
@@ -2227,7 +2245,7 @@ namespace Camera_Control
         void writeToFileContNew()
         {
             Stream myStream;
-            
+
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -2285,7 +2303,7 @@ namespace Camera_Control
 
         private void NpixelUpDown_ValueChanged(object sender, EventArgs e)
         {
-            NpixelNum = (int) NpixelUpDown.Value;
+            NpixelNum = (int)NpixelUpDown.Value;
         }
 
         private void AbortAcquisition_Click(object sender, EventArgs e)
@@ -2300,12 +2318,12 @@ namespace Camera_Control
         {
             // errorMsgTxtBox.AppendText("Hi");
             // Run your while loop here and return result. 
-            if(acqType==3)
+            if (acqType == 3)
             {
                 AcquireImageDataCont();
             }
-            else { AcquireImageDataExperiment(); }        
-            
+            else { AcquireImageDataExperiment(); }
+
         }
 
         // when you click on some cancel button  
@@ -2317,20 +2335,21 @@ namespace Camera_Control
 
             //int[] fluor = getFluorescenceContAdaptExp(NpixelNum,pixelPosGlobal);
 
-            if (fluorescContData.Count != 0 ) { 
+            if (fluorescContData.Count != 0)
+            {
                 int[] fluor = fluorescContData.Last<int[]>(); //getFluorescenceContAdapt(NpixelNum);////         
                 for (int i = 0; i < ROICount; i++)
                 {
                     errorMsgTxtBox.AppendText("Region - " + i + "  Fluorescence: " + fluor[i] + "\r\n");
                 }
-            //Console.WriteLine("Ready to draw");
+                //Console.WriteLine("Ready to draw");
 
-            // Tested code here
+                // Tested code here
 
                 drawCameraImageCont();
-           }
-            
-           
+            }
+
+
 
 
         }
@@ -2342,7 +2361,7 @@ namespace Camera_Control
 
         private void kinCycTime_ValueChanged(object sender, EventArgs e)
         {
-            kineticCycleTime = (float) kinCycTime.Value;
+            kineticCycleTime = (float)kinCycTime.Value;
         }
 
         private void TempMeasureEvent(Object source, EventArgs e)
@@ -2350,7 +2369,7 @@ namespace Camera_Control
             uint tempStat = myAndor.GetTemperature(ref temperature);
             temperatureBox.Clear();
             temperatureBox.AppendText("" + temperature);
-           
+
             if (tempStab == false && tempStat == ATMCD32CS.AndorSDK.DRV_TEMPERATURE_STABILIZED)
             {
                 errorMsgTxtBox.AppendText(" Temperature stabilised \r\n");
@@ -2408,7 +2427,7 @@ namespace Camera_Control
 
         void SwitchCoolerOn()
         {
-            int MinTemp=0, MaxTemp=0;
+            int MinTemp = 0, MaxTemp = 0;
             uint errorValue;
 
 
@@ -2422,50 +2441,53 @@ namespace Camera_Control
             else
             {
                 //if (temperature < MinTemp || temperature > MaxTemp)
-                  //  errorMsgTxtBox.AppendText("Temperature is out of range");
-                
-                    // if it is in range, switch on cooler and set temp
-                    errorValue = myAndor.CoolerON();
+                //  errorMsgTxtBox.AppendText("Temperature is out of range");
+
+                // if it is in range, switch on cooler and set temp
+                errorValue = myAndor.CoolerON();
+                if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                {
+                    errorMsgTxtBox.AppendText("Could not switch cooler on");
+                }
+                else
+                {
+                    gblCooler = true;
+                    //SetTimer(hwnd,gblTempTimer,1000,NULL);
+                    errorValue = myAndor.SetTemperature(setTemperature);
                     if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                     {
-                        errorMsgTxtBox.AppendText("Could not switch cooler on");
+                        errorMsgTxtBox.AppendText("Could not set temperature");
                     }
                     else
-                    {
-                        gblCooler = true;
-                        //SetTimer(hwnd,gblTempTimer,1000,NULL);
-                        errorValue = myAndor.SetTemperature(setTemperature);
-                        if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
-                        {
-                            errorMsgTxtBox.AppendText("Could not set temperature");
-                        }
-                        else
-                            errorMsgTxtBox.AppendText("Temperature has been set to " + setTemperature + " (C)");
-                    }
-               
+                        errorMsgTxtBox.AppendText("Temperature has been set to " + setTemperature + " (C)");
+                }
+
             }
 
 
         }
 
-        void SwitchCoolerOff() {
-              uint 		errorValue;   
-        //KillTimer(hwnd,gblTempTimer);
-              errorValue=myAndor.CoolerOFF();
-         if(errorValue!=ATMCD32CS.AndorSDK.DRV_SUCCESS){
-             errorMsgTxtBox.AppendText("Could not switch cooler off");
-    
-          }
-          else{
-           gblCooler=false;
-          errorMsgTxtBox.AppendText("Temperature control is disabled");
-                tempStab = false;  
-         }
-         
-          
+        void SwitchCoolerOff()
+        {
+            uint errorValue;
+            //KillTimer(hwnd,gblTempTimer);
+            errorValue = myAndor.CoolerOFF();
+            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+            {
+                errorMsgTxtBox.AppendText("Could not switch cooler off");
+
+            }
+            else
+            {
+                gblCooler = false;
+                errorMsgTxtBox.AppendText("Temperature control is disabled");
+                tempStab = false;
+            }
+
+
         }
-                       
-       
+
+
         private void AddROI_Click(object sender, EventArgs e)
 
         {
@@ -2473,7 +2495,7 @@ namespace Camera_Control
             hBoxEnd[ROICount] = (int)hBoxEndUpDown.Value;
             vBoxStart[ROICount] = (int)vBoxStartUpDown.Value;
             vBoxEnd[ROICount] = (int)vBoxEndUpDown.Value;
-            Console.WriteLine("hBoxstart "+ hBoxStart[ROICount]+ " hboxend" + hBoxEnd[ROICount]);
+            Console.WriteLine("hBoxstart " + hBoxStart[ROICount] + " hboxend" + hBoxEnd[ROICount]);
 
             /*
             if (hBoxStart[ROICount] < hstart)
@@ -2498,6 +2520,13 @@ namespace Camera_Control
             ROICount++;
         }
 
+        public void setNumIons(int ion)
+        {
+            numIons = ion;
+            numIonsUpDown.Value = ion;
+        }
+
+
         private void coolerBox_CheckedChanged(object sender, EventArgs e)
         {
             if (gblCooler == false)
@@ -2510,7 +2539,7 @@ namespace Camera_Control
                 SwitchCoolerOff();
                 gblCooler = false;
             }
-            
+
         }
 
         private void temperatureUpDown_ValueChanged(object sender, EventArgs e)
@@ -2535,11 +2564,23 @@ namespace Camera_Control
             }
         }
 
+        public int getRoiCount()
+        {
+            return ROICount;
+        }
+
+
+        public void setNumLoops(int loops)
+        {
+            numLoopsUpDown.Value = loops;
+            giNumberLoops = loops;
+        }
+
         public bool isCamAcquiring()
         {
             int status = 0;
             myAndor.GetStatus(ref status);
-            if (status != AndorSDK.DRV_IDLE || isAcquiring==true)
+            if (status != AndorSDK.DRV_IDLE || isAcquiring == true)
             {
                 return true;
             }
@@ -2548,7 +2589,7 @@ namespace Camera_Control
                 return false;
             }
         }
-      
+
     }
 
 

@@ -153,6 +153,7 @@ namespace Spectroscopy_Viewer
             {
                 string[] numbers = { i.ToString() };
                 ionBox.Items.AddRange(numbers);
+                ionBox1.Items.AddRange(numbers);
             }
             numOfIons = numIons;
             // Store metadata... might need to do this element by element, don't think so though
@@ -299,7 +300,8 @@ namespace Spectroscopy_Viewer
                         Console.WriteLine("In the data process loop of camera");
                         myCAMSpectrum[j][i].addToSpectrum(myFileHandler.getDataPoints(i));
                         //   myCAMSpectrum[i].addToSpectrum(myFileHandlerCAM.getDataPoints(i));
-                        // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)                      
+                        // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)    
+                                          
                         dataCAMPlot[j][i] = myCAMSpectrum[j][i].getDataPlot();
                     }
                 }
@@ -694,21 +696,24 @@ namespace Spectroscopy_Viewer
         private void updateThresholdsCAM()
         {
             // Do not attempt to do anything if no spectra have been created
-            if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
-            else
+            if (myCAMSpectrum != null)
             {
-                // Analyse each spectrum and get the data
-                // NB if no spectra have been loaded, myPMTSpectrum.Count will be 0 and this loop will not run
-                for (int i = 0; i < myCAMSpectrum[cameraSpecNum].Count; i++)
+                if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
+                else
                 {
-                    myCAMSpectrum[cameraSpecNum][i].analyse((int)coolingThresholdSelectCAM.Value, (int)countThresholdSelectCAM.Value);
-                    dataCAMPlot[cameraSpecNum][i] = myCAMSpectrum[cameraSpecNum][i].getDataPlot();
-                }
+                    // Analyse each spectrum and get the data
+                    // NB if no spectra have been loaded, myPMTSpectrum.Count will be 0 and this loop will not run
+                    for (int i = 0; i < myCAMSpectrum[cameraSpecNum].Count; i++)
+                    {
+                        myCAMSpectrum[cameraSpecNum][i].analyse((int)coolingThresholdSelectCAM.Value, (int)countThresholdSelectCAM.Value);
+                        dataCAMPlot[cameraSpecNum][i] = myCAMSpectrum[cameraSpecNum][i].getDataPlot();
+                    }
 
-                // Setup the graph
-                updateGraphCAM();
-                // Size the control to fill the form with a margin
-                SetSizeCAM();
+                    // Setup the graph
+                    updateGraphCAM();
+                    // Size the control to fill the form with a margin
+                    SetSizeCAM();
+                }
             }
         }
 
@@ -913,141 +918,144 @@ namespace Spectroscopy_Viewer
         private void updateHistogramButtonCAM_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
-            if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
-            else
+            if (myCAMSpectrum != null)
             {
-                // Calculating data for histogram
-                //********************************
-                // Initialise variables every time we re-create the histogram
-                histogramSizeCAM = new int();
-
-                // Local variables used within this method
-                int[] temphistogramCoolCAM;
-                int[] temphistogramCountCAM;
-                int temphistogramSizeCAM = new int();
-
-                // For each spectrum
-                for (int i = 0; i < numberOfSpectra; i++)
+                if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
+                else
                 {
-                    // Temporarily store histograms for this spectrum
-                    temphistogramCoolCAM = myCAMSpectrum[cameraSpecNum][i].getHistogramCool();
-                    temphistogramCountCAM = myCAMSpectrum[cameraSpecNum][i].getHistogramCount();
+                    // Calculating data for histogram
+                    //********************************
+                    // Initialise variables every time we re-create the histogram
+                    histogramSizeCAM = new int();
 
-                    // Find size of histograms for this spectrum
-                    temphistogramSizeCAM = temphistogramCoolCAM.Length;
+                    // Local variables used within this method
+                    int[] temphistogramCoolCAM;
+                    int[] temphistogramCountCAM;
+                    int temphistogramSizeCAM = new int();
 
-                    // For the first spectrum only
-                    if (i == 0)
+                    // For each spectrum
+                    for (int i = 0; i < numberOfSpectra; i++)
                     {
-                        // Store size of lists
-                        histogramSizeCAM = temphistogramSizeCAM;
+                        // Temporarily store histograms for this spectrum
+                        temphistogramCoolCAM = myCAMSpectrum[cameraSpecNum][i].getHistogramCool();
+                        temphistogramCountCAM = myCAMSpectrum[cameraSpecNum][i].getHistogramCount();
 
-                        // Create arrays of the right size
-                        histogramCoolCAM = new int[histogramSizeCAM];
-                        histogramCountCAM = new int[histogramSizeCAM];
-                        histogramAllCAM = new int[histogramSizeCAM];
+                        // Find size of histograms for this spectrum
+                        temphistogramSizeCAM = temphistogramCoolCAM.Length;
 
-
-                        // Loop through each histogram bin and populate arrays
-                        for (int j = 0; j < histogramSizeCAM; j++)
+                        // For the first spectrum only
+                        if (i == 0)
                         {
-                            // Populate arrays from temp histograms
-                            // NB cannot just use e.g. histogramCoolCAM = tempHistogram, this will cause errors
-                            // since arrays are a reference type. Need to manipulate each element individually
-                            histogramCoolCAM[j] = temphistogramCoolCAM[j];
-                            histogramCountCAM[j] = temphistogramCountCAM[j];
+                            // Store size of lists
+                            histogramSizeCAM = temphistogramSizeCAM;
 
-                            // Calculate total data and store in another array (cool + count)
-                            histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
-                        }
-                    }
-                    else
-                    {   // For subsequent spectra, go through and add the data to existing lists
+                            // Create arrays of the right size
+                            histogramCoolCAM = new int[histogramSizeCAM];
+                            histogramCountCAM = new int[histogramSizeCAM];
+                            histogramAllCAM = new int[histogramSizeCAM];
 
 
-                        // If the histogram for the current spectrum is larger than the existing histogram
-                        if (temphistogramSizeCAM > histogramSizeCAM)
-                        {
-                            Array.Resize(ref histogramCoolCAM, temphistogramSizeCAM);
-                            Array.Resize(ref histogramCountCAM, temphistogramSizeCAM);
-                            Array.Resize(ref histogramAllCAM, temphistogramSizeCAM);
-
-                            // Fill in the data into the new bins
-                            for (int j = histogramSizeCAM; j < temphistogramSizeCAM; j++)
+                            // Loop through each histogram bin and populate arrays
+                            for (int j = 0; j < histogramSizeCAM; j++)
                             {
+                                // Populate arrays from temp histograms
+                                // NB cannot just use e.g. histogramCoolCAM = tempHistogram, this will cause errors
+                                // since arrays are a reference type. Need to manipulate each element individually
                                 histogramCoolCAM[j] = temphistogramCoolCAM[j];
                                 histogramCountCAM[j] = temphistogramCountCAM[j];
+
+                                // Calculate total data and store in another array (cool + count)
                                 histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
                             }
-
-                            // Update size of list (could use temphistogramSizeCAM, but recalculate just in case)
-                            histogramSizeCAM = temphistogramSizeCAM;//histogramCoolCAM.Count();
                         }
                         else
-                        {
-                            for (int j = 0; j < temphistogramSizeCAM; j++)
-                            {
-                                // Sum the data from each spectrum into the full list
-                                histogramCoolCAM[j] += temphistogramCoolCAM[j];
-                                histogramCountCAM[j] += temphistogramCountCAM[j];
+                        {   // For subsequent spectra, go through and add the data to existing lists
 
-                                histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
+
+                            // If the histogram for the current spectrum is larger than the existing histogram
+                            if (temphistogramSizeCAM > histogramSizeCAM)
+                            {
+                                Array.Resize(ref histogramCoolCAM, temphistogramSizeCAM);
+                                Array.Resize(ref histogramCountCAM, temphistogramSizeCAM);
+                                Array.Resize(ref histogramAllCAM, temphistogramSizeCAM);
+
+                                // Fill in the data into the new bins
+                                for (int j = histogramSizeCAM; j < temphistogramSizeCAM; j++)
+                                {
+                                    histogramCoolCAM[j] = temphistogramCoolCAM[j];
+                                    histogramCountCAM[j] = temphistogramCountCAM[j];
+                                    histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
+                                }
+
+                                // Update size of list (could use temphistogramSizeCAM, but recalculate just in case)
+                                histogramSizeCAM = temphistogramSizeCAM;//histogramCoolCAM.Count();
+                            }
+                            else
+                            {
+                                for (int j = 0; j < temphistogramSizeCAM; j++)
+                                {
+                                    // Sum the data from each spectrum into the full list
+                                    histogramCoolCAM[j] += temphistogramCoolCAM[j];
+                                    histogramCountCAM[j] += temphistogramCountCAM[j];
+
+                                    histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
+                                }
                             }
                         }
+                    }       // End of loop which goes through spectra and creates histogram
+
+                    //********************************
+                    // Store the data in a table for plotting to graph
+                    // Try to create a data table with the lists as columns
+                    DataSet histogramDataSet = new DataSet();
+                    DataTable histogramTable = new DataTable();
+
+                    histogramDataSet.Tables.Add(histogramTable);
+
+                    // Create columns
+                    histogramTable.Columns.Add(new DataColumn("Bin", typeof(int)));
+                    histogramTable.Columns.Add(new DataColumn("Cool period", typeof(int)));
+                    histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
+                    histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
+
+                    for (int i = 0; i < histogramSizeCAM; i++)
+                    {
+                        DataRow myRow = histogramTable.NewRow();
+                        myRow["Bin"] = i;
+                        myRow["Cool period"] = histogramCoolCAM[i];
+                        myRow["Count period"] = histogramCountCAM[i];
+                        myRow["All"] = histogramAllCAM[i];
+                        histogramTable.Rows.Add(myRow);
                     }
-                }       // End of loop which goes through spectra and creates histogram
 
-                //********************************
-                // Store the data in a table for plotting to graph
-                // Try to create a data table with the lists as columns
-                DataSet histogramDataSet = new DataSet();
-                DataTable histogramTable = new DataTable();
+                    //********************************
+                    // Plotting histogram data on graph
+                    // Need to convert to an enumerable type to get it to dataBind properly
+                    // Clear the chart first so that when we re-create the histogram it doesn't cause an error
+                    this.histogramChartCAM.DataBindings.Clear();
+                    this.histogramChartCAM.Series.Clear();
 
-                histogramDataSet.Tables.Add(histogramTable);
+                    var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
+                    this.histogramChartCAM.DataBindTable(enumerableTable, "Bin");
 
-                // Create columns
-                histogramTable.Columns.Add(new DataColumn("Bin", typeof(int)));
-                histogramTable.Columns.Add(new DataColumn("Cool period", typeof(int)));
-                histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
-                histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
+                    // This line throws an error when chart already exists & update button is pressed
 
-                for (int i = 0; i < histogramSizeCAM; i++)
-                {
-                    DataRow myRow = histogramTable.NewRow();
-                    myRow["Bin"] = i;
-                    myRow["Cool period"] = histogramCoolCAM[i];
-                    myRow["Count period"] = histogramCountCAM[i];
-                    myRow["All"] = histogramAllCAM[i];
-                    histogramTable.Rows.Add(myRow);
-                }
+                    // Turn off ticks on x axis
+                    histogramChartCAM.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
 
-                //********************************
-                // Plotting histogram data on graph
-                // Need to convert to an enumerable type to get it to dataBind properly
-                // Clear the chart first so that when we re-create the histogram it doesn't cause an error
-                this.histogramChartCAM.DataBindings.Clear();
-                this.histogramChartCAM.Series.Clear();
+                    // Enable radio buttons to select display
+                    histogramDisplayAllCAM.Enabled = true;
+                    histogramDisplayCoolCAM.Enabled = true;
+                    histogramDisplayCountCAM.Enabled = true;
 
-                var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
-                this.histogramChartCAM.DataBindTable(enumerableTable, "Bin");
+                    // Set interval to 1 so that the number will be displayed for each bin
+                    histogramChartCAM.ChartAreas[0].AxisX.Interval = 1;
 
-                // This line throws an error when chart already exists & update button is pressed
+                    // Check which radio button is checked & plot correct series
+                    this.radioButtonDisplayCAM_CheckedChanged(sender, e);
 
-                // Turn off ticks on x axis
-                histogramChartCAM.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-
-                // Enable radio buttons to select display
-                histogramDisplayAllCAM.Enabled = true;
-                histogramDisplayCoolCAM.Enabled = true;
-                histogramDisplayCountCAM.Enabled = true;
-
-                // Set interval to 1 so that the number will be displayed for each bin
-                histogramChartCAM.ChartAreas[0].AxisX.Interval = 1;
-
-                // Check which radio button is checked & plot correct series
-                this.radioButtonDisplayCAM_CheckedChanged(sender, e);
-
-            }   // End of if statement checking that data has been loaded
+                }   // End of if statement checking that data has been loaded
+            }
 
         }
 
@@ -1121,7 +1129,7 @@ namespace Spectroscopy_Viewer
                 this.histogramChartCAM.Series["Count period"].Enabled = true;      // Enable series
                 this.histogramAutoScaleCAM(histogramCountCAM);                        // Auto scale graph
             }
-            else this.histogramChart.Series["Count period"].Enabled = false;    // Disable series
+            else this.histogramChartCAM.Series["Count period"].Enabled = false;    // Disable series
         }
 
 
@@ -1215,7 +1223,8 @@ namespace Spectroscopy_Viewer
 
         }
 
-        private void histogramCheckBoxAutoCAM_CheckedChanged(object sender, EventArgs e)
+        
+        private void histogramCheckBoxAutoCAM_CheckedChanged_1(object sender, EventArgs e)
         {
             // If selecting auto, then disable user maxBinSelect
             if (histogramCheckBoxAutoCAM.Checked)
@@ -1231,8 +1240,9 @@ namespace Spectroscopy_Viewer
                 // NB no code in place to create a ">= N" bin, all this does is change the display
                 this.histogramChartCAM.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelectCAM.Value;
             }
-
         }
+
+
 
 
 
@@ -1294,30 +1304,32 @@ namespace Spectroscopy_Viewer
         private void histogramExportDataButtonCAM_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
-            if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
-            else
-            {
-                // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
-                saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
-                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-
-                // Show new dialogue for each spectrum
-                for (int i = 0; i < numberOfSpectra; i++)
+            if (myCAMSpectrum !=null) {
+                if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
+                else
                 {
-                    saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
-                    saveFileDialog.FileName = myCAMSpectrum[cameraSpecNum][i].getName() + " histogram data.txt";
+                    // Configuring dialog to save file
+                    saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
+                    saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
+                    saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
-                    // Show dialog to save file
-                    // Check that user has not pressed cancel before continuing to save file
-                    if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                    // Show new dialogue for each spectrum
+                    for (int i = 0; i < numberOfSpectra; i++)
                     {
-                        // Create streamwriter object to write to file
-                        // With filename given from user input
-                        TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
+                        saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
+                        saveFileDialog.FileName = myCAMSpectrum[cameraSpecNum][i].getName() + " histogram data.txt";
 
-                        // Call method in the spectrum class to write data to the file
-                        myCAMSpectrum[cameraSpecNum][i].writeHistogramData(ref histogramFile);
+                        // Show dialog to save file
+                        // Check that user has not pressed cancel before continuing to save file
+                        if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                        {
+                            // Create streamwriter object to write to file
+                            // With filename given from user input
+                            TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
+
+                            // Call method in the spectrum class to write data to the file
+                            myCAMSpectrum[cameraSpecNum][i].writeHistogramData(ref histogramFile);
+                        }
                     }
                 }
             }
@@ -1918,7 +1930,7 @@ namespace Spectroscopy_Viewer
 
         private void updateGraph_EventCAM(object sender, EventArgs e)
         {
-            updateGraphCAM();
+            //updateGraphCAM();
         }
 
         // Method to respond to user changing radio buttons in graph controls
@@ -2231,6 +2243,19 @@ namespace Spectroscopy_Viewer
             }
         }
 
+        private void ionBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int nIons;
+            int.TryParse(ionBox.SelectedItem.ToString(), out nIons);
+            cameraSpecNum = nIons-1;
+        }
+
+        private void ionBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int nIons;
+            int.TryParse(ionBox1.SelectedItem.ToString(), out nIons);
+            cameraSpecNum = nIons - 1;
+        }
     }
         
     }

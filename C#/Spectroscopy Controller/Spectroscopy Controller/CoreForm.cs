@@ -15,6 +15,8 @@ using System.IO.Ports;
 
 
 
+
+
 namespace Spectroscopy_Controller
 {
     public partial class CoreForm : Form
@@ -38,6 +40,7 @@ namespace Spectroscopy_Controller
         private bool bIsFreqGenEnabled = false;
         public bool includeCarrier = false;
         private bool IsViewerOpen = false;
+        public int readingsPerDataPoint;
 
         private bool IsCameraOpen = false;
 
@@ -92,8 +95,8 @@ namespace Spectroscopy_Controller
 
             for (int i = 0; i < 63; i++) reset += "256" + ",";
             reset += "256";
-            COM12.WriteLine(reset);
-           string mystring = COM12.ReadLine();
+          //  COM12.WriteLine(reset);
+         //  string mystring = COM12.ReadLine();
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -425,7 +428,7 @@ namespace Spectroscopy_Controller
         private void StopButton_Click(object sender, EventArgs e)
         {
             // Signal to stop the experiment
-            bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
+           // bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
             if(useCameraSpectrum ==true && IsCameraOpen== true)
             myCamera.stopExp();
             // Print message to user
@@ -586,12 +589,27 @@ namespace Spectroscopy_Controller
                         metadata[11] = this.sbWidthBox.Value.ToString();
                         //metadata[12] = this.rfAmpBox.Value.ToString();
                         // Fill in remaining metadata from form
-                        metadata[13] = myExperimentDialog.NumberOfRepeats.Value.ToString();
-                        metadata[14] = myExperimentDialog.NumberOfSpectra.Value.ToString();
+                        int repeats=(int) myExperimentDialog.NumberOfRepeats.Value;
+                        metadata[13] = repeats.ToString();
+                        int numSpec = (int) myExperimentDialog.NumberOfSpectra.Value;
+                        metadata[14] = numSpec.ToString();
+                        readingsPerDataPoint = int.Parse(metadata[13]) * int.Parse(metadata[14])*4;
                         metadata[15] = hexFileName;
                         metadata[16] = "N/A";   // For fixed spectra only
                         metadata[17] = "N/A";   // For fixed spectra only
                         numOfIons= (int) myExperimentDialog.numOfIonsUpDown.Value;
+                        
+                        if (useCameraSpectrum == true && IsCameraOpen == true)
+                        {
+                            if (numOfIons != myCamera.getRoiCount())
+                            {
+                                MessageBox.Show("Please add the correct amount of ROI.");
+                                return;
+                            }
+
+                            myCamera.setNumIons(numOfIons);
+                            myCamera.setNumLoops(2*repeats*numSpec);
+                        }
                         int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
                         for (int i = 0; i < numberOfSpectra; i++)
                         {
@@ -618,15 +636,30 @@ namespace Spectroscopy_Controller
                                 startFreqArray = new int[1];
                                 startFreqArray[0] = startFreq;
 
-                                // Create a single file and put all readings in there
-                                myFileName = new string[1];
-                                myFile = new TextWriter[1];
-
                                 // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
                                 RabiSelector myRabiSelector = new RabiSelector();
 
-                                // Create the file with appropriate name & write metadata to it
-                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
+                                // Create a single file and put all readings in there
+                                if (useCameraSpectrum != true)
+                                {
+                                    myFileName = new string[1];
+                                    myFile = new TextWriter[1];
+                                    // Create the file with appropriate name & write metadata to it
+                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
+                                }
+                                else
+                                {
+                                    myFileName = new string[1+numOfIons];
+                                    myFile = new TextWriter[1+numOfIons];
+                                    // Create the file with appropriate name & write metadata to it
+                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1,numOfIons);
+
+                                }
+
+                                
+
+                                
+
                             }
                             else if (specType == "Windowed")
                             {
@@ -636,7 +669,7 @@ namespace Spectroscopy_Controller
                                 //Calculate frequency offset of sideband start frequencies from sideband centres
                                 int offsetFreq = (int)stepSize * sbWidth / 2;
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
-
+                                int numberOfFiles;
                                 int windowSpace = 0;
                                 if (specDir == "Axial") windowSpace = (int)(axFreq / 2);
                                 else if (specDir == "Radial") windowSpace = (int)(modcycFreq / 2);
@@ -648,19 +681,34 @@ namespace Spectroscopy_Controller
                                     {
                                         startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
                                     }
-
-                                    // We want a file for each sideband with appropriate naming
-                                    // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                                    int numberOfFiles = (int)(sbToScan * 2 + 1);
-                                    // Create array of filenames & array of files
-                                    myFileName = new string[numberOfFiles];
-                                    myFile = new TextWriter[numberOfFiles];
-
                                     // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
                                     RabiSelector myRabiSelector = new RabiSelector();
+                                    if (useCameraSpectrum != true)
+                                    {
+                                        // We want a file for each sideband with appropriate naming
+                                        numberOfFiles = (int)(sbToScan * 2 + 1);
 
-                                    // Generate filenames and actually create files
-                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                                        // Create array of filenames & array of files
+                                        myFileName = new string[numberOfFiles];
+                                        myFile = new TextWriter[numberOfFiles];
+                                        // Generate filenames and actually create files
+                                        writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                                    }
+                                    else
+                                    {
+                                        int temp = (int)(sbToScan * 2 + 1);
+                                        numberOfFiles = temp * (numOfIons + 1);
+                                        // Create array of filenames & array of files
+                                        myFileName = new string[numberOfFiles];
+                                        myFile = new TextWriter[numberOfFiles];
+                                        // Generate filenames and actually create files
+                                        writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
+                                    }
+
+                                 
+
+
+                                    
                                 }
 
                                 else
@@ -675,19 +723,33 @@ namespace Spectroscopy_Controller
                                        
 
                                     }
-
-                                    // We want a file for each sideband with appropriate naming
-                                    // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                                    int numberOfFiles = (int)(sbToScan * 2);
-                                    // Create array of filenames & array of files
-                                    myFileName = new string[numberOfFiles];
-                                    myFile = new TextWriter[numberOfFiles];
-
                                     // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
                                     RabiSelector myRabiSelector = new RabiSelector();
 
-                                    // Generate filenames and actually create files
-                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                                    // We want a file for each sideband with appropriate naming
+                                    // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                                    if (useCameraSpectrum != true)
+                                    {
+                                        numberOfFiles = (int)(sbToScan * 2);
+                                        // Create array of filenames & array of files
+                                        myFileName = new string[numberOfFiles];
+                                        myFile = new TextWriter[numberOfFiles];
+                                        // Generate filenames and actually create files
+                                        writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                                    }
+                                    else
+                                    {
+                                        int temp = (int)(sbToScan * 2 );
+                                        numberOfFiles = temp * (numOfIons + 1);
+                                        // Create array of filenames & array of files
+                                        myFileName = new string[numberOfFiles];
+                                        myFile = new TextWriter[numberOfFiles];
+                                        // Generate filenames and actually create files
+                                        writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp,numOfIons);
+                                    }
+                                   
+
+                                    
                                 }
                                 
                             }
@@ -716,10 +778,18 @@ namespace Spectroscopy_Controller
                                 metadata[17] = myRabiSelector.stepsSelect.Value.ToString();
 
                                 // Create a single file and put all readings in there
-                                myFileName = new string[1];
-                                myFile = new TextWriter[1];
-
-                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
+                                if (useCameraSpectrum != true)
+                                {
+                                    myFileName = new string[1];
+                                    myFile = new TextWriter[1];
+                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
+                                }
+                                else
+                                {
+                                    myFileName = new string[1+numOfIons];
+                                    myFile = new TextWriter[1+numOfIons];
+                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1,numOfIons);
+                                }
 
                                 bIsFreqGenEnabled = false;
                             }
@@ -970,6 +1040,192 @@ namespace Spectroscopy_Controller
 
             } //End of loop which goes through each file
         }
+
+        private void writeMetadataToFileCAM(ref StartExperimentDialog myExperimentDialog, ref RabiSelector myRabiSelector,
+                                            ref string FolderPath, ref TextWriter[] myFile, int numberOfFiles, int numberOfIons)
+        {
+            // These variables are needed for windowed files only
+            // But need to create them anyway else C# will complain...
+            //*****************//
+            // Store the number sideband we are on
+
+            //*****************//
+
+            // Go through each file (this will only be run once for continuous & fixed files)
+           for (int k = 0; k < numberOfIons + 1; k++)
+            
+            {
+
+                int sbCurrent = sbToScan;
+                // Store whether we are on a red or blue sideband
+                char sbRedOrBlue = 'R';
+                // Store the current sideband in readable format e.g. 001R
+                string sbCurrentString = "";
+
+                 for (int i = 0; i < numberOfFiles; i++)
+               
+                {
+                    // Generating the current filename:
+                    //*******************************//
+                    // This line happens for both continuous & windowed files
+                    myFileName[numberOfFiles * k+i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
+
+
+                    // These bits only need adding to windowed files
+                    if (specType == "Windowed")
+                    {
+                        myFileName[numberOfFiles * k + i] += "_";
+                        // Add preceding 0s to keep format of sideband number as XXX
+                        if (sbCurrent < 10) sbCurrentString = "00";
+                        else if (sbCurrent < 100) sbCurrentString = "0";
+                        else sbCurrentString = "";
+                        // Add current sideband number to filename
+                        sbCurrentString += sbCurrent;
+                        // If not on carrier, add R or B
+                        if (sbCurrent != 0) sbCurrentString += sbRedOrBlue;
+
+                        // Add string to filename
+                        myFileName[numberOfFiles * k+i] += sbCurrentString;
+                    }
+                    if (k == 0)
+                    {
+                        myFileName[i] += "_PMT.txt";
+                    }
+                    else
+                    {
+                        myFileName[numberOfFiles * k+i] += "_Ion_"+ k.ToString() +".txt";
+                    }
+                    //*******************************//
+
+                    if (System.IO.File.Exists(myFileName[numberOfFiles * k+i])) myFileName[numberOfFiles * k+i] += "OVERWRITE";
+
+                    // Now we get to actually create the file!
+                    myFile[numberOfFiles * k+i] = new StreamWriter(myFileName[numberOfFiles * k+i]);
+
+                    //*********************************//
+                    // Write the metadata to the file
+                    //
+                    myFile[numberOfFiles * k+i].WriteLine("Spectroscopy data file");
+                    myFile[numberOfFiles * k+i].WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                    // Spectrum type
+                    myFile[numberOfFiles * k+i].WriteLine("Spectrum Type:");
+                    myFile[numberOfFiles * k+i].WriteLine(specType);
+                    // 729 direction
+                    myFile[numberOfFiles * k+i].WriteLine("729 Direction:");
+                    myFile[numberOfFiles * k+i].WriteLine(specDir);
+                    // Trap voltage
+                    myFile[numberOfFiles * k+i].WriteLine("Trap Voltage (V):");
+                    myFile[numberOfFiles * k+i].WriteLine(this.trapVBox.Value);
+                    // Axial frequency
+                    myFile[numberOfFiles * k+i].WriteLine("Axial Frequency (kHz):");
+                    myFile[numberOfFiles * k+i].WriteLine(this.axFreqBox.Value);
+                    // Modified cyc freq
+                    myFile[numberOfFiles * k+i].WriteLine("Modified Cyclotron Frequency (kHz):");
+                    myFile[numberOfFiles * k+i].WriteLine(this.modcycFreqBox.Value);
+                    // Magnetron freq
+                    myFile[numberOfFiles * k+i].WriteLine("Magnetron Frequency (kHz):");
+                    myFile[numberOfFiles * k+i].WriteLine(this.magFreqBox.Value);
+                    // AOM start freq
+                    myFile[numberOfFiles * k+i].WriteLine("AOM Start Frequency (MHz):");
+                    double startFreqMHz = (double)(startFreqArray[i] / 1000000d);       // Calculate in MHz (stored in Hz)
+                    myFile[numberOfFiles * k+i].WriteLine(startFreqMHz);
+                    // Carrier frequency
+                    myFile[numberOfFiles * k+i].WriteLine("Carrier Frequency (MHz):");
+                    myFile[numberOfFiles * k+i].WriteLine(this.carFreqBox.Value);
+                    // Step size
+                    myFile[numberOfFiles * k+i].WriteLine("Step Size (kHz or ticks):");
+                    // For fixed spectra, put in step size of pulse length variation
+                    if (specType == "Fixed") myFile[numberOfFiles * k+i].WriteLine(fixed_stepSize);
+                    else myFile[numberOfFiles* k+i].WriteLine(this.stepSizeBox.Value);  // Othewise, take from core form
+                                                                       // Sidebands/side
+                    myFile[numberOfFiles * k+i].WriteLine("Sidebands to scan / side:");
+                    if (specType == "Windowed") myFile[numberOfFiles * k+i].WriteLine(sbToScan);
+                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    // Sideband width
+                    myFile[numberOfFiles * k+i].WriteLine("Sideband Width (steps):");
+                    if (specType == "Windowed") myFile[numberOfFiles * k+i].WriteLine(sbWidth);
+                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    // 729 RF amplitude
+                    myFile[numberOfFiles * k+i].WriteLine("729 RF Amplitude (dBm):");
+                    myFile[numberOfFiles * k+i].WriteLine(rfAmp);
+                    // Number of repeats
+                    myFile[numberOfFiles * k+i].WriteLine("Number of repeats per frequency:");
+                    myFile[numberOfFiles * k+i].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                    // Number interleaved
+                    myFile[numberOfFiles * k+i].WriteLine("File contains interleaved spectra:");
+                    myFile[numberOfFiles * k+i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+                    // Sideband number
+                    myFile[numberOfFiles * k+i].WriteLine("This is sideband:");
+                    if (specType == "Windowed") myFile[numberOfFiles * k+i].WriteLine(sbCurrentString);   // Windowed spectrum, print out readable string
+                    else myFile[numberOfFiles * k+i].WriteLine("N/A");            // Non-windowed spectra, print "N/A" 
+                                                                // Fixed spectrum - pulse start length
+                    myFile[numberOfFiles * k+i].WriteLine("Pulse Start Length (fixed freq):");
+                    if (specType == "Fixed") myFile[numberOfFiles * k+i].WriteLine(fixed_startLength);
+                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    // Fixed spectrum - number of steps
+                    myFile[numberOfFiles * k+i].WriteLine("Number of Steps (fixed freq):");
+                    if (specType == "Fixed") myFile[numberOfFiles * k+i].WriteLine(myRabiSelector.stepsSelect.Value.ToString());
+                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    // Name for each spectrum
+                    for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
+                    {
+                        myFile[numberOfFiles * k+i].WriteLine("Spectrum " + (j + 1) + " name:");
+                        myFile[numberOfFiles * k+i].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
+                    }
+                    // Notes section
+                    myFile[numberOfFiles * k+i].WriteLine("Notes:");
+                    myFile[numberOfFiles * k+i].WriteLine("#" + myExperimentDialog.NotesBox.Text + " HEX: " + hexFileName);
+                    // Title for data
+                    myFile[numberOfFiles * k+i].WriteLine("Data:");
+
+                    // Flush & close the file
+                    myFile[numberOfFiles * k+i].Flush();
+                    myFile[numberOfFiles * k+i].Close();
+                    //*********************************//
+
+                    // For the next filename:
+                    // Only needs to happen for windowed files
+                    //*********************//
+                    if (specType == "Windowed")
+                    {
+                        if (includeCarrier == true)
+                        {
+                            // If we are still on the red side, just decrease the sideband number
+                            if (i < sbToScan) sbCurrent--;
+                            else if (i == sbToScan)
+                            // If we have reached the carrier
+                            {
+                                // Change R to B
+                                sbRedOrBlue = 'B';
+                                // Increase sideband number
+                                sbCurrent++;
+                            }
+                            // If we are on the blue side, just increase the sideband number
+                            else sbCurrent++;
+                        }
+                        else
+                        {
+                            if (i == sbToScan - 1)
+                            // If we have reached the carrier
+                            {
+                                // Change R to B
+                                sbRedOrBlue = 'B';
+                                // Increase sideband number
+                                sbCurrent = 1;
+                            }
+                            else if (i < sbToScan) sbCurrent--;
+
+                            // If we are on the blue side, just increase the sideband number
+                            else sbCurrent++;
+                        }
+                    }
+
+                } //End of loop which goes through each file
+            }
+        
+        }
+
+
 
 
 

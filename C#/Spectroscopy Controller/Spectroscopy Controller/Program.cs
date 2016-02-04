@@ -17,6 +17,7 @@ namespace Spectroscopy_Controller
             Application.SetCompatibleTextRenderingDefault(false);
 
 
+
             Application.Run(new CoreForm());
         }
     }
