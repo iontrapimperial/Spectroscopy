@@ -1565,7 +1565,7 @@ namespace Spectroscopy_Controller
             loop = new LoopState();
             loop.Name = "Pulse length: " + (float)pulseLength * 0.64 / 1000 + "ms";
             loop.LoopCount = repeats;
-            loop.bIsFPGALoop = true;            // Always make it an FPGA loop  
+            loop.bIsFPGALoop = false;            // Made it false to match other xml files. OLD (Always make it an FPGA loop  )
 
             // Add loop to top level of nodes on new pulse tree
             loopNode = newPulseTree.Nodes.Add(loop.Name);
@@ -1578,21 +1578,23 @@ namespace Spectroscopy_Controller
             for (int i = 0; i < PulseTree.Nodes.Count; i++)
             {
                 newState[i] = new LaserState();
-
-                oldState = (LaserState)PulseTree.Nodes[i].Tag;
-                copyState(oldState, newState[i]);
-                // If we want to sweep this state, set the pulse length
-                if (newState[i].toSweep)
+                if (typeof(LaserState).IsAssignableFrom(PulseTree.Nodes[i].Tag.GetType()))
                 {
-                    // Set correct ticks & target length
-                    newState[i].Ticks = pulseLength;
-                    newState[i].TargetLength = pulseLength * 640;
-                }
-                // If not to sweep, just leave it as it is
+                    oldState = (LaserState)PulseTree.Nodes[i].Tag;
+                    copyState(oldState, newState[i]);
+                    // If we want to sweep this state, set the pulse length
+                    if (newState[i].toSweep)
+                    {
+                        // Set correct ticks & target length
+                        newState[i].Ticks = pulseLength;
+                        newState[i].TargetLength = pulseLength * 640;
+                    }
+                    // If not to sweep, just leave it as it is
 
-                // Add the state as a child of the loop
-                laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
-                laserNode.Tag = newState[i];
+                    // Add the state as a child of the loop
+                    laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
+                    laserNode.Tag = newState[i];
+                }
             }
 
             // Create 'Send Data' LaserState
@@ -1602,6 +1604,13 @@ namespace Spectroscopy_Controller
             // Add 'Send Data' LaserState as a node to new pulse tree
             TreeNode sendDataNode = newPulseTree.Nodes.Add(sendData.Name);
             sendDataNode.Tag = sendData;
+            // Create 'Send Data' LaserState
+            LaserState freqChange = new LaserState();
+            freqChange.Name = "freq change";
+            freqChange.StateType = LaserState.PulseType.WAIT_LABVIEW;
+            // Add 'Send Data' LaserState as a node to new pulse tree
+            TreeNode freqChangeNode = newPulseTree.Nodes.Add(freqChange.Name);
+            freqChangeNode.Tag = freqChange;
         }
 
 

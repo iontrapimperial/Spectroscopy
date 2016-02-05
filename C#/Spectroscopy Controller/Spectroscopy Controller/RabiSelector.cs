@@ -29,13 +29,17 @@ namespace Spectroscopy_Controller
             // Loop through each pulse
             for (int i = 0; i < pulseTemplate.Count; i++)
             {
-                state = (LaserState)pulseTemplate[i].Tag;
-                // If the state type is NORMAL or COUNT
-                if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
-                {
-                    // Add the name of the pulse to a list, for displaying on the form
-                    pulseNameList.Add(state.Name);
+
+                if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Tag.GetType())) {
+                    state = (LaserState)pulseTemplate[i].Tag;
+                    // If the state type is NORMAL or COUNT
+                    if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+                    {
+                        // Add the name of the pulse to a list, for displaying on the form
+                        pulseNameList.Add(state.Name);
+                    }
                 }
+            
             }
 
             // Make list of pulse names the data source for checkbox list on form
@@ -47,16 +51,20 @@ namespace Spectroscopy_Controller
         {
             LaserState state = new LaserState();
             // Loop through each pulse
-            for (int i = 0; i < pulseTemplate.Count; i++)
-            {
-                state = (LaserState)pulseTemplate[i].Tag;
-                if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+           
+                for (int i = 0; i < pulseTemplate.Count; i++)
                 {
-                    // Call method to find out if that item is checked in pulseSelectBox
-                    if ( isItemChecked(state.Name) )
+                if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Tag.GetType()))
+                {
+                    state = (LaserState)pulseTemplate[i].Tag;
+                    if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
                     {
-                        // Set property in the state to say we should sweep this
-                        state.toSweep = true;
+                        // Call method to find out if that item is checked in pulseSelectBox
+                        if (isItemChecked(state.Name))
+                        {
+                            // Set property in the state to say we should sweep this
+                            state.toSweep = true;
+                        }
                     }
                 }
             }
