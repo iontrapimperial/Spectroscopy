@@ -1687,7 +1687,7 @@ namespace Camera_Control
         public int[,] getCameraData(int rep)
         {
             int i, j;
-            int[,] spectrumDatLoc = new int[numIons, giNumberLoops * 2];
+            int[,] spectrumDatLoc = new int[numIons+1, giNumberLoops * 2];
             int check = 2;
             int startLoop = (rep) * giNumberLoops;
             int maxLoop = giNumberLoops + (repeatPos - 1) * giNumberLoops;
@@ -1709,9 +1709,18 @@ namespace Camera_Control
 
                 }
             }
+            for (i = 0; i < numIons; i++) {
+                for (j = 0; j < giNumberLoops * 2; j++)
+                {
+                    spectrumDatLoc[numIons, j] += spectrumDatLoc[i, j];
+                }
+            }
             return spectrumDatLoc;
 
         }
+        
+
+
 
 
         int[] getFluorescenceContAdapt(int N)

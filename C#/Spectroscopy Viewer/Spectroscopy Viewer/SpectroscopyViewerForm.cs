@@ -149,13 +149,13 @@ namespace Spectroscopy_Viewer
             this.spectrumExportDataButtonCAM.Enabled = false;
             this.histogramExportDataButton.Enabled = false;     // Disable exporting histogram data
             this.histogramExportDataButtonCAM.Enabled = false;
-            for (int i = 1; i <= numIons; i++)
+            for (int i = 1; i <= numIons+1; i++)
             {
                 string[] numbers = { i.ToString() };
                 ionBox.Items.AddRange(numbers);
                 ionBox1.Items.AddRange(numbers);
             }
-            numOfIons = numIons;
+            numOfIons = numIons+1;
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor so this is OK
             metadataLive = metadataPassed;
@@ -233,10 +233,10 @@ namespace Spectroscopy_Viewer
             }
             if (isCamera == true)
             {
-                myCAMSpectrum = new List<spectrum>[numIons];
-                dataCAMPlot = new List<PointPairList>[numIons];
+                myCAMSpectrum = new List<spectrum>[numIons+1];
+                dataCAMPlot = new List<PointPairList>[numIons+1];
                 int j;
-                for (j = 0; j < numIons; j++)
+                for (j = 0; j < numIons+1; j++)
                 {
                     // Create new spectra, with no data points, just metadata
                     myCAMSpectrum[j] = new List<spectrum>();
@@ -1052,7 +1052,8 @@ namespace Spectroscopy_Viewer
                     histogramChartCAM.ChartAreas[0].AxisX.Interval = 1;
 
                     // Check which radio button is checked & plot correct series
-                    this.radioButtonDisplayCAM_CheckedChanged(sender, e);
+                    this.histogramDisplayCoolCAM_CheckedChanged(sender, e);
+                    
 
                 }   // End of if statement checking that data has been loaded
             }
@@ -1097,8 +1098,7 @@ namespace Spectroscopy_Viewer
             }
             else this.histogramChart.Series["Count period"].Enabled = false;    // Disable series
         }
-
-        private void radioButtonDisplayCAM_CheckedChanged(object sender, EventArgs e)
+        private void histogramDisplayCoolCAM_CheckedChanged(object sender, EventArgs e)
         {
             // For each radio button (All, Cool, Count)
             // If the button is checked, display the corresponding series
@@ -1131,6 +1131,10 @@ namespace Spectroscopy_Viewer
             }
             else this.histogramChartCAM.Series["Count period"].Enabled = false;    // Disable series
         }
+
+
+
+     
 
 
 
@@ -2256,6 +2260,7 @@ namespace Spectroscopy_Viewer
             int.TryParse(ionBox1.SelectedItem.ToString(), out nIons);
             cameraSpecNum = nIons - 1;
         }
+
     }
         
     }

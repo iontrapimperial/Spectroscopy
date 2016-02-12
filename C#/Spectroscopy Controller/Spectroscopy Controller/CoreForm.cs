@@ -1604,13 +1604,13 @@ namespace Spectroscopy_Controller
             // Add 'Send Data' LaserState as a node to new pulse tree
             TreeNode sendDataNode = newPulseTree.Nodes.Add(sendData.Name);
             sendDataNode.Tag = sendData;
-            // Create 'Send Data' LaserState
+           /* // Create 'Send Data' LaserState
             LaserState freqChange = new LaserState();
             freqChange.Name = "freq change";
             freqChange.StateType = LaserState.PulseType.WAIT_LABVIEW;
             // Add 'Send Data' LaserState as a node to new pulse tree
             TreeNode freqChangeNode = newPulseTree.Nodes.Add(freqChange.Name);
-            freqChangeNode.Tag = freqChange;
+            freqChangeNode.Tag = freqChange;*/
         }
 
 

@@ -263,7 +263,8 @@ namespace Spectroscopy_Controller
                                 }
                                 else
                                 {
-                                    int[,] camDat = myCamera.getCameraData(CurrentWindowStep*(1+CurrentSideband));
+                                    int[,] camDat = myCamera.getCameraData(CurrentWindowStep+(CurrentSideband*(1+sbWidth)));
+                                    Console.WriteLine("repeat" + (CurrentWindowStep + CurrentSideband *(1+ sbWidth)));
                                     myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
                                     myViewer.addLiveDataCAM(camDat, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
                                     for (int i = 0; i < numOfIons; i++)

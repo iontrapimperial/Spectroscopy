@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -69,6 +69,8 @@
             this.coolingThresholdSelectCAM = new System.Windows.Forms.NumericUpDown();
             this.countThresholdSelectCAM = new System.Windows.Forms.NumericUpDown();
             this.histogramCamTab = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ionBox1 = new System.Windows.Forms.ComboBox();
             this.histogramExportDataButtonCAM = new System.Windows.Forms.Button();
             this.groupBoxMaxBinCAM = new System.Windows.Forms.GroupBox();
             this.histogramMaxBinSelectCAM = new System.Windows.Forms.NumericUpDown();
@@ -82,8 +84,6 @@
             this.pauseButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.restartViewerButton = new System.Windows.Forms.Button();
-            this.ionBox1 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -356,17 +356,17 @@
             // 
             // histogramChart
             // 
-            chartArea4.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea4.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea4.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea4);
+            chartArea1.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea1);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series4.ChartArea = "ChartArea1";
-            series4.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series1);
             this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
@@ -550,6 +550,25 @@
             this.histogramCamTab.Text = "Histogram Cam";
             this.histogramCamTab.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(155, 5);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(22, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "Ion";
+            // 
+            // ionBox1
+            // 
+            this.ionBox1.FormattingEnabled = true;
+            this.ionBox1.Location = new System.Drawing.Point(158, 21);
+            this.ionBox1.Name = "ionBox1";
+            this.ionBox1.Size = new System.Drawing.Size(109, 21);
+            this.ionBox1.TabIndex = 19;
+            this.ionBox1.SelectedIndexChanged += new System.EventHandler(this.ionBox1_SelectedIndexChanged);
+            // 
             // histogramExportDataButtonCAM
             // 
             this.histogramExportDataButtonCAM.Location = new System.Drawing.Point(6, 54);
@@ -638,20 +657,21 @@
             this.histogramDisplayCoolCAM.TabIndex = 4;
             this.histogramDisplayCoolCAM.Text = "Cooling period only";
             this.histogramDisplayCoolCAM.UseVisualStyleBackColor = true;
+            this.histogramDisplayCoolCAM.CheckedChanged += new System.EventHandler(this.histogramDisplayCoolCAM_CheckedChanged);
             // 
             // histogramChartCAM
             // 
-            chartArea3.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea3.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea3.Name = "ChartArea1";
-            this.histogramChartCAM.ChartAreas.Add(chartArea3);
+            chartArea2.Name = "ChartArea1";
+            this.histogramChartCAM.ChartAreas.Add(chartArea2);
             this.histogramChartCAM.Location = new System.Drawing.Point(5, 96);
             this.histogramChartCAM.Name = "histogramChartCAM";
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "seriesHistogram";
-            this.histogramChartCAM.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "seriesHistogram";
+            this.histogramChartCAM.Series.Add(series2);
             this.histogramChartCAM.Size = new System.Drawing.Size(960, 397);
             this.histogramChartCAM.TabIndex = 11;
             this.histogramChartCAM.Text = "chart1";
@@ -687,25 +707,6 @@
             this.restartViewerButton.Text = "Restart viewer";
             this.restartViewerButton.UseVisualStyleBackColor = true;
             this.restartViewerButton.Click += new System.EventHandler(this.restartViewerButton_Click);
-            // 
-            // ionBox1
-            // 
-            this.ionBox1.FormattingEnabled = true;
-            this.ionBox1.Location = new System.Drawing.Point(158, 21);
-            this.ionBox1.Name = "ionBox1";
-            this.ionBox1.Size = new System.Drawing.Size(109, 21);
-            this.ionBox1.TabIndex = 19;
-            this.ionBox1.SelectedIndexChanged += new System.EventHandler(this.ionBox1_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(155, 5);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(22, 13);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "Ion";
             // 
             // SpectroscopyViewerForm
             // 
