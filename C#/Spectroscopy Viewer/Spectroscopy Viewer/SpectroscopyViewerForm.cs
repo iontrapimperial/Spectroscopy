@@ -39,6 +39,7 @@ namespace Spectroscopy_Viewer
         private int[] histogramAllCAM;
         private int histogramSizeCAM;
 
+
         private int cameraSpecNum = 0;
         private int numOfIons = 1;
 
@@ -137,6 +138,8 @@ namespace Spectroscopy_Viewer
         // Notes
         public SpectroscopyViewerForm(ref string[] metadataPassed, bool isCamera, int numIons)
         {
+            this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
+            useCamera = isCamera;
             InitializeComponent();
             initialiseColours();
             // Flag that experiment is running
@@ -149,13 +152,13 @@ namespace Spectroscopy_Viewer
             this.spectrumExportDataButtonCAM.Enabled = false;
             this.histogramExportDataButton.Enabled = false;     // Disable exporting histogram data
             this.histogramExportDataButtonCAM.Enabled = false;
-            for (int i = 1; i <= numIons+1; i++)
+            for (int i = 1; i <= numIons + 1; i++)
             {
                 string[] numbers = { i.ToString() };
                 ionBox.Items.AddRange(numbers);
                 ionBox1.Items.AddRange(numbers);
             }
-            numOfIons = numIons+1;
+            numOfIons = numIons + 1;
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor so this is OK
             metadataLive = metadataPassed;
@@ -233,10 +236,10 @@ namespace Spectroscopy_Viewer
             }
             if (isCamera == true)
             {
-                myCAMSpectrum = new List<spectrum>[numIons+1];
-                dataCAMPlot = new List<PointPairList>[numIons+1];
+                myCAMSpectrum = new List<spectrum>[numIons + 1];
+                dataCAMPlot = new List<PointPairList>[numIons + 1];
                 int j;
-                for (j = 0; j < numIons+1; j++)
+                for (j = 0; j < numIons + 1; j++)
                 {
                     // Create new spectra, with no data points, just metadata
                     myCAMSpectrum[j] = new List<spectrum>();
@@ -301,7 +304,7 @@ namespace Spectroscopy_Viewer
                         myCAMSpectrum[j][i].addToSpectrum(myFileHandler.getDataPoints(i));
                         //   myCAMSpectrum[i].addToSpectrum(myFileHandlerCAM.getDataPoints(i));
                         // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)    
-                                          
+
                         dataCAMPlot[j][i] = myCAMSpectrum[j][i].getDataPlot();
                     }
                 }
@@ -362,6 +365,8 @@ namespace Spectroscopy_Viewer
         delegate void Delegate_StopRunningLive();
         public void StopRunningLive()
         {
+            Console.WriteLine("in StopRunningLive");
+
             if (this.InvokeRequired)
             {
                 this.Invoke(new Delegate_StopRunningLive(StopRunningLive));
@@ -371,6 +376,7 @@ namespace Spectroscopy_Viewer
                 if (IsExperimentRunning)
                 {
                     // Flag that we are not running in live mode
+                    Console.WriteLine("in else");
                     IsExperimentRunning = false;
 
                     // Now that we have stopped running in live mode:
@@ -432,6 +438,7 @@ namespace Spectroscopy_Viewer
             // Setup the graph
             createGraph(zedGraphSpectra);
             createGraph(zedGraphSpectraCAM);
+            //zedGraphSpectra.GraphPane.YAxis.Scale.Max = 1;
             // Size the control to fill the form with a margin
             SetSize();
             SetSizeCAM();
@@ -466,9 +473,9 @@ namespace Spectroscopy_Viewer
             tabControl1.Size = new Size(ClientRectangle.Width - 20,
                                     ClientRectangle.Height - 20);
 
-            zedGraphSpectra.Location = new Point(10, 60);
+            zedGraphSpectra.Location = new Point(55, 60);
             // Leave a small margin around the outside of the control
-            zedGraphSpectra.Size = new Size(ClientRectangle.Width - 230,
+            zedGraphSpectra.Size = new Size(ClientRectangle.Width - 270,
                                     ClientRectangle.Height - 180);
 
             //Redraw the graph controls in appropriate position for new window size
@@ -485,22 +492,26 @@ namespace Spectroscopy_Viewer
 
         private void SetSizeCAM()
         {
+
+
             tabControl1.Location = new Point(10, 10);
             tabControl1.Size = new Size(ClientRectangle.Width - 20,
                                     ClientRectangle.Height - 20);
 
-            zedGraphSpectraCAM.Location = new Point(10, 60);
+            zedGraphSpectraCAM.Location = new Point(55, 60);
             // Leave a small margin around the outside of the control
-            zedGraphSpectraCAM.Size = new Size(ClientRectangle.Width - 230,
+            zedGraphSpectraCAM.Size = new Size(ClientRectangle.Width - 270,
                                     ClientRectangle.Height - 180);
-
-            //Redraw the graph controls in appropriate position for new window size
-            for (int i = 0; i < numberOfSpectra; i++)
+            if (useCamera == true)
             {
-                if (i < 5)
+                //Redraw the graph controls in appropriate position for new window size
+                for (int i = 0; i < numberOfSpectra; i++)
                 {
-                    this.graphControlGroupCAM[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
-                    this.graphControlGroupCAM[i].Size = new System.Drawing.Size(176, 109);
+                    if (i < 5)
+                    {
+                        this.graphControlGroupCAM[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                        this.graphControlGroupCAM[i].Size = new System.Drawing.Size(176, 109);
+                    }
                 }
             }
 
@@ -1053,7 +1064,7 @@ namespace Spectroscopy_Viewer
 
                     // Check which radio button is checked & plot correct series
                     this.histogramDisplayCoolCAM_CheckedChanged(sender, e);
-                    
+
 
                 }   // End of if statement checking that data has been loaded
             }
@@ -1073,6 +1084,7 @@ namespace Spectroscopy_Viewer
             // If the button is unchecked, hide the corresponding series
 
             // For "All" radio button
+
             if (histogramDisplayAll.Checked)
             {
                 this.histogramChart.Series["All"].Enabled = true;   // Enable series
@@ -1103,38 +1115,40 @@ namespace Spectroscopy_Viewer
             // For each radio button (All, Cool, Count)
             // If the button is checked, display the corresponding series
             // If the button is unchecked, hide the corresponding series
-
-            // For "All" radio button
-            if (histogramDisplayAllCAM.Checked)
+            if (myCAMSpectrum != null)
             {
-                this.histogramChartCAM.Series["All"].Enabled = true;   // Enable series
-                this.histogramAutoScaleCAM(histogramAllCAM);              // Auto scale graph
+                // For "All" radio button
+                if (histogramDisplayAllCAM.Checked)
+                {
+                    this.histogramChartCAM.Series["All"].Enabled = true;   // Enable series
+                    this.histogramAutoScaleCAM(histogramAllCAM);              // Auto scale graph
+                }
+                else this.histogramChartCAM.Series["All"].Enabled = false; // Disable series
+
+
+                // For "Cooling period only" radio button
+                if (histogramDisplayCoolCAM.Checked)
+                {
+                    this.histogramChartCAM.Series["Cool period"].Enabled = true;   // Enable series
+
+                    this.histogramAutoScaleCAM(histogramCoolCAM);                     // Auto scale graph
+                }
+                else this.histogramChartCAM.Series["Cool period"].Enabled = false; // Disable series
+
+
+                // For "Count period only" radio button
+                if (histogramDisplayCountCAM.Checked)
+                {
+                    this.histogramChartCAM.Series["Count period"].Enabled = true;      // Enable series
+                    this.histogramAutoScaleCAM(histogramCountCAM);                        // Auto scale graph
+                }
+                else this.histogramChartCAM.Series["Count period"].Enabled = false;    // Disable series
             }
-            else this.histogramChartCAM.Series["All"].Enabled = false; // Disable series
-
-
-            // For "Cooling period only" radio button
-            if (histogramDisplayCoolCAM.Checked)
-            {
-                this.histogramChartCAM.Series["Cool period"].Enabled = true;   // Enable series
-
-                this.histogramAutoScaleCAM(histogramCoolCAM);                     // Auto scale graph
-            }
-            else this.histogramChartCAM.Series["Cool period"].Enabled = false; // Disable series
-
-
-            // For "Count period only" radio button
-            if (histogramDisplayCountCAM.Checked)
-            {
-                this.histogramChartCAM.Series["Count period"].Enabled = true;      // Enable series
-                this.histogramAutoScaleCAM(histogramCountCAM);                        // Auto scale graph
-            }
-            else this.histogramChartCAM.Series["Count period"].Enabled = false;    // Disable series
         }
 
 
 
-     
+
 
 
 
@@ -1227,7 +1241,7 @@ namespace Spectroscopy_Viewer
 
         }
 
-        
+
         private void histogramCheckBoxAutoCAM_CheckedChanged_1(object sender, EventArgs e)
         {
             // If selecting auto, then disable user maxBinSelect
@@ -1308,7 +1322,7 @@ namespace Spectroscopy_Viewer
         private void histogramExportDataButtonCAM_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
-            if (myCAMSpectrum !=null) {
+            if (myCAMSpectrum != null) {
                 if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
                 else
                 {
@@ -2023,7 +2037,7 @@ namespace Spectroscopy_Viewer
         private void updateGraphCAM()
         {
             // Only try to update graph if some spectra have been loaded
-            if (numberOfSpectra != 0)
+            if (numberOfSpectra != 0 && useCamera == true)
             {
 
                 // get a reference to the GraphPane
@@ -2251,7 +2265,7 @@ namespace Spectroscopy_Viewer
         {
             int nIons;
             int.TryParse(ionBox.SelectedItem.ToString(), out nIons);
-            cameraSpecNum = nIons-1;
+            cameraSpecNum = nIons - 1;
         }
 
         private void ionBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -2261,6 +2275,28 @@ namespace Spectroscopy_Viewer
             cameraSpecNum = nIons - 1;
         }
 
+        private void tabPageSpectra_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            zedGraphSpectra.GraphPane.YAxis.Scale.Max = (double)trackBar1.Value / 100;
+            updateGraph();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            zedGraphSpectraCAM.GraphPane.YAxis.Scale.Max = (double)trackBar2.Value / 100;
+            updateGraphCAM();
+        }
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            Console.WriteLine("isSpecRunning" + IsExperimentRunning);
+            if (IsExperimentRunning==true) e.Cancel=true;
+
+        }
     }
         
     }

@@ -76,6 +76,7 @@ namespace Spectroscopy_Controller
         {
             int Frequency = startFreq;
             int CurrentWindowStep = 0;
+            int FixedCamPos = 0; 
 
             int CurrentSideband = 0;
 
@@ -250,7 +251,7 @@ namespace Spectroscopy_Controller
 
                                 if (specType == "Fixed")
                                 {
-                                    int[,] camDat = myCamera.getCameraData(CurrentWindowStep);
+                                    int[,] camDat = myCamera.getCameraData(FixedCamPos);
                                     myViewer.addLiveData(Readings, CurrentWindowStep, 0, CurrentPulseLength);
                                     myViewer.addLiveDataCAM(camDat, CurrentWindowStep, 0, CurrentPulseLength);
                                     for (int i = 0; i < numOfIons; i++)
@@ -260,6 +261,7 @@ namespace Spectroscopy_Controller
                                             myFile[i + 1].WriteLine(camDat[i, j].ToString());
                                         }
                                     }
+                                    FixedCamPos++;
                                 }
                                 else
                                 {
@@ -306,8 +308,11 @@ namespace Spectroscopy_Controller
                             {
                                 CurrentPulseLength += fixed_stepSize;
                                 phase4.Value += phaseStep.Value;
-                                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
 
+                            // Update the DDS only if there is a phase change. This is to save time in Rabi type experiments.
+                            //if (phaseStep.Value != 0) 
+                            LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                               // else { }
                             }
 
                             FPGA.ResetDevice();
@@ -384,8 +389,8 @@ namespace Spectroscopy_Controller
                                                     MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
                                                     bShouldQuitThread = true;
 
-                                                    // break;       // might need this??
-                                                }
+                                                // break;       // might need this??
+                                            }
 
                                             }
                                             else
@@ -466,8 +471,8 @@ namespace Spectroscopy_Controller
                                 WriteMessage("Received experiment stop command!\r\n");
                                 MessageBox.Show("Experiment Finished!", "Bang");
                                 bShouldQuitThread = true;
-
-                            }
+                                
+                        }
                             else
                             {
                                 WriteMessage("Received corrupted experiment stop command!\r\n");
@@ -498,7 +503,7 @@ namespace Spectroscopy_Controller
                 if (useCameraSpectrum == true)
                     myCamera.stopExp();
                 FPGA.ResetDevice();
-            
+
         }
 
 

@@ -303,7 +303,7 @@
             this.vertEndUpDown.Size = new System.Drawing.Size(72, 20);
             this.vertEndUpDown.TabIndex = 3;
             this.vertEndUpDown.Value = new decimal(new int[] {
-            230,
+            180,
             0,
             0,
             0});
@@ -325,7 +325,7 @@
             this.verStartUpDown.Size = new System.Drawing.Size(72, 20);
             this.verStartUpDown.TabIndex = 2;
             this.verStartUpDown.Value = new decimal(new int[] {
-            180,
+            130,
             0,
             0,
             0});
@@ -347,7 +347,7 @@
             this.horEndUpDown.Size = new System.Drawing.Size(72, 20);
             this.horEndUpDown.TabIndex = 1;
             this.horEndUpDown.Value = new decimal(new int[] {
-            350,
+            280,
             0,
             0,
             0});
@@ -369,7 +369,7 @@
             this.horStartUpDown.Size = new System.Drawing.Size(72, 20);
             this.horStartUpDown.TabIndex = 0;
             this.horStartUpDown.Value = new decimal(new int[] {
-            300,
+            230,
             0,
             0,
             0});

@@ -30,6 +30,9 @@ namespace Spectroscopy_Controller
         /// True for a loop that the FPGA iterates over, false for one that gets unrolled into a long loop by this program.
         /// </summary>
         public bool bIsFPGALoop = false;
+
+        public bool toSweep = false;
+
     }
 
     /// <summary>

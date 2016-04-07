@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -43,6 +43,7 @@
             this.plotDataButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSpectra = new System.Windows.Forms.TabPage();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.userDisplayText = new System.Windows.Forms.TextBox();
             this.spectrumExportDataButton = new System.Windows.Forms.Button();
             this.tabPageHistogram = new System.Windows.Forms.TabPage();
@@ -57,6 +58,7 @@
             this.histogramChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButton = new System.Windows.Forms.Button();
             this.spectrumCamTab = new System.Windows.Forms.TabPage();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.Ion = new System.Windows.Forms.Label();
             this.ionBox = new System.Windows.Forms.ComboBox();
             this.userDisplayTextCAM = new System.Windows.Forms.TextBox();
@@ -88,12 +90,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageSpectra.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tabPageHistogram.SuspendLayout();
             this.groupBoxMaxBin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelect)).BeginInit();
             this.groupBoxDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).BeginInit();
             this.spectrumCamTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelectCAM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelectCAM)).BeginInit();
             this.histogramCamTab.SuspendLayout();
@@ -105,7 +109,7 @@
             // 
             // zedGraphSpectra
             // 
-            this.zedGraphSpectra.Location = new System.Drawing.Point(8, 48);
+            this.zedGraphSpectra.Location = new System.Drawing.Point(49, 47);
             this.zedGraphSpectra.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphSpectra.Name = "zedGraphSpectra";
             this.zedGraphSpectra.ScrollGrace = 0D;
@@ -201,12 +205,13 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(980, 604);
+            this.tabControl1.Size = new System.Drawing.Size(1033, 644);
             this.tabControl1.TabIndex = 8;
             this.tabControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.viewerForm_KeyDown);
             // 
             // tabPageSpectra
             // 
+            this.tabPageSpectra.Controls.Add(this.trackBar1);
             this.tabPageSpectra.Controls.Add(this.userDisplayText);
             this.tabPageSpectra.Controls.Add(this.loadDataButton);
             this.tabPageSpectra.Controls.Add(this.spectrumExportDataButton);
@@ -219,25 +224,37 @@
             this.tabPageSpectra.Location = new System.Drawing.Point(4, 22);
             this.tabPageSpectra.Name = "tabPageSpectra";
             this.tabPageSpectra.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSpectra.Size = new System.Drawing.Size(972, 578);
+            this.tabPageSpectra.Size = new System.Drawing.Size(1025, 618);
             this.tabPageSpectra.TabIndex = 0;
             this.tabPageSpectra.Text = "Spectra PMT";
             this.tabPageSpectra.UseVisualStyleBackColor = true;
+            this.tabPageSpectra.Click += new System.EventHandler(this.tabPageSpectra_Click);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(3, 229);
+            this.trackBar1.Maximum = 100;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar1.Size = new System.Drawing.Size(45, 104);
+            this.trackBar1.TabIndex = 10;
+            this.trackBar1.TickFrequency = 25;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // userDisplayText
             // 
             this.userDisplayText.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.userDisplayText.Location = new System.Drawing.Point(3, 514);
+            this.userDisplayText.Location = new System.Drawing.Point(3, 547);
             this.userDisplayText.Multiline = true;
             this.userDisplayText.Name = "userDisplayText";
             this.userDisplayText.ReadOnly = true;
-            this.userDisplayText.Size = new System.Drawing.Size(966, 61);
+            this.userDisplayText.Size = new System.Drawing.Size(1019, 68);
             this.userDisplayText.TabIndex = 9;
             // 
             // spectrumExportDataButton
             // 
             this.spectrumExportDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.spectrumExportDataButton.Location = new System.Drawing.Point(636, 5);
+            this.spectrumExportDataButton.Location = new System.Drawing.Point(687, 5);
             this.spectrumExportDataButton.Name = "spectrumExportDataButton";
             this.spectrumExportDataButton.Size = new System.Drawing.Size(137, 36);
             this.spectrumExportDataButton.TabIndex = 8;
@@ -255,7 +272,7 @@
             this.tabPageHistogram.Location = new System.Drawing.Point(4, 22);
             this.tabPageHistogram.Name = "tabPageHistogram";
             this.tabPageHistogram.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHistogram.Size = new System.Drawing.Size(972, 578);
+            this.tabPageHistogram.Size = new System.Drawing.Size(1025, 618);
             this.tabPageHistogram.TabIndex = 1;
             this.tabPageHistogram.Text = "Histogram PMT";
             this.tabPageHistogram.UseVisualStyleBackColor = true;
@@ -356,17 +373,17 @@
             // 
             // histogramChart
             // 
-            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea5.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea5.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea1);
+            chartArea5.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea5);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series5);
             this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
@@ -383,6 +400,7 @@
             // 
             // spectrumCamTab
             // 
+            this.spectrumCamTab.Controls.Add(this.trackBar2);
             this.spectrumCamTab.Controls.Add(this.Ion);
             this.spectrumCamTab.Controls.Add(this.ionBox);
             this.spectrumCamTab.Controls.Add(this.userDisplayTextCAM);
@@ -397,10 +415,21 @@
             this.spectrumCamTab.Location = new System.Drawing.Point(4, 22);
             this.spectrumCamTab.Name = "spectrumCamTab";
             this.spectrumCamTab.Padding = new System.Windows.Forms.Padding(3);
-            this.spectrumCamTab.Size = new System.Drawing.Size(972, 578);
+            this.spectrumCamTab.Size = new System.Drawing.Size(1025, 618);
             this.spectrumCamTab.TabIndex = 2;
             this.spectrumCamTab.Text = "Spectra Cam";
             this.spectrumCamTab.UseVisualStyleBackColor = true;
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.Location = new System.Drawing.Point(3, 229);
+            this.trackBar2.Maximum = 100;
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar2.Size = new System.Drawing.Size(45, 104);
+            this.trackBar2.TabIndex = 20;
+            this.trackBar2.TickFrequency = 25;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             // 
             // Ion
             // 
@@ -424,11 +453,11 @@
             // userDisplayTextCAM
             // 
             this.userDisplayTextCAM.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.userDisplayTextCAM.Location = new System.Drawing.Point(3, 514);
+            this.userDisplayTextCAM.Location = new System.Drawing.Point(3, 554);
             this.userDisplayTextCAM.Multiline = true;
             this.userDisplayTextCAM.Name = "userDisplayTextCAM";
             this.userDisplayTextCAM.ReadOnly = true;
-            this.userDisplayTextCAM.Size = new System.Drawing.Size(966, 61);
+            this.userDisplayTextCAM.Size = new System.Drawing.Size(1019, 61);
             this.userDisplayTextCAM.TabIndex = 17;
             // 
             // loadDataButtonCAM
@@ -444,7 +473,7 @@
             // spectrumExportDataButtonCAM
             // 
             this.spectrumExportDataButtonCAM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.spectrumExportDataButtonCAM.Location = new System.Drawing.Point(646, 6);
+            this.spectrumExportDataButtonCAM.Location = new System.Drawing.Point(687, 8);
             this.spectrumExportDataButtonCAM.Name = "spectrumExportDataButtonCAM";
             this.spectrumExportDataButtonCAM.Size = new System.Drawing.Size(137, 36);
             this.spectrumExportDataButtonCAM.TabIndex = 16;
@@ -453,7 +482,7 @@
             // 
             // zedGraphSpectraCAM
             // 
-            this.zedGraphSpectraCAM.Location = new System.Drawing.Point(8, 49);
+            this.zedGraphSpectraCAM.Location = new System.Drawing.Point(49, 49);
             this.zedGraphSpectraCAM.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphSpectraCAM.Name = "zedGraphSpectraCAM";
             this.zedGraphSpectraCAM.ScrollGrace = 0D;
@@ -545,7 +574,7 @@
             this.histogramCamTab.Location = new System.Drawing.Point(4, 22);
             this.histogramCamTab.Name = "histogramCamTab";
             this.histogramCamTab.Padding = new System.Windows.Forms.Padding(3);
-            this.histogramCamTab.Size = new System.Drawing.Size(972, 578);
+            this.histogramCamTab.Size = new System.Drawing.Size(1025, 618);
             this.histogramCamTab.TabIndex = 3;
             this.histogramCamTab.Text = "Histogram Cam";
             this.histogramCamTab.UseVisualStyleBackColor = true;
@@ -661,17 +690,17 @@
             // 
             // histogramChartCAM
             // 
-            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea6.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea6.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea2.Name = "ChartArea1";
-            this.histogramChartCAM.ChartAreas.Add(chartArea2);
+            chartArea6.Name = "ChartArea1";
+            this.histogramChartCAM.ChartAreas.Add(chartArea6);
             this.histogramChartCAM.Location = new System.Drawing.Point(5, 96);
             this.histogramChartCAM.Name = "histogramChartCAM";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "seriesHistogram";
-            this.histogramChartCAM.Series.Add(series2);
+            series6.ChartArea = "ChartArea1";
+            series6.Name = "seriesHistogram";
+            this.histogramChartCAM.Series.Add(series6);
             this.histogramChartCAM.Size = new System.Drawing.Size(960, 397);
             this.histogramChartCAM.TabIndex = 11;
             this.histogramChartCAM.Text = "chart1";
@@ -689,7 +718,7 @@
             // pauseButton
             // 
             this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pauseButton.Location = new System.Drawing.Point(652, 2);
+            this.pauseButton.Location = new System.Drawing.Point(693, 2);
             this.pauseButton.Name = "pauseButton";
             this.pauseButton.Size = new System.Drawing.Size(147, 26);
             this.pauseButton.TabIndex = 10;
@@ -700,7 +729,7 @@
             // restartViewerButton
             // 
             this.restartViewerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.restartViewerButton.Location = new System.Drawing.Point(834, 2);
+            this.restartViewerButton.Location = new System.Drawing.Point(875, 2);
             this.restartViewerButton.Name = "restartViewerButton";
             this.restartViewerButton.Size = new System.Drawing.Size(158, 26);
             this.restartViewerButton.TabIndex = 9;
@@ -712,7 +741,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1004, 628);
+            this.ClientSize = new System.Drawing.Size(1045, 668);
             this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.restartViewerButton);
             this.Controls.Add(this.tabControl1);
@@ -727,6 +756,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPageSpectra.ResumeLayout(false);
             this.tabPageSpectra.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tabPageHistogram.ResumeLayout(false);
             this.groupBoxMaxBin.ResumeLayout(false);
             this.groupBoxMaxBin.PerformLayout();
@@ -736,6 +766,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.histogramChart)).EndInit();
             this.spectrumCamTab.ResumeLayout(false);
             this.spectrumCamTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelectCAM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelectCAM)).EndInit();
             this.histogramCamTab.ResumeLayout(false);
@@ -803,6 +834,8 @@
         private System.Windows.Forms.ComboBox ionBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox ionBox1;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar2;
     }
 }
 

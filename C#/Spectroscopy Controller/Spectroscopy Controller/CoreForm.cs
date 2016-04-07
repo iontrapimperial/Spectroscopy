@@ -30,24 +30,26 @@ namespace Spectroscopy_Controller
         // Array of file names for data files
         string[] myFileName;
 
-        
+
 
         TreeNode PreviewNode = new TreeNode();
         //TemplateSelector TemplateForm;
 
         public bool PauseExperiment = false;
-        private bool useCameraSpectrum = false; 
+        private bool useCameraSpectrum = false;
         private bool bIsFreqGenEnabled = false;
         public bool includeCarrier = false;
         private bool IsViewerOpen = false;
         public int readingsPerDataPoint;
+        public bool isExperimentRunning = false;
+       
 
         private bool IsCameraOpen = false;
 
         public bool updating = false;
 
         //Logic to select which DDS profile is used
-        private List<bool> profilePins = new List<bool> {true,true,true};
+        private List<bool> profilePins = new List<bool> { true, true, true };
         private List<RadioButton> profileRadioButtons = new List<RadioButton>();
         public string hexFileName;
         //Trap and ion parameters
@@ -59,14 +61,14 @@ namespace Spectroscopy_Controller
         private float stabilitylimit;
         private float pi = 3.1415927F;
         private float emratio = 0.9648533E8F;//(=1/1.036427E-8F);
- 
+
         //Scan parameters for given run (taken from user selected values on form)
         private string specType, specDir;
         private int axFreq, modcycFreq, magFreq, startFreq, carFreq, stepSize, sbToScan, sbWidth;//, axFreqTemp, modcycFreqTemp;
         private float trapV, angaxFreq, angmodcycFreq, angmagFreq, rfAmp;
         // Parameters for a fixed frequency run
         private int fixed_startLength, fixed_stepSize;
-        public int numOfIons = 1; 
+        public int numOfIons = 1;
         private int[] startFreqArray;
 
         public CoreForm()
@@ -87,16 +89,16 @@ namespace Spectroscopy_Controller
 
             StopButton.Enabled = false;
             PauseButton.Enabled = false;
-
-            COM12.BaudRate = 9600; 
-          if (COM12.IsOpen == false) COM12.Open(); // open serial port
+            /*
+            COM12.BaudRate = 9600;
+            if (COM12.IsOpen == false) COM12.Open(); // open serial port
 
             string reset = "";
 
             for (int i = 0; i < 63; i++) reset += "256" + ",";
             reset += "256";
-          //  COM12.WriteLine(reset);
-         //  string mystring = COM12.ReadLine();
+            //  COM12.WriteLine(reset);
+            //  string mystring = COM12.ReadLine(); Temporarily moved to openUSB button*/
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -128,12 +130,12 @@ namespace Spectroscopy_Controller
                 Changetype = ((RadioButton)sender).Tag.ToString();
             }
 
-            switch(Changetype)
+            switch (Changetype)
             {
-               case "Laser":
+                case "Laser":
                     SetOutputs();
-                    break; 
-               case "profile0":
+                    break;
+                case "profile0":
                     profilePins[0] = true;
                     profilePins[1] = true;
                     profilePins[2] = true;
@@ -143,10 +145,10 @@ namespace Spectroscopy_Controller
                     profile4radioButton.Checked = false;
                     profile5radioButton.Checked = false;
                     profile6radioButton.Checked = false;
-                    profile7radioButton.Checked = false;                         
+                    profile7radioButton.Checked = false;
                     SetOutputs();
-                    break; 
-               case "profile1":
+                    break;
+                case "profile1":
                     profilePins[0] = false;
                     profilePins[1] = true;
                     profilePins[2] = true;
@@ -156,10 +158,10 @@ namespace Spectroscopy_Controller
                     profile4radioButton.Checked = false;
                     profile5radioButton.Checked = false;
                     profile6radioButton.Checked = false;
-                    profile7radioButton.Checked = false; 
+                    profile7radioButton.Checked = false;
                     SetOutputs();
-                    break; 
-               case "profile2":
+                    break;
+                case "profile2":
                     profilePins[0] = true;
                     profilePins[1] = false;
                     profilePins[2] = true;
@@ -172,7 +174,7 @@ namespace Spectroscopy_Controller
                     profile7radioButton.Checked = false;
                     SetOutputs();
                     break;
-               case "profile3":
+                case "profile3":
                     profilePins[0] = false;
                     profilePins[1] = false;
                     profilePins[2] = true;
@@ -185,7 +187,7 @@ namespace Spectroscopy_Controller
                     profile7radioButton.Checked = false;
                     SetOutputs();
                     break;
-               case "profile4":
+                case "profile4":
                     profilePins[0] = true;
                     profilePins[1] = true;
                     profilePins[2] = false;
@@ -198,7 +200,7 @@ namespace Spectroscopy_Controller
                     profile7radioButton.Checked = false;
                     SetOutputs();
                     break;
-               case "profile5":
+                case "profile5":
                     profilePins[0] = false;
                     profilePins[1] = true;
                     profilePins[2] = false;
@@ -211,7 +213,7 @@ namespace Spectroscopy_Controller
                     profile7radioButton.Checked = false;
                     SetOutputs();
                     break;
-               case "profile6":
+                case "profile6":
                     profilePins[0] = true;
                     profilePins[1] = false;
                     profilePins[2] = false;
@@ -224,7 +226,7 @@ namespace Spectroscopy_Controller
                     profile7radioButton.Checked = false;
                     SetOutputs();
                     break;
-               case "profile7":
+                case "profile7":
                     profilePins[0] = false;
                     profilePins[1] = false;
                     profilePins[2] = false;
@@ -246,7 +248,7 @@ namespace Spectroscopy_Controller
                            LiveLaserBox397B2.Checked,
                            LiveLaserBox729.Checked,
                            LiveLaserBox854.Checked,
-                           profilePins[0], 
+                           profilePins[0],
                            profilePins[1],
                            LiveLaserBox854POWER.Checked,
                            LiveLaserBox854FREQ.Checked,
@@ -258,12 +260,12 @@ namespace Spectroscopy_Controller
         {
             SetDDSProfiles.Enabled = true;
         }
-        
+
         #endregion
 
         // Method to handle form closing
         //Clean up any threads left running
-        private void OnFormClosing(object sender, EventArgs e) 
+        private void OnFormClosing(object sender, EventArgs e)
         {
             if ((BinarySendThread != null) && (BinarySendThread.IsAlive))
             {
@@ -282,11 +284,13 @@ namespace Spectroscopy_Controller
 
         private void OpenUSBButton_Click(object sender, EventArgs e)
         {
-            OpenUSBPort();       
+            OpenUSBPort();
+            COM12.BaudRate = 9600;
+            if (COM12.IsOpen == false) COM12.Open(); // open serial port
         }
 
         #endregion
-      
+
         #region Methods defined in XMLFIleIO.cs
 
 
@@ -328,7 +332,7 @@ namespace Spectroscopy_Controller
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             RemoveState();
-        }        
+        }
 
         private void MoveUpButton_Click(object sender, EventArgs e)
         {
@@ -342,7 +346,7 @@ namespace Spectroscopy_Controller
 
         private void PulseTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            PulseTreeSelect();            
+            PulseTreeSelect();
         }
 
         private void SaveStateButton_Click(object sender, EventArgs e)
@@ -389,7 +393,7 @@ namespace Spectroscopy_Controller
         }
 
         #endregion
-              
+
         #region Methods defined in HexFileIO.cs
 
         private void BinaryCompileButton_Click(object sender, EventArgs e)
@@ -417,8 +421,8 @@ namespace Spectroscopy_Controller
         {
             SendBinaryFile();
         }
-   
-        #endregion        
+
+        #endregion
 
         /*private void CreateFromTemplateButton_Click(object sender, EventArgs e)
         {            
@@ -428,17 +432,18 @@ namespace Spectroscopy_Controller
         private void StopButton_Click(object sender, EventArgs e)
         {
             // Signal to stop the experiment
-           // bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
-            if(useCameraSpectrum ==true && IsCameraOpen== true)
-            myCamera.stopExp();
+            // bShouldQuitThread = true; //Temporarily removed - stop now just resets but gives message stating that it was stopped. Sort of pointless...
+            if (useCameraSpectrum == true && IsCameraOpen == true)
+                myCamera.stopExp();
             // Print message to user
             WriteMessage("Experiment stopped by user\r\n");
+            
             // Call method to deal with enabling/disabling buttons etc
             this.Reset();           // Reset
             this.ExperimentFinished();
         }
 
-        
+
         // Threadsafe method to enable/disable appropriate buttons & inform viewer when experiment is finished
         // This gets called from inside FPGAcontrols
         delegate void Delegate_ExperimentFinished();
@@ -450,16 +455,19 @@ namespace Spectroscopy_Controller
             }
             else
             {
-                
+                Console.WriteLine("in Experiment Finished. Viewere state: "+ IsViewerOpen);
                 StartButton.Enabled = true;     // Enable start button
                 OpenUSBButton.Enabled = true;   // Enable open USB button                        
                 StopButton.Enabled = false;     // Disable stop button
                 PauseButton.Enabled = false;    // Disable pause button
-
+                UploadButton.Enabled = true;
+                isExperimentRunning = false;
                 if (IsViewerOpen)
                 {
+                    Console.WriteLine("try to stop viewer");
                     myViewer.StopRunningLive();
                 }
+
             }
         }
 
@@ -467,6 +475,7 @@ namespace Spectroscopy_Controller
         private void ResetButton_Click(object sender, EventArgs e)
         {
             this.Reset();
+           
             if (useCameraSpectrum == true && IsCameraOpen == true)
                 myCamera.stopExp();
             this.ExperimentFinished();
@@ -503,13 +512,14 @@ namespace Spectroscopy_Controller
         private void StartButton_Click(object sender, EventArgs e)
         {
             // If we are restarting the experiment after it being paused, just reset the PauseExperiment flag
-            
+
             if (useCameraSpectrum == true && IsCameraOpen == false)
             {
                 OpenCameraWnd();
                 System.Threading.Thread.Sleep(5000);
+               
             }
-
+           
             if (PauseExperiment == true)
             {
                 PauseExperiment = false;        // Set flag
@@ -518,6 +528,7 @@ namespace Spectroscopy_Controller
                 PauseButton.Enabled = true;     // Re-enable pause button
                 StartButton.Enabled = false;    // Disable start button
                 OpenUSBButton.Enabled = false;  // Disable open USB button
+                
             }
             else
             {   // Otherwise, start experiment
@@ -531,6 +542,7 @@ namespace Spectroscopy_Controller
                 else
                 {
                     //Grab all scan and trap parameters from form:
+                    
                     specType = specTypeBox.SelectedItem.ToString();
                     specDir = specDirBox.SelectedItem.ToString();
                     trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
@@ -542,7 +554,7 @@ namespace Spectroscopy_Controller
                     stepSize = (int)(1000 * stepSizeBox.Value);
                     sbToScan = (int)sbToScanBox.Value;
                     sbWidth = (int)sbWidthBox.Value;
-                    
+
                     // Metadata ordering in array:
                     // 0: Date
                     // 1: Spectrum type
@@ -565,7 +577,7 @@ namespace Spectroscopy_Controller
                     // 18 + i: spectrum i name
 
 
-                    
+
 
                     // Create new dialog to get data from user before starting the experiment
                     StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
@@ -573,6 +585,8 @@ namespace Spectroscopy_Controller
                     if (myExperimentDialog.DialogResult != DialogResult.Cancel)
                     {
                         // Create & fill in metadata
+                        UploadButton.Enabled = false;
+                        isExperimentRunning = true;
                         string[] metadata = new string[23];
                         metadata[0] = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
                         // This is all from the CoreForm
@@ -589,16 +603,16 @@ namespace Spectroscopy_Controller
                         metadata[11] = this.sbWidthBox.Value.ToString();
                         //metadata[12] = this.rfAmpBox.Value.ToString();
                         // Fill in remaining metadata from form
-                        int repeats=(int) myExperimentDialog.NumberOfRepeats.Value;
+                        int repeats = (int)myExperimentDialog.NumberOfRepeats.Value;
                         metadata[13] = repeats.ToString();
-                        int numSpec = (int) myExperimentDialog.NumberOfSpectra.Value;
+                        int numSpec = (int)myExperimentDialog.NumberOfSpectra.Value;
                         metadata[14] = numSpec.ToString();
-                        readingsPerDataPoint = int.Parse(metadata[13]) * int.Parse(metadata[14])*4;
+                        readingsPerDataPoint = int.Parse(metadata[13]) * int.Parse(metadata[14]) * 4;
                         metadata[15] = hexFileName;
                         metadata[16] = "N/A";   // For fixed spectra only
                         metadata[17] = "N/A";   // For fixed spectra only
-                        numOfIons= (int) myExperimentDialog.numOfIonsUpDown.Value;
-                        
+                        numOfIons = (int)myExperimentDialog.numOfIonsUpDown.Value;
+
                         if (useCameraSpectrum == true && IsCameraOpen == true)
                         {
                             if (numOfIons != myCamera.getRoiCount())
@@ -608,7 +622,7 @@ namespace Spectroscopy_Controller
                             }
 
                             myCamera.setNumIons(numOfIons);
-                            myCamera.setNumLoops(2*repeats*numSpec);
+                            myCamera.setNumLoops(2 * repeats * numSpec);
                         }
                         int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
                         for (int i = 0; i < numberOfSpectra; i++)
@@ -649,16 +663,16 @@ namespace Spectroscopy_Controller
                                 }
                                 else
                                 {
-                                    myFileName = new string[1+numOfIons];
-                                    myFile = new TextWriter[1+numOfIons];
+                                    myFileName = new string[1 + numOfIons];
+                                    myFile = new TextWriter[1 + numOfIons];
                                     // Create the file with appropriate name & write metadata to it
-                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1,numOfIons);
+                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1, numOfIons);
 
                                 }
 
-                                
 
-                                
+
+
 
                             }
                             else if (specType == "Windowed")
@@ -705,10 +719,10 @@ namespace Spectroscopy_Controller
                                         writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
                                     }
 
-                                 
 
 
-                                    
+
+
                                 }
 
                                 else
@@ -719,8 +733,8 @@ namespace Spectroscopy_Controller
                                     {
                                         int sbPos = sbToScan - sb;
                                         if (sbPos > 0) { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos)); }
-                                        else { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos-1)); }                                    
-                                       
+                                        else { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos - 1)); }
+
 
                                     }
                                     // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
@@ -739,19 +753,19 @@ namespace Spectroscopy_Controller
                                     }
                                     else
                                     {
-                                        int temp = (int)(sbToScan * 2 );
+                                        int temp = (int)(sbToScan * 2);
                                         numberOfFiles = temp * (numOfIons + 1);
                                         // Create array of filenames & array of files
                                         myFileName = new string[numberOfFiles];
                                         myFile = new TextWriter[numberOfFiles];
                                         // Generate filenames and actually create files
-                                        writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp,numOfIons);
+                                        writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
                                     }
-                                   
 
-                                    
+
+
                                 }
-                                
+
                             }
                             else if (specType == "Fixed")
                             {
@@ -786,9 +800,9 @@ namespace Spectroscopy_Controller
                                 }
                                 else
                                 {
-                                    myFileName = new string[1+numOfIons];
-                                    myFile = new TextWriter[1+numOfIons];
-                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1,numOfIons);
+                                    myFileName = new string[1 + numOfIons];
+                                    myFile = new TextWriter[1 + numOfIons];
+                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1, numOfIons);
                                 }
 
                                 bIsFreqGenEnabled = false;
@@ -798,10 +812,12 @@ namespace Spectroscopy_Controller
                             if (IsViewerOpen)
                             {
                                 myViewer.Close();
+
+
                                 IsViewerOpen = false;
                             }
                             // Create new instance of viewer
-                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum,numOfIons);
+                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum, numOfIons);
                             // Set up event handler to deal with viewer closing - must be done after it is constructed
                             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
                             // Set up event handler to deal with event raised when pause button on viewer is clicked
@@ -832,7 +848,7 @@ namespace Spectroscopy_Controller
 
                             // Start experiment
                             StartReadingData();
-                            if (useCameraSpectrum == true) 
+                            if (useCameraSpectrum == true)
                                 myCamera.startSpectrum();
                         }
                         else
@@ -841,7 +857,7 @@ namespace Spectroscopy_Controller
 
                         }
 
-                        
+
                     }
 
                 }
@@ -873,8 +889,8 @@ namespace Spectroscopy_Controller
 
         // Method to write the metadata to files
         // Gets filenames from private member myFileName
-        private void writeMetadataToFile(   ref StartExperimentDialog myExperimentDialog, ref RabiSelector myRabiSelector,
-                                            ref string FolderPath, ref TextWriter[] myFile, int numberOfFiles  )
+        private void writeMetadataToFile(ref StartExperimentDialog myExperimentDialog, ref RabiSelector myRabiSelector,
+                                            ref string FolderPath, ref TextWriter[] myFile, int numberOfFiles)
         {
             // These variables are needed for windowed files only
             // But need to create them anyway else C# will complain...
@@ -895,8 +911,8 @@ namespace Spectroscopy_Controller
                 // This line happens for both continuous & windowed files
                 myFileName[i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
 
-                
-                                // These bits only need adding to windowed files
+
+                // These bits only need adding to windowed files
                 if (specType == "Windowed")
                 {
                     myFileName[i] += "_";
@@ -905,8 +921,8 @@ namespace Spectroscopy_Controller
                     else if (sbCurrent < 100) sbCurrentString = "0";
                     else sbCurrentString = "";
                     // Add current sideband number to filename
-                   sbCurrentString += sbCurrent;
-                      // If not on carrier, add R or B
+                    sbCurrentString += sbCurrent;
+                    // If not on carrier, add R or B
                     if (sbCurrent != 0) sbCurrentString += sbRedOrBlue;
 
                     // Add string to filename
@@ -915,7 +931,7 @@ namespace Spectroscopy_Controller
                 myFileName[i] += ".txt";
                 //*******************************//
 
-                if(System.IO.File.Exists(myFileName[i])) myFileName[i] += "OVERWRITE";
+                if (System.IO.File.Exists(myFileName[i])) myFileName[i] += "OVERWRITE";
 
                 // Now we get to actually create the file!
                 myFile[i] = new StreamWriter(myFileName[i]);
@@ -954,7 +970,7 @@ namespace Spectroscopy_Controller
                 myFile[i].WriteLine("Step Size (kHz or ticks):");
                 // For fixed spectra, put in step size of pulse length variation
                 if (specType == "Fixed") myFile[i].WriteLine(fixed_stepSize);
-                else  myFile[i].WriteLine(this.stepSizeBox.Value);  // Othewise, take from core form
+                else myFile[i].WriteLine(this.stepSizeBox.Value);  // Othewise, take from core form
                 // Sidebands/side
                 myFile[i].WriteLine("Sidebands to scan / side:");
                 if (specType == "Windowed") myFile[i].WriteLine(sbToScan);
@@ -983,16 +999,16 @@ namespace Spectroscopy_Controller
                 // Fixed spectrum - number of steps
                 myFile[i].WriteLine("Number of Steps (fixed freq):");
                 if (specType == "Fixed") myFile[i].WriteLine(myRabiSelector.stepsSelect.Value.ToString());
-                else myFile[i].WriteLine("N/A");      
+                else myFile[i].WriteLine("N/A");
                 // Name for each spectrum
                 for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
                 {
-                    myFile[i].WriteLine("Spectrum " + (j+1) + " name:");
+                    myFile[i].WriteLine("Spectrum " + (j + 1) + " name:");
                     myFile[i].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
                 }
                 // Notes section
                 myFile[i].WriteLine("Notes:");
-                myFile[i].WriteLine("#" + myExperimentDialog.NotesBox.Text + " HEX: " +hexFileName);
+                myFile[i].WriteLine("#" + myExperimentDialog.NotesBox.Text + " HEX: " + hexFileName);
                 // Title for data
                 myFile[i].WriteLine("Data:");
 
@@ -1023,7 +1039,7 @@ namespace Spectroscopy_Controller
                     }
                     else
                     {
-                        if (i == sbToScan-1)
+                        if (i == sbToScan - 1)
                         // If we have reached the carrier
                         {
                             // Change R to B
@@ -1032,7 +1048,7 @@ namespace Spectroscopy_Controller
                             sbCurrent = 1;
                         }
                         else if (i < sbToScan) sbCurrent--;
-                       
+
                         // If we are on the blue side, just increase the sideband number
                         else sbCurrent++;
                     }
@@ -1052,8 +1068,8 @@ namespace Spectroscopy_Controller
             //*****************//
 
             // Go through each file (this will only be run once for continuous & fixed files)
-           for (int k = 0; k < numberOfIons + 1; k++)
-            
+            for (int k = 0; k < numberOfIons + 1; k++)
+
             {
 
                 int sbCurrent = sbToScan;
@@ -1062,13 +1078,13 @@ namespace Spectroscopy_Controller
                 // Store the current sideband in readable format e.g. 001R
                 string sbCurrentString = "";
 
-                 for (int i = 0; i < numberOfFiles; i++)
-               
+                for (int i = 0; i < numberOfFiles; i++)
+
                 {
                     // Generating the current filename:
                     //*******************************//
                     // This line happens for both continuous & windowed files
-                    myFileName[numberOfFiles * k+i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
+                    myFileName[numberOfFiles * k + i] = FolderPath + @"\" + myExperimentDialog.ExperimentName.Text + "_readings";
 
 
                     // These bits only need adding to windowed files
@@ -1085,7 +1101,7 @@ namespace Spectroscopy_Controller
                         if (sbCurrent != 0) sbCurrentString += sbRedOrBlue;
 
                         // Add string to filename
-                        myFileName[numberOfFiles * k+i] += sbCurrentString;
+                        myFileName[numberOfFiles * k + i] += sbCurrentString;
                     }
                     if (k == 0)
                     {
@@ -1093,94 +1109,94 @@ namespace Spectroscopy_Controller
                     }
                     else
                     {
-                        myFileName[numberOfFiles * k+i] += "_Ion_"+ k.ToString() +".txt";
+                        myFileName[numberOfFiles * k + i] += "_Ion_" + k.ToString() + ".txt";
                     }
                     //*******************************//
 
-                    if (System.IO.File.Exists(myFileName[numberOfFiles * k+i])) myFileName[numberOfFiles * k+i] += "OVERWRITE";
+                    if (System.IO.File.Exists(myFileName[numberOfFiles * k + i])) myFileName[numberOfFiles * k + i] += "OVERWRITE";
 
                     // Now we get to actually create the file!
-                    myFile[numberOfFiles * k+i] = new StreamWriter(myFileName[numberOfFiles * k+i]);
+                    myFile[numberOfFiles * k + i] = new StreamWriter(myFileName[numberOfFiles * k + i]);
 
                     //*********************************//
                     // Write the metadata to the file
                     //
-                    myFile[numberOfFiles * k+i].WriteLine("Spectroscopy data file");
-                    myFile[numberOfFiles * k+i].WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                    myFile[numberOfFiles * k + i].WriteLine("Spectroscopy data file");
+                    myFile[numberOfFiles * k + i].WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
                     // Spectrum type
-                    myFile[numberOfFiles * k+i].WriteLine("Spectrum Type:");
-                    myFile[numberOfFiles * k+i].WriteLine(specType);
+                    myFile[numberOfFiles * k + i].WriteLine("Spectrum Type:");
+                    myFile[numberOfFiles * k + i].WriteLine(specType);
                     // 729 direction
-                    myFile[numberOfFiles * k+i].WriteLine("729 Direction:");
-                    myFile[numberOfFiles * k+i].WriteLine(specDir);
+                    myFile[numberOfFiles * k + i].WriteLine("729 Direction:");
+                    myFile[numberOfFiles * k + i].WriteLine(specDir);
                     // Trap voltage
-                    myFile[numberOfFiles * k+i].WriteLine("Trap Voltage (V):");
-                    myFile[numberOfFiles * k+i].WriteLine(this.trapVBox.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("Trap Voltage (V):");
+                    myFile[numberOfFiles * k + i].WriteLine(this.trapVBox.Value);
                     // Axial frequency
-                    myFile[numberOfFiles * k+i].WriteLine("Axial Frequency (kHz):");
-                    myFile[numberOfFiles * k+i].WriteLine(this.axFreqBox.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("Axial Frequency (kHz):");
+                    myFile[numberOfFiles * k + i].WriteLine(this.axFreqBox.Value);
                     // Modified cyc freq
-                    myFile[numberOfFiles * k+i].WriteLine("Modified Cyclotron Frequency (kHz):");
-                    myFile[numberOfFiles * k+i].WriteLine(this.modcycFreqBox.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("Modified Cyclotron Frequency (kHz):");
+                    myFile[numberOfFiles * k + i].WriteLine(this.modcycFreqBox.Value);
                     // Magnetron freq
-                    myFile[numberOfFiles * k+i].WriteLine("Magnetron Frequency (kHz):");
-                    myFile[numberOfFiles * k+i].WriteLine(this.magFreqBox.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("Magnetron Frequency (kHz):");
+                    myFile[numberOfFiles * k + i].WriteLine(this.magFreqBox.Value);
                     // AOM start freq
-                    myFile[numberOfFiles * k+i].WriteLine("AOM Start Frequency (MHz):");
+                    myFile[numberOfFiles * k + i].WriteLine("AOM Start Frequency (MHz):");
                     double startFreqMHz = (double)(startFreqArray[i] / 1000000d);       // Calculate in MHz (stored in Hz)
-                    myFile[numberOfFiles * k+i].WriteLine(startFreqMHz);
+                    myFile[numberOfFiles * k + i].WriteLine(startFreqMHz);
                     // Carrier frequency
-                    myFile[numberOfFiles * k+i].WriteLine("Carrier Frequency (MHz):");
-                    myFile[numberOfFiles * k+i].WriteLine(this.carFreqBox.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("Carrier Frequency (MHz):");
+                    myFile[numberOfFiles * k + i].WriteLine(this.carFreqBox.Value);
                     // Step size
-                    myFile[numberOfFiles * k+i].WriteLine("Step Size (kHz or ticks):");
+                    myFile[numberOfFiles * k + i].WriteLine("Step Size (kHz or ticks):");
                     // For fixed spectra, put in step size of pulse length variation
-                    if (specType == "Fixed") myFile[numberOfFiles * k+i].WriteLine(fixed_stepSize);
-                    else myFile[numberOfFiles* k+i].WriteLine(this.stepSizeBox.Value);  // Othewise, take from core form
-                                                                       // Sidebands/side
-                    myFile[numberOfFiles * k+i].WriteLine("Sidebands to scan / side:");
-                    if (specType == "Windowed") myFile[numberOfFiles * k+i].WriteLine(sbToScan);
-                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    if (specType == "Fixed") myFile[numberOfFiles * k + i].WriteLine(fixed_stepSize);
+                    else myFile[numberOfFiles * k + i].WriteLine(this.stepSizeBox.Value);  // Othewise, take from core form
+                                                                                           // Sidebands/side
+                    myFile[numberOfFiles * k + i].WriteLine("Sidebands to scan / side:");
+                    if (specType == "Windowed") myFile[numberOfFiles * k + i].WriteLine(sbToScan);
+                    else myFile[numberOfFiles * k + i].WriteLine("N/A");
                     // Sideband width
-                    myFile[numberOfFiles * k+i].WriteLine("Sideband Width (steps):");
-                    if (specType == "Windowed") myFile[numberOfFiles * k+i].WriteLine(sbWidth);
-                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    myFile[numberOfFiles * k + i].WriteLine("Sideband Width (steps):");
+                    if (specType == "Windowed") myFile[numberOfFiles * k + i].WriteLine(sbWidth);
+                    else myFile[numberOfFiles * k + i].WriteLine("N/A");
                     // 729 RF amplitude
-                    myFile[numberOfFiles * k+i].WriteLine("729 RF Amplitude (dBm):");
-                    myFile[numberOfFiles * k+i].WriteLine(rfAmp);
+                    myFile[numberOfFiles * k + i].WriteLine("729 RF Amplitude (dBm):");
+                    myFile[numberOfFiles * k + i].WriteLine(rfAmp);
                     // Number of repeats
-                    myFile[numberOfFiles * k+i].WriteLine("Number of repeats per frequency:");
-                    myFile[numberOfFiles * k+i].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("Number of repeats per frequency:");
+                    myFile[numberOfFiles * k + i].WriteLine(myExperimentDialog.NumberOfRepeats.Value);
                     // Number interleaved
-                    myFile[numberOfFiles * k+i].WriteLine("File contains interleaved spectra:");
-                    myFile[numberOfFiles * k+i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
+                    myFile[numberOfFiles * k + i].WriteLine("File contains interleaved spectra:");
+                    myFile[numberOfFiles * k + i].WriteLine(myExperimentDialog.NumberOfSpectra.Value);
                     // Sideband number
-                    myFile[numberOfFiles * k+i].WriteLine("This is sideband:");
-                    if (specType == "Windowed") myFile[numberOfFiles * k+i].WriteLine(sbCurrentString);   // Windowed spectrum, print out readable string
-                    else myFile[numberOfFiles * k+i].WriteLine("N/A");            // Non-windowed spectra, print "N/A" 
-                                                                // Fixed spectrum - pulse start length
-                    myFile[numberOfFiles * k+i].WriteLine("Pulse Start Length (fixed freq):");
-                    if (specType == "Fixed") myFile[numberOfFiles * k+i].WriteLine(fixed_startLength);
-                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    myFile[numberOfFiles * k + i].WriteLine("This is sideband:");
+                    if (specType == "Windowed") myFile[numberOfFiles * k + i].WriteLine(sbCurrentString);   // Windowed spectrum, print out readable string
+                    else myFile[numberOfFiles * k + i].WriteLine("N/A");            // Non-windowed spectra, print "N/A" 
+                                                                                    // Fixed spectrum - pulse start length
+                    myFile[numberOfFiles * k + i].WriteLine("Pulse Start Length (fixed freq):");
+                    if (specType == "Fixed") myFile[numberOfFiles * k + i].WriteLine(fixed_startLength);
+                    else myFile[numberOfFiles * k + i].WriteLine("N/A");
                     // Fixed spectrum - number of steps
-                    myFile[numberOfFiles * k+i].WriteLine("Number of Steps (fixed freq):");
-                    if (specType == "Fixed") myFile[numberOfFiles * k+i].WriteLine(myRabiSelector.stepsSelect.Value.ToString());
-                    else myFile[numberOfFiles * k+i].WriteLine("N/A");
+                    myFile[numberOfFiles * k + i].WriteLine("Number of Steps (fixed freq):");
+                    if (specType == "Fixed") myFile[numberOfFiles * k + i].WriteLine(myRabiSelector.stepsSelect.Value.ToString());
+                    else myFile[numberOfFiles * k + i].WriteLine("N/A");
                     // Name for each spectrum
                     for (int j = 0; j < myExperimentDialog.NumberOfSpectra.Value; j++)
                     {
-                        myFile[numberOfFiles * k+i].WriteLine("Spectrum " + (j + 1) + " name:");
-                        myFile[numberOfFiles * k+i].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
+                        myFile[numberOfFiles * k + i].WriteLine("Spectrum " + (j + 1) + " name:");
+                        myFile[numberOfFiles * k + i].WriteLine(myExperimentDialog.SpectrumNames[j].Text);
                     }
                     // Notes section
-                    myFile[numberOfFiles * k+i].WriteLine("Notes:");
-                    myFile[numberOfFiles * k+i].WriteLine("#" + myExperimentDialog.NotesBox.Text + " HEX: " + hexFileName);
+                    myFile[numberOfFiles * k + i].WriteLine("Notes:");
+                    myFile[numberOfFiles * k + i].WriteLine("#" + myExperimentDialog.NotesBox.Text + " HEX: " + hexFileName);
                     // Title for data
-                    myFile[numberOfFiles * k+i].WriteLine("Data:");
+                    myFile[numberOfFiles * k + i].WriteLine("Data:");
 
                     // Flush & close the file
-                    myFile[numberOfFiles * k+i].Flush();
-                    myFile[numberOfFiles * k+i].Close();
+                    myFile[numberOfFiles * k + i].Flush();
+                    myFile[numberOfFiles * k + i].Close();
                     //*********************************//
 
                     // For the next filename:
@@ -1222,7 +1238,7 @@ namespace Spectroscopy_Controller
 
                 } //End of loop which goes through each file
             }
-        
+
         }
 
 
@@ -1266,22 +1282,22 @@ namespace Spectroscopy_Controller
         {
             if (updating == false)
             {
-               angmagFreq = (int)(2 * pi * 1000 * (float)(magFreqBox.Value));
-               if (angmagFreq > angtruecycFreq / 2 - 1000) angmagFreq = angtruecycFreq / 2 - 1000;
-               trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (angtruecycFreq * angmagFreq - Math.Pow(angmagFreq, 2)));
-               UpdateTrapFreqs();
+                angmagFreq = (int)(2 * pi * 1000 * (float)(magFreqBox.Value));
+                if (angmagFreq > angtruecycFreq / 2 - 1000) angmagFreq = angtruecycFreq / 2 - 1000;
+                trapV = (float)((1000 * Math.Pow(dnought, 2) * ionmass / ioncharge / emratio / 2) * (angtruecycFreq * angmagFreq - Math.Pow(angmagFreq, 2)));
+                UpdateTrapFreqs();
             }
         }
 
         private void UpdateTrapFreqs()
         {
             updating = true;
-            angaxFreq = (float)(Math.Sqrt(4 * emratio * ioncharge * trapV / 1000 / ionmass / Math.Pow(dnought,2) ) );
-            angmagFreq = (float)((angtruecycFreq - Math.Sqrt(Math.Pow(angtruecycFreq,2) - 2 * Math.Pow(angaxFreq,2) ) ) / 2);
-            angmodcycFreq = (float)((angtruecycFreq + Math.Sqrt(Math.Pow(angtruecycFreq, 2) - 2 * Math.Pow(angaxFreq,2) ) ) / 2);
-            axFreqBox.Value = (decimal)(angaxFreq/1000/2/pi);
-            magFreqBox.Value = (decimal)(angmagFreq/1000/2/pi);
-            modcycFreqBox.Value = (decimal)(angmodcycFreq/1000/2/pi);
+            angaxFreq = (float)(Math.Sqrt(4 * emratio * ioncharge * trapV / 1000 / ionmass / Math.Pow(dnought, 2)));
+            angmagFreq = (float)((angtruecycFreq - Math.Sqrt(Math.Pow(angtruecycFreq, 2) - 2 * Math.Pow(angaxFreq, 2))) / 2);
+            angmodcycFreq = (float)((angtruecycFreq + Math.Sqrt(Math.Pow(angtruecycFreq, 2) - 2 * Math.Pow(angaxFreq, 2))) / 2);
+            axFreqBox.Value = (decimal)(angaxFreq / 1000 / 2 / pi);
+            magFreqBox.Value = (decimal)(angmagFreq / 1000 / 2 / pi);
+            modcycFreqBox.Value = (decimal)(angmodcycFreq / 1000 / 2 / pi);
             trapVBox.Value = (decimal)(trapV / 1000);
             updateWindowParam();
             updating = false;
@@ -1336,7 +1352,7 @@ namespace Spectroscopy_Controller
         {
             updateWindowParam();
         }
-        
+
         private void specDirBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateWindowParam();
@@ -1369,7 +1385,7 @@ namespace Spectroscopy_Controller
             if (!IsViewerOpen)
             {
                 OpenViewer();
-            }            
+            }
         }
 
         private void OpenViewer()
@@ -1393,7 +1409,7 @@ namespace Spectroscopy_Controller
             {
                 myCamera = new Camera_Control.CameraForm();
                 myCamera.FormClosing += new FormClosingEventHandler(myCamera_FormClosing);
-              //  myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
+                //  myCamera.PauseEvent += new CameraForm.PauseEventHandler(PauseButton_Click);
                 myCamera.Show();
                 IsCameraOpen = true;
             }
@@ -1406,16 +1422,24 @@ namespace Spectroscopy_Controller
             else { useCameraSpectrum = false; }
         }
 
-        private void myViewer_FormClosing(object sender, EventArgs e)
+        private void myViewer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            IsViewerOpen = false;
 
-            // If viewer dialog result indicates that we should restart the form
-            if (myViewer.DialogResult == DialogResult.Retry)
+            Console.WriteLine("isSpecRunning" );
+            if (isExperimentRunning == true)
             {
-                // Re-open form
-                OpenViewer();   
+                e.Cancel = true;
+                return;
             }
+                IsViewerOpen = false;
+
+                // If viewer dialog result indicates that we should restart the form
+                if (myViewer.DialogResult == DialogResult.Retry)
+                {
+                    // Re-open form
+                    OpenViewer();
+                }
+            
         }
 
         private void myCamera_FormClosing(object sender, EventArgs e)
@@ -1506,7 +1530,7 @@ namespace Spectroscopy_Controller
 
             RabiSelector myRabiSelector = new RabiSelector(PulseTree.Nodes);
             myRabiSelector.startExperimentButton.Enabled = false;
-            myRabiSelector.ShowDialog();
+            //myRabiSelector.ShowDialog();
 
             // If user did not press OK, don't do anything else in this method
             if (myRabiSelector.DialogResult != DialogResult.OK) return;
@@ -1518,7 +1542,7 @@ namespace Spectroscopy_Controller
             int startLength = (int)myRabiSelector.startLengthSelect.Value;
             int stepSize = (int)myRabiSelector.stepSizeSelect.Value;
             int steps = (int)myRabiSelector.stepsSelect.Value;
-            int repeats = (int)myRabiSelector.repeatsSelect.Value;
+            int reps = (int)myRabiSelector.repeatsSelect.Value;
 
             int pulseLength = new int();
 
@@ -1534,7 +1558,7 @@ namespace Spectroscopy_Controller
                 // Calculate pulse length
                 pulseLength = startLength + i * stepSize;
                 // Add a new loop with this pulse length
-                addRabiLoop(newPulseTree, myLoopStates[i], myLoopNodes[i], myLaserStates[i], myLaserNodes[i], pulseLength, repeats);
+                addRabiLoop(newPulseTree, myLoopStates[i], myLoopNodes[i], myLaserStates[i], myLaserNodes[i], pulseLength, reps);
             }
 
             // Create 'Stop Experiment' state
@@ -1558,59 +1582,148 @@ namespace Spectroscopy_Controller
             PulseTree.EndUpdate();      // Re-enable redrawing
         }
 
-        private void addRabiLoop(TreeView newPulseTree,LoopState loop, TreeNode loopNode,
-                                    LaserState oldState, TreeNode laserNode, int pulseLength, int repeats)
+        private void addRabiLoop(TreeView newPulseTree, LoopState loop, TreeNode loopNode,
+                                    LaserState oldState, TreeNode laserNode, int pulseLength, int reps)
         {
             // Create loop state for this pulse length
             loop = new LoopState();
             loop.Name = "Pulse length: " + (float)pulseLength * 0.64 / 1000 + "ms";
-            loop.LoopCount = repeats;
+            loop.LoopCount = reps;
             loop.bIsFPGALoop = false;            // Made it false to match other xml files. OLD (Always make it an FPGA loop  )
-
+            
             // Add loop to top level of nodes on new pulse tree
             loopNode = newPulseTree.Nodes.Add(loop.Name);
             loopNode.Tag = loop;
             // Select the loop node so that we can add children to it
             newPulseTree.SelectedNode = loopNode;
 
-            LaserState[] newState = new LaserState[PulseTree.Nodes.Count];
+            //Pulse[] newState = new Pulse[PulseTree.Nodes.Count];
+            // LaserState[] newState = new LaserState[PulseTree.Nodes.Count];
+            // Console.WriteLine("nodes: " + PulseTree.Nodes.Count);
 
             for (int i = 0; i < PulseTree.Nodes.Count; i++)
             {
-                newState[i] = new LaserState();
+
+                /*
+                 if (typeof(LaserState).IsAssignableFrom(PulseTree.Nodes[i].Tag.GetType()))
+                 {
+                     LaserState nState = new LaserState();
+                     oldState = (LaserState)PulseTree.Nodes[i].Tag;                    
+                     copyState(oldState, (LaserState) newState[1]);
+                     // If we want to sweep this state, set the pulse length
+                     if (newState[1].toSweep)
+                     {
+                         // Set correct ticks & target length
+                         newState[i].Ticks = pulseLength;
+                         newState[i].TargetLength = pulseLength * 640;
+                     }
+                     // If not to sweep, just leave it as it is
+
+                     // Add the state as a child of the loop
+                     laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
+                     laserNode.Tag = newState[i];
+                 }*/
+
                 if (typeof(LaserState).IsAssignableFrom(PulseTree.Nodes[i].Tag.GetType()))
                 {
+                    LaserState nState = new LaserState();
                     oldState = (LaserState)PulseTree.Nodes[i].Tag;
-                    copyState(oldState, newState[i]);
+                    copyState(oldState, nState);
                     // If we want to sweep this state, set the pulse length
-                    if (newState[i].toSweep)
+                    if (nState.toSweep)
                     {
                         // Set correct ticks & target length
-                        newState[i].Ticks = pulseLength;
-                        newState[i].TargetLength = pulseLength * 640;
+                        nState.Ticks = pulseLength;
+                       
+                        if (nState.Name == "ProbeOffset")
+                        {
+                            Console.WriteLine("I am in the if statement");
+                            nState.Ticks -= 200;
+                        }
+                        nState.TargetLength = pulseLength * 640;
                     }
                     // If not to sweep, just leave it as it is
 
                     // Add the state as a child of the loop
-                    laserNode = newPulseTree.SelectedNode.Nodes.Add(newState[i].Name);
-                    laserNode.Tag = newState[i];
+                    laserNode = newPulseTree.SelectedNode.Nodes.Add(nState.Name);
+                    laserNode.Tag = nState;
+                }
+                if (typeof(LoopState).IsAssignableFrom(PulseTree.Nodes[i].Tag.GetType()))
+                {
+                    LoopState nState = new LoopState();
+                    LoopState oState = (LoopState)PulseTree.Nodes[i].Tag;
+                    nState.LoopCount = oState.LoopCount;
+                    nState.bIsFPGALoop = true;
+                    nState.Name = oState.Name;
+                    nState.toSweep = oState.toSweep;
+                    // If we want to sweep this state, set the pulse length
+
+
+                    if (nState.toSweep)
+                    {
+                        // Set correct ticks & target length
+                        
+                        nState.LoopCount = pulseLength;
+                        
+
+                    }
+                    // If not to sweep, just leave it as it is
+                    
+                    // Add the state as a child of the loop
+                    laserNode = newPulseTree.SelectedNode.Nodes.Add(nState.Name);
+                    laserNode.Tag = nState;
+                    newPulseTree.SelectedNode = laserNode;
+
+                    for (int j = 0; j < PulseTree.Nodes[i].Nodes.Count; j++)
+                    {
+
+                        if (typeof(LaserState).IsAssignableFrom(PulseTree.Nodes[i].Nodes[j].Tag.GetType()))
+                        {
+                            LaserState nnState = new LaserState();
+                            oldState = (LaserState)PulseTree.Nodes[i].Nodes[j].Tag;
+                            copyState(oldState, nnState);                                               
+                            // If we want to sweep this state, set the pulse length
+                            if (nnState.toSweep)
+                            {
+
+                                // Set correct ticks & target length
+                                nnState.Ticks = pulseLength;
+                                nnState.TargetLength = pulseLength * 640;
+
+                            }
+                            // If not to sweep, just leave it as it is
+
+                            // Add the state as a child of the loop
+                            laserNode = newPulseTree.SelectedNode.Nodes.Add(nnState.Name);
+                            laserNode.Tag = nnState;
+                        }
+                        //laserNode = PulseTree.Nodes[i];
+                    }
+                    newPulseTree.SelectedNode = laserNode.Parent.Parent;
                 }
             }
 
             // Create 'Send Data' LaserState
             LaserState sendData = new LaserState();
+            copyState((LaserState)PulseTree.Nodes[PulseTree.Nodes.Count-1].Tag, sendData);
             sendData.Name = "Send Data";
+            sendData.TargetLength = 0;
+            sendData.Ticks = 0;
+            sendData.toSweep = false;
+            sendData.Laser854 = true;
             sendData.StateType = LaserState.PulseType.SENDDATA;
             // Add 'Send Data' LaserState as a node to new pulse tree
             TreeNode sendDataNode = newPulseTree.Nodes.Add(sendData.Name);
             sendDataNode.Tag = sendData;
-           /* // Create 'Send Data' LaserState
-            LaserState freqChange = new LaserState();
+             // Create 'Send Data' LaserState
+             LaserState freqChange = new LaserState();
+            copyState((LaserState)PulseTree.Nodes[PulseTree.Nodes.Count - 1].Tag, freqChange);
             freqChange.Name = "freq change";
+            freqChange.Laser854 = true;
             freqChange.StateType = LaserState.PulseType.WAIT_LABVIEW;
-            // Add 'Send Data' LaserState as a node to new pulse tree
-            TreeNode freqChangeNode = newPulseTree.Nodes.Add(freqChange.Name);
-            freqChangeNode.Tag = freqChange;*/
+             // Add 'Send Data' LaserState as a node to new pulse tree
+             TreeNode freqChangeNode = newPulseTree.Nodes.Add(freqChange.Name);
+             freqChangeNode.Tag = freqChange;
         }
 
 
@@ -1647,7 +1760,9 @@ namespace Spectroscopy_Controller
         private void OpenCamera_Click(object sender, EventArgs e)
         {
             OpenCameraWnd();
-        }
+        }        
+
+
         #region DDS Control
         
         // Function to calculate and send the data to send to the DDS registers
@@ -1765,11 +1880,15 @@ namespace Spectroscopy_Controller
             double myfreq = freqcheck * Math.Pow(10, 9) / Math.Pow(2, 32);
             MessagesBox.Items.Add("Profile 0 frequency = " + myfreq);
 
-            string freqcheckin4 = COM12.ReadTo("\n");
-            int freqcheck4 = Convert.ToInt32(freqcheckin4);
-            double myfreq4 = freqcheck4 * Math.Pow(10, 9) / Math.Pow(2, 32);
-            MessagesBox.Items.Add("Profile 4 frequency = " + myfreq4);
+            string freqcheckin5 = COM12.ReadTo("\n");
+            int freqcheck5 = Convert.ToInt32(freqcheckin5);
+            double myfreq5 = freqcheck5 * Math.Pow(10, 9) / Math.Pow(2, 32);
+            MessagesBox.Items.Add("Profile 5 frequency = " + myfreq5);
 
+            string freqcheckin7 = COM12.ReadTo("\n");
+            int freqcheck7 = Convert.ToInt32(freqcheckin7);
+            double myfreq7 = freqcheck7 * Math.Pow(10, 9) / Math.Pow(2, 32);
+            MessagesBox.Items.Add("Profile 7 frequency = " + myfreq7);
             //string incoming2 = COM12.ReadTo("\n");
             //int check2 = Convert.ToInt32(incoming2);
             //MessagesBox.Items.Add("Check2 = " + check2);

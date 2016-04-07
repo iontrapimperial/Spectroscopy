@@ -44,6 +44,7 @@ namespace Camera_Control
         int ROICount = 0;
         bool isDrawing = false;
         bool isUpdatingImageArray = false;
+        bool isExpRunning = false; 
         bool isAcquiring = false;
         int temperature = 20;
         int setTemperature;
@@ -308,7 +309,7 @@ namespace Camera_Control
 
         private void ShutDown_Click(object sender, EventArgs e)
         {
-            uint errorValue;
+            /*uint errorValue;
             if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_TEMPERATURE) != 0)
             {
                 errorValue = myAndor.CoolerOFF();        // Switch off cooler (if used)
@@ -327,7 +328,7 @@ namespace Camera_Control
               MessageBoxButtons.OK,
              MessageBoxIcon.Exclamation,
              MessageBoxDefaultButton.Button1);
-
+             */
 
 
         }
@@ -345,6 +346,7 @@ namespace Camera_Control
 
         public void startSpectrum()
         {
+            AbortAcq();
             acqTypeComboBox.Text = "Spectrum";
             Console.WriteLine("Camera Spectrum function");
             if ((CameraReadThread != null) && (CameraReadThread.IsAlive))
@@ -356,6 +358,7 @@ namespace Camera_Control
             CameraReadThread.Name = "CameraCommThread";
             CameraReadThread.Start();
             bShouldQuitCamThread = false;
+            isExpRunning = true;
             // Disable start & open USB buttons
             // StartButton.Enabled = false;
             // OpenUSBButton.Enabled = false;
@@ -376,6 +379,7 @@ namespace Camera_Control
         public void stopExp()
         {
             bShouldQuitCamThread = true;
+            isExpRunning = false;
         }
 
         //Sets up hardware
@@ -812,6 +816,7 @@ namespace Camera_Control
                 }
                 if (acqType == 5)
                 {
+                    if (isExpRunning == false) { return; }                    
                     ionLocations = new int[numIons];
                     // findIonsTrial();
                     // Thread.Sleep(5000);
@@ -821,6 +826,8 @@ namespace Camera_Control
                     myAndor.SetNumberAccumulations(1);
                     myAndor.SetKineticCycleTime(kineticCycleTime / 1000);
                     myAndor.SetNumberKinetics(giNumberLoops);
+                    float exposure = (float)exposureUpDown.Value;
+                    if (exposure > 0.1) { exposureUpDown.Value = (decimal) 0.012; }
                     myAndor.SetExposureTime((float)exposureUpDown.Value);
 
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
@@ -850,6 +857,8 @@ namespace Camera_Control
 
                     while (CameraReadThread.IsAlive && bShouldQuitCamThread == false)
                     {
+
+
                         this.Shutter.Enabled = false;
                         this.startAcqButton.Enabled = false;
                         this.ShutDown.Enabled = false;
@@ -1953,7 +1962,8 @@ namespace Camera_Control
                     if (dTemp < 0) iTemp = 0;
                     else if (dTemp > Color - 1) iTemp = Color - 1;
                     else iTemp = (int)dTemp;
-                    byteArray[j + i * width] = (byte)iTemp;
+                    if (j + i * width < byteArray.Length)
+                        byteArray[j + i * width] = (byte)iTemp;
                 }
             }
 
@@ -1967,7 +1977,9 @@ namespace Camera_Control
                     for (j = xPos; j < xPos + dimV; j++)
                     {
                         if (i == yPos || j == xPos || i == yPos + dimH - 1 || j == xPos + dimV - 1)
-                            byteArray[j + i * width] = (byte)0;
+                        {
+                            if (j + i * width < byteArray.Length) byteArray[j + i * width] = (byte)0;
+                        }
                     }
                 }
             }
@@ -2061,7 +2073,7 @@ namespace Camera_Control
                         if (dTemp < 0) iTemp = 0;
                         else if (dTemp > Color - 1) iTemp = Color - 1;
                         else iTemp = (int)dTemp;
-                        byteArray[j + i * width] = (byte)iTemp;
+                        if (j + i * width < byteArray.Length) byteArray[j + i * width] = (byte)iTemp;
                     }
                 }
                 int k;
@@ -2087,7 +2099,10 @@ namespace Camera_Control
                         for (j = xPos; j < xPos + dimH; j++)
                         {
                             if (i == yPos || j == xPos || i == yPos + dimV - 1 || j == xPos + dimH - 1)
+                            {
+                                if(j + i * width<byteArray.Length)
                                 byteArray[j + i * width] = (byte)0;
+                            }
                         }
                     }
                 }
@@ -2317,12 +2332,19 @@ namespace Camera_Control
 
         private void AbortAcquisition_Click(object sender, EventArgs e)
         {
+            AbortAcq();
+        }
+
+        private void AbortAcq()
+        {
             abortCont = true;
             bw.CancelAsync();
             myAndor.AbortAcquisition();
             aTimer.Stop();
             imageContData.Clear();
         }
+
+
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             // errorMsgTxtBox.AppendText("Hi");
@@ -2394,44 +2416,55 @@ namespace Camera_Control
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
+           
             uint errorValue;
-            myAndor.GetTemperature(ref temperature);
-            if (temperature < -40)
-            {
-                if (gblCooler == true)
-                {
-                    setTemperature = 5;
-                    //SwitchCoolerOn();
-                    errorMsgTxtBox.AppendText("Raising temperature to above zero (C)");
-                    errorMsgTxtBox.AppendText("\r\n Press close again when temp is above zero");
-                }
-                Console.WriteLine("Cancel quit");
-                e.Cancel = true;
-                return;
-            }
+            /*
+             myAndor.GetTemperature(ref temperature);
+           if (temperature < -40)
+           {
+               if (gblCooler == true)
+               {
+                   setTemperature = 5;
+                   //SwitchCoolerOn();
+                   errorMsgTxtBox.AppendText("Raising temperature to above zero (C)");
+                   errorMsgTxtBox.AppendText("\r\n Press close again when temp is above zero");
+               }                
+               //e.Cancel = true;
+               //return;
+           }
+           
+           else
+           {
+               tempTimer.Stop();
+               if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_TEMPERATURE) != 0)
+               {
+                   errorValue = myAndor.CoolerOFF();        // Switch off cooler (if used)
+                   if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                       MessageBox.Show("Error switching cooler off.",
+                "Error!",
+                  MessageBoxButtons.OK,
+                  MessageBoxIcon.Exclamation,
+                  MessageBoxDefaultButton.Button1);
+               }
 
-            else
-            {
-                tempTimer.Stop();
-                if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_TEMPERATURE) != 0)
-                {
-                    errorValue = myAndor.CoolerOFF();        // Switch off cooler (if used)
-                    if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
-                        MessageBox.Show("Error switching cooler off.",
-                 "Error!",
-                   MessageBoxButtons.OK,
-                   MessageBoxIcon.Exclamation,
-                   MessageBoxDefaultButton.Button1);
-                }
-
-                errorValue = myAndor.ShutDown();
-                if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
-                    MessageBox.Show("Error shutting down.",
-                 "Error!",
-              MessageBoxButtons.OK,
-              MessageBoxIcon.Exclamation,
-                 MessageBoxDefaultButton.Button1);
-            }
+               errorValue = myAndor.ShutDown();
+               if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                   MessageBox.Show("Error shutting down.",
+                "Error!",
+             MessageBoxButtons.OK,
+             MessageBoxIcon.Exclamation,
+                MessageBoxDefaultButton.Button1);
+           }
+           */
+            tempTimer.Stop();
+            errorValue = myAndor.CoolerOFF();
+            errorValue = myAndor.ShutDown();
+            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
+                MessageBox.Show("Error shutting down.",
+             "Error!",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Exclamation,
+             MessageBoxDefaultButton.Button1);
         }
 
         void SwitchCoolerOn()
@@ -2598,6 +2631,9 @@ namespace Camera_Control
                 return false;
             }
         }
+
+       // public void setIsExpRunning(bool expRun ) { isExpRunning = expRun; }
+
 
     }
 
