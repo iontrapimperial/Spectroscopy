@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.zedGraphSpectra = new ZedGraph.ZedGraphControl();
             this.openDataFile = new System.Windows.Forms.OpenFileDialog();
             this.loadDataButton = new System.Windows.Forms.Button();
@@ -83,9 +83,12 @@
             this.histogramDisplayCoolCAM = new System.Windows.Forms.RadioButton();
             this.histogramChartCAM = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButtonCAM = new System.Windows.Forms.Button();
+            this.derivedCamTab = new System.Windows.Forms.TabPage();
             this.pauseButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.restartViewerButton = new System.Windows.Forms.Button();
+            this.zedGraphSpectraDER = new ZedGraph.ZedGraphControl();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -105,11 +108,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.histogramMaxBinSelectCAM)).BeginInit();
             this.groupBoxDisplayCAM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChartCAM)).BeginInit();
+            this.derivedCamTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             this.SuspendLayout();
             // 
             // zedGraphSpectra
             // 
-            this.zedGraphSpectra.Location = new System.Drawing.Point(49, 47);
+            this.zedGraphSpectra.Location = new System.Drawing.Point(49, 49);
             this.zedGraphSpectra.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphSpectra.Name = "zedGraphSpectra";
             this.zedGraphSpectra.ScrollGrace = 0D;
@@ -202,6 +207,7 @@
             this.tabControl1.Controls.Add(this.tabPageHistogram);
             this.tabControl1.Controls.Add(this.spectrumCamTab);
             this.tabControl1.Controls.Add(this.histogramCamTab);
+            this.tabControl1.Controls.Add(this.derivedCamTab);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -373,17 +379,17 @@
             // 
             // histogramChart
             // 
-            chartArea5.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea5.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea1.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea5.Name = "ChartArea1";
-            this.histogramChart.ChartAreas.Add(chartArea5);
+            chartArea1.Name = "ChartArea1";
+            this.histogramChart.ChartAreas.Add(chartArea1);
             this.histogramChart.Location = new System.Drawing.Point(6, 97);
             this.histogramChart.Name = "histogramChart";
-            series5.ChartArea = "ChartArea1";
-            series5.Name = "seriesHistogram";
-            this.histogramChart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "seriesHistogram";
+            this.histogramChart.Series.Add(series1);
             this.histogramChart.Size = new System.Drawing.Size(960, 397);
             this.histogramChart.TabIndex = 2;
             this.histogramChart.Text = "chart1";
@@ -690,17 +696,17 @@
             // 
             // histogramChartCAM
             // 
-            chartArea6.AxisX.LabelAutoFitMinFontSize = 5;
-            chartArea6.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
+            chartArea2.AxisX.LabelAutoFitMinFontSize = 5;
+            chartArea2.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30) 
             | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea6.Name = "ChartArea1";
-            this.histogramChartCAM.ChartAreas.Add(chartArea6);
+            chartArea2.Name = "ChartArea1";
+            this.histogramChartCAM.ChartAreas.Add(chartArea2);
             this.histogramChartCAM.Location = new System.Drawing.Point(5, 96);
             this.histogramChartCAM.Name = "histogramChartCAM";
-            series6.ChartArea = "ChartArea1";
-            series6.Name = "seriesHistogram";
-            this.histogramChartCAM.Series.Add(series6);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "seriesHistogram";
+            this.histogramChartCAM.Series.Add(series2);
             this.histogramChartCAM.Size = new System.Drawing.Size(960, 397);
             this.histogramChartCAM.TabIndex = 11;
             this.histogramChartCAM.Text = "chart1";
@@ -714,6 +720,18 @@
             this.updateHistogramButtonCAM.Text = "Update histogram";
             this.updateHistogramButtonCAM.UseVisualStyleBackColor = true;
             this.updateHistogramButtonCAM.Click += new System.EventHandler(this.updateHistogramButtonCAM_Click);
+            // 
+            // derivedCamTab
+            // 
+            this.derivedCamTab.Controls.Add(this.trackBar3);
+            this.derivedCamTab.Controls.Add(this.zedGraphSpectraDER);
+            this.derivedCamTab.Location = new System.Drawing.Point(4, 22);
+            this.derivedCamTab.Name = "derivedCamTab";
+            this.derivedCamTab.Padding = new System.Windows.Forms.Padding(3);
+            this.derivedCamTab.Size = new System.Drawing.Size(1025, 618);
+            this.derivedCamTab.TabIndex = 4;
+            this.derivedCamTab.Text = "Derived Plots";
+            this.derivedCamTab.UseVisualStyleBackColor = true;
             // 
             // pauseButton
             // 
@@ -736,6 +754,31 @@
             this.restartViewerButton.Text = "Restart viewer";
             this.restartViewerButton.UseVisualStyleBackColor = true;
             this.restartViewerButton.Click += new System.EventHandler(this.restartViewerButton_Click);
+            // 
+            // zedGraphSpectraDER
+            // 
+            this.zedGraphSpectraDER.Location = new System.Drawing.Point(49, 49);
+            this.zedGraphSpectraDER.Margin = new System.Windows.Forms.Padding(4);
+            this.zedGraphSpectraDER.Name = "zedGraphSpectraDER";
+            this.zedGraphSpectraDER.ScrollGrace = 0D;
+            this.zedGraphSpectraDER.ScrollMaxX = 0D;
+            this.zedGraphSpectraDER.ScrollMaxY = 0D;
+            this.zedGraphSpectraDER.ScrollMaxY2 = 0D;
+            this.zedGraphSpectraDER.ScrollMinX = 0D;
+            this.zedGraphSpectraDER.ScrollMinY = 0D;
+            this.zedGraphSpectraDER.ScrollMinY2 = 0D;
+            this.zedGraphSpectraDER.Size = new System.Drawing.Size(775, 456);
+            this.zedGraphSpectraDER.TabIndex = 1;
+            // 
+            // trackBar3
+            // 
+            this.trackBar3.Location = new System.Drawing.Point(3, 229);
+            this.trackBar3.Maximum = 100;
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar3.Size = new System.Drawing.Size(45, 104);
+            this.trackBar3.TabIndex = 21;
+            this.trackBar3.TickFrequency = 25;
             // 
             // SpectroscopyViewerForm
             // 
@@ -777,6 +820,9 @@
             this.groupBoxDisplayCAM.ResumeLayout(false);
             this.groupBoxDisplayCAM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.histogramChartCAM)).EndInit();
+            this.derivedCamTab.ResumeLayout(false);
+            this.derivedCamTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -836,6 +882,9 @@
         private System.Windows.Forms.ComboBox ionBox1;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TabPage derivedCamTab;
+        private System.Windows.Forms.TrackBar trackBar3;
+        private ZedGraph.ZedGraphControl zedGraphSpectraDER;
     }
 }
 

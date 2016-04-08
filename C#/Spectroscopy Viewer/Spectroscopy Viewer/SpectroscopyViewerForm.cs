@@ -26,6 +26,8 @@ namespace Spectroscopy_Viewer
         private List<PointPairList> dataPMTPlot = new List<PointPairList>();
         private List<PointPairList>[] dataCAMPlot;
 
+        // List to store data for derived plots (e.g. 1+2 Average, Parity, EE, GG, EG, GE etc)
+        private List<PointPairList>[] derivedCAMPlot;
 
         // Arrays of data for histograms - separate lists for cooling period, count period & all combined
         // Plus an integer to keep track of how large the arrays are
@@ -42,10 +44,12 @@ namespace Spectroscopy_Viewer
 
         private int cameraSpecNum = 0;
         private int numOfIons = 1;
+        private int numDerivedPlots = 1;
 
 
 
         private bool useCamera = false;
+        private bool useDerivedPlots = false;
 
         // Number of spectra loaded to graph
         private int numberOfSpectra = new int();
@@ -92,6 +96,20 @@ namespace Spectroscopy_Viewer
         private RadioButton[] graphControlBadCountsLaserCAM = new RadioButton[maxGraphControl];
         private RadioButton[] graphControlBadCountsThresholdCAM = new RadioButton[maxGraphControl];
         private ContextMenu[] graphControlContextMenuCAM = new ContextMenu[maxGraphControl];
+
+        
+
+
+
+        private GroupBox[] graphControlGroupDER = new GroupBox[maxGraphControl];
+        private System.Windows.Forms.Label[] graphControlLabelDER = new System.Windows.Forms.Label[maxGraphControl];
+        private CheckBox[] graphControlCheckBoxDER = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlAverage = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlEE = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlEGGE = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlGG = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlParity = new CheckBox[maxGraphControl];
+
 
         //Constructor called when running independently
         public SpectroscopyViewerForm()
@@ -158,7 +176,18 @@ namespace Spectroscopy_Viewer
                 ionBox.Items.AddRange(numbers);
                 ionBox1.Items.AddRange(numbers);
             }
+            if(numOfIons ==2)
+            {
+                useDerivedPlots = true;
+            }
             numOfIons = numIons + 1;
+            ionBox.Items.Add("1+2 Average");
+            /*ionBox.Items.Add("GG");
+            ionBox.Items.Add("EE");
+            ionBox.Items.Add("GE");
+            ionBox.Items.Add("EG");
+            ionBox.Items.Add("Parity");*/
+
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor so this is OK
             metadataLive = metadataPassed;
@@ -238,18 +267,24 @@ namespace Spectroscopy_Viewer
             {
                 myCAMSpectrum = new List<spectrum>[numIons + 1];
                 dataCAMPlot = new List<PointPairList>[numIons + 1];
+                derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
                 int j;
+                for(int p = 0; p < numDerivedPlots; p++)
+                {
+                    derivedCAMPlot[p] = new List<PointPairList>();
+                }
                 for (j = 0; j < numIons + 1; j++)
                 {
                     // Create new spectra, with no data points, just metadata
                     myCAMSpectrum[j] = new List<spectrum>();
                     dataCAMPlot[j] = new List<PointPairList>();
+                    
                     for (int i = existingSpectra; i < numberOfSpectra; i++)
                     {
 
                         myCAMSpectrum[j].Add(new spectrum(ref metadataLive, i, numberOfSpectraLive));
-
                         dataCAMPlot[j].Add(new PointPairList());
+                        derivedCAMPlot[i].Add(new PointPairList());
                         // Set cool/count thresholds from boxes on form                        
                         myCAMSpectrum[j][i].setCoolThreshold((int)this.coolingThresholdSelectCAM.Value);
                         myCAMSpectrum[j][i].setCountThreshold((int)this.countThresholdSelectCAM.Value);
@@ -265,11 +300,36 @@ namespace Spectroscopy_Viewer
                     {
                         for (int k = 0; k < graphControlContextMenuCAM[i].MenuItems.Count; k++)
                         {
-
                             this.graphControlContextMenuCAM[i].MenuItems[k].Enabled = false;
                         }
                     }
                 }
+                /*
+                derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
+                for (int k = 0; k < numDerivedPlots; k++)
+                {
+                    // Create new derived plotting lists, with no data points yet
+                    derivedCAMPlot[k] = new List<PointPairList>();
+                    for (int l = existingSpectra; l < numberOfSpectra; l++)
+                    {                     
+                        derivedCAMPlot[k].Add(new PointPairList());
+                    }
+
+                    // Create the controls for the graph                  
+                    this.createGraphControlsDER();
+                    // But since we haven't added any data yet, don't update thresholds or graph
+
+                    // Disable context menus on graph controls while running in live mode
+                    for (int l = 0; l < numberOfSpectra; l++)
+                    {
+                        for (int k = 0; k < graphControlContextMenuDER[i].MenuItems.Count; k++)
+                        {
+                            this.graphControlContextMenuDER[l].MenuItems[k].Enabled = false;
+                        }
+                    }
+                }
+                */
+
             }
 
 
@@ -314,6 +374,27 @@ namespace Spectroscopy_Viewer
                 updateGraphCAM();
                 // Size the control to fill the form with a margin
                 SetSizeCAM();
+                if (useDerivedPlots == true)
+                {
+                    for (int k = 0; k < numDerivedPlots; k++)
+                    {
+                        // Loop through the live spectra only
+                        for (int l = existingSpectra; l < numberOfSpectra; l++)
+                        {
+                            // Add data points to the spectrum
+                            Console.WriteLine("In the data process loop of camera");
+                            // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)
+                            derivedCAMPlot[k][l] = populateDerivedCAMPlot(k, l);
+                        }
+                    }
+
+                    // NB data gets updated automatically when points are added to spectra
+                    // So just update graph
+                    updateGraphDER();
+                    // Size the control to fill the form with a margin
+                    SetSizeDER();
+                }
+
             }
         }
 
@@ -438,10 +519,12 @@ namespace Spectroscopy_Viewer
             // Setup the graph
             createGraph(zedGraphSpectra);
             createGraph(zedGraphSpectraCAM);
+            createGraph(zedGraphSpectraDER);
             //zedGraphSpectra.GraphPane.YAxis.Scale.Max = 1;
             // Size the control to fill the form with a margin
             SetSize();
             SetSizeCAM();
+            SetSizeDER();
 
             // Disable radio buttons to select histogram display
             // If these are used before the histogram is created, program will crash
@@ -501,6 +584,32 @@ namespace Spectroscopy_Viewer
             zedGraphSpectraCAM.Location = new Point(55, 60);
             // Leave a small margin around the outside of the control
             zedGraphSpectraCAM.Size = new Size(ClientRectangle.Width - 270,
+                                    ClientRectangle.Height - 180);
+            if (useCamera == true)
+            {
+                //Redraw the graph controls in appropriate position for new window size
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    if (i < 5)
+                    {
+                        this.graphControlGroupCAM[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                        this.graphControlGroupCAM[i].Size = new System.Drawing.Size(176, 109);
+                    }
+                }
+            }
+
+        }
+        private void SetSizeDER()
+        {
+
+
+            tabControl1.Location = new Point(10, 10);
+            tabControl1.Size = new Size(ClientRectangle.Width - 20,
+                                    ClientRectangle.Height - 20);
+
+            zedGraphSpectraDER.Location = new Point(55, 60);
+            // Leave a small margin around the outside of the control
+            zedGraphSpectraDER.Size = new Size(ClientRectangle.Width - 270,
                                     ClientRectangle.Height - 180);
             if (useCamera == true)
             {
@@ -722,6 +831,7 @@ namespace Spectroscopy_Viewer
 
                     // Setup the graph
                     updateGraphCAM();
+                    
                     // Size the control to fill the form with a margin
                     SetSizeCAM();
                 }
@@ -1663,6 +1773,118 @@ namespace Spectroscopy_Viewer
 
         }
 
+        private void createGraphControlsDER()
+        {
+
+            // Create a set of controls for each spectrum displayed on the graph
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Can only fit in controls for up to 5 graphs
+                if (i < 5)
+                {
+                    // Remove the existing controls
+                    this.removeGraphControlsCAM(i);
+                    // Create new controls
+                    this.graphControlAverage[i] = new CheckBox();
+                    this.graphControlEE[i] = new CheckBox();
+                    this.graphControlEGGE[i] = new CheckBox();
+                    this.graphControlGG[i] = new CheckBox();
+                    this.graphControlParity[i] = new CheckBox();
+                    this.graphControlGroupDER[i] = new GroupBox();
+                    this.graphControlLabelDER[i] = new System.Windows.Forms.Label();
+
+                    // Add group box to the spectrum tab page
+                    this.spectrumCamTab.Controls.Add(graphControlGroupDER[i]);
+                    // Add controls to the groupbox - checkBox, label and radio buttons
+                    this.graphControlGroupDER[i].Controls.Add(graphControlAverage[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlEE[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlEGGE[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlGG[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlParity[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlLabelDER[i]);
+                    //
+                    // Configure group box
+                    this.graphControlGroupDER[i].BackColor = myColoursBadCounts[i];
+                    this.graphControlGroupDER[i].ForeColor = myColoursData[i];
+                    this.graphControlGroupDER[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                    this.graphControlGroupDER[i].Size = new System.Drawing.Size(176, 109);
+                    this.graphControlGroupDER[i].TabIndex = 10 + i;
+                    this.graphControlGroupDER[i].TabStop = false;
+                    this.graphControlGroupDER[i].Text = myCAMSpectrum[cameraSpecNum][i].getName();
+                    //
+                    // Configure check box
+                    this.graphControlCheckBoxDER[i].AutoSize = false;
+                    this.graphControlCheckBoxDER[i].Checked = true;
+                    this.graphControlCheckBoxDER[i].ForeColor = Color.Black;
+                    this.graphControlCheckBoxDER[i].Location = new System.Drawing.Point(6, 17);
+                    this.graphControlCheckBoxDER[i].Size = new System.Drawing.Size(150, 20);
+                    this.graphControlCheckBoxDER[i].TabIndex = 0;
+                    this.graphControlCheckBoxDER[i].Text = "Show spectrum " + (i + 1);
+                    this.graphControlCheckBoxDER[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure label to display text "Show bad counts:"
+                    this.graphControlLabelDER[i].AutoSize = true;
+                    this.graphControlLabelDER[i].ForeColor = Color.Black;
+                    this.graphControlLabelDER[i].Location = new System.Drawing.Point(6, 45);
+                    this.graphControlLabelDER[i].Size = new System.Drawing.Size(61, 13);
+                    this.graphControlLabelDER[i].TabIndex = 1;
+                    this.graphControlLabelDER[i].Text = "Show graphs:";
+                    //
+                    // Configure radio button to display no bad counts
+                    this.graphControlAverage[i].AutoSize = true;
+                    this.graphControlAverage[i].ForeColor = Color.Black;
+                    this.graphControlAverage[i].Checked = true;
+                    this.graphControlAverage[i].Location = new System.Drawing.Point(6, 62);
+                    this.graphControlAverage[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlAverage[i].TabIndex = 2;
+                    this.graphControlAverage[i].Text = "AVG";
+                    this.graphControlAverage[i].UseVisualStyleBackColor = true;
+                    this.graphControlAverage[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+                    //
+                    // Configure radio button to display all bad counts
+                    this.graphControlEE[i].AutoSize = true;
+                    this.graphControlEE[i].ForeColor = Color.Black;
+                    this.graphControlEE[i].Location = new System.Drawing.Point(6, 85);
+                    this.graphControlEE[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlEE[i].TabIndex = 3;
+                    this.graphControlEE[i].Text = "EE";
+                    this.graphControlEE[i].UseVisualStyleBackColor = true;
+                    this.graphControlEE[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+                    //
+                    // Configure radio button to display bad counts due to error flags only
+                    this.graphControlEGGE[i].AutoSize = true;
+                    this.graphControlEGGE[i].ForeColor = Color.Black;
+                    this.graphControlEGGE[i].Location = new System.Drawing.Point(76, 62);
+                    this.graphControlEGGE[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlEGGE[i].TabIndex = 4;
+                    this.graphControlEGGE[i].Text = "EG + GE";
+                    this.graphControlEGGE[i].UseVisualStyleBackColor = true;
+                    this.graphControlEGGE[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+                    //
+                    // Configure radio button to display bad counts due to threshold only
+                    this.graphControlGG[i].AutoSize = true;
+                    this.graphControlGG[i].ForeColor = Color.Black;
+                    this.graphControlGG[i].Location = new System.Drawing.Point(76, 85);
+                    this.graphControlGG[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlGG[i].TabIndex = 5;
+                    this.graphControlGG[i].Text = "GG";
+                    this.graphControlGG[i].UseVisualStyleBackColor = true;
+                    this.graphControlGG[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+
+                }
+            }
+
+
+
+
+        }
+
+
 
         // Method to remove graph controls from the form
         // Required so that we don't get an error when recreating controls
@@ -1701,6 +1923,28 @@ namespace Spectroscopy_Viewer
                 graphControlGroupCAM[i].Dispose();
             }
         }
+        private void removeGraphControlsDER(int i)
+        {
+            if (this.spectrumCamTab.Controls.Contains(graphControlGroupDER[i]))
+            {
+                // Remove objects from list of controls
+                graphControlGroupDER[i].Controls.Clear();
+                spectrumCamTab.Controls.Remove(graphControlGroupDER[i]);
+                // Dispose of objects
+                graphControlLabelDER[i].Dispose();
+                graphControlCheckBoxDER[i].Dispose();
+                graphControlAverage[i].Dispose();
+                graphControlEE[i].Dispose();
+                graphControlEGGE[i].Dispose();
+                graphControlGG[i].Dispose();
+                graphControlParity[i].Dispose();
+                graphControlGroupDER[i].Dispose();
+            }
+        }
+
+
+
+
 
         // Method to handle renaming spectrum (from context menu click)
         private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
@@ -1948,7 +2192,11 @@ namespace Spectroscopy_Viewer
 
         private void updateGraph_EventCAM(object sender, EventArgs e)
         {
-            //updateGraphCAM();
+            updateGraphCAM();
+        }
+        private void updateGraph_EventDER(object sender, EventArgs e)
+        {
+            updateGraphDER();
         }
 
         // Method to respond to user changing radio buttons in graph controls
@@ -2111,6 +2359,86 @@ namespace Spectroscopy_Viewer
                 // axes since the data have changed
                 zedGraphSpectraCAM.AxisChange();
                 zedGraphSpectraCAM.Invalidate();
+                // Force redraw of control
+            }
+
+        }
+
+        private void updateGraphDER()
+        {
+            // Only try to update graph if some spectra have been loaded
+            if (numberOfSpectra != 0 && useCamera == true && useDerivedPlots == true)
+            {
+
+                // get a reference to the GraphPane
+                GraphPane myPane = this.zedGraphSpectraDER.GraphPane; 
+                // Clear data
+                zedGraphSpectraDER.GraphPane.CurveList.Clear();
+                LineItem myCurve;
+             
+
+
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    // If the "show spectrum" checkBox is checked
+                    if (graphControlCheckBoxDER[i].Checked)
+                    {
+                        
+                        // These if statements find which of the radio buttons are checked, and add
+                        // the appropriate data to badCountsData array
+                        if (graphControlAverage[i].Checked)            // All bad counts
+                        {
+                            myCurve = myPane.AddCurve("Average",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Square);
+                        }
+                        //
+                        if (graphControlEE[i].Checked)     // Just laser errors
+                        {
+                            myCurve = myPane.AddCurve("EE",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Triangle);
+                        }
+                        //
+                        if (graphControlEGGE[i].Checked) // Just threshold errors
+                        {
+                            myCurve = myPane.AddCurve("EG+GE",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Star);
+                        }
+
+                        if (graphControlGG[i].Checked) // Just threshold errors
+                        {
+                            myCurve = myPane.AddCurve("GG",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Circle);
+                        }
+
+                        /*
+                        // If "None" is checked, don't need to put anything in the array. There will just be a blank space at index i
+
+                        // So long as "None" is not checked, plot curve to the graph
+                        // badCountsData[i] will contain bad counts from laser errors, threshold errors or both
+                        if (!graphControlBadCountsNoneCAM[i].Checked)
+                        {
+                            // Sort the data by x co-ordinate (frequency)
+                            // this ensures that the curve looks sensible
+                            badCountsData[i].Sort();
+
+                            myCurve = myPane.AddCurve(myCAMSpectrum[cameraSpecNum][i].getName() + " bad counts",
+                                badCountsData[i], myColoursBadCounts[i % 5], SymbolType.Circle);
+                            myCurve.IsY2Axis = true;
+                        }
+                        */
+
+                    }
+
+
+                }
+
+                // Rescale bad counts axis
+                //this.badCountsAxisRescaleCAM(badCountsData);
+
+                // Tell ZedGraph to refigure the
+                // axes since the data have changed
+                zedGraphSpectraDER.AxisChange();
+                zedGraphSpectraDER.Invalidate();
                 // Force redraw of control
             }
 
@@ -2297,6 +2625,118 @@ namespace Spectroscopy_Viewer
             if (IsExperimentRunning==true) e.Cancel=true;
 
         }
+
+        private PointPairList populateDerivedCAMPlot(int nPlots, int nSpectra)
+        {
+            PointPairList derivedPointPairList = new PointPairList();
+            switch (nPlots)
+            {
+
+                //average
+            
+                case 0:                    
+                      
+                        for(int k = 0;k<myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                        {
+                            double tempDarkProb = 0; 
+                            for (int i=0; i < numOfIons - 1; i++)
+                            {
+                                tempDarkProb += myCAMSpectrum[i][k].getDarkProb(i);
+                            }
+                        double averageDarkProb = (double)tempDarkProb / (numOfIons - 1);
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageDarkProb);
+                            
+                        }
+                    break;
+                    //double excitation
+                case 1:
+                    
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int eeCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j <reps; j++)
+                        {
+                           
+                              if(myCAMSpectrum[0][k].getReadingsDark(k,j)==true  && myCAMSpectrum[1][k].getReadingsDark(k, j)==true) eeCount++;
+                            
+                        }
+                        
+                        double averageEEProb = (double) eeCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageEEProb);
+
+                    }
+                    break;
+                case 2:
+
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int egCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j < reps; j++)
+                        {
+
+                            if (myCAMSpectrum[0][k].getReadingsDark(k, j) == true || myCAMSpectrum[1][k].getReadingsDark(k, j) == false) egCount++;
+
+                        }
+
+                        double averageEGProb = (double)egCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageEGProb);
+
+                    }
+                    break;
+
+
+                case 3:
+
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int ggCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j < reps; j++)
+                        {
+
+                            if (myCAMSpectrum[0][k].getReadingsDark(k, j) == false && myCAMSpectrum[1][k].getReadingsDark(k, j) == false) ggCount++;
+
+                        }
+
+                        double averageGGProb = (double)ggCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageGGProb);
+
+                    }
+                    break;
+
+                case 4:
+
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int ggeeCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j < reps; j++)
+                        {
+
+                            if ((myCAMSpectrum[0][k].getReadingsDark(k, j) == false && myCAMSpectrum[1][k].getReadingsDark(k, j) == false)||
+                                (myCAMSpectrum[0][k].getReadingsDark(k, j) == true && myCAMSpectrum[1][k].getReadingsDark(k, j) == true)) ggeeCount++;
+
+                        }
+
+                        double averageGGEEProb = (double)ggeeCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageGGEEProb);
+
+                    }
+                    break;
+                        
+
+            }
+            return derivedPointPairList;
+        }
+
+
+
     }
         
     }

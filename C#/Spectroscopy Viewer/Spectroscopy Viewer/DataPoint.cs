@@ -451,5 +451,9 @@ namespace Spectroscopy_Viewer
             return countThreshold;
         }
 
+        public bool[] getReadingDark()
+        {
+            return readingDark;
+        }
     }
 }
