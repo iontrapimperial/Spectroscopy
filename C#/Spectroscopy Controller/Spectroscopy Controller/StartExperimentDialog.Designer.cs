@@ -41,9 +41,12 @@
             this.spectrumNameGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.NotesBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numOfIonsUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfRepeats)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfSpectra)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numOfIonsUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -130,11 +133,11 @@
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKbutton_Click);
             // 
-            // CancelButton
+            // CancelButon
             // 
             this.CancelButon.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelButon.Location = new System.Drawing.Point(358, 157);
-            this.CancelButon.Name = "CancelButton";
+            this.CancelButon.Name = "CancelButon";
             this.CancelButon.Size = new System.Drawing.Size(75, 23);
             this.CancelButon.TabIndex = 9;
             this.CancelButon.Text = "Cancel";
@@ -174,12 +177,35 @@
             this.NotesBox.Size = new System.Drawing.Size(187, 114);
             this.NotesBox.TabIndex = 0;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 142);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(81, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Number of ions:";
+            // 
+            // numOfIonsUpDown
+            // 
+            this.numOfIonsUpDown.Location = new System.Drawing.Point(112, 140);
+            this.numOfIonsUpDown.Name = "numOfIonsUpDown";
+            this.numOfIonsUpDown.Size = new System.Drawing.Size(115, 20);
+            this.numOfIonsUpDown.TabIndex = 12;
+            this.numOfIonsUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});       
+            // 
             // StartExperimentDialog
             // 
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 192);
+            this.Controls.Add(this.numOfIonsUpDown);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.spectrumNameGroupBox);
             this.Controls.Add(this.CancelButon);
@@ -198,6 +224,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfSpectra)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numOfIonsUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,5 +245,7 @@
         private System.Windows.Forms.GroupBox spectrumNameGroupBox;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.TextBox NotesBox;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.NumericUpDown numOfIonsUpDown;
     }
 }

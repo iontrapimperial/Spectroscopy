@@ -21,6 +21,8 @@ namespace Spectroscopy_Viewer
         // PointPairList for plotting data. This will contain frequency and darkProb for each data point.
         private PointPairList dataPlot = new PointPairList();
 
+        
+
         // List for plotting bad counts due to failed cooling counts
         private PointPairList badCountsThreshold = new PointPairList();
         // List for plotting bad counts due to error flags
@@ -528,6 +530,24 @@ namespace Spectroscopy_Viewer
         public string[] getMetadata()
         {
             return metadata;
+        }
+
+        public bool getReadingsDark(int dataPoint, int rep)
+        {
+            return myDataPoints[dataPoint].getReadingDark()[rep];
+        }
+
+        public float getDarkProb(int i)
+        {
+            return myDataPoints[i].getDarkProb();
+        }
+        public int getFrequency(int i)
+        {
+            return myDataPoints[i].getFreq();
+        }
+        public int getReps()
+        {
+            return myDataPoints[0].getRepeats(); 
         }
 
 

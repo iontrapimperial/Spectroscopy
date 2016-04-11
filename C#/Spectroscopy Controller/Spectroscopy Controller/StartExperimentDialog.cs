@@ -75,5 +75,7 @@ namespace Spectroscopy_Controller
             }
             this.SpectrumNameBoxEnable();
         }
+
+        
     }
 }

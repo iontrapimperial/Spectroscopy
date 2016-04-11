@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Spectroscopy_Controller
+namespace Camera_Control
 {
     static class Program
     {
@@ -15,10 +15,7 @@ namespace Spectroscopy_Controller
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-
-
-            Application.Run(new CoreForm());
+            Application.Run(new CameraForm());
         }
     }
 }

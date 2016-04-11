@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -50,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>4A9195EDC89CDDF01D0C7386EF5CB4855BA62C74</ManifestCertificateThumbprint>
@@ -64,6 +65,9 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ATMCD32CS">
+      <HintPath>..\..\..\AndorCamera\ATMCD32CS.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.Common\v4.0_13.0.40.190__dc6ad606294fc298\NationalInstruments.Common.dll</HintPath>
@@ -88,7 +92,7 @@
     <Compile Include="CoreForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CoreForm.Designer.cs">
+    <Compile Include="CoreForm.designer.cs">
       <DependentUpon>CoreForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Defines.cs" />
@@ -127,16 +131,7 @@
     <EmbeddedResource Include="CoreForm.resx">
       <DependentUpon>CoreForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx" />
     <EmbeddedResource Include="StartExperimentDialog.resx">
       <DependentUpon>StartExperimentDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +139,7 @@
       <DependentUpon>RabiSelector.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -156,6 +152,10 @@
     <None Include="Spectroscopy Controller_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Camera Control\Camera Control.csproj">
+      <Project>{45CAC13D-143C-4ACA-93DE-8715835AF6D3}</Project>
+      <Name>Camera Control</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Spectroscopy Viewer\Spectroscopy Viewer\Spectroscopy Viewer.csproj">
       <Project>{A0DC7E82-3691-484E-8360-7A5036E879BC}</Project>
       <Name>Spectroscopy Viewer</Name>

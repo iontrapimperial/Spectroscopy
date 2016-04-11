@@ -155,6 +155,11 @@
             // repeatsSelect
             // 
             this.repeatsSelect.Location = new System.Drawing.Point(166, 68);
+            this.repeatsSelect.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.repeatsSelect.Name = "repeatsSelect";
             this.repeatsSelect.Size = new System.Drawing.Size(81, 20);
             this.repeatsSelect.TabIndex = 9;
@@ -163,6 +168,7 @@
             0,
             0,
             0});
+            this.repeatsSelect.ValueChanged += new System.EventHandler(this.repeatsSelect_ValueChanged);
             // 
             // stepsSelect
             // 
@@ -200,6 +206,7 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sweep parameters";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // endLengthLabel
             // 

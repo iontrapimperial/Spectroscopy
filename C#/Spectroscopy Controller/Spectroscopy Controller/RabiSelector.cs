@@ -25,40 +25,150 @@ namespace Spectroscopy_Controller
             InitializeComponent();
             pulseTemplate = pulseTemplatePassed;
             LaserState state = new LaserState();
+            LoopState loopState = new LoopState();
 
             // Loop through each pulse
             for (int i = 0; i < pulseTemplate.Count; i++)
             {
-                state = (LaserState)pulseTemplate[i].Tag;
-                // If the state type is NORMAL or COUNT
-                if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
-                {
-                    // Add the name of the pulse to a list, for displaying on the form
-                    pulseNameList.Add(state.Name);
+
+                if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Tag.GetType())) {
+                    state = (LaserState)pulseTemplate[i].Tag;
+                    // If the state type is NORMAL or COUNT
+                    if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+                    {
+                        // Add the name of the pulse to a list, for displaying on the form
+                        for (int k = 0; k < pulseNameList.Count; k++)
+                        {
+                            // Compare the item in the list to the desired item (both strings)
+                            if (pulseNameList[k] == state.Name)
+                            {
+                                MessageBox.Show("Sequence creation failed. Template contains multiple pulses with same name. Please fix and try again.");
+                                return;
+                            }
+                        }
+                        pulseNameList.Add(state.Name);
+                    }
                 }
+                if (typeof(LoopState).IsAssignableFrom(pulseTemplate[i].Tag.GetType()))
+                {
+                    
+                    loopState = (LoopState)pulseTemplate[i].Tag;
+                    for (int k = 0; k < pulseNameList.Count; k++)
+                    {
+                        // Compare the item in the list to the desired item (both strings)
+                        if (pulseNameList[k] == loopState.Name)
+                        {
+                            MessageBox.Show("Sequence creation failed. Template contains multiple pulses with same name. Please fix and try again.");
+                            return;
+                        }
+                    }
+
+                    pulseNameList.Add(loopState.Name);
+                    for (int j=0;j< pulseTemplate[i].Nodes.Count;j++)
+                    {
+                        if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Nodes[j].Tag.GetType()))
+                        {
+                            state = (LaserState)pulseTemplate[i].Nodes[j].Tag;
+                            // If the state type is NORMAL or COUNT
+                            if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+                            {
+                                // Add the name of the pulse to a list, for displaying on the form
+                                for (int k = 0; k< pulseNameList.Count; k++)
+                                {
+                                    // Compare the item in the list to the desired item (both strings)
+                                    if (pulseNameList[k] == state.Name)
+                                    {
+                                        MessageBox.Show("Sequence creation failed. Template contains multiple pulses with same name. Please fix and try again.");
+                                        return;
+                                    }
+                                }
+                                pulseNameList.Add(state.Name);
+                            }
+                        }
+                    }                   
+
+                }
+
             }
 
             // Make list of pulse names the data source for checkbox list on form
             // This may not work....
+        
             this.pulseSelectBox.DataSource = pulseNameList;
+            this.ShowDialog();
         }
 
         private void generateSequenceButton_Click(object sender, EventArgs e)
         {
+            /*
             LaserState state = new LaserState();
+            // Loop through each pulse
+           
+                for (int i = 0; i < pulseTemplate.Count; i++)
+                {
+                if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Tag.GetType()))
+                {
+                    state = (LaserState)pulseTemplate[i].Tag;
+                    if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+                    {
+                        // Call method to find out if that item is checked in pulseSelectBox
+                        if (isItemChecked(state.Name))
+                        {
+                            // Set property in the state to say we should sweep this
+                            state.toSweep = true;
+                        }
+                    }
+                }
+            }*/
+
+            LaserState state = new LaserState();
+            LoopState loopState = new LoopState();
+
             // Loop through each pulse
             for (int i = 0; i < pulseTemplate.Count; i++)
             {
-                state = (LaserState)pulseTemplate[i].Tag;
-                if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+
+                if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Tag.GetType()))
                 {
-                    // Call method to find out if that item is checked in pulseSelectBox
-                    if ( isItemChecked(state.Name) )
+                    state = (LaserState)pulseTemplate[i].Tag;
+                    // If the state type is NORMAL or COUNT
+                    if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
                     {
-                        // Set property in the state to say we should sweep this
-                        state.toSweep = true;
+                        if (isItemChecked(state.Name))
+                        {
+                            // Set property in the state to say we should sweep this
+                            state.toSweep = true;
+                        }
                     }
                 }
+                if (typeof(LoopState).IsAssignableFrom(pulseTemplate[i].Tag.GetType()))
+                {
+
+                    loopState = (LoopState)pulseTemplate[i].Tag;
+                    if (isItemChecked(loopState.Name))
+                    {
+                        // Set property in the state to say we should sweep this
+                        loopState.toSweep = true;
+                    }
+                    for (int j = 0; j < pulseTemplate[i].Nodes.Count; j++)
+                    {
+                        if (typeof(LaserState).IsAssignableFrom(pulseTemplate[i].Nodes[j].Tag.GetType()))
+                        {
+                            state = (LaserState)pulseTemplate[i].Nodes[j].Tag;
+                            // If the state type is NORMAL or COUNT
+                            if (state.StateType == LaserState.PulseType.NORMAL || state.StateType == LaserState.PulseType.COUNT)
+                            {
+                                if (isItemChecked(state.Name))
+                                {
+                                    // Set property in the state to say we should sweep this
+                                    state.toSweep = true;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
             }
         }
 
@@ -88,5 +198,14 @@ namespace Spectroscopy_Controller
 
         }
 
+        private void repeatsSelect_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

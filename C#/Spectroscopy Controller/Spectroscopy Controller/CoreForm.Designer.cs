@@ -60,6 +60,7 @@
             this.LaserBox729 = new System.Windows.Forms.CheckBox();
             this.LaserBox397B2 = new System.Windows.Forms.CheckBox();
             this.LaserBox397B1 = new System.Windows.Forms.CheckBox();
+            this.COM12 = new System.IO.Ports.SerialPort(this.components);
             this.NameBox = new System.Windows.Forms.TextBox();
             this.CreateFromTemplateButton = new System.Windows.Forms.Button();
             this.OpenXMLButton = new System.Windows.Forms.Button();
@@ -68,6 +69,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.cameraCheck = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
             this.phaseStep = new System.Windows.Forms.NumericUpDown();
             this.carrierCheck = new System.Windows.Forms.CheckBox();
@@ -183,7 +185,7 @@
             this.saveHexFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
-            this.COM12 = new System.IO.Ports.SerialPort(this.components);
+            this.OpenCamera = new System.Windows.Forms.Button();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -581,6 +583,10 @@
             this.LaserBox397B1.Text = "397 B1";
             this.LaserBox397B1.UseVisualStyleBackColor = true;
             // 
+            // COM12
+            // 
+            this.COM12.PortName = "COM12";
+            // 
             // NameBox
             // 
             this.NameBox.Location = new System.Drawing.Point(310, 22);
@@ -663,6 +669,7 @@
             // 
             // SpectroGroup
             // 
+            this.SpectroGroup.Controls.Add(this.cameraCheck);
             this.SpectroGroup.Controls.Add(this.label25);
             this.SpectroGroup.Controls.Add(this.phaseStep);
             this.SpectroGroup.Controls.Add(this.carrierCheck);
@@ -701,6 +708,17 @@
             this.SpectroGroup.TabIndex = 56;
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
+            // 
+            // cameraCheck
+            // 
+            this.cameraCheck.AutoSize = true;
+            this.cameraCheck.Location = new System.Drawing.Point(18, 339);
+            this.cameraCheck.Name = "cameraCheck";
+            this.cameraCheck.Size = new System.Drawing.Size(110, 17);
+            this.cameraCheck.TabIndex = 65;
+            this.cameraCheck.Text = "Camera Spectrum";
+            this.cameraCheck.UseVisualStyleBackColor = true;
+            this.cameraCheck.CheckedChanged += new System.EventHandler(this.cameraCheck_CheckedChanged);
             // 
             // label25
             // 
@@ -975,7 +993,7 @@
             this.carFreqBox.Size = new System.Drawing.Size(104, 20);
             this.carFreqBox.TabIndex = 11;
             this.carFreqBox.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             393216});
@@ -1008,7 +1026,7 @@
             this.startFreqBox.Size = new System.Drawing.Size(104, 20);
             this.startFreqBox.TabIndex = 9;
             this.startFreqBox.Value = new decimal(new int[] {
-            230000000,
+            255000000,
             0,
             0,
             393216});
@@ -2235,15 +2253,22 @@
             this.ClearBoxButton.UseVisualStyleBackColor = true;
             this.ClearBoxButton.Click += new System.EventHandler(this.ClearBoxButton_Click);
             // 
-            // COM12
+            // OpenCamera
             // 
-            this.COM12.PortName = "COM12";
+            this.OpenCamera.Location = new System.Drawing.Point(972, 621);
+            this.OpenCamera.Name = "OpenCamera";
+            this.OpenCamera.Size = new System.Drawing.Size(91, 40);
+            this.OpenCamera.TabIndex = 61;
+            this.OpenCamera.Text = "Start Camera";
+            this.OpenCamera.UseVisualStyleBackColor = true;
+            this.OpenCamera.Click += new System.EventHandler(this.OpenCamera_Click);
             // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 712);
+            this.Controls.Add(this.OpenCamera);
             this.Controls.Add(this.ClearBoxButton);
             this.Controls.Add(this.OpenViewerButton);
             this.Controls.Add(this.debugmessagebox);
@@ -2253,6 +2278,7 @@
             this.KeyPreview = true;
             this.Name = "CoreForm";
             this.Text = "Spectroscopy Controller";
+            this.Load += new System.EventHandler(this.CoreForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CoreForm_KeyDown);
             FileSendBox.ResumeLayout(false);
             FileSendBox.PerformLayout();
@@ -2477,6 +2503,8 @@
         private System.Windows.Forms.CheckBox carrierCheck;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown phaseStep;
+        private System.Windows.Forms.Button OpenCamera;
+        private System.Windows.Forms.CheckBox cameraCheck;
     }
 }
 

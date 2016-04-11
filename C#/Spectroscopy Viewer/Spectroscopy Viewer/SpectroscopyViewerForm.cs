@@ -19,21 +19,37 @@ namespace Spectroscopy_Viewer
     public partial class SpectroscopyViewerForm : Form
     {
         // A list of spectrum objects. List is basically just a dynamic array so we can add more objects as necessary
-        public List<spectrum> mySpectrum = new List<spectrum>();
+        public List<spectrum> myPMTSpectrum = new List<spectrum>();
+        public List<spectrum>[] myCAMSpectrum;
+
         // List to store data for plotting spectrum graph. PointPairList is the object needed for plotting with zedGraph 
-        private List<PointPairList> dataPlot = new List<PointPairList>();
-        // Lists to store data for plotting bad counts
-        // Due to error flags (laser error), threshold error or all combined
-        private List<PointPairList> badCountsPlotAll = new List<PointPairList>();
-        private List<PointPairList> badCountsPlotLaser = new List<PointPairList>();
-        private List<PointPairList> badCountsPlotThreshold = new List<PointPairList>();
+        private List<PointPairList> dataPMTPlot = new List<PointPairList>();
+        private List<PointPairList>[] dataCAMPlot;
+
+        // List to store data for derived plots (e.g. 1+2 Average, Parity, EE, GG, EG, GE etc)
+        private List<PointPairList>[] derivedCAMPlot;
 
         // Arrays of data for histograms - separate lists for cooling period, count period & all combined
         // Plus an integer to keep track of how large the arrays are
-        private int[] histogramCool;
-        private int[] histogramCount;
-        private int[] histogramAll;
-        private int histogramSize;
+        private int[] histogramCoolPMT;
+        private int[] histogramCountPMT;
+        private int[] histogramAllPMT;
+        private int histogramSizePMT;
+
+        private int[] histogramCoolCAM;
+        private int[] histogramCountCAM;
+        private int[] histogramAllCAM;
+        private int histogramSizeCAM;
+
+
+        private int cameraSpecNum = 0;
+        private int numOfIons = 1;
+        private int numDerivedPlots = 1;
+
+
+
+        private bool useCamera = false;
+        private bool useDerivedPlots = false;
 
         // Number of spectra loaded to graph
         private int numberOfSpectra = new int();
@@ -46,10 +62,10 @@ namespace Spectroscopy_Viewer
         private List<Color> myColoursBadCounts = new List<Color>();
 
         // Boolean to tell the form whether the experiment is running or not
-        // i.e. whether it is received live data
+        // i.e. whether it has received live data
         // This isn't actually used for anything at the moment
         private bool IsExperimentRunning = new bool();
-        
+
         // Array to store metadata for live experiment ONLY, save passing it every single time we add data
         private string[] metadataLive;
         // Store the number of spectra in the live experiment as an int for quick access
@@ -58,7 +74,7 @@ namespace Spectroscopy_Viewer
         private int stepSizeLive = new int();
         private int startFreqLive = new int();
         private int startLengthLive = 0;        // For fixed spectra
-        
+
 
 
         // Graph controls
@@ -72,13 +88,50 @@ namespace Spectroscopy_Viewer
         private RadioButton[] graphControlBadCountsThreshold = new RadioButton[maxGraphControl];
         private ContextMenu[] graphControlContextMenu = new ContextMenu[maxGraphControl];
 
+        private GroupBox[] graphControlGroupCAM = new GroupBox[maxGraphControl];
+        private System.Windows.Forms.Label[] graphControlLabelCAM = new System.Windows.Forms.Label[maxGraphControl];
+        private CheckBox[] graphControlCheckBoxCAM = new CheckBox[maxGraphControl];
+        private RadioButton[] graphControlBadCountsNoneCAM = new RadioButton[maxGraphControl];
+        private RadioButton[] graphControlBadCountsAllCAM = new RadioButton[maxGraphControl];
+        private RadioButton[] graphControlBadCountsLaserCAM = new RadioButton[maxGraphControl];
+        private RadioButton[] graphControlBadCountsThresholdCAM = new RadioButton[maxGraphControl];
+        private ContextMenu[] graphControlContextMenuCAM = new ContextMenu[maxGraphControl];
+
+        
+
+
+
+        private GroupBox[] graphControlGroupDER = new GroupBox[maxGraphControl];
+        private System.Windows.Forms.Label[] graphControlLabelDER = new System.Windows.Forms.Label[maxGraphControl];
+        private CheckBox[] graphControlCheckBoxDER = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlAverage = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlEE = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlEGGE = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlGG = new CheckBox[maxGraphControl];
+        private CheckBox[] graphControlParity = new CheckBox[maxGraphControl];
+
+
         //Constructor called when running independently
         public SpectroscopyViewerForm()
         {
             InitializeComponent();
             initialiseColours();
         }
-                
+
+        public static int[] GetRow(int rowNum, int[,] readings)
+        {
+
+            int a = 0;
+            int length = readings.GetLength(1);
+            int[] row = new int[readings.GetLength(1)];
+            for (a = 0; a < length; a++)
+            {
+                row[a] = readings[rowNum, a];
+            }
+            return row;
+        }
+
+
         // Constructor to be called from Spectroscopy Controller. Needs passing an array containing metadata, and a boolean for whether the 
         // Metadata ordering in array:
         // 0: Date
@@ -101,19 +154,39 @@ namespace Spectroscopy_Viewer
         // 17: Number of steps (fixed)
         // 18 + i: sideband i name
         // Notes
-        public SpectroscopyViewerForm(ref string[] metadataPassed)
+        public SpectroscopyViewerForm(ref string[] metadataPassed, bool isCamera, int numIons)
         {
+            this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
+            useCamera = isCamera;
             InitializeComponent();
             initialiseColours();
-
             // Flag that experiment is running
             this.IsExperimentRunning = true;
             // While running in live mode, do the following for safety:
             this.loadDataButton.Enabled = false;                // Disable loading saved data 
-            this.restartViewerButton.Enabled = false;           // Disable restarting viewer
+            this.loadDataButtonCAM.Enabled = false;
+            this.restartViewerButton.Enabled = false;           // Disable restarting viewer          
             this.spectrumExportDataButton.Enabled = false;      // Disable exporting spectrum data
+            this.spectrumExportDataButtonCAM.Enabled = false;
             this.histogramExportDataButton.Enabled = false;     // Disable exporting histogram data
-            
+            this.histogramExportDataButtonCAM.Enabled = false;
+            for (int i = 1; i <= numIons + 1; i++)
+            {
+                string[] numbers = { i.ToString() };
+                ionBox.Items.AddRange(numbers);
+                ionBox1.Items.AddRange(numbers);
+            }
+            if(numOfIons ==2)
+            {
+                useDerivedPlots = true;
+            }
+            numOfIons = numIons + 1;
+            ionBox.Items.Add("1+2 Average");
+            /*ionBox.Items.Add("GG");
+            ionBox.Items.Add("EE");
+            ionBox.Items.Add("GE");
+            ionBox.Items.Add("EG");
+            ionBox.Items.Add("Parity");*/
 
             // Store metadata... might need to do this element by element, don't think so though
             // Metadata is passed element by element in spectrum constructor so this is OK
@@ -121,9 +194,6 @@ namespace Spectroscopy_Viewer
 
             float stepSizeLivekHz = new float();
             float startFreqLiveMHz = new float();
-
-
-
 
             // Extract info that we need to pass to fileHandler
             // Make sure repeats, number of spectra & start frequency are real numbers
@@ -134,8 +204,8 @@ namespace Spectroscopy_Viewer
             {
                 if (metadataLive[1] == "Fixed")
                 {
-                    if (int.TryParse(metadataLive[9], out stepSizeLive) 
-                        && int.TryParse(metadataLive[16], out startLengthLive) )
+                    if (int.TryParse(metadataLive[9], out stepSizeLive)
+                        && int.TryParse(metadataLive[16], out startLengthLive))
                     {
                         startFreqLive = (int)(startFreqLiveMHz * 1000000);
                     }
@@ -148,7 +218,7 @@ namespace Spectroscopy_Viewer
                 }
                 else
                 {
-                    if (float.TryParse(metadataLive[9], out stepSizeLivekHz) )
+                    if (float.TryParse(metadataLive[9], out stepSizeLivekHz))
                     {
                         stepSizeLive = (int)(stepSizeLivekHz * 1000);
                         startFreqLive = (int)(startFreqLiveMHz * 1000000);
@@ -157,25 +227,28 @@ namespace Spectroscopy_Viewer
                     {
                         // Show error, skip rest of this function
                         MessageBox.Show("Error parsing metadata when opening viewer");
-                        return;         
+                        return;
                     }
                 }
             }
-            
+
             // Save number of spectra
             int existingSpectra = numberOfSpectra;
             // Add number of spectra from new experiment
             numberOfSpectra += numberOfSpectraLive;
 
+
+
+
             // Create new spectra, with no data points, just metadata
             for (int i = existingSpectra; i < numberOfSpectra; i++)
             {
-                mySpectrum.Add(new spectrum(ref metadataLive, i, numberOfSpectraLive));
-                dataPlot.Add(new PointPairList());              // Add empty list for plotting data
+                myPMTSpectrum.Add(new spectrum(ref metadataLive, i, numberOfSpectraLive));
+                dataPMTPlot.Add(new PointPairList());              // Add empty list for plotting data
 
                 // Set cool/count thresholds from boxes on form
-                mySpectrum[i].setCoolThreshold( (int)this.coolingThresholdSelect.Value );
-                mySpectrum[i].setCountThreshold( (int)this.countThresholdSelect.Value );
+                myPMTSpectrum[i].setCoolThreshold((int)this.coolingThresholdSelect.Value);
+                myPMTSpectrum[i].setCountThreshold((int)this.countThresholdSelect.Value);
             }
 
             // Create the controls for the graph
@@ -190,6 +263,75 @@ namespace Spectroscopy_Viewer
                     this.graphControlContextMenu[i].MenuItems[j].Enabled = false;
                 }
             }
+            if (isCamera == true)
+            {
+                myCAMSpectrum = new List<spectrum>[numIons + 1];
+                dataCAMPlot = new List<PointPairList>[numIons + 1];
+                derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
+                int j;
+                for(int p = 0; p < numDerivedPlots; p++)
+                {
+                    derivedCAMPlot[p] = new List<PointPairList>();
+                }
+                for (j = 0; j < numIons + 1; j++)
+                {
+                    // Create new spectra, with no data points, just metadata
+                    myCAMSpectrum[j] = new List<spectrum>();
+                    dataCAMPlot[j] = new List<PointPairList>();
+                    
+                    for (int i = existingSpectra; i < numberOfSpectra; i++)
+                    {
+
+                        myCAMSpectrum[j].Add(new spectrum(ref metadataLive, i, numberOfSpectraLive));
+                        dataCAMPlot[j].Add(new PointPairList());
+                        derivedCAMPlot[i].Add(new PointPairList());
+                        // Set cool/count thresholds from boxes on form                        
+                        myCAMSpectrum[j][i].setCoolThreshold((int)this.coolingThresholdSelectCAM.Value);
+                        myCAMSpectrum[j][i].setCountThreshold((int)this.countThresholdSelectCAM.Value);
+
+                    }
+
+                    // Create the controls for the graph                  
+                    this.createGraphControlsCAM();
+                    // But since we haven't added any data yet, don't update thresholds or graph
+
+                    // Disable context menus on graph controls while running in live mode
+                    for (int i = 0; i < numberOfSpectra; i++)
+                    {
+                        for (int k = 0; k < graphControlContextMenuCAM[i].MenuItems.Count; k++)
+                        {
+                            this.graphControlContextMenuCAM[i].MenuItems[k].Enabled = false;
+                        }
+                    }
+                }
+                /*
+                derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
+                for (int k = 0; k < numDerivedPlots; k++)
+                {
+                    // Create new derived plotting lists, with no data points yet
+                    derivedCAMPlot[k] = new List<PointPairList>();
+                    for (int l = existingSpectra; l < numberOfSpectra; l++)
+                    {                     
+                        derivedCAMPlot[k].Add(new PointPairList());
+                    }
+
+                    // Create the controls for the graph                  
+                    this.createGraphControlsDER();
+                    // But since we haven't added any data yet, don't update thresholds or graph
+
+                    // Disable context menus on graph controls while running in live mode
+                    for (int l = 0; l < numberOfSpectra; l++)
+                    {
+                        for (int k = 0; k < graphControlContextMenuDER[i].MenuItems.Count; k++)
+                        {
+                            this.graphControlContextMenuDER[l].MenuItems[k].Enabled = false;
+                        }
+                    }
+                }
+                */
+
+            }
+
 
         }
 
@@ -197,12 +339,72 @@ namespace Spectroscopy_Viewer
         // (nb: changed startFreqLive which was taken from metadata 
         // to sidebandStartFreq passed directly from FPGAControls - JOE)
         // Made threadsafe
+        private delegate void Delegate_addLiveDataCAM(int[,] camReadings, int CurrentWindowStep, int sidebandStartFreq, int pulseLength);
+        public void addLiveDataCAM(int[,] camReadings, int CurrentWindowStep, int sidebandStartFreq, int pulseLength)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Delegate_addLiveDataCAM(addLiveDataCAM), new object[] { camReadings, CurrentWindowStep, sidebandStartFreq, pulseLength });
+            }
+            else
+            {
+
+                // How many spectra were loaded before we started running live
+                int existingSpectra = numberOfSpectra - numberOfSpectraLive;
+                for (int j = 0; j < numOfIons; j++)
+                {
+                    int[] myData = GetRow(j, camReadings);
+                    fileHandler myFileHandler = new fileHandler(ref myData, repeatsLive, stepSizeLive, numberOfSpectraLive,
+                                                            sidebandStartFreq, CurrentWindowStep, pulseLength);//numOfIons
+                    // Loop through the live spectra only
+                    for (int i = existingSpectra; i < numberOfSpectra; i++)
+                    {
+                        // Add data points to the spectrum
+                        Console.WriteLine("In the data process loop of camera");
+                        myCAMSpectrum[j][i].addToSpectrum(myFileHandler.getDataPoints(i));
+                        //   myCAMSpectrum[i].addToSpectrum(myFileHandlerCAM.getDataPoints(i));
+                        // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)    
+
+                        dataCAMPlot[j][i] = myCAMSpectrum[j][i].getDataPlot();
+                    }
+                }
+
+                // NB data gets updated automatically when points are added to spectra
+                // So just update graph
+                updateGraphCAM();
+                // Size the control to fill the form with a margin
+                SetSizeCAM();
+                if (useDerivedPlots == true)
+                {
+                    for (int k = 0; k < numDerivedPlots; k++)
+                    {
+                        // Loop through the live spectra only
+                        for (int l = existingSpectra; l < numberOfSpectra; l++)
+                        {
+                            // Add data points to the spectrum
+                            Console.WriteLine("In the data process loop of camera");
+                            // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)
+                            derivedCAMPlot[k][l] = populateDerivedCAMPlot(k, l);
+                        }
+                    }
+
+                    // NB data gets updated automatically when points are added to spectra
+                    // So just update graph
+                    updateGraphDER();
+                    // Size the control to fill the form with a margin
+                    SetSizeDER();
+                }
+
+            }
+        }
+
+
         private delegate void Delegate_addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq, int pulseLength);
         public void addLiveData(List<int> readings, int CurrentWindowStep, int sidebandStartFreq, int pulseLength)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Delegate_addLiveData(addLiveData), new object[] {readings, CurrentWindowStep, sidebandStartFreq, pulseLength} );
+                this.Invoke(new Delegate_addLiveData(addLiveData), new object[] { readings, CurrentWindowStep, sidebandStartFreq, pulseLength });
             }
             else
             {
@@ -219,10 +421,13 @@ namespace Spectroscopy_Viewer
                 // Loop through the live spectra only
                 for (int i = existingSpectra; i < numberOfSpectra; i++)
                 {
+                    Console.WriteLine("In the data process loop of pmt");
                     // Add data points to the spectrum
-                    mySpectrum[i].addToSpectrum(myFileHandler.getDataPoints(i));
+                    myPMTSpectrum[i].addToSpectrum(myFileHandler.getDataPoints(i));
+
                     // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)
-                    dataPlot[i] = mySpectrum[i].getDataPlot();
+                    dataPMTPlot[i] = myPMTSpectrum[i].getDataPlot();
+
                 }
 
                 // NB data gets updated automatically when points are added to spectra
@@ -234,10 +439,15 @@ namespace Spectroscopy_Viewer
         }
 
 
+
+
+
         // Threadsafe method to tell the viewer that we have stopped running a live experiment
         delegate void Delegate_StopRunningLive();
         public void StopRunningLive()
         {
+            Console.WriteLine("in StopRunningLive");
+
             if (this.InvokeRequired)
             {
                 this.Invoke(new Delegate_StopRunningLive(StopRunningLive));
@@ -247,6 +457,7 @@ namespace Spectroscopy_Viewer
                 if (IsExperimentRunning)
                 {
                     // Flag that we are not running in live mode
+                    Console.WriteLine("in else");
                     IsExperimentRunning = false;
 
                     // Now that we have stopped running in live mode:
@@ -307,8 +518,13 @@ namespace Spectroscopy_Viewer
 
             // Setup the graph
             createGraph(zedGraphSpectra);
+            createGraph(zedGraphSpectraCAM);
+            createGraph(zedGraphSpectraDER);
+            //zedGraphSpectra.GraphPane.YAxis.Scale.Max = 1;
             // Size the control to fill the form with a margin
             SetSize();
+            SetSizeCAM();
+            SetSizeDER();
 
             // Disable radio buttons to select histogram display
             // If these are used before the histogram is created, program will crash
@@ -329,6 +545,7 @@ namespace Spectroscopy_Viewer
             if (!IsExperimentRunning)
             {
                 SetSize();
+                SetSizeCAM();
             }
         }
 
@@ -339,22 +556,78 @@ namespace Spectroscopy_Viewer
             tabControl1.Size = new Size(ClientRectangle.Width - 20,
                                     ClientRectangle.Height - 20);
 
-            zedGraphSpectra.Location = new Point(10, 60);
+            zedGraphSpectra.Location = new Point(55, 60);
             // Leave a small margin around the outside of the control
-            zedGraphSpectra.Size = new Size(ClientRectangle.Width - 230,
+            zedGraphSpectra.Size = new Size(ClientRectangle.Width - 270,
                                     ClientRectangle.Height - 180);
-            
+
             //Redraw the graph controls in appropriate position for new window size
             for (int i = 0; i < numberOfSpectra; i++)
             {
                 if (i < 5)
-                {             
+                {
                     this.graphControlGroup[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
-                    this.graphControlGroup[i].Size = new System.Drawing.Size(176, 109);                    
+                    this.graphControlGroup[i].Size = new System.Drawing.Size(176, 109);
                 }
             }
 
         }
+
+        private void SetSizeCAM()
+        {
+
+
+            tabControl1.Location = new Point(10, 10);
+            tabControl1.Size = new Size(ClientRectangle.Width - 20,
+                                    ClientRectangle.Height - 20);
+
+            zedGraphSpectraCAM.Location = new Point(55, 60);
+            // Leave a small margin around the outside of the control
+            zedGraphSpectraCAM.Size = new Size(ClientRectangle.Width - 270,
+                                    ClientRectangle.Height - 180);
+            if (useCamera == true)
+            {
+                //Redraw the graph controls in appropriate position for new window size
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    if (i < 5)
+                    {
+                        this.graphControlGroupCAM[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                        this.graphControlGroupCAM[i].Size = new System.Drawing.Size(176, 109);
+                    }
+                }
+            }
+
+        }
+        private void SetSizeDER()
+        {
+
+
+            tabControl1.Location = new Point(10, 10);
+            tabControl1.Size = new Size(ClientRectangle.Width - 20,
+                                    ClientRectangle.Height - 20);
+
+            zedGraphSpectraDER.Location = new Point(55, 60);
+            // Leave a small margin around the outside of the control
+            zedGraphSpectraDER.Size = new Size(ClientRectangle.Width - 270,
+                                    ClientRectangle.Height - 180);
+            if (useCamera == true)
+            {
+                //Redraw the graph controls in appropriate position for new window size
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    if (i < 5)
+                    {
+                        this.graphControlGroupCAM[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                        this.graphControlGroupCAM[i].Size = new System.Drawing.Size(176, 109);
+                    }
+                }
+            }
+
+        }
+
+
+
 
         // Respond to 'Load file...' button press
         // Loads data from the file, opens dialog for user to assign data to existing/new spectra
@@ -380,7 +653,7 @@ namespace Spectroscopy_Viewer
                 // Need to declare them here (not in if statement) to avoid compiler errors
                 // Array to store user selection of where to assign spectra
                 int[] selectedSpectrum = new int[1];        // Have to initialise this here
-                spectrumSelect mySpectrumSelectBox = new spectrumSelect();
+                spectrumSelect myPMTSpectrumSelectBox = new spectrumSelect();
 
                 // Store number of files being opened
                 int numberOfFiles = openDataFile.FileNames.Length;
@@ -418,16 +691,16 @@ namespace Spectroscopy_Viewer
                             // Create spectrumSelect form, give it list of existing spectra, number of spectra in first file
                             // file name of first file, and number of files opened
                             string[] spectrumNamesFromFile = myFilehandler.getSpectrumNames();
-                            mySpectrumSelectBox = new spectrumSelect(mySpectrum, ref spectrumNamesFromFile, numberInterleaved,
+                            myPMTSpectrumSelectBox = new spectrumSelect(myPMTSpectrum, ref spectrumNamesFromFile, numberInterleaved,
                                                                     ref myFileName, numberOfFiles);
-                            mySpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
+                            myPMTSpectrumSelectBox.ShowDialog();         // Display form & wait until it is closed to continue
 
                             // Make sure the user didn't press cancel or close the dialog box
-                            if (mySpectrumSelectBox.DialogResult == DialogResult.OK)
+                            if (myPMTSpectrumSelectBox.DialogResult == DialogResult.OK)
                             {
                                 // Get array of information about which data to add to which spectrum
                                 selectedSpectrum = new int[numberInterleaved];
-                                selectedSpectrum = mySpectrumSelectBox.selectedSpectrum.ToArray();
+                                selectedSpectrum = myPMTSpectrumSelectBox.selectedSpectrum.ToArray();
                                 selectionMade = true;
                             }
 
@@ -450,28 +723,28 @@ namespace Spectroscopy_Viewer
                                     {
                                         int specNumInFile = selectedSpectrum[j] - numberOfSpectra;
                                         // Get the list filled with data points, add to list of spectra
-                                        mySpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
+                                        myPMTSpectrum.Add(new spectrum(myFilehandler.getDataPoints(j),     // Data points for spectrum       
                                                         selectedSpectrum[j],            // Spectrum number
-                                                        mySpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]], // Spectrum name
+                                                        myPMTSpectrumSelectBox.spectrumNamesForGraph[selectedSpectrum[j]], // Spectrum name
                                                         ref myFilehandler.metadata,     // Metadata from file 
                                                         specNumInFile,                  // Which spectrum in the file
-                                                        myFilehandler.getNumberInterleaved() ));    // How many interleaved in file           
+                                                        myFilehandler.getNumberInterleaved()));    // How many interleaved in file           
 
                                         // Add blank PointPairList for storing plot data
-                                        dataPlot.Add(new PointPairList());
+                                        dataPMTPlot.Add(new PointPairList());
                                     }
                                     else
                                     {
-                                        
-                                        
+
+
                                         // Add list of data points from file handler into existing spectrum
-                                        mySpectrum[selectedSpectrum[j]].addToSpectrum(myFilehandler.getDataPoints(j));
+                                        myPMTSpectrum[selectedSpectrum[j]].addToSpectrum(myFilehandler.getDataPoints(j));
 
 
                                     }
                                 }
                                 // Update number of spectra
-                                numberOfSpectra = mySpectrum.Count();
+                                numberOfSpectra = myPMTSpectrum.Count();
                             }
                             else
                             {
@@ -510,22 +783,28 @@ namespace Spectroscopy_Viewer
         private void updateThresholdsButton_Click(object sender, EventArgs e)
         {
             updateThresholds();
-        }   
+        }
+        private void updateThresholdsButtonCAM_Click(object sender, EventArgs e)
+        {
+            updateThresholdsCAM();
+        }
+
+
 
         // Method to update the thresholds
         // Calculates bad counts/dark ion probs based on thresholds & plots graph
         private void updateThresholds()
         {
             // Do not attempt to do anything if no spectra have been created
-            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            if (myPMTSpectrum.Count == 0) MessageBox.Show("No data loaded");
             else
             {
                 // Analyse each spectrum and get the data
-                // NB if no spectra have been loaded, mySpectrum.Count will be 0 and this loop will not run
-                for (int i = 0; i < mySpectrum.Count; i++)
+                // NB if no spectra have been loaded, myPMTSpectrum.Count will be 0 and this loop will not run
+                for (int i = 0; i < myPMTSpectrum.Count; i++)
                 {
-                    mySpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
-                    dataPlot[i] = mySpectrum[i].getDataPlot();
+                    myPMTSpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
+                    dataPMTPlot[i] = myPMTSpectrum[i].getDataPlot();
                 }
 
                 // Setup the graph
@@ -534,6 +813,33 @@ namespace Spectroscopy_Viewer
                 SetSize();
             }
         }
+        private void updateThresholdsCAM()
+        {
+            // Do not attempt to do anything if no spectra have been created
+            if (myCAMSpectrum != null)
+            {
+                if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
+                else
+                {
+                    // Analyse each spectrum and get the data
+                    // NB if no spectra have been loaded, myPMTSpectrum.Count will be 0 and this loop will not run
+                    for (int i = 0; i < myCAMSpectrum[cameraSpecNum].Count; i++)
+                    {
+                        myCAMSpectrum[cameraSpecNum][i].analyse((int)coolingThresholdSelectCAM.Value, (int)countThresholdSelectCAM.Value);
+                        dataCAMPlot[cameraSpecNum][i] = myCAMSpectrum[cameraSpecNum][i].getDataPlot();
+                    }
+
+                    // Setup the graph
+                    updateGraphCAM();
+                    
+                    // Size the control to fill the form with a margin
+                    SetSizeCAM();
+                }
+            }
+        }
+
+
+
 
         // Method to respond to user clicking "Export spectrum..." button
         // Opens a save file dialog for each spectrum, saves data in a text file (tab separated)
@@ -541,7 +847,7 @@ namespace Spectroscopy_Viewer
         private void spectrumExportDataButton_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
-            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            if (myPMTSpectrum.Count == 0) MessageBox.Show("No data loaded");
             else
             {
                 // Configuring dialog to save file
@@ -553,7 +859,7 @@ namespace Spectroscopy_Viewer
                 for (int i = 0; i < numberOfSpectra; i++)
                 {
                     saveFileDialog.Title = "Save data for spectrum" + (i + 1);
-                    saveFileDialog.FileName = mySpectrum[i].getName() + "_data.txt";
+                    saveFileDialog.FileName = myPMTSpectrum[i].getName() + "_data.txt";
 
                     // Show dialog to save file
                     // Check that user has not pressed cancel before continuing to save file
@@ -564,7 +870,7 @@ namespace Spectroscopy_Viewer
                         TextWriter myDataFile = new StreamWriter(saveFileDialog.FileName);
 
                         // Call method in the spectrum class to write data to the file
-                        mySpectrum[i].writePlotData(ref myDataFile);
+                        myPMTSpectrum[i].writePlotData(ref myDataFile);
                     }
                 }
             }
@@ -588,52 +894,52 @@ namespace Spectroscopy_Viewer
         private void updateHistogramButton_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
-            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            if (myPMTSpectrum.Count == 0) MessageBox.Show("No data loaded");
             else
             {
                 // Calculating data for histogram
                 //********************************
                 // Initialise variables every time we re-create the histogram
-                histogramSize = new int();
+                histogramSizePMT = new int();
 
                 // Local variables used within this method
-                int[] tempHistogramCool;
-                int[] tempHistogramCount;
-                int tempHistogramSize = new int();
+                int[] temphistogramCoolPMT;
+                int[] temphistogramCountPMT;
+                int temphistogramSizePMT = new int();
 
                 // For each spectrum
                 for (int i = 0; i < numberOfSpectra; i++)
                 {
                     // Temporarily store histograms for this spectrum
-                    tempHistogramCool = mySpectrum[i].getHistogramCool();
-                    tempHistogramCount = mySpectrum[i].getHistogramCount();
+                    temphistogramCoolPMT = myPMTSpectrum[i].getHistogramCool();
+                    temphistogramCountPMT = myPMTSpectrum[i].getHistogramCount();
 
                     // Find size of histograms for this spectrum
-                    tempHistogramSize = tempHistogramCool.Length;
+                    temphistogramSizePMT = temphistogramCoolPMT.Length;
 
                     // For the first spectrum only
                     if (i == 0)
                     {
                         // Store size of lists
-                        histogramSize = tempHistogramSize;
+                        histogramSizePMT = temphistogramSizePMT;
 
                         // Create arrays of the right size
-                        histogramCool = new int[histogramSize];
-                        histogramCount = new int[histogramSize];
-                        histogramAll = new int[histogramSize];
+                        histogramCoolPMT = new int[histogramSizePMT];
+                        histogramCountPMT = new int[histogramSizePMT];
+                        histogramAllPMT = new int[histogramSizePMT];
 
 
                         // Loop through each histogram bin and populate arrays
-                        for (int j = 0; j < histogramSize; j++)
+                        for (int j = 0; j < histogramSizePMT; j++)
                         {
                             // Populate arrays from temp histograms
-                            // NB cannot just use e.g. histogramCool = tempHistogram, this will cause errors
+                            // NB cannot just use e.g. histogramCoolPMT = tempHistogram, this will cause errors
                             // since arrays are a reference type. Need to manipulate each element individually
-                            histogramCool[j] = tempHistogramCool[j];
-                            histogramCount[j] = tempHistogramCount[j];
+                            histogramCoolPMT[j] = temphistogramCoolPMT[j];
+                            histogramCountPMT[j] = temphistogramCountPMT[j];
 
                             // Calculate total data and store in another array (cool + count)
-                            histogramAll[j] = histogramCool[j] + histogramCount[j];
+                            histogramAllPMT[j] = histogramCoolPMT[j] + histogramCountPMT[j];
                         }
                     }
                     else
@@ -641,32 +947,32 @@ namespace Spectroscopy_Viewer
 
 
                         // If the histogram for the current spectrum is larger than the existing histogram
-                        if (tempHistogramSize > histogramSize)
+                        if (temphistogramSizePMT > histogramSizePMT)
                         {
-                            Array.Resize(ref histogramCool, tempHistogramSize);
-                            Array.Resize(ref histogramCount, tempHistogramSize);
-                            Array.Resize(ref histogramAll, tempHistogramSize);
+                            Array.Resize(ref histogramCoolPMT, temphistogramSizePMT);
+                            Array.Resize(ref histogramCountPMT, temphistogramSizePMT);
+                            Array.Resize(ref histogramAllPMT, temphistogramSizePMT);
 
                             // Fill in the data into the new bins
-                            for (int j = histogramSize; j < tempHistogramSize; j++)
+                            for (int j = histogramSizePMT; j < temphistogramSizePMT; j++)
                             {
-                                histogramCool[j] = tempHistogramCool[j];
-                                histogramCount[j] = tempHistogramCount[j];
-                                histogramAll[j] = histogramCool[j] + histogramCount[j];
+                                histogramCoolPMT[j] = temphistogramCoolPMT[j];
+                                histogramCountPMT[j] = temphistogramCountPMT[j];
+                                histogramAllPMT[j] = histogramCoolPMT[j] + histogramCountPMT[j];
                             }
 
-                            // Update size of list (could use tempHistogramSize, but recalculate just in case)
-                            histogramSize = tempHistogramSize;//histogramCool.Count();
+                            // Update size of list (could use temphistogramSizePMT, but recalculate just in case)
+                            histogramSizePMT = temphistogramSizePMT;//histogramCoolPMT.Count();
                         }
                         else
                         {
-                            for (int j = 0; j < tempHistogramSize; j++)
+                            for (int j = 0; j < temphistogramSizePMT; j++)
                             {
                                 // Sum the data from each spectrum into the full list
-                                histogramCool[j] += tempHistogramCool[j];
-                                histogramCount[j] += tempHistogramCount[j];
+                                histogramCoolPMT[j] += temphistogramCoolPMT[j];
+                                histogramCountPMT[j] += temphistogramCountPMT[j];
 
-                                histogramAll[j] = histogramCool[j] + histogramCount[j];
+                                histogramAllPMT[j] = histogramCoolPMT[j] + histogramCountPMT[j];
                             }
                         }
                     }
@@ -686,13 +992,13 @@ namespace Spectroscopy_Viewer
                 histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
                 histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
 
-                for (int i = 0; i < histogramSize; i++)
+                for (int i = 0; i < histogramSizePMT; i++)
                 {
                     DataRow myRow = histogramTable.NewRow();
                     myRow["Bin"] = i;
-                    myRow["Cool period"] = histogramCool[i];
-                    myRow["Count period"] = histogramCount[i];
-                    myRow["All"] = histogramAll[i];
+                    myRow["Cool period"] = histogramCoolPMT[i];
+                    myRow["Count period"] = histogramCountPMT[i];
+                    myRow["All"] = histogramAllPMT[i];
                     histogramTable.Rows.Add(myRow);
                 }
 
@@ -726,6 +1032,160 @@ namespace Spectroscopy_Viewer
 
         }
 
+
+
+
+
+        private void updateHistogramButtonCAM_Click(object sender, EventArgs e)
+        {
+            // Do not attempt to do anything if no spectra have been created
+            if (myCAMSpectrum != null)
+            {
+                if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
+                else
+                {
+                    // Calculating data for histogram
+                    //********************************
+                    // Initialise variables every time we re-create the histogram
+                    histogramSizeCAM = new int();
+
+                    // Local variables used within this method
+                    int[] temphistogramCoolCAM;
+                    int[] temphistogramCountCAM;
+                    int temphistogramSizeCAM = new int();
+
+                    // For each spectrum
+                    for (int i = 0; i < numberOfSpectra; i++)
+                    {
+                        // Temporarily store histograms for this spectrum
+                        temphistogramCoolCAM = myCAMSpectrum[cameraSpecNum][i].getHistogramCool();
+                        temphistogramCountCAM = myCAMSpectrum[cameraSpecNum][i].getHistogramCount();
+
+                        // Find size of histograms for this spectrum
+                        temphistogramSizeCAM = temphistogramCoolCAM.Length;
+
+                        // For the first spectrum only
+                        if (i == 0)
+                        {
+                            // Store size of lists
+                            histogramSizeCAM = temphistogramSizeCAM;
+
+                            // Create arrays of the right size
+                            histogramCoolCAM = new int[histogramSizeCAM];
+                            histogramCountCAM = new int[histogramSizeCAM];
+                            histogramAllCAM = new int[histogramSizeCAM];
+
+
+                            // Loop through each histogram bin and populate arrays
+                            for (int j = 0; j < histogramSizeCAM; j++)
+                            {
+                                // Populate arrays from temp histograms
+                                // NB cannot just use e.g. histogramCoolCAM = tempHistogram, this will cause errors
+                                // since arrays are a reference type. Need to manipulate each element individually
+                                histogramCoolCAM[j] = temphistogramCoolCAM[j];
+                                histogramCountCAM[j] = temphistogramCountCAM[j];
+
+                                // Calculate total data and store in another array (cool + count)
+                                histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
+                            }
+                        }
+                        else
+                        {   // For subsequent spectra, go through and add the data to existing lists
+
+
+                            // If the histogram for the current spectrum is larger than the existing histogram
+                            if (temphistogramSizeCAM > histogramSizeCAM)
+                            {
+                                Array.Resize(ref histogramCoolCAM, temphistogramSizeCAM);
+                                Array.Resize(ref histogramCountCAM, temphistogramSizeCAM);
+                                Array.Resize(ref histogramAllCAM, temphistogramSizeCAM);
+
+                                // Fill in the data into the new bins
+                                for (int j = histogramSizeCAM; j < temphistogramSizeCAM; j++)
+                                {
+                                    histogramCoolCAM[j] = temphistogramCoolCAM[j];
+                                    histogramCountCAM[j] = temphistogramCountCAM[j];
+                                    histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
+                                }
+
+                                // Update size of list (could use temphistogramSizeCAM, but recalculate just in case)
+                                histogramSizeCAM = temphistogramSizeCAM;//histogramCoolCAM.Count();
+                            }
+                            else
+                            {
+                                for (int j = 0; j < temphistogramSizeCAM; j++)
+                                {
+                                    // Sum the data from each spectrum into the full list
+                                    histogramCoolCAM[j] += temphistogramCoolCAM[j];
+                                    histogramCountCAM[j] += temphistogramCountCAM[j];
+
+                                    histogramAllCAM[j] = histogramCoolCAM[j] + histogramCountCAM[j];
+                                }
+                            }
+                        }
+                    }       // End of loop which goes through spectra and creates histogram
+
+                    //********************************
+                    // Store the data in a table for plotting to graph
+                    // Try to create a data table with the lists as columns
+                    DataSet histogramDataSet = new DataSet();
+                    DataTable histogramTable = new DataTable();
+
+                    histogramDataSet.Tables.Add(histogramTable);
+
+                    // Create columns
+                    histogramTable.Columns.Add(new DataColumn("Bin", typeof(int)));
+                    histogramTable.Columns.Add(new DataColumn("Cool period", typeof(int)));
+                    histogramTable.Columns.Add(new DataColumn("Count period", typeof(int)));
+                    histogramTable.Columns.Add(new DataColumn("All", typeof(int)));
+
+                    for (int i = 0; i < histogramSizeCAM; i++)
+                    {
+                        DataRow myRow = histogramTable.NewRow();
+                        myRow["Bin"] = i;
+                        myRow["Cool period"] = histogramCoolCAM[i];
+                        myRow["Count period"] = histogramCountCAM[i];
+                        myRow["All"] = histogramAllCAM[i];
+                        histogramTable.Rows.Add(myRow);
+                    }
+
+                    //********************************
+                    // Plotting histogram data on graph
+                    // Need to convert to an enumerable type to get it to dataBind properly
+                    // Clear the chart first so that when we re-create the histogram it doesn't cause an error
+                    this.histogramChartCAM.DataBindings.Clear();
+                    this.histogramChartCAM.Series.Clear();
+
+                    var enumerableTable = (histogramTable as System.ComponentModel.IListSource).GetList();
+                    this.histogramChartCAM.DataBindTable(enumerableTable, "Bin");
+
+                    // This line throws an error when chart already exists & update button is pressed
+
+                    // Turn off ticks on x axis
+                    histogramChartCAM.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+
+                    // Enable radio buttons to select display
+                    histogramDisplayAllCAM.Enabled = true;
+                    histogramDisplayCoolCAM.Enabled = true;
+                    histogramDisplayCountCAM.Enabled = true;
+
+                    // Set interval to 1 so that the number will be displayed for each bin
+                    histogramChartCAM.ChartAreas[0].AxisX.Interval = 1;
+
+                    // Check which radio button is checked & plot correct series
+                    this.histogramDisplayCoolCAM_CheckedChanged(sender, e);
+
+
+                }   // End of if statement checking that data has been loaded
+            }
+
+        }
+
+
+
+
+
+
         // Method to be called when a change is made to the radio buttons controlling the histogram display
         private void radioButtonDisplay_CheckedChanged(object sender, EventArgs e)
         {
@@ -734,10 +1194,11 @@ namespace Spectroscopy_Viewer
             // If the button is unchecked, hide the corresponding series
 
             // For "All" radio button
+
             if (histogramDisplayAll.Checked)
             {
                 this.histogramChart.Series["All"].Enabled = true;   // Enable series
-                this.histogramAutoScale(histogramAll);              // Auto scale graph
+                this.histogramAutoScale(histogramAllPMT);              // Auto scale graph
             }
             else this.histogramChart.Series["All"].Enabled = false; // Disable series
 
@@ -746,7 +1207,7 @@ namespace Spectroscopy_Viewer
             if (histogramDisplayCool.Checked)
             {
                 this.histogramChart.Series["Cool period"].Enabled = true;   // Enable series
-                this.histogramAutoScale(histogramCool);                     // Auto scale graph
+                this.histogramAutoScale(histogramCoolPMT);                     // Auto scale graph
             }
             else this.histogramChart.Series["Cool period"].Enabled = false; // Disable series
 
@@ -755,43 +1216,120 @@ namespace Spectroscopy_Viewer
             if (histogramDisplayCount.Checked)
             {
                 this.histogramChart.Series["Count period"].Enabled = true;      // Enable series
-                this.histogramAutoScale(histogramCount);                        // Auto scale graph
+                this.histogramAutoScale(histogramCountPMT);                        // Auto scale graph
             }
             else this.histogramChart.Series["Count period"].Enabled = false;    // Disable series
         }
+        private void histogramDisplayCoolCAM_CheckedChanged(object sender, EventArgs e)
+        {
+            // For each radio button (All, Cool, Count)
+            // If the button is checked, display the corresponding series
+            // If the button is unchecked, hide the corresponding series
+            if (myCAMSpectrum != null)
+            {
+                // For "All" radio button
+                if (histogramDisplayAllCAM.Checked)
+                {
+                    this.histogramChartCAM.Series["All"].Enabled = true;   // Enable series
+                    this.histogramAutoScaleCAM(histogramAllCAM);              // Auto scale graph
+                }
+                else this.histogramChartCAM.Series["All"].Enabled = false; // Disable series
+
+
+                // For "Cooling period only" radio button
+                if (histogramDisplayCoolCAM.Checked)
+                {
+                    this.histogramChartCAM.Series["Cool period"].Enabled = true;   // Enable series
+
+                    this.histogramAutoScaleCAM(histogramCoolCAM);                     // Auto scale graph
+                }
+                else this.histogramChartCAM.Series["Cool period"].Enabled = false; // Disable series
+
+
+                // For "Count period only" radio button
+                if (histogramDisplayCountCAM.Checked)
+                {
+                    this.histogramChartCAM.Series["Count period"].Enabled = true;      // Enable series
+                    this.histogramAutoScaleCAM(histogramCountCAM);                        // Auto scale graph
+                }
+                else this.histogramChartCAM.Series["Count period"].Enabled = false;    // Disable series
+            }
+        }
+
+
+
+
+
+
+
 
         // Method to scale the axes based on the data being plotted (All, Cool or Counts)
         private void histogramAutoScale(int[] data)
         {
             // Specify an interval to round to based on size of data
-            
-                int maxData = data.DefaultIfEmpty().Max();
-                int interval = new int();
-                if (maxData <= 100)
-                {
-                    interval = 20;
-                }
-                else if (maxData <= 250)
-                {
-                    interval = 50;
-                }
-                else if (maxData <= 500)
-                {
-                    interval = 100;
-                }
-                else
-                {
-                    interval = 200;
-                }
 
-                // Find out how many intervals fit into the data range
-                // (rounded down to an integer)
-                int x = data.DefaultIfEmpty().Max() / interval;
+            int maxData = data.DefaultIfEmpty().Max();
+            int interval = new int();
+            if (maxData <= 100)
+            {
+                interval = 20;
+            }
+            else if (maxData <= 250)
+            {
+                interval = 50;
+            }
+            else if (maxData <= 500)
+            {
+                interval = 100;
+            }
+            else
+            {
+                interval = 200;
+            }
 
-                // Set the max to one interval greater
-                histogramChart.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
-            
+            // Find out how many intervals fit into the data range
+            // (rounded down to an integer)
+            int x = data.DefaultIfEmpty().Max() / interval;
+
+            // Set the max to one interval greater
+            histogramChart.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
+
         }
+
+        private void histogramAutoScaleCAM(int[] data)
+        {
+            // Specify an interval to round to based on size of data
+
+            int maxData = data.DefaultIfEmpty().Max();
+            int interval = new int();
+            if (maxData <= 100)
+            {
+                interval = 20;
+            }
+            else if (maxData <= 250)
+            {
+                interval = 50;
+            }
+            else if (maxData <= 500)
+            {
+                interval = 100;
+            }
+            else
+            {
+                interval = 200;
+            }
+
+            // Find out how many intervals fit into the data range
+            // (rounded down to an integer)
+            int x = data.DefaultIfEmpty().Max() / interval;
+
+            // Set the max to one interval greater
+            histogramChartCAM.ChartAreas[0].AxisY.Maximum = interval * (x + 1);
+
+        }
+
+
+
 
         // Method to respond to "Auto" checkbox (under Histogram tab, Maximum bin group) changing
         private void histogramCheckBoxAuto_CheckedChanged(object sender, EventArgs e)
@@ -800,7 +1338,7 @@ namespace Spectroscopy_Viewer
             if (histogramCheckBoxAuto.Checked)
             {
                 histogramMaxBinSelect.Enabled = false;
-                this.histogramChart.ChartAreas[0].AxisX.Maximum = histogramSize;
+                this.histogramChart.ChartAreas[0].AxisX.Maximum = histogramSizePMT;
             }
             else
             // If not on auto, scale according to user max bin select
@@ -813,6 +1351,30 @@ namespace Spectroscopy_Viewer
 
         }
 
+
+        private void histogramCheckBoxAutoCAM_CheckedChanged_1(object sender, EventArgs e)
+        {
+            // If selecting auto, then disable user maxBinSelect
+            if (histogramCheckBoxAutoCAM.Checked)
+            {
+                histogramMaxBinSelectCAM.Enabled = false;
+                this.histogramChartCAM.ChartAreas[0].AxisX.Maximum = histogramSizeCAM;
+            }
+            else
+            // If not on auto, scale according to user max bin select
+            {
+                // Enable user select for max bin
+                histogramMaxBinSelectCAM.Enabled = true;
+                // NB no code in place to create a ">= N" bin, all this does is change the display
+                this.histogramChartCAM.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelectCAM.Value;
+            }
+        }
+
+
+
+
+
+
         // Method to respond to user changing value in the histogram max bin select
         private void histogramMaxBinSelect_ValueChanged(object sender, EventArgs e)
         {
@@ -821,13 +1383,24 @@ namespace Spectroscopy_Viewer
             // Set maximum bin to user input
             this.histogramChart.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelect.Value;
         }
+        private void histogramMaxBinSelect_ValueChangedCAM(object sender, EventArgs e)
+        {
+            // NB nothing clever, we don't change the data, just the display
+
+            // Set maximum bin to user input
+            this.histogramChartCAM.ChartAreas[0].AxisX.Maximum = (double)histogramMaxBinSelectCAM.Value;
+        }
+
+
+
+
 
         // Method to respond to user clicking "Export histogram..." button
         // Opens a dialogue to save histogram data independently for each displayed spectrum
         private void histogramExportDataButton_Click(object sender, EventArgs e)
         {
             // Do not attempt to do anything if no spectra have been created
-            if (mySpectrum.Count == 0) MessageBox.Show("No data loaded");
+            if (myPMTSpectrum.Count == 0) MessageBox.Show("No data loaded");
             else
             {
                 // Configuring dialog to save file
@@ -839,7 +1412,7 @@ namespace Spectroscopy_Viewer
                 for (int i = 0; i < numberOfSpectra; i++)
                 {
                     saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
-                    saveFileDialog.FileName = mySpectrum[i].getName() + " histogram data.txt";
+                    saveFileDialog.FileName = myPMTSpectrum[i].getName() + " histogram data.txt";
 
                     // Show dialog to save file
                     // Check that user has not pressed cancel before continuing to save file
@@ -850,12 +1423,51 @@ namespace Spectroscopy_Viewer
                         TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
 
                         // Call method in the spectrum class to write data to the file
-                        mySpectrum[i].writeHistogramData(ref histogramFile);
+                        myPMTSpectrum[i].writeHistogramData(ref histogramFile);
                     }
                 }
             }
 
         }
+        private void histogramExportDataButtonCAM_Click(object sender, EventArgs e)
+        {
+            // Do not attempt to do anything if no spectra have been created
+            if (myCAMSpectrum != null) {
+                if (myCAMSpectrum[cameraSpecNum].Count == 0) MessageBox.Show("No data loaded");
+                else
+                {
+                    // Configuring dialog to save file
+                    saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
+                    saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
+                    saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+                    // Show new dialogue for each spectrum
+                    for (int i = 0; i < numberOfSpectra; i++)
+                    {
+                        saveFileDialog.Title = "Save histogram data for spectrum" + (i + 1);
+                        saveFileDialog.FileName = myCAMSpectrum[cameraSpecNum][i].getName() + " histogram data.txt";
+
+                        // Show dialog to save file
+                        // Check that user has not pressed cancel before continuing to save file
+                        if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                        {
+                            // Create streamwriter object to write to file
+                            // With filename given from user input
+                            TextWriter histogramFile = new StreamWriter(saveFileDialog.FileName);
+
+                            // Call method in the spectrum class to write data to the file
+                            myCAMSpectrum[cameraSpecNum][i].writeHistogramData(ref histogramFile);
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
 
         #endregion                                                           
 
@@ -924,7 +1536,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlGroup[i].Size = new System.Drawing.Size(176, 109);
                     this.graphControlGroup[i].TabIndex = 10 + i;
                     this.graphControlGroup[i].TabStop = false;
-                    this.graphControlGroup[i].Text = mySpectrum[i].getName();
+                    this.graphControlGroup[i].Text = myPMTSpectrum[i].getName();
                     //
                     // Configure check box
                     this.graphControlCheckBox[i].AutoSize = false;
@@ -1008,20 +1620,271 @@ namespace Spectroscopy_Viewer
                     // Add frequency offset
                     MenuItem contextMenuAddOffset = new MenuItem();
                     contextMenuAddOffset.Text = "Add frequency offset...";
-                    contextMenuAddOffset.Click +=new EventHandler(graphControlContextMenu_AddOffset_Click);
-                    
+                    contextMenuAddOffset.Click += new EventHandler(graphControlContextMenu_AddOffset_Click);
+
 
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuRename);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuViewMetadata);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuChangeColour);
                     this.graphControlContextMenu[i].MenuItems.Add(contextMenuAddOffset);
-                    
+
                 }
 
 
             }
 
         }
+
+        private void createGraphControlsCAM()
+        {
+
+            // Create a set of controls for each spectrum displayed on the graph
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Can only fit in controls for up to 5 graphs
+                if (i < 5)
+                {
+                    // Remove the existing controls
+                    this.removeGraphControlsCAM(i);
+                    // Create new controls
+                    this.graphControlBadCountsAllCAM[i] = new RadioButton();
+                    this.graphControlBadCountsLaserCAM[i] = new RadioButton();
+                    this.graphControlBadCountsNoneCAM[i] = new RadioButton();
+                    this.graphControlBadCountsThresholdCAM[i] = new RadioButton();
+                    this.graphControlCheckBoxCAM[i] = new CheckBox();
+                    this.graphControlGroupCAM[i] = new GroupBox();
+                    this.graphControlLabelCAM[i] = new System.Windows.Forms.Label();
+                    this.graphControlContextMenuCAM[i] = new ContextMenu();
+                    //
+                    // Add group box to the spectrum tab page
+                    this.spectrumCamTab.Controls.Add(graphControlGroupCAM[i]);
+                    // Add controls to the groupbox - checkBox, label and radio buttons
+                    this.graphControlGroupCAM[i].Controls.Add(graphControlBadCountsAllCAM[i]);
+                    this.graphControlGroupCAM[i].Controls.Add(graphControlBadCountsLaserCAM[i]);
+                    this.graphControlGroupCAM[i].Controls.Add(graphControlBadCountsNoneCAM[i]);
+                    this.graphControlGroupCAM[i].Controls.Add(graphControlBadCountsThresholdCAM[i]);
+                    this.graphControlGroupCAM[i].Controls.Add(graphControlCheckBoxCAM[i]);
+                    this.graphControlGroupCAM[i].Controls.Add(graphControlLabelCAM[i]);
+                    this.graphControlGroupCAM[i].ContextMenu = graphControlContextMenuCAM[i];
+                    //
+                    // Configure group box
+                    this.graphControlGroupCAM[i].BackColor = myColoursBadCounts[i];
+                    this.graphControlGroupCAM[i].ForeColor = myColoursData[i];
+                    this.graphControlGroupCAM[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                    this.graphControlGroupCAM[i].Size = new System.Drawing.Size(176, 109);
+                    this.graphControlGroupCAM[i].TabIndex = 10 + i;
+                    this.graphControlGroupCAM[i].TabStop = false;
+                    this.graphControlGroupCAM[i].Text = myCAMSpectrum[cameraSpecNum][i].getName();
+                    //
+                    // Configure check box
+                    this.graphControlCheckBoxCAM[i].AutoSize = false;
+                    this.graphControlCheckBoxCAM[i].Checked = true;
+                    this.graphControlCheckBoxCAM[i].ForeColor = Color.Black;
+                    this.graphControlCheckBoxCAM[i].Location = new System.Drawing.Point(6, 17);
+                    this.graphControlCheckBoxCAM[i].Size = new System.Drawing.Size(150, 20);
+                    this.graphControlCheckBoxCAM[i].TabIndex = 0;
+                    this.graphControlCheckBoxCAM[i].Text = "Show spectrum " + (i + 1);
+                    this.graphControlCheckBoxCAM[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure label to display text "Show bad counts:"
+                    this.graphControlLabelCAM[i].AutoSize = true;
+                    this.graphControlLabelCAM[i].ForeColor = Color.Black;
+                    this.graphControlLabelCAM[i].Location = new System.Drawing.Point(6, 45);
+                    this.graphControlLabelCAM[i].Size = new System.Drawing.Size(61, 13);
+                    this.graphControlLabelCAM[i].TabIndex = 1;
+                    this.graphControlLabelCAM[i].Text = "Show bad counts:";
+                    //
+                    // Configure radio button to display no bad counts
+                    this.graphControlBadCountsNoneCAM[i].AutoSize = true;
+                    this.graphControlBadCountsNoneCAM[i].ForeColor = Color.Black;
+                    this.graphControlBadCountsNoneCAM[i].Checked = true;
+                    this.graphControlBadCountsNoneCAM[i].Location = new System.Drawing.Point(6, 62);
+                    this.graphControlBadCountsNoneCAM[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlBadCountsNoneCAM[i].TabIndex = 2;
+                    this.graphControlBadCountsNoneCAM[i].Text = "None";
+                    this.graphControlBadCountsNoneCAM[i].UseVisualStyleBackColor = true;
+                    this.graphControlBadCountsNoneCAM[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure radio button to display all bad counts
+                    this.graphControlBadCountsAllCAM[i].AutoSize = true;
+                    this.graphControlBadCountsAllCAM[i].ForeColor = Color.Black;
+                    this.graphControlBadCountsAllCAM[i].Location = new System.Drawing.Point(6, 85);
+                    this.graphControlBadCountsAllCAM[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlBadCountsAllCAM[i].TabIndex = 3;
+                    this.graphControlBadCountsAllCAM[i].Text = "All";
+                    this.graphControlBadCountsAllCAM[i].UseVisualStyleBackColor = true;
+                    this.graphControlBadCountsAllCAM[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure radio button to display bad counts due to error flags only
+                    this.graphControlBadCountsLaserCAM[i].AutoSize = true;
+                    this.graphControlBadCountsLaserCAM[i].ForeColor = Color.Black;
+                    this.graphControlBadCountsLaserCAM[i].Location = new System.Drawing.Point(76, 62);
+                    this.graphControlBadCountsLaserCAM[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlBadCountsLaserCAM[i].TabIndex = 4;
+                    this.graphControlBadCountsLaserCAM[i].Text = "Laser error";
+                    this.graphControlBadCountsLaserCAM[i].UseVisualStyleBackColor = true;
+                    this.graphControlBadCountsLaserCAM[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure radio button to display bad counts due to threshold only
+                    this.graphControlBadCountsThresholdCAM[i].AutoSize = true;
+                    this.graphControlBadCountsThresholdCAM[i].ForeColor = Color.Black;
+                    this.graphControlBadCountsThresholdCAM[i].Location = new System.Drawing.Point(76, 85);
+                    this.graphControlBadCountsThresholdCAM[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlBadCountsThresholdCAM[i].TabIndex = 5;
+                    this.graphControlBadCountsThresholdCAM[i].Text = "Threshold error";
+                    this.graphControlBadCountsThresholdCAM[i].UseVisualStyleBackColor = true;
+                    this.graphControlBadCountsThresholdCAM[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure context menu
+                    //
+                    // Rename
+                    MenuItem contextMenuRename = new MenuItem();
+                    contextMenuRename.Name = "Rename";
+                    contextMenuRename.Text = "Rename spectrum...";
+                    contextMenuRename.Click += new EventHandler(graphControlContextMenuCAM_Rename_Click);
+                    // View metadata
+                    MenuItem contextMenuViewMetadata = new MenuItem();
+                    contextMenuViewMetadata.Text = "View metadata";
+                    contextMenuViewMetadata.Click += new EventHandler(graphControlContextMenuCAM_ViewMetadata_Click);
+                    // Change colour
+                    MenuItem contextMenuChangeColour = new MenuItem();
+                    contextMenuChangeColour.Text = "Change colour...";
+                    contextMenuChangeColour.Click += new EventHandler(graphControlContextMenuCAM_ChangeColour_Click);
+                    // Add frequency offset
+                    MenuItem contextMenuAddOffset = new MenuItem();
+                    contextMenuAddOffset.Text = "Add frequency offset...";
+                    contextMenuAddOffset.Click += new EventHandler(graphControlContextMenuCAM_AddOffset_Click);
+
+
+                    this.graphControlContextMenuCAM[i].MenuItems.Add(contextMenuRename);
+                    this.graphControlContextMenuCAM[i].MenuItems.Add(contextMenuViewMetadata);
+                    this.graphControlContextMenuCAM[i].MenuItems.Add(contextMenuChangeColour);
+                    this.graphControlContextMenuCAM[i].MenuItems.Add(contextMenuAddOffset);
+
+                }
+
+
+            }
+
+        }
+
+        private void createGraphControlsDER()
+        {
+
+            // Create a set of controls for each spectrum displayed on the graph
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Can only fit in controls for up to 5 graphs
+                if (i < 5)
+                {
+                    // Remove the existing controls
+                    this.removeGraphControlsCAM(i);
+                    // Create new controls
+                    this.graphControlAverage[i] = new CheckBox();
+                    this.graphControlEE[i] = new CheckBox();
+                    this.graphControlEGGE[i] = new CheckBox();
+                    this.graphControlGG[i] = new CheckBox();
+                    this.graphControlParity[i] = new CheckBox();
+                    this.graphControlGroupDER[i] = new GroupBox();
+                    this.graphControlLabelDER[i] = new System.Windows.Forms.Label();
+
+                    // Add group box to the spectrum tab page
+                    this.spectrumCamTab.Controls.Add(graphControlGroupDER[i]);
+                    // Add controls to the groupbox - checkBox, label and radio buttons
+                    this.graphControlGroupDER[i].Controls.Add(graphControlAverage[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlEE[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlEGGE[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlGG[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlParity[i]);
+                    this.graphControlGroupDER[i].Controls.Add(graphControlLabelDER[i]);
+                    //
+                    // Configure group box
+                    this.graphControlGroupDER[i].BackColor = myColoursBadCounts[i];
+                    this.graphControlGroupDER[i].ForeColor = myColoursData[i];
+                    this.graphControlGroupDER[i].Location = new System.Drawing.Point(ClientRectangle.Width - 210, (6 + 115 * i));
+                    this.graphControlGroupDER[i].Size = new System.Drawing.Size(176, 109);
+                    this.graphControlGroupDER[i].TabIndex = 10 + i;
+                    this.graphControlGroupDER[i].TabStop = false;
+                    this.graphControlGroupDER[i].Text = myCAMSpectrum[cameraSpecNum][i].getName();
+                    //
+                    // Configure check box
+                    this.graphControlCheckBoxDER[i].AutoSize = false;
+                    this.graphControlCheckBoxDER[i].Checked = true;
+                    this.graphControlCheckBoxDER[i].ForeColor = Color.Black;
+                    this.graphControlCheckBoxDER[i].Location = new System.Drawing.Point(6, 17);
+                    this.graphControlCheckBoxDER[i].Size = new System.Drawing.Size(150, 20);
+                    this.graphControlCheckBoxDER[i].TabIndex = 0;
+                    this.graphControlCheckBoxDER[i].Text = "Show spectrum " + (i + 1);
+                    this.graphControlCheckBoxDER[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventCAM);
+                    //
+                    // Configure label to display text "Show bad counts:"
+                    this.graphControlLabelDER[i].AutoSize = true;
+                    this.graphControlLabelDER[i].ForeColor = Color.Black;
+                    this.graphControlLabelDER[i].Location = new System.Drawing.Point(6, 45);
+                    this.graphControlLabelDER[i].Size = new System.Drawing.Size(61, 13);
+                    this.graphControlLabelDER[i].TabIndex = 1;
+                    this.graphControlLabelDER[i].Text = "Show graphs:";
+                    //
+                    // Configure radio button to display no bad counts
+                    this.graphControlAverage[i].AutoSize = true;
+                    this.graphControlAverage[i].ForeColor = Color.Black;
+                    this.graphControlAverage[i].Checked = true;
+                    this.graphControlAverage[i].Location = new System.Drawing.Point(6, 62);
+                    this.graphControlAverage[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlAverage[i].TabIndex = 2;
+                    this.graphControlAverage[i].Text = "AVG";
+                    this.graphControlAverage[i].UseVisualStyleBackColor = true;
+                    this.graphControlAverage[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+                    //
+                    // Configure radio button to display all bad counts
+                    this.graphControlEE[i].AutoSize = true;
+                    this.graphControlEE[i].ForeColor = Color.Black;
+                    this.graphControlEE[i].Location = new System.Drawing.Point(6, 85);
+                    this.graphControlEE[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlEE[i].TabIndex = 3;
+                    this.graphControlEE[i].Text = "EE";
+                    this.graphControlEE[i].UseVisualStyleBackColor = true;
+                    this.graphControlEE[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+                    //
+                    // Configure radio button to display bad counts due to error flags only
+                    this.graphControlEGGE[i].AutoSize = true;
+                    this.graphControlEGGE[i].ForeColor = Color.Black;
+                    this.graphControlEGGE[i].Location = new System.Drawing.Point(76, 62);
+                    this.graphControlEGGE[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlEGGE[i].TabIndex = 4;
+                    this.graphControlEGGE[i].Text = "EG + GE";
+                    this.graphControlEGGE[i].UseVisualStyleBackColor = true;
+                    this.graphControlEGGE[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+                    //
+                    // Configure radio button to display bad counts due to threshold only
+                    this.graphControlGG[i].AutoSize = true;
+                    this.graphControlGG[i].ForeColor = Color.Black;
+                    this.graphControlGG[i].Location = new System.Drawing.Point(76, 85);
+                    this.graphControlGG[i].Size = new System.Drawing.Size(85, 17);
+                    this.graphControlGG[i].TabIndex = 5;
+                    this.graphControlGG[i].Text = "GG";
+                    this.graphControlGG[i].UseVisualStyleBackColor = true;
+                    this.graphControlGG[i].CheckedChanged +=
+                        new System.EventHandler(this.updateGraph_EventDER);
+
+                }
+            }
+
+
+
+
+        }
+
+
 
         // Method to remove graph controls from the form
         // Required so that we don't get an error when recreating controls
@@ -1043,6 +1906,46 @@ namespace Spectroscopy_Viewer
             }
         }
 
+        private void removeGraphControlsCAM(int i)
+        {
+            if (this.spectrumCamTab.Controls.Contains(graphControlGroupCAM[i]))
+            {
+                // Remove objects from list of controls
+                graphControlGroupCAM[i].Controls.Clear();
+                spectrumCamTab.Controls.Remove(graphControlGroupCAM[i]);
+                // Dispose of objects
+                graphControlLabelCAM[i].Dispose();
+                graphControlCheckBoxCAM[i].Dispose();
+                graphControlBadCountsAllCAM[i].Dispose();
+                graphControlBadCountsNoneCAM[i].Dispose();
+                graphControlBadCountsLaserCAM[i].Dispose();
+                graphControlBadCountsThresholdCAM[i].Dispose();
+                graphControlGroupCAM[i].Dispose();
+            }
+        }
+        private void removeGraphControlsDER(int i)
+        {
+            if (this.spectrumCamTab.Controls.Contains(graphControlGroupDER[i]))
+            {
+                // Remove objects from list of controls
+                graphControlGroupDER[i].Controls.Clear();
+                spectrumCamTab.Controls.Remove(graphControlGroupDER[i]);
+                // Dispose of objects
+                graphControlLabelDER[i].Dispose();
+                graphControlCheckBoxDER[i].Dispose();
+                graphControlAverage[i].Dispose();
+                graphControlEE[i].Dispose();
+                graphControlEGGE[i].Dispose();
+                graphControlGG[i].Dispose();
+                graphControlParity[i].Dispose();
+                graphControlGroupDER[i].Dispose();
+            }
+        }
+
+
+
+
+
         // Method to handle renaming spectrum (from context menu click)
         private void graphControlContextMenu_Rename_Click(object sender, EventArgs e)
         {
@@ -1061,6 +1964,24 @@ namespace Spectroscopy_Viewer
             // Call method to rename the spectrum
             renameSpectrum(spectrumToRename);
         }
+        private void graphControlContextMenuCAM_Rename_Click(object sender, EventArgs e)
+        {
+            // Find which spectrum was clicked ("Rename" is the menu item at index 0)
+            int spectrumToRename = whichSpectrumClicked(sender, 0);
+            // Go through each spectrum
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Check whether it was the context menu from this spectrum that fired the event
+                // NB "Rename" is the menu item at index 0
+                if (sender.Equals(this.graphControlContextMenuCAM[i].MenuItems[0]))
+                {
+                    spectrumToRename = i;
+                }
+            }
+            // Call method to rename the spectrum
+            renameSpectrumCAM(spectrumToRename);
+        }
+
 
         // Method to rename spectrum
         private void renameSpectrum(int spectrumNumber)
@@ -1074,10 +1995,28 @@ namespace Spectroscopy_Viewer
                 // Get name from dialog box
                 string newName = myRenameDialog.newNameBox.Text;
                 // Rename appropriate spectrum
-                mySpectrum[spectrumNumber].setName(newName);
+                myPMTSpectrum[spectrumNumber].setName(newName);
 
                 // Re-label graph control group box
                 this.graphControlGroup[spectrumNumber].Text = newName;
+            }
+
+        }
+        private void renameSpectrumCAM(int spectrumNumber)
+        {
+            renameSpectrumDialog myRenameDialog = new renameSpectrumDialog();
+            myRenameDialog.ShowDialog();
+
+            // Only perform rename if user clicked OK (not cancel)
+            if (myRenameDialog.DialogResult == DialogResult.OK)
+            {
+                // Get name from dialog box
+                string newName = myRenameDialog.newNameBox.Text;
+                // Rename appropriate spectrum
+                myCAMSpectrum[cameraSpecNum][spectrumNumber].setName(newName);
+
+                // Re-label graph control group box
+                this.graphControlGroupCAM[spectrumNumber].Text = newName;
             }
 
         }
@@ -1088,7 +2027,16 @@ namespace Spectroscopy_Viewer
             // Find which spectrum was clicked ("View metadata" is the menu item at index 1)
             int spectrumToView = whichSpectrumClicked(sender, 1);
             // Show metadataViewer for that spectrum
-            metadataViewer myMetadataViewer = new metadataViewer(ref mySpectrum, spectrumToView, numberOfSpectra);
+            metadataViewer myMetadataViewer = new metadataViewer(ref myPMTSpectrum, spectrumToView, numberOfSpectra);
+            myMetadataViewer.Show();
+
+        }
+        private void graphControlContextMenuCAM_ViewMetadata_Click(object sender, EventArgs e)
+        {
+            // Find which spectrum was clicked ("View metadata" is the menu item at index 1)
+            int spectrumToView = whichSpectrumClicked(sender, 1);
+            // Show metadataViewer for that spectrum
+            metadataViewer myMetadataViewer = new metadataViewer(ref myCAMSpectrum[cameraSpecNum], spectrumToView, numberOfSpectra);
             myMetadataViewer.Show();
 
         }
@@ -1105,7 +2053,7 @@ namespace Spectroscopy_Viewer
 
             // Make sure user has clicked OK
             if (myChangeColour.DialogResult != DialogResult.OK) return;
-            
+
             // Store index of which colours to change to
             int newColour = myChangeColour.colourSelectBox.SelectedIndex;
             // Update colours in list
@@ -1119,6 +2067,32 @@ namespace Spectroscopy_Viewer
             updateGraph();
         }
 
+        private void graphControlContextMenuCAM_ChangeColour_Click(object sender, EventArgs e)
+        {
+            // Find which spectrum was clicked ("Change colour" is the menu item at index 2)
+            int spectrumToChange = whichSpectrumClicked(sender, 2);
+
+            // Create & open dialog box to select colour
+            changeColour myChangeColour = new changeColour();
+            myChangeColour.ShowDialog();
+
+            // Make sure user has clicked OK
+            if (myChangeColour.DialogResult != DialogResult.OK) return;
+
+            // Store index of which colours to change to
+            int newColour = myChangeColour.colourSelectBox.SelectedIndex;
+            // Update colours in list
+            myColoursData[spectrumToChange] = colourListData[newColour];
+            myColoursBadCounts[spectrumToChange] = colourListBadCounts[newColour];
+
+            // Change background colour/title colour of groupBox control
+            this.graphControlGroupCAM[spectrumToChange].BackColor = myColoursBadCounts[spectrumToChange];
+            this.graphControlGroupCAM[spectrumToChange].ForeColor = myColoursData[spectrumToChange];
+            // Refresh graph to reflect new colours
+            updateGraphCAM();
+        }
+
+
         // Method to handle adding a frequency offset (from context menu click)
         private void graphControlContextMenu_AddOffset_Click(object sender, EventArgs e)
         {
@@ -1127,15 +2101,29 @@ namespace Spectroscopy_Viewer
             int offset = getOffset();
             if (offset != 0)
             {
-                mySpectrum[spectrumToChange].addOffset(offset);
+                myPMTSpectrum[spectrumToChange].addOffset(offset);
 
-                dataPlot[spectrumToChange] = mySpectrum[spectrumToChange].getDataPlot();
+                dataPMTPlot[spectrumToChange] = myPMTSpectrum[spectrumToChange].getDataPlot();
                 this.updateGraph();
             }
-            
-            
-            
-            
+        }
+
+        private void graphControlContextMenuCAM_AddOffset_Click(object sender, EventArgs e)
+        {
+            // Find which spectrum was clicked ("Add frequency offset" is the menu item at index 3)
+            int spectrumToChange = whichSpectrumClickedCAM(sender, 3);
+            int offset = getOffset();
+            if (offset != 0)
+            {
+                myCAMSpectrum[cameraSpecNum][spectrumToChange].addOffset(offset);
+
+                dataCAMPlot[cameraSpecNum][spectrumToChange] = myCAMSpectrum[cameraSpecNum][spectrumToChange].getDataPlot();
+                this.updateGraphCAM();
+            }
+
+
+
+
 
         }
 
@@ -1148,7 +2136,7 @@ namespace Spectroscopy_Viewer
             if (myOffsetDialog.DialogResult != DialogResult.OK) return 0;
 
             float offsetMHz = new float();
-            if (float.TryParse( myOffsetDialog.offsetBox.Text, out offsetMHz) )
+            if (float.TryParse(myOffsetDialog.offsetBox.Text, out offsetMHz))
             {
                 int offset = (int)(offsetMHz * 1000000);
                 return offset;
@@ -1178,11 +2166,37 @@ namespace Spectroscopy_Viewer
             return x;
         }
 
+        private int whichSpectrumClickedCAM(object sender, int contextMenuIndex)
+        {
+            int x = new int();
+
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Check whether it was the context menu from this spectrum that fired the event
+                // NB "Change colour" is the menu item at index 2
+                if (sender.Equals(this.graphControlContextMenuCAM[i].MenuItems[contextMenuIndex]))
+                {
+                    x = i;
+                }
+            }
+
+            return x;
+        }
+
 
         // Method to update graph from an event
         private void updateGraph_Event(object sender, EventArgs e)
         {
             updateGraph();
+        }
+
+        private void updateGraph_EventCAM(object sender, EventArgs e)
+        {
+            updateGraphCAM();
+        }
+        private void updateGraph_EventDER(object sender, EventArgs e)
+        {
+            updateGraphDER();
         }
 
         // Method to respond to user changing radio buttons in graph controls
@@ -1211,10 +2225,10 @@ namespace Spectroscopy_Viewer
                     {
                         // Sort the data by x co-ordinate (frequency)
                         // this ensures that the curve looks sensible
-                        dataPlot[i].Sort();
+                        dataPMTPlot[i].Sort();
 
-                        myCurve = myPane.AddCurve(mySpectrum[i].getName(),
-                            dataPlot[i], myColoursData[i % 5], SymbolType.None);
+                        myCurve = myPane.AddCurve(myPMTSpectrum[i].getName(),
+                            dataPMTPlot[i], myColoursData[i % 5], SymbolType.None);
                     }
                     // NB if it is not checked, do nothing
 
@@ -1224,19 +2238,19 @@ namespace Spectroscopy_Viewer
                     if (graphControlBadCountsAll[i].Checked)            // All bad counts
                     {
                         // Add all bad counts to the list of data
-                        badCountsData[i] = mySpectrum[i].getBadCountsAll();
+                        badCountsData[i] = myPMTSpectrum[i].getBadCountsAll();
                     }
                     //
                     else if (graphControlBadCountsLaser[i].Checked)     // Just laser errors
                     {
                         // Add bad counts from laser errors to the list of data
-                        badCountsData[i] = mySpectrum[i].getBadCountsErrors();
+                        badCountsData[i] = myPMTSpectrum[i].getBadCountsErrors();
                     }
                     //
                     else if (graphControlBadCountsThreshold[i].Checked) // Just threshold errors
                     {
                         // Add bad counts from threshold to the list of data
-                        badCountsData[i] = mySpectrum[i].getBadCountsThreshold();
+                        badCountsData[i] = myPMTSpectrum[i].getBadCountsThreshold();
                     }
                     // If "None" is checked, don't need to put anything in the array. There will just be a blank space at index i
 
@@ -1248,7 +2262,7 @@ namespace Spectroscopy_Viewer
                         // this ensures that the curve looks sensible
                         badCountsData[i].Sort();
 
-                        myCurve = myPane.AddCurve(mySpectrum[i].getName() + " bad counts",
+                        myCurve = myPane.AddCurve(myPMTSpectrum[i].getName() + " bad counts",
                             badCountsData[i], myColoursBadCounts[i % 5], SymbolType.Circle);
                         myCurve.IsY2Axis = true;
                     }
@@ -1267,6 +2281,172 @@ namespace Spectroscopy_Viewer
             }
 
         }
+
+        private void updateGraphCAM()
+        {
+            // Only try to update graph if some spectra have been loaded
+            if (numberOfSpectra != 0 && useCamera == true)
+            {
+
+                // get a reference to the GraphPane
+                GraphPane myPane = this.zedGraphSpectraCAM.GraphPane;
+                // Clear data
+                zedGraphSpectraCAM.GraphPane.CurveList.Clear();
+                LineItem myCurve;
+
+                // Array of bad counts data for each spectrum
+                // This array will be filled with the appropriate data (laser errors, threshold errors or all)
+                // depending on the radio buttons
+                PointPairList[] badCountsData = new PointPairList[numberOfSpectra];
+
+
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    // If the "show spectrum" checkBox is checked
+                    if (graphControlCheckBoxCAM[i].Checked)
+                    {
+                        // Sort the data by x co-ordinate (frequency)
+                        // this ensures that the curve looks sensible
+                        dataCAMPlot[cameraSpecNum][i].Sort();
+
+                        myCurve = myPane.AddCurve(myCAMSpectrum[cameraSpecNum][i].getName(),
+                            dataCAMPlot[cameraSpecNum][i], myColoursData[i % 5], SymbolType.None);
+                    }
+                    // NB if it is not checked, do nothing
+
+
+                    // These if statements find which of the radio buttons are checked, and add
+                    // the appropriate data to badCountsData array
+                    if (graphControlBadCountsAllCAM[i].Checked)            // All bad counts
+                    {
+                        // Add all bad counts to the list of data
+                        badCountsData[i] = myCAMSpectrum[cameraSpecNum][i].getBadCountsAll();
+                    }
+                    //
+                    else if (graphControlBadCountsLaserCAM[i].Checked)     // Just laser errors
+                    {
+                        // Add bad counts from laser errors to the list of data
+                        badCountsData[i] = myCAMSpectrum[cameraSpecNum][i].getBadCountsErrors();
+                    }
+                    //
+                    else if (graphControlBadCountsThresholdCAM[i].Checked) // Just threshold errors
+                    {
+                        // Add bad counts from threshold to the list of data
+                        badCountsData[i] = myCAMSpectrum[cameraSpecNum][i].getBadCountsThreshold();
+                    }
+                    // If "None" is checked, don't need to put anything in the array. There will just be a blank space at index i
+
+                    // So long as "None" is not checked, plot curve to the graph
+                    // badCountsData[i] will contain bad counts from laser errors, threshold errors or both
+                    if (!graphControlBadCountsNoneCAM[i].Checked)
+                    {
+                        // Sort the data by x co-ordinate (frequency)
+                        // this ensures that the curve looks sensible
+                        badCountsData[i].Sort();
+
+                        myCurve = myPane.AddCurve(myCAMSpectrum[cameraSpecNum][i].getName() + " bad counts",
+                            badCountsData[i], myColoursBadCounts[i % 5], SymbolType.Circle);
+                        myCurve.IsY2Axis = true;
+                    }
+
+
+                }
+
+                // Rescale bad counts axis
+                this.badCountsAxisRescaleCAM(badCountsData);
+
+                // Tell ZedGraph to refigure the
+                // axes since the data have changed
+                zedGraphSpectraCAM.AxisChange();
+                zedGraphSpectraCAM.Invalidate();
+                // Force redraw of control
+            }
+
+        }
+
+        private void updateGraphDER()
+        {
+            // Only try to update graph if some spectra have been loaded
+            if (numberOfSpectra != 0 && useCamera == true && useDerivedPlots == true)
+            {
+
+                // get a reference to the GraphPane
+                GraphPane myPane = this.zedGraphSpectraDER.GraphPane; 
+                // Clear data
+                zedGraphSpectraDER.GraphPane.CurveList.Clear();
+                LineItem myCurve;
+             
+
+
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    // If the "show spectrum" checkBox is checked
+                    if (graphControlCheckBoxDER[i].Checked)
+                    {
+                        
+                        // These if statements find which of the radio buttons are checked, and add
+                        // the appropriate data to badCountsData array
+                        if (graphControlAverage[i].Checked)            // All bad counts
+                        {
+                            myCurve = myPane.AddCurve("Average",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Square);
+                        }
+                        //
+                        if (graphControlEE[i].Checked)     // Just laser errors
+                        {
+                            myCurve = myPane.AddCurve("EE",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Triangle);
+                        }
+                        //
+                        if (graphControlEGGE[i].Checked) // Just threshold errors
+                        {
+                            myCurve = myPane.AddCurve("EG+GE",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Star);
+                        }
+
+                        if (graphControlGG[i].Checked) // Just threshold errors
+                        {
+                            myCurve = myPane.AddCurve("GG",
+                              derivedCAMPlot[0][i], myColoursData[i % 5], SymbolType.Circle);
+                        }
+
+                        /*
+                        // If "None" is checked, don't need to put anything in the array. There will just be a blank space at index i
+
+                        // So long as "None" is not checked, plot curve to the graph
+                        // badCountsData[i] will contain bad counts from laser errors, threshold errors or both
+                        if (!graphControlBadCountsNoneCAM[i].Checked)
+                        {
+                            // Sort the data by x co-ordinate (frequency)
+                            // this ensures that the curve looks sensible
+                            badCountsData[i].Sort();
+
+                            myCurve = myPane.AddCurve(myCAMSpectrum[cameraSpecNum][i].getName() + " bad counts",
+                                badCountsData[i], myColoursBadCounts[i % 5], SymbolType.Circle);
+                            myCurve.IsY2Axis = true;
+                        }
+                        */
+
+                    }
+
+
+                }
+
+                // Rescale bad counts axis
+                //this.badCountsAxisRescaleCAM(badCountsData);
+
+                // Tell ZedGraph to refigure the
+                // axes since the data have changed
+                zedGraphSpectraDER.AxisChange();
+                zedGraphSpectraDER.Invalidate();
+                // Force redraw of control
+            }
+
+        }
+
+
+
+
 
         // Method to rescale the bad counts axis on graph
         private void badCountsAxisRescale(PointPairList[] badCountsData)
@@ -1326,7 +2506,65 @@ namespace Spectroscopy_Viewer
                 zedGraphSpectra.GraphPane.Y2Axis.Scale.Max = 800;
             }
         }
-      
+        private void badCountsAxisRescaleCAM(PointPairList[] badCountsData)
+        {
+            int maxData = 0;
+
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                // Only look at bad counts data if it is being displayed
+                if (!graphControlBadCountsNoneCAM[i].Checked)
+                {
+                    // Get array of y values only
+                    double[] yvalues = badCountsData[i].Select(PointPair => PointPair.Y).ToArray();
+                    // Save maximum y value
+                    int maxData_Spectrum = (int)yvalues.Max();
+                    if (maxData_Spectrum > maxData)
+                    {
+                        maxData = maxData_Spectrum;
+                    }
+                }
+            }
+
+            // Always set minimum to zero
+            zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Min = 0;
+
+            // Set maximum depending on data
+            if (maxData < 20)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 20;
+            }
+            else if (maxData < 40)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 40;
+            }
+            else if (maxData < 60)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 60;
+            }
+            else if (maxData < 80)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 80;
+            }
+            else if (maxData < 100)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 100;
+            }
+            else if (maxData < 200)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 200;
+            }
+            else if (maxData < 400)
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 400;
+            }
+            else
+            {
+                zedGraphSpectraCAM.GraphPane.Y2Axis.Scale.Max = 800;
+            }
+        }
+
+
         #endregion
 
 
@@ -1351,10 +2589,155 @@ namespace Spectroscopy_Viewer
             }
         }
 
+        private void ionBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int nIons;
+            int.TryParse(ionBox.SelectedItem.ToString(), out nIons);
+            cameraSpecNum = nIons - 1;
+        }
+
+        private void ionBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int nIons;
+            int.TryParse(ionBox1.SelectedItem.ToString(), out nIons);
+            cameraSpecNum = nIons - 1;
+        }
+
         private void tabPageSpectra_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            zedGraphSpectra.GraphPane.YAxis.Scale.Max = (double)trackBar1.Value / 100;
+            updateGraph();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            zedGraphSpectraCAM.GraphPane.YAxis.Scale.Max = (double)trackBar2.Value / 100;
+            updateGraphCAM();
+        }
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            Console.WriteLine("isSpecRunning" + IsExperimentRunning);
+            if (IsExperimentRunning==true) e.Cancel=true;
+
+        }
+
+        private PointPairList populateDerivedCAMPlot(int nPlots, int nSpectra)
+        {
+            PointPairList derivedPointPairList = new PointPairList();
+            switch (nPlots)
+            {
+
+                //average
+            
+                case 0:                    
+                      
+                        for(int k = 0;k<myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                        {
+                            double tempDarkProb = 0; 
+                            for (int i=0; i < numOfIons - 1; i++)
+                            {
+                                tempDarkProb += myCAMSpectrum[i][k].getDarkProb(i);
+                            }
+                        double averageDarkProb = (double)tempDarkProb / (numOfIons - 1);
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageDarkProb);
+                            
+                        }
+                    break;
+                    //double excitation
+                case 1:
+                    
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int eeCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j <reps; j++)
+                        {
+                           
+                              if(myCAMSpectrum[0][k].getReadingsDark(k,j)==true  && myCAMSpectrum[1][k].getReadingsDark(k, j)==true) eeCount++;
+                            
+                        }
+                        
+                        double averageEEProb = (double) eeCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageEEProb);
+
+                    }
+                    break;
+                case 2:
+
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int egCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j < reps; j++)
+                        {
+
+                            if (myCAMSpectrum[0][k].getReadingsDark(k, j) == true || myCAMSpectrum[1][k].getReadingsDark(k, j) == false) egCount++;
+
+                        }
+
+                        double averageEGProb = (double)egCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageEGProb);
+
+                    }
+                    break;
+
+
+                case 3:
+
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int ggCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j < reps; j++)
+                        {
+
+                            if (myCAMSpectrum[0][k].getReadingsDark(k, j) == false && myCAMSpectrum[1][k].getReadingsDark(k, j) == false) ggCount++;
+
+                        }
+
+                        double averageGGProb = (double)ggCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageGGProb);
+
+                    }
+                    break;
+
+                case 4:
+
+                    for (int k = 0; k < myCAMSpectrum[nSpectra][0].getDataSize(); k++)
+                    {
+                        int ggeeCount = 0;
+                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                        int reps = myCAMSpectrum[0][k].getReps();
+                        for (int j = 0; j < reps; j++)
+                        {
+
+                            if ((myCAMSpectrum[0][k].getReadingsDark(k, j) == false && myCAMSpectrum[1][k].getReadingsDark(k, j) == false)||
+                                (myCAMSpectrum[0][k].getReadingsDark(k, j) == true && myCAMSpectrum[1][k].getReadingsDark(k, j) == true)) ggeeCount++;
+
+                        }
+
+                        double averageGGEEProb = (double)ggeeCount / reps;
+                        derivedPointPairList.Add(myCAMSpectrum[0][k].getFrequency(k), averageGGEEProb);
+
+                    }
+                    break;
+                        
+
+            }
+            return derivedPointPairList;
+        }
+
+
+
     }
-} 
-    
+        
+    }
+
