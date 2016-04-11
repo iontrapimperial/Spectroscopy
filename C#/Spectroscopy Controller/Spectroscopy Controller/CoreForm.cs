@@ -89,7 +89,9 @@ namespace Spectroscopy_Controller
             reset += "256";
 
             COM12.WriteLine(reset);
+
             string mystring = COM12.ReadLine();
+
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)

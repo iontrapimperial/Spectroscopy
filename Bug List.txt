@@ -2,4 +2,4 @@
 
 - Thresholds must be adjusted twice at start, otherwise spectrum plots vertical line nonsense
 
-- wih doppler spectra wiht more than one sideband and no carrier, filenames get messed up
+
