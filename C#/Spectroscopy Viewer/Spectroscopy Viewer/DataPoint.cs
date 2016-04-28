@@ -98,7 +98,8 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < repeats; i++)
             {
                 // Only add the count to the histogram if there were no error flags
-                if (!readingErrorCool[i] && !readingErrorCount[i])
+                //if (!readingErrorCool[i] && !readingErrorCount[i])
+                if (!readingErrorCool[i])
                 {
                     int x = readingCool[i];
                     int y = readingCount[i];
@@ -169,7 +170,7 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < repeats; i++)
             {
                 // Only consider data point if no errors
-                if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+                 if(!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])               
                 {
                     if (readingCount[i] < countThreshold)
                     {
@@ -194,7 +195,8 @@ namespace Spectroscopy_Viewer
             for (int i = 0; i < repeats; i++)       // For each data point
             {
                 // Only consider data point if no errors
-                if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+                 if (!readingErrorCool[i] && !readingErrorCount[i] && !readingErrorThreshold[i])
+               
                 {
                     if (readingCount[i] < countThreshold)
                     {

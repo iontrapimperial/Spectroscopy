@@ -86,6 +86,8 @@
             this.saveContData = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.kinCycTime = new System.Windows.Forms.NumericUpDown();
+            this.kineticCycleIncrement = new System.Windows.Forms.NumericUpDown();
+            this.kinCycIncrLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numIonsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ionSquareDimUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exposureUpDown)).BeginInit();
@@ -107,6 +109,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kinCycTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kineticCycleIncrement)).BeginInit();
             this.SuspendLayout();
             // 
             // Shutter
@@ -415,9 +418,10 @@
             // 
             // numLoopsUpDown
             // 
+            this.numLoopsUpDown.Cursor = System.Windows.Forms.Cursors.PanWest;
             this.numLoopsUpDown.Location = new System.Drawing.Point(19, 462);
             this.numLoopsUpDown.Maximum = new decimal(new int[] {
-            1000,
+            100000,
             0,
             0,
             0});
@@ -859,11 +863,35 @@
             131072});
             this.kinCycTime.ValueChanged += new System.EventHandler(this.kinCycTime_ValueChanged);
             // 
+            // kineticCycleIncrement
+            // 
+            this.kineticCycleIncrement.DecimalPlaces = 3;
+            this.kineticCycleIncrement.Location = new System.Drawing.Point(100, 375);
+            this.kineticCycleIncrement.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.kineticCycleIncrement.Name = "kineticCycleIncrement";
+            this.kineticCycleIncrement.Size = new System.Drawing.Size(72, 20);
+            this.kineticCycleIncrement.TabIndex = 37;
+            // 
+            // kinCycIncrLabel
+            // 
+            this.kinCycIncrLabel.AutoSize = true;
+            this.kinCycIncrLabel.Location = new System.Drawing.Point(100, 359);
+            this.kinCycIncrLabel.Name = "kinCycIncrLabel";
+            this.kinCycIncrLabel.Size = new System.Drawing.Size(99, 13);
+            this.kinCycIncrLabel.TabIndex = 38;
+            this.kinCycIncrLabel.Text = "Kin. Cyc. Increment";
+            // 
             // CameraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 558);
+            this.Controls.Add(this.kinCycIncrLabel);
+            this.Controls.Add(this.kineticCycleIncrement);
             this.Controls.Add(this.kinCycTime);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.saveContData);
@@ -927,6 +955,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gainUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.temperatureUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kinCycTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kineticCycleIncrement)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -992,6 +1021,8 @@
         private System.Windows.Forms.NumericUpDown NpixelUpDown;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown kinCycTime;
+        private System.Windows.Forms.NumericUpDown kineticCycleIncrement;
+        private System.Windows.Forms.Label kinCycIncrLabel;
     }
 }
 

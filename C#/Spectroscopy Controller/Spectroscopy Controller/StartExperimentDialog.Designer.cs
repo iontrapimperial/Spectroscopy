@@ -43,10 +43,13 @@
             this.NotesBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.numOfIonsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.mleCountPeriods = new System.Windows.Forms.NumericUpDown();
+            this.mleLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfRepeats)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumberOfSpectra)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numOfIonsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mleCountPeriods)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -196,7 +199,33 @@
             1,
             0,
             0,
-            0});       
+            0});
+            // 
+            // mleCountPeriods
+            // 
+            this.mleCountPeriods.Location = new System.Drawing.Point(540, 157);
+            this.mleCountPeriods.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.mleCountPeriods.Name = "mleCountPeriods";
+            this.mleCountPeriods.Size = new System.Drawing.Size(71, 20);
+            this.mleCountPeriods.TabIndex = 13;
+            this.mleCountPeriods.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // mleLabel
+            // 
+            this.mleLabel.AutoSize = true;
+            this.mleLabel.Location = new System.Drawing.Point(453, 159);
+            this.mleLabel.Name = "mleLabel";
+            this.mleLabel.Size = new System.Drawing.Size(85, 13);
+            this.mleLabel.TabIndex = 14;
+            this.mleLabel.Text = "MLE count num:";
             // 
             // StartExperimentDialog
             // 
@@ -204,6 +233,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 192);
+            this.Controls.Add(this.mleLabel);
+            this.Controls.Add(this.mleCountPeriods);
             this.Controls.Add(this.numOfIonsUpDown);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
@@ -225,6 +256,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numOfIonsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mleCountPeriods)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,5 +279,7 @@
         public System.Windows.Forms.TextBox NotesBox;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.NumericUpDown numOfIonsUpDown;
+        public System.Windows.Forms.NumericUpDown mleCountPeriods;
+        private System.Windows.Forms.Label mleLabel;
     }
 }

@@ -822,12 +822,13 @@ namespace Camera_Control
                     // Thread.Sleep(5000);
                     Console.WriteLine("In spectrum acq");
                     repeatPos = 0;
+                    float kinCycIncr = (float) kineticCycleIncrement.Value;
                     myAndor.SetFrameTransferMode(0);
                     myAndor.SetNumberAccumulations(1);
-                    myAndor.SetKineticCycleTime(kineticCycleTime / 1000);
+                    myAndor.SetKineticCycleTime(kineticCycleTime / 1000);                   
                     myAndor.SetNumberKinetics(giNumberLoops);
                     float exposure = (float)exposureUpDown.Value;
-                    if (exposure > 0.1) { exposureUpDown.Value = (decimal) 0.012; }
+                    if (exposure > 0.1) { exposureUpDown.Value = (decimal) 0.02; }
                     myAndor.SetExposureTime((float)exposureUpDown.Value);
 
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
@@ -854,7 +855,7 @@ namespace Camera_Control
                        AcquireImageDataSpectrum();
                        repeatPos++;
                    }*/
-
+                    //myAndor.SetSpool(1, 6, @"C: \Users\IonTrap\Desktop\CameraData\", 10);
                     while (CameraReadThread.IsAlive && bShouldQuitCamThread == false)
                     {
 
@@ -862,7 +863,7 @@ namespace Camera_Control
                         this.Shutter.Enabled = false;
                         this.startAcqButton.Enabled = false;
                         this.ShutDown.Enabled = false;
-                        this.AbortAcquisition.Enabled = false;
+                        this.AbortAcquisition.Enabled = true;
 
 
                         Thread.Sleep(500);
@@ -871,7 +872,13 @@ namespace Camera_Control
                         isAcquiring = true;
                         AcquireImageDataSpectrum();
                         isAcquiring = false;
-                        repeatPos++;
+                        repeatPos++;                        
+                        myAndor.SetKineticCycleTime((kineticCycleTime + kinCycIncr*repeatPos) / 1000);
+                        float t1 = 0;
+                        float t2 = 0;
+                        float kcTime = 0; 
+                        myAndor.GetAcquisitionTimings(ref t1, ref  t2, ref kcTime);
+                        errorMsgTxtBox.AppendText("  Exposure: " + t1 +"  Kinetic cycle time" + kcTime + "\r\n");
                         while (PauseExperiment)
                         {
                             //sleep for 1ms so we don't use all the CPU cycles
@@ -889,7 +896,7 @@ namespace Camera_Control
                 }
 
                 Console.WriteLine("Set system done");
-
+                //myAndor.SetSpool(0, 6, @"C: \Users\IonTrap\Desktop\CameraData\", 10);
 
             }// end of set system
         }
@@ -1236,7 +1243,7 @@ namespace Camera_Control
             //fluorescenceData = new int[giNumberLoops, numIons];
             pImageArray = new int[size];
             // Loop over multiple image acquisitions
-
+            int[] accumulateImageArray = new int[size];
             myAndor.StartAcquisition();
 
             for (i = 0; i < giNumberLoops; i++)
@@ -1253,16 +1260,26 @@ namespace Camera_Control
 
                 if (myAndor.GetOldestImage(pImageArray, size) != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                 {                 // ACQUISITION PERFORMED HERE!!
-                    errorMsgTxtBox.AppendText("Acquisition Error" + "\r\n");
 
+                    errorMsgTxtBox.AppendText("Acquisition Error" + "\r\n");
+                   
                     //i = giNumberLoops;
                 }
                 else
                 {
+                    if (i % 2 == 1)
+                    {
+                        for (int j = 0; j < accumulateImageArray.Length; j++)
+                        {
+                            accumulateImageArray[j] += pImageArray[j];
+                        }
+                    }
                     //if (i == 0) findIons();
                     errorMsgTxtBox.AppendText("Got Image: " + i + "\r\n");
                     // findIons();
                     drawCameraImage();
+                   //if (i%20==0) drawInputImage(accumulateImageArray);
+
                     fluorescData.Add(getFluorescenceCont());
                     //fluorescData.Add(0);
 
@@ -1273,8 +1290,8 @@ namespace Camera_Control
                 }
             }
 
-
-
+            drawInputImage(accumulateImageArray);
+            //writeToFileArray(accumulateImageArray, repeatPos);
             //flourThreshDetect(repeatPos, threshold, giNumberLoops);
             spectrumContData.Add(flourThreshDetectSpec(repeatPos, threshold, giNumberLoops));
             //writeToFileSimple();
@@ -1984,7 +2001,110 @@ namespace Camera_Control
                 }
             }
 
+          
 
+
+
+                Size sizeImg = new Size(400, 400);
+            GCHandle pinnedArray = GCHandle.Alloc(byteArray, GCHandleType.Pinned);
+            IntPtr dataPtr = pinnedArray.AddrOfPinnedObject();
+            pictureBox1.Size = new Size(400, 400);
+            this.Controls.Add(pictureBox1);
+            Bitmap flag = new Bitmap(width, height, width, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, dataPtr);    //Format8bppIndexed
+            Image8Bit img = new Image8Bit(flag);
+            img.MakeGrayscale();
+            img.Dispose();
+            Bitmap b = new Bitmap(sizeImg.Width, sizeImg.Height);
+            using (Graphics gr = Graphics.FromImage(b))
+            {
+                gr.SmoothingMode = SmoothingMode.HighQuality;
+                // gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(flag, new Rectangle(0, 0, sizeImg.Width, sizeImg.Height));
+            }
+
+
+            pictureBox1.Image = b;
+            pictureBox1.Refresh();
+            pinnedArray.Free();
+        }
+
+        void drawInputImage(int[] imgArray)
+        {
+            long MaxValue;
+            long MinValue;
+            int i;
+            MaxValue = 1;
+            MinValue = 65536;
+            float xscale, yscale, zscale, modrange;
+            double dTemp;
+            int width, height;
+            int j, x, z, iTemp;
+
+            for (i = 0; i < (hDim * vDim); i++)
+            {
+                if (imgArray[i] > MaxValue)
+                {
+                    // printf("max %ld ", MaxValue);
+
+                    MaxValue = imgArray[i];
+                }
+
+                if (imgArray[i] < MinValue)
+                    MinValue = imgArray[i];
+            }
+            modrange = MaxValue - MinValue;
+            width = 400;//rect.right - rect.left + 1;
+                        // while(width%4!=0||width%hDim!=0)                 // width must be a multiple of 4 and the width should be divisble by the number of horizontal pixels
+                        //      width ++;// (4-width%4);
+            height = width;//rect.bottom - rect.top + 1;
+            xscale = (float)(hDim) / (float)(width);
+            yscale = (float)(256.0) / (float)modrange;
+            zscale = (float)(vDim) / (float)(height);
+
+
+            double H = Math.Ceiling((double)(ionSquarePixelDim * width) / (double)hDim);
+            double HH = (double)(width) / (double)hDim;
+            int dimH = (int)H;  // Dimensions of the box are fixed        
+
+            int dimV = (int)(Math.Ceiling((double)ionSquarePixelDim * height / vDim));
+            double dimHH = (double)(ionSquarePixelDim * width / hDim);  // Dimensions of the box are fixed
+            double dimVV = (double)(ionSquarePixelDim * height / vDim);
+            byte[] byteArray = new byte[width * height];
+
+
+            for (i = 0; i < height; i++)
+            {
+                z = (int)(i * zscale);
+                for (j = 0; j < width; j++)
+                {
+                    x = (int)(j * xscale);
+                    dTemp = Math.Ceiling(yscale * (imgArray[x + z * hDim] - MinValue));
+                    if (dTemp < 0) iTemp = 0;
+                    else if (dTemp > Color - 1) iTemp = Color - 1;
+                    else iTemp = (int)dTemp;
+                    if (j + i * width < byteArray.Length)
+                        byteArray[j + i * width] = (byte)iTemp;
+                }
+            }
+
+            for (int k = 0; k < ionLocations.Length; k++)
+            {
+                int xPos, yPos;
+                xPos = (int)((ionLocations[k] % (hDim - (ionSquarePixelDim - 1))) * HH);
+                yPos = (int)((ionLocations[k] / (hDim - (ionSquarePixelDim - 1))) * HH);
+                for (i = yPos; i < yPos + dimH; i++)
+                {
+                    for (j = xPos; j < xPos + dimV; j++)
+                    {
+                        if (i == yPos || j == xPos || i == yPos + dimH - 1 || j == xPos + dimV - 1)
+                        {
+                            if (j + i * width < byteArray.Length) byteArray[j + i * width] = (byte)0;
+                        }
+                    }
+                }
+            }
             Size sizeImg = new Size(400, 400);
             GCHandle pinnedArray = GCHandle.Alloc(byteArray, GCHandleType.Pinned);
             IntPtr dataPtr = pinnedArray.AddrOfPinnedObject();
@@ -2010,7 +2130,8 @@ namespace Camera_Control
             pinnedArray.Free();
         }
 
-        void drawCameraImageCont()
+
+         void drawCameraImageCont()
         {
 
             if (isDrawing == true || imageContData.Count == 0)
@@ -2155,6 +2276,22 @@ namespace Camera_Control
 
 
         }
+        void writeToFileArray(int[] dataArray, int img)
+        {
+            string location = @"C:\Users\IonTrap\Desktop\CameraData\Raw" + img.ToString() + ".txt";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(location  , true))
+            {
+                for (int i = 0; i < dataArray.Length; i++)
+                {
+                   
+                        file.Write("\t" + dataArray[i] + "\t");
+                   
+                    if((i+1)%hDim==0&&i!=0) file.WriteLine();
+                }
+            }
+        }
+
+
         void writeToFile()
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\Raw.txt", true))
@@ -2216,6 +2353,8 @@ namespace Camera_Control
             fluorescContData.Clear();
             errorMsgTxtBox.AppendText("Done saving.");
         }
+
+
         void writeToFileSpec()
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\IonTrap\Desktop\CameraData\ContRaw.txt", true))

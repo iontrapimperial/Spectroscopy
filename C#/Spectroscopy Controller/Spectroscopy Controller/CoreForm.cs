@@ -42,6 +42,8 @@ namespace Spectroscopy_Controller
         private bool IsViewerOpen = false;
         public int readingsPerDataPoint;
         public bool isExperimentRunning = false;
+        public int mleNumberOfCounts = 1;
+        public bool useMLE = false; 
        
 
         private bool IsCameraOpen = false;
@@ -106,7 +108,7 @@ namespace Spectroscopy_Controller
 =======
             //  COM12.WriteLine(reset);
             //  string mystring = COM12.ReadLine(); Temporarily moved to openUSB button*/
->>>>>>> 240c50273ef97c3761f35e2cc0d3ca313f53ab2e
+//>>>>>>> 240c50273ef97c3761f35e2cc0d3ca313f53ab2e
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -584,7 +586,10 @@ namespace Spectroscopy_Controller
                     // 17: Number of steps (fixed)
                     // 18 + i: spectrum i name
 
-
+                    if (mleCheckBox.Checked == true)
+                    {
+                        useMLE = true;
+                    }
 
 
                     // Create new dialog to get data from user before starting the experiment
@@ -614,6 +619,7 @@ namespace Spectroscopy_Controller
                         int repeats = (int)myExperimentDialog.NumberOfRepeats.Value;
                         metadata[13] = repeats.ToString();
                         int numSpec = (int)myExperimentDialog.NumberOfSpectra.Value;
+                        mleNumberOfCounts = (int)myExperimentDialog.mleCountPeriods.Value;
                         metadata[14] = numSpec.ToString();
                         readingsPerDataPoint = int.Parse(metadata[13]) * int.Parse(metadata[14]) * 4;
                         metadata[15] = hexFileName;
@@ -825,7 +831,7 @@ namespace Spectroscopy_Controller
                                 IsViewerOpen = false;
                             }
                             // Create new instance of viewer
-                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum, numOfIons);
+                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum, numOfIons, useMLE, mleNumberOfCounts);
                             // Set up event handler to deal with viewer closing - must be done after it is constructed
                             myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
                             // Set up event handler to deal with event raised when pause button on viewer is clicked
@@ -844,8 +850,8 @@ namespace Spectroscopy_Controller
                             freq4.Enabled = false;
                             phase0.Enabled = false;*/
 
-                            panel1.Enabled = false;
-                            panel3.Enabled = false;
+                            panel1.Enabled = true;
+                            panel3.Enabled = true;
 
                             freq0.Value = startFreq;
                             freq4.Value = startFreq;
@@ -1648,7 +1654,7 @@ namespace Spectroscopy_Controller
                             Console.WriteLine("I am in the if statement");
                             nState.Ticks -= 200;
                         }
-                        nState.TargetLength = pulseLength * 640;
+                        nState.TargetLength = pulseLength;
                     }
                     // If not to sweep, just leave it as it is
 
@@ -1671,7 +1677,7 @@ namespace Spectroscopy_Controller
                     {
                         // Set correct ticks & target length
                         
-                        nState.LoopCount = pulseLength;
+                        nState.LoopCount = pulseLength*123;
                         
 
                     }
@@ -1696,7 +1702,7 @@ namespace Spectroscopy_Controller
 
                                 // Set correct ticks & target length
                                 nnState.Ticks = pulseLength;
-                                nnState.TargetLength = pulseLength * 640;
+                                nnState.TargetLength = pulseLength*123 ;
 
                             }
                             // If not to sweep, just leave it as it is
@@ -1975,6 +1981,8 @@ namespace Spectroscopy_Controller
             //}
            
         }
+
+        
        
       
   

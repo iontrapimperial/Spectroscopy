@@ -186,6 +186,7 @@
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
             this.OpenCamera = new System.Windows.Forms.Button();
+            this.mleCheckBox = new System.Windows.Forms.CheckBox();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -669,6 +670,7 @@
             // 
             // SpectroGroup
             // 
+            this.SpectroGroup.Controls.Add(this.mleCheckBox);
             this.SpectroGroup.Controls.Add(this.cameraCheck);
             this.SpectroGroup.Controls.Add(this.label25);
             this.SpectroGroup.Controls.Add(this.phaseStep);
@@ -750,7 +752,7 @@
             // carrierCheck
             // 
             this.carrierCheck.AutoSize = true;
-            this.carrierCheck.Location = new System.Drawing.Point(150, 339);
+            this.carrierCheck.Location = new System.Drawing.Point(134, 339);
             this.carrierCheck.Name = "carrierCheck";
             this.carrierCheck.Size = new System.Drawing.Size(56, 17);
             this.carrierCheck.TabIndex = 62;
@@ -2263,6 +2265,16 @@
             this.OpenCamera.UseVisualStyleBackColor = true;
             this.OpenCamera.Click += new System.EventHandler(this.OpenCamera_Click);
             // 
+            // mleCheckBox
+            // 
+            this.mleCheckBox.AutoSize = true;
+            this.mleCheckBox.Location = new System.Drawing.Point(200, 339);
+            this.mleCheckBox.Name = "mleCheckBox";
+            this.mleCheckBox.Size = new System.Drawing.Size(48, 17);
+            this.mleCheckBox.TabIndex = 63;
+            this.mleCheckBox.Text = "MLE";
+            this.mleCheckBox.UseVisualStyleBackColor = true;
+            // 
             // CoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2505,6 +2517,7 @@
         private System.Windows.Forms.NumericUpDown phaseStep;
         private System.Windows.Forms.Button OpenCamera;
         private System.Windows.Forms.CheckBox cameraCheck;
+        private System.Windows.Forms.CheckBox mleCheckBox;
     }
 }
 
