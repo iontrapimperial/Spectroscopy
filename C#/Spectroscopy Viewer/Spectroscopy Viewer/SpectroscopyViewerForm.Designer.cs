@@ -84,11 +84,13 @@
             this.histogramChartCAM = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.updateHistogramButtonCAM = new System.Windows.Forms.Button();
             this.derivedCamTab = new System.Windows.Forms.TabPage();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.zedGraphSpectraDER = new ZedGraph.ZedGraphControl();
             this.pauseButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.restartViewerButton = new System.Windows.Forms.Button();
-            this.zedGraphSpectraDER = new ZedGraph.ZedGraphControl();
-            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.ggThreshLabel = new System.Windows.Forms.Label();
+            this.ggThresholdSelect = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.coolingThresholdSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countThresholdSelect)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -110,6 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.histogramChartCAM)).BeginInit();
             this.derivedCamTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ggThresholdSelect)).BeginInit();
             this.SuspendLayout();
             // 
             // zedGraphSpectra
@@ -192,7 +195,7 @@
             // 
             // plotDataButton
             // 
-            this.plotDataButton.Location = new System.Drawing.Point(426, 5);
+            this.plotDataButton.Location = new System.Drawing.Point(548, 6);
             this.plotDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.plotDataButton.Name = "plotDataButton";
             this.plotDataButton.Size = new System.Drawing.Size(116, 37);
@@ -217,6 +220,8 @@
             // 
             // tabPageSpectra
             // 
+            this.tabPageSpectra.Controls.Add(this.ggThresholdSelect);
+            this.tabPageSpectra.Controls.Add(this.ggThreshLabel);
             this.tabPageSpectra.Controls.Add(this.trackBar1);
             this.tabPageSpectra.Controls.Add(this.userDisplayText);
             this.tabPageSpectra.Controls.Add(this.loadDataButton);
@@ -733,6 +738,31 @@
             this.derivedCamTab.Text = "Derived Plots";
             this.derivedCamTab.UseVisualStyleBackColor = true;
             // 
+            // trackBar3
+            // 
+            this.trackBar3.Location = new System.Drawing.Point(3, 229);
+            this.trackBar3.Maximum = 100;
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar3.Size = new System.Drawing.Size(45, 104);
+            this.trackBar3.TabIndex = 21;
+            this.trackBar3.TickFrequency = 25;
+            // 
+            // zedGraphSpectraDER
+            // 
+            this.zedGraphSpectraDER.Location = new System.Drawing.Point(49, 49);
+            this.zedGraphSpectraDER.Margin = new System.Windows.Forms.Padding(4);
+            this.zedGraphSpectraDER.Name = "zedGraphSpectraDER";
+            this.zedGraphSpectraDER.ScrollGrace = 0D;
+            this.zedGraphSpectraDER.ScrollMaxX = 0D;
+            this.zedGraphSpectraDER.ScrollMaxY = 0D;
+            this.zedGraphSpectraDER.ScrollMaxY2 = 0D;
+            this.zedGraphSpectraDER.ScrollMinX = 0D;
+            this.zedGraphSpectraDER.ScrollMinY = 0D;
+            this.zedGraphSpectraDER.ScrollMinY2 = 0D;
+            this.zedGraphSpectraDER.Size = new System.Drawing.Size(775, 456);
+            this.zedGraphSpectraDER.TabIndex = 1;
+            // 
             // pauseButton
             // 
             this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -755,30 +785,23 @@
             this.restartViewerButton.UseVisualStyleBackColor = true;
             this.restartViewerButton.Click += new System.EventHandler(this.restartViewerButton_Click);
             // 
-            // zedGraphSpectraDER
+            // ggThreshLabel
             // 
-            this.zedGraphSpectraDER.Location = new System.Drawing.Point(49, 49);
-            this.zedGraphSpectraDER.Margin = new System.Windows.Forms.Padding(4);
-            this.zedGraphSpectraDER.Name = "zedGraphSpectraDER";
-            this.zedGraphSpectraDER.ScrollGrace = 0D;
-            this.zedGraphSpectraDER.ScrollMaxX = 0D;
-            this.zedGraphSpectraDER.ScrollMaxY = 0D;
-            this.zedGraphSpectraDER.ScrollMaxY2 = 0D;
-            this.zedGraphSpectraDER.ScrollMinX = 0D;
-            this.zedGraphSpectraDER.ScrollMinY = 0D;
-            this.zedGraphSpectraDER.ScrollMinY2 = 0D;
-            this.zedGraphSpectraDER.Size = new System.Drawing.Size(775, 456);
-            this.zedGraphSpectraDER.TabIndex = 1;
+            this.ggThreshLabel.AutoSize = true;
+            this.ggThreshLabel.Location = new System.Drawing.Point(422, 3);
+            this.ggThreshLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.ggThreshLabel.Name = "ggThreshLabel";
+            this.ggThreshLabel.Size = new System.Drawing.Size(69, 13);
+            this.ggThreshLabel.TabIndex = 11;
+            this.ggThreshLabel.Text = "GG threshold";
             // 
-            // trackBar3
+            // ggThresholdSelect
             // 
-            this.trackBar3.Location = new System.Drawing.Point(3, 229);
-            this.trackBar3.Maximum = 100;
-            this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar3.Size = new System.Drawing.Size(45, 104);
-            this.trackBar3.TabIndex = 21;
-            this.trackBar3.TickFrequency = 25;
+            this.ggThresholdSelect.Location = new System.Drawing.Point(425, 21);
+            this.ggThresholdSelect.Margin = new System.Windows.Forms.Padding(2);
+            this.ggThresholdSelect.Name = "ggThresholdSelect";
+            this.ggThresholdSelect.Size = new System.Drawing.Size(90, 20);
+            this.ggThresholdSelect.TabIndex = 12;
             // 
             // SpectroscopyViewerForm
             // 
@@ -823,6 +846,7 @@
             this.derivedCamTab.ResumeLayout(false);
             this.derivedCamTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ggThresholdSelect)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -885,6 +909,8 @@
         private System.Windows.Forms.TabPage derivedCamTab;
         private System.Windows.Forms.TrackBar trackBar3;
         private ZedGraph.ZedGraphControl zedGraphSpectraDER;
+        private System.Windows.Forms.Label ggThreshLabel;
+        private System.Windows.Forms.NumericUpDown ggThresholdSelect;
     }
 }
 

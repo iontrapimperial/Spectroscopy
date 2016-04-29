@@ -51,7 +51,7 @@ namespace Spectroscopy_Viewer
 
 
         private bool useCamera = false;
-        private bool useDerivedPlots = false;
+        private int useDerivedPlots = 0; // 0 = NOT used , 1 = PMT, 2 = CAM
         private bool useMLE = false;
         private int numMLECounts = 1; 
 
@@ -182,9 +182,11 @@ namespace Spectroscopy_Viewer
                 ionBox.Items.AddRange(numbers);
                 ionBox1.Items.AddRange(numbers);
             }
-            if(numIons ==2)
+            if(numIons == 2 )
             {
-                useDerivedPlots = true;
+                if (isCamera == true)
+                    useDerivedPlots = 2;
+                else useDerivedPlots = 1; 
             }
             numOfIons = numIons + 1;            
             /*ionBox.Items.Add("GG");
@@ -254,6 +256,7 @@ namespace Spectroscopy_Viewer
                 // Set cool/count thresholds from boxes on form
                 myPMTSpectrum[i].setCoolThreshold((int)this.coolingThresholdSelect.Value);
                 myPMTSpectrum[i].setCountThreshold((int)this.countThresholdSelect.Value);
+                myPMTSpectrum[i].setGGThreshold((int)this.ggThresholdSelect.Value);
             }
 
             // Create the controls for the graph
@@ -270,11 +273,29 @@ namespace Spectroscopy_Viewer
                     this.graphControlContextMenu[i].MenuItems[j].Enabled = false;
                 }
             }
+
+
+            derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
+            for (int k = 0; k < numDerivedPlots; k++)
+            {
+                // Create new derived plotting lists, with no data points yet
+                derivedCAMPlot[k] = new List<PointPairList>();
+                for (int l = existingSpectra; l < numberOfSpectra; l++)
+                {
+                    derivedCAMPlot[k].Add(new PointPairList());
+                }
+
+                // Create the controls for the graph                  
+
+            }
+
+
+
+
             if (isCamera == true)
             {
                 myCAMSpectrum = new List<spectrum>[numIons + 1];
-                dataCAMPlot = new List<PointPairList>[numIons + 1];
-                derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
+                dataCAMPlot = new List<PointPairList>[numIons + 1];              
                 int j;
                 
 
@@ -312,19 +333,7 @@ namespace Spectroscopy_Viewer
                     }
                 }
                 
-                derivedCAMPlot = new List<PointPairList>[numDerivedPlots];
-                for (int k = 0; k < numDerivedPlots; k++)
-                {
-                    // Create new derived plotting lists, with no data points yet
-                    derivedCAMPlot[k] = new List<PointPairList>();
-                    for (int l = existingSpectra; l < numberOfSpectra; l++)
-                    {                     
-                        derivedCAMPlot[k].Add(new PointPairList());
-                    }
-
-                    // Create the controls for the graph                  
-                    
-                }
+                
                 
 
             }
@@ -372,7 +381,7 @@ namespace Spectroscopy_Viewer
                 // Size the control to fill the form with a margin
                 SetSizeCAM();
                 
-                if (useDerivedPlots == true)
+                if (useDerivedPlots == 2)
                 {
                     for (int k = 0; k < numDerivedPlots; k++)
                     {
@@ -451,12 +460,41 @@ namespace Spectroscopy_Viewer
 
                 }
 
+
+
+
+
+
                 // NB data gets updated automatically when points are added to spectra
                 // So just update graph
                 updateGraph();
                 // Size the control to fill the form with a margin
                 SetSize();
+
+                if (useDerivedPlots == 1)
+                {
+                    for (int k = 0; k < numDerivedPlots; k++)
+                    {
+                        // Loop through the live spectra only
+                        for (int l = existingSpectra; l < numberOfSpectra; l++)
+                        {
+                            // Add data points to the spectrum
+                            Console.WriteLine("In the data process loop of Derived plots");
+                            // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)
+                            PointPairList tempList = populateDerivedPlot(k, l);
+                            derivedCAMPlot[k][l] = tempList;
+                        }
+                    }
+
+                    // NB data gets updated automatically when points are added to spectra
+                    // So just update graph
+                    updateGraphDER();
+                    // Size the control to fill the form with a margin
+                    SetSizeDER();
+                }
             }
+
+
         }
 
 
@@ -824,7 +862,7 @@ namespace Spectroscopy_Viewer
                 // NB if no spectra have been loaded, myPMTSpectrum.Count will be 0 and this loop will not run
                 for (int i = 0; i < myPMTSpectrum.Count; i++)
                 {
-                    myPMTSpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value);
+                    myPMTSpectrum[i].analyse((int)coolingThresholdSelect.Value, (int)countThresholdSelect.Value, (int)ggThresholdSelect.Value);
                     dataPMTPlot[i] = myPMTSpectrum[i].getDataPlot();
                 }
 
@@ -846,7 +884,7 @@ namespace Spectroscopy_Viewer
                     // NB if no spectra have been loaded, myPMTSpectrum.Count will be 0 and this loop will not run
                     for (int i = 0; i < myCAMSpectrum[cameraSpecNum].Count; i++)
                     {
-                        myCAMSpectrum[cameraSpecNum][i].analyse((int)coolingThresholdSelectCAM.Value, (int)countThresholdSelectCAM.Value);
+                        myCAMSpectrum[cameraSpecNum][i].analyse((int)coolingThresholdSelectCAM.Value, (int)countThresholdSelectCAM.Value, 0);
                         dataCAMPlot[cameraSpecNum][i] = myCAMSpectrum[cameraSpecNum][i].getDataPlot();
                     }
 
@@ -2399,7 +2437,7 @@ namespace Spectroscopy_Viewer
         private void updateGraphDER()
         {
             // Only try to update graph if some spectra have been loaded
-            if (numberOfSpectra != 0 && useCamera == true && useDerivedPlots == true)
+            if (numberOfSpectra != 0 && useDerivedPlots != 0)
             {
 
                 // get a reference to the GraphPane
@@ -2668,112 +2706,187 @@ namespace Spectroscopy_Viewer
         private PointPairList populateDerivedCAMPlot(int nPlots, int nSpectra)
         {
             PointPairList derivedPointPairList = new PointPairList();
+           
+                switch (nPlots)
+                {
+
+                    //average
+
+                    case 0:
+
+                        for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                        {
+                            double tempDarkProb = 0;
+                            for (int i = 0; i < numOfIons - 1; i++)
+                            {
+                                tempDarkProb += myCAMSpectrum[i][nSpectra].getDarkProb(k);
+                            }
+                            double averageDarkProb = (double)tempDarkProb / (numOfIons - 1);
+                            derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageDarkProb);
+
+                        }
+                        break;
+                    //double excitation
+                    case 1:
+
+                        for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                        {
+                            int eeCount = 0;
+                            // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                            int reps = myCAMSpectrum[0][nSpectra].getReps();
+                            for (int j = 0; j < reps; j++)
+                            {
+
+                                if (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == true && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == true) eeCount++;
+
+                            }
+
+                            double averageEEProb = (double)eeCount / reps;
+                            float freq = myCAMSpectrum[0][nSpectra].getFrequency(k);
+                            derivedPointPairList.Add(freq, averageEEProb);
+
+                        }
+                        break;
+                    case 2:
+
+                        for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                        {
+                            int egCount = 0;
+                            // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                            int reps = myCAMSpectrum[0][nSpectra].getReps();
+                            for (int j = 0; j < reps; j++)
+                            {
+
+                                if ((myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == true && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == false) || (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == false && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == true)) egCount++;
+
+                            }
+
+                            double averageEGProb = (double)egCount / reps;
+                            derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageEGProb);
+
+                        }
+                        break;
+
+
+                    case 3:
+
+                        for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                        {
+                            int ggCount = 0;
+                            // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                            int reps = myCAMSpectrum[0][nSpectra].getReps();
+                            for (int j = 0; j < reps; j++)
+                            {
+
+                                if (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == false && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == false) ggCount++;
+
+                            }
+
+                            double averageGGProb = (double)ggCount / reps;
+                            derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageGGProb);
+
+                        }
+                        break;
+
+                    case 4:
+
+                        for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                        {
+                            int ggeeCount = 0;
+                            // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
+                            int reps = myCAMSpectrum[0][nSpectra].getReps();
+                            for (int j = 0; j < reps; j++)
+                            {
+
+                                if ((myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == false && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == false) ||
+                                    (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == true && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == true))
+                                    ggeeCount++;
+
+                            }
+
+                            double averageGGEEProb = (double)ggeeCount / reps;
+                            derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageGGEEProb);
+
+                        }
+                        break;
+
+
+                }
+                return derivedPointPairList;
+            
+
+        }
+
+
+        private PointPairList populateDerivedPlot(int nPlots, int nSpectra)
+        {
+            PointPairList derivedPointPairList = new PointPairList();
+
             switch (nPlots)
             {
 
                 //average
-            
-                case 0:                    
-                      
-                        for(int k = 0;k<myCAMSpectrum[0][nSpectra].getDataSize(); k++)
-                        {
-                            double tempDarkProb = 0; 
-                            for (int i=0; i < numOfIons - 1; i++)
-                            {
-                                tempDarkProb += myCAMSpectrum[i][nSpectra].getDarkProb(k);
-                            }
-                        double averageDarkProb = (double)tempDarkProb / (numOfIons - 1);
-                        derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageDarkProb);
-                            
-                        }
-                    break;
-                    //double excitation
-                case 1:
-                    
-                    for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
-                    {
-                        int eeCount = 0;
-                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
-                        int reps = myCAMSpectrum[0][nSpectra].getReps();
-                        for (int j = 0; j <reps; j++)
-                        {
-                           
-                              if(myCAMSpectrum[0][nSpectra].getReadingsDark(k,j)==true  && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j)==true) eeCount++;
-                            
-                        }
-                        
-                        double averageEEProb = (double) eeCount / reps;
-                        float freq = myCAMSpectrum[0][nSpectra].getFrequency(k);
-                        derivedPointPairList.Add(freq, averageEEProb);
 
+                case 0:
+
+                    for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
+                    {
+                        double tempDarkProb = 0;                      
+                      
+                        tempDarkProb+= myPMTSpectrum[nSpectra].getDarkProb(k);
+                       
+                        double averageDarkProb = (double)tempDarkProb;
+                        derivedPointPairList.Add(myPMTSpectrum[nSpectra].getFrequency(k), myPMTSpectrum[nSpectra].getDarkProb(k));
+
+                    }
+                    break;
+                //double excitation
+                case 1:
+
+                    for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
+                    {
+                        double tempDarkProb = 0;
+                        tempDarkProb += myPMTSpectrum[nSpectra].getDarkProb(k);
+                        double averageDarkProb = (double)tempDarkProb;
+                        derivedPointPairList.Add(myPMTSpectrum[nSpectra].getFrequency(k), myPMTSpectrum[nSpectra].getDarkProb(k));
                     }
                     break;
                 case 2:
 
-                    for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                    for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
                     {
-                        int egCount = 0;
-                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
-                        int reps = myCAMSpectrum[0][nSpectra].getReps();
-                        for (int j = 0; j < reps; j++)
-                        {
-
-                            if ((myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == true && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == false) || (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == false && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == true)) egCount++;
-
-                        }
-
-                        double averageEGProb = (double)egCount / reps;
-                        derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageEGProb);
-
+                      
+                        derivedPointPairList.Add(myPMTSpectrum[nSpectra].getFrequency(k), myPMTSpectrum[nSpectra].getEGGEProb(k));
                     }
                     break;
 
 
                 case 3:
 
-                    for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                    for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
                     {
-                        int ggCount = 0;
-                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
-                        int reps = myCAMSpectrum[0][nSpectra].getReps();
-                        for (int j = 0; j < reps; j++)
-                        {
 
-                            if (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == false && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == false) ggCount++;
-
-                        }
-
-                        double averageGGProb = (double)ggCount / reps;
-                        derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageGGProb);
-
+                        derivedPointPairList.Add(myPMTSpectrum[nSpectra].getFrequency(k), myPMTSpectrum[nSpectra].getGGProb(k));
                     }
                     break;
 
                 case 4:
 
-                    for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
+                    for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
                     {
-                        int ggeeCount = 0;
-                        // bool[][] darkBoolArray=new bool[numOfIons-1][]; 
-                        int reps = myCAMSpectrum[0][nSpectra].getReps();
-                        for (int j = 0; j < reps; j++)
-                        {
 
-                            if ((myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == false && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == false)||
-                                (myCAMSpectrum[0][nSpectra].getReadingsDark(k, j) == true && myCAMSpectrum[1][nSpectra].getReadingsDark(k, j) == true)) ggeeCount++;
-
-                        }
-
-                        double averageGGEEProb = (double)ggeeCount / reps;
-                        derivedPointPairList.Add(myCAMSpectrum[0][nSpectra].getFrequency(k), averageGGEEProb);
-
+                        derivedPointPairList.Add(myPMTSpectrum[nSpectra].getFrequency(k), myPMTSpectrum[nSpectra].getGGProb(k)+ myPMTSpectrum[nSpectra].getDarkProb(k));
                     }
                     break;
-                        
+
 
             }
             return derivedPointPairList;
+
+
         }
+
+
 
 
 

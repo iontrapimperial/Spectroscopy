@@ -99,7 +99,7 @@ namespace Spectroscopy_Controller
 
             for (int i = 0; i < 63; i++) reset += "256" + ",";
             reset += "256";
-<<<<<<< HEAD
+
 
             COM12.WriteLine(reset);
 
@@ -108,7 +108,6 @@ namespace Spectroscopy_Controller
 =======
             //  COM12.WriteLine(reset);
             //  string mystring = COM12.ReadLine(); Temporarily moved to openUSB button*/
-//>>>>>>> 240c50273ef97c3761f35e2cc0d3ca313f53ab2e
         }
 
         private void CoreForm_FormClosing(object sender, FormClosedEventArgs e)
@@ -614,7 +613,8 @@ namespace Spectroscopy_Controller
                         metadata[9] = this.stepSizeBox.Value.ToString();
                         metadata[10] = this.sbToScanBox.Value.ToString();
                         metadata[11] = this.sbWidthBox.Value.ToString();
-                        //metadata[12] = this.rfAmpBox.Value.ToString();
+                        metadata[12] = this.freq0.Value.ToString();
+                        rfAmp =(float) this.freq0.Value;
                         // Fill in remaining metadata from form
                         int repeats = (int)myExperimentDialog.NumberOfRepeats.Value;
                         metadata[13] = repeats.ToString();
@@ -695,12 +695,12 @@ namespace Spectroscopy_Controller
                                 bIsFreqGenEnabled = true;
 
                                 //Calculate frequency offset of sideband start frequencies from sideband centres
-                                int offsetFreq = (int)stepSize * sbWidth / 2;
+                                int offsetFreq = (int)stepSize * sbWidth/2; 
                                 //Determine window spacing from trap frequencys and the type of spectrum selected
                                 int numberOfFiles;
                                 int windowSpace = 0;
-                                if (specDir == "Axial") windowSpace = (int)(axFreq / 2);
-                                else if (specDir == "Radial") windowSpace = (int)(modcycFreq / 2);
+                                if (specDir == "Axial") windowSpace = (int)(axFreq); // MOD2
+                                else if (specDir == "Radial") windowSpace = (int)(modcycFreq); // MOD2
                                 if (includeCarrier == true || sbToScan == 0)
                                 {
                                     //Array of start frequencies for each sideband (from furthest red to furthest blue)            
@@ -994,7 +994,7 @@ namespace Spectroscopy_Controller
                 if (specType == "Windowed") myFile[i].WriteLine(sbWidth);
                 else myFile[i].WriteLine("N/A");
                 // 729 RF amplitude
-                myFile[i].WriteLine("729 RF Amplitude (dBm):");
+                myFile[i].WriteLine("729 RF Amplitude on profile 1 (%):");
                 myFile[i].WriteLine(rfAmp);
                 // Number of repeats
                 myFile[i].WriteLine("Number of repeats per frequency:");
@@ -1176,7 +1176,7 @@ namespace Spectroscopy_Controller
                     if (specType == "Windowed") myFile[numberOfFiles * k + i].WriteLine(sbWidth);
                     else myFile[numberOfFiles * k + i].WriteLine("N/A");
                     // 729 RF amplitude
-                    myFile[numberOfFiles * k + i].WriteLine("729 RF Amplitude (dBm):");
+                    myFile[numberOfFiles * k + i].WriteLine("729 RF Amplitude on prof 1 (%):");
                     myFile[numberOfFiles * k + i].WriteLine(rfAmp);
                     // Number of repeats
                     myFile[numberOfFiles * k + i].WriteLine("Number of repeats per frequency:");
@@ -1386,9 +1386,9 @@ namespace Spectroscopy_Controller
             if (specTypeTemp == "Windowed")
             {
                 int windowSpaceTemp = 0;
-                if (specDirTemp == "Axial") windowSpaceTemp = (int)(1000 * axFreqBox.Value / 2);
-                else if (specDirTemp == "Radial") windowSpaceTemp = (int)(1000 * modcycFreqBox.Value / 2);
-                int offsetFreq = (int)(1000 * stepSizeBox.Value * sbWidthBox.Value / 2);
+                if (specDirTemp == "Axial") windowSpaceTemp = (int)(1000 * axFreqBox.Value); // MOD2
+                else if (specDirTemp == "Radial") windowSpaceTemp = (int)(1000 * modcycFreqBox.Value); // MOD2
+                int offsetFreq = (int)(1000 * stepSizeBox.Value * sbWidthBox.Value)/2; 
                 startFreqBox.Value = (decimal)(((1000000 * carFreqBox.Value) - (sbToScanBox.Value * windowSpaceTemp) - offsetFreq) / 1000000);
             }
 

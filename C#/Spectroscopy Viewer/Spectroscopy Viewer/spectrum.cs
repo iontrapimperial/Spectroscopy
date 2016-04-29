@@ -42,6 +42,7 @@ namespace Spectroscopy_Viewer
         private int dataSize;           // Number of data points
         private int coolThreshold;      // Cooling threshold
         private int countThreshold;     // Count threshold
+        private int ggThreshold;     // gg threshold
         private bool beenInitialised = false;   // Has the initial data analysis taken place?
 
         // Metadata from file / live experiment
@@ -56,7 +57,7 @@ namespace Spectroscopy_Viewer
         // Internal variables
         private int coolThresholdChanged = new int();       // Which direction cooling threshold has moved
         private int countThresholdChanged = new int();      // Which direction count threshold has moved
-
+        private int ggThresholdChanged = new int();
 
         //**************************//
 
@@ -134,25 +135,26 @@ namespace Spectroscopy_Viewer
             
         // General public method to analyse data
         // When we call this, we don't want to have to know about whether the initial analysis has taken place or not
-        public void analyse(int cool, int count)
+        public void analyse(int cool, int count, int gg)
         {
 
             // If not yet initialised, carry out initial analysis
-            if (!beenInitialised) this.analyseInit(cool, count);
+            if (!beenInitialised) this.analyseInit(cool, count, gg);
             // Otherwise just update
-            else this.analyseUpdate(cool, count);
+            else this.analyseUpdate(cool, count, gg);
         }
             
         // Method to analyse data given new thresholds
-        private void analyseInit(int cool, int count)
+        private void analyseInit(int cool, int count, int gg)
         {
             // Update private members
             coolThreshold = cool;
             countThreshold = count;
+            ggThreshold = gg; 
 
             for (int i = 0; i < dataSize; i++)
             {
-                myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point
+                myDataPoints[i].analyseInit(coolThreshold, countThreshold, ggThreshold);          // Update each data point
             }
             // NB parameter 0 indicates that we want to create data for the entire data set
             this.createDataPlot(0);          // Always want to create data for plotting
@@ -160,7 +162,7 @@ namespace Spectroscopy_Viewer
         }
 
         // Method to analyse data given updated thresholds
-        private void analyseUpdate(int cool, int count)
+        private void analyseUpdate(int cool, int count, int gg)
         {
 
             // Calculate this here instead of within data point - saves doing it for every data point
@@ -189,19 +191,24 @@ namespace Spectroscopy_Viewer
             else countThresholdChanged = 2;
             //******************************************
 
+            if (gg > ggThreshold) ggThresholdChanged = 0;
+            else if (gg < ggThreshold) ggThresholdChanged = 1;
+            else ggThresholdChanged = 2;
+
+
 
             // Update private members
             coolThreshold = cool;
             countThreshold = count;
-
+            ggThreshold = gg;
             // Only do anything if thresholds have actually changed
-            if (countThresholdChanged != 2 || coolThresholdChanged != 2)
+            if (countThresholdChanged != 2 || coolThresholdChanged != 2 || ggThresholdChanged != 2)
             {
                 for (int i = 0; i < dataSize; i++)
                 {
                     // Update each data point
                     myDataPoints[i].analyseUpdate(coolThreshold, coolThresholdChanged,
-                                                    countThreshold, countThresholdChanged);
+                                                    countThreshold, countThresholdChanged, ggThreshold, ggThresholdChanged);
                 }
                 this.updateDataPlot();
             }
@@ -215,7 +222,7 @@ namespace Spectroscopy_Viewer
             // Only loop through the new data points, skip the existing ones (from i = 0)
             for (int i = newDataStartIndex; i < dataSize; i++)
             {
-                myDataPoints[i].analyseInit(coolThreshold, countThreshold);          // Update each data point   
+                myDataPoints[i].analyseInit(coolThreshold, countThreshold, ggThreshold);          // Update each data point   
             }
             // Update dataPlot lists for new data only
             this.createDataPlot(newDataStartIndex);
@@ -444,6 +451,12 @@ namespace Spectroscopy_Viewer
         {
             countThreshold = x;
         }
+        public void setGGThreshold(int x)
+        {
+            ggThreshold = x;
+        }
+
+
 
         // Method to set spectrum name
         public void setName(string S)
@@ -471,7 +484,13 @@ namespace Spectroscopy_Viewer
         {
             return countThreshold;
         }
-            
+
+        public int getGGThreshold()
+        {
+            return ggThreshold;
+        }
+
+
         // Method to return number of data points
         public int getDataSize()
         {
@@ -541,6 +560,16 @@ namespace Spectroscopy_Viewer
         {
             return myDataPoints[i].getDarkProb();
         }
+        public float getGGProb(int i)
+        {
+            return myDataPoints[i].getGGProb();
+        }
+        public float getEGGEProb(int i)
+        {
+            return myDataPoints[i].getEGGEProb();
+        }
+
+
         public int getFrequency(int i)
         {
             return myDataPoints[i].getFreq();
