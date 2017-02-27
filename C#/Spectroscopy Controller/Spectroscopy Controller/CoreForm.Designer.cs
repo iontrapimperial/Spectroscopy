@@ -69,6 +69,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.mleCheckBox = new System.Windows.Forms.CheckBox();
             this.cameraCheck = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
             this.phaseStep = new System.Windows.Forms.NumericUpDown();
@@ -102,6 +103,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.specTypeBox = new System.Windows.Forms.ComboBox();
             this.LaserControl = new System.Windows.Forms.GroupBox();
+            this.powerNorm = new System.Windows.Forms.CheckBox();
             this.SetDDSProfiles = new System.Windows.Forms.Button();
             this.resetProfiles = new System.Windows.Forms.Button();
             this.resetDDS = new System.Windows.Forms.Button();
@@ -186,7 +188,6 @@
             this.OpenViewerButton = new System.Windows.Forms.Button();
             this.ClearBoxButton = new System.Windows.Forms.Button();
             this.OpenCamera = new System.Windows.Forms.Button();
-            this.mleCheckBox = new System.Windows.Forms.CheckBox();
             FileSendBox = new System.Windows.Forms.GroupBox();
             LoopNumberLabel = new System.Windows.Forms.Label();
             DesiredLengthLabel = new System.Windows.Forms.Label();
@@ -711,6 +712,16 @@
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
             // 
+            // mleCheckBox
+            // 
+            this.mleCheckBox.AutoSize = true;
+            this.mleCheckBox.Location = new System.Drawing.Point(200, 339);
+            this.mleCheckBox.Name = "mleCheckBox";
+            this.mleCheckBox.Size = new System.Drawing.Size(48, 17);
+            this.mleCheckBox.TabIndex = 63;
+            this.mleCheckBox.Text = "MLE";
+            this.mleCheckBox.UseVisualStyleBackColor = true;
+            // 
             // cameraCheck
             // 
             this.cameraCheck.AutoSize = true;
@@ -947,11 +958,6 @@
             // stepSizeBox
             // 
             this.stepSizeBox.DecimalPlaces = 3;
-            this.stepSizeBox.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.stepSizeBox.Location = new System.Drawing.Point(150, 231);
             this.stepSizeBox.Maximum = new decimal(new int[] {
             10000,
@@ -995,7 +1001,7 @@
             this.carFreqBox.Size = new System.Drawing.Size(104, 20);
             this.carFreqBox.TabIndex = 11;
             this.carFreqBox.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             393216});
@@ -1028,7 +1034,7 @@
             this.startFreqBox.Size = new System.Drawing.Size(104, 20);
             this.startFreqBox.TabIndex = 9;
             this.startFreqBox.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             393216});
@@ -1146,6 +1152,7 @@
             // 
             // LaserControl
             // 
+            this.LaserControl.Controls.Add(this.powerNorm);
             this.LaserControl.Controls.Add(this.SetDDSProfiles);
             this.LaserControl.Controls.Add(this.resetProfiles);
             this.LaserControl.Controls.Add(this.resetDDS);
@@ -1166,10 +1173,20 @@
             this.LaserControl.Controls.Add(this.LiveLaserBox397B1);
             this.LaserControl.Location = new System.Drawing.Point(793, 5);
             this.LaserControl.Name = "LaserControl";
-            this.LaserControl.Size = new System.Drawing.Size(450, 609);
+            this.LaserControl.Size = new System.Drawing.Size(459, 609);
             this.LaserControl.TabIndex = 57;
             this.LaserControl.TabStop = false;
             this.LaserControl.Text = "Laser Control";
+            // 
+            // powerNorm
+            // 
+            this.powerNorm.AutoSize = true;
+            this.powerNorm.Location = new System.Drawing.Point(366, 48);
+            this.powerNorm.Name = "powerNorm";
+            this.powerNorm.Size = new System.Drawing.Size(84, 17);
+            this.powerNorm.TabIndex = 70;
+            this.powerNorm.Text = "Power Norm";
+            this.powerNorm.UseVisualStyleBackColor = true;
             // 
             // SetDDSProfiles
             // 
@@ -1282,6 +1299,11 @@
             // 
             // freq7
             // 
+            this.freq7.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq7.Location = new System.Drawing.Point(4, 25);
             this.freq7.Maximum = new decimal(new int[] {
             300000000,
@@ -1289,7 +1311,7 @@
             0,
             0});
             this.freq7.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1298,7 +1320,7 @@
             this.freq7.TabIndex = 62;
             this.freq7.ThousandsSeparator = true;
             this.freq7.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -1393,6 +1415,11 @@
             // 
             // freq6
             // 
+            this.freq6.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq6.Location = new System.Drawing.Point(4, 25);
             this.freq6.Maximum = new decimal(new int[] {
             300000000,
@@ -1400,7 +1427,7 @@
             0,
             0});
             this.freq6.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1409,7 +1436,7 @@
             this.freq6.TabIndex = 62;
             this.freq6.ThousandsSeparator = true;
             this.freq6.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -1504,6 +1531,11 @@
             // 
             // freq5
             // 
+            this.freq5.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq5.Location = new System.Drawing.Point(4, 25);
             this.freq5.Maximum = new decimal(new int[] {
             300000000,
@@ -1511,7 +1543,7 @@
             0,
             0});
             this.freq5.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1520,7 +1552,7 @@
             this.freq5.TabIndex = 62;
             this.freq5.ThousandsSeparator = true;
             this.freq5.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -1615,6 +1647,11 @@
             // 
             // freq4
             // 
+            this.freq4.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq4.Location = new System.Drawing.Point(4, 25);
             this.freq4.Maximum = new decimal(new int[] {
             300000000,
@@ -1622,7 +1659,7 @@
             0,
             0});
             this.freq4.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1631,7 +1668,7 @@
             this.freq4.TabIndex = 62;
             this.freq4.ThousandsSeparator = true;
             this.freq4.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -1726,6 +1763,11 @@
             // 
             // freq3
             // 
+            this.freq3.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq3.Location = new System.Drawing.Point(4, 25);
             this.freq3.Maximum = new decimal(new int[] {
             300000000,
@@ -1733,7 +1775,7 @@
             0,
             0});
             this.freq3.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1742,7 +1784,7 @@
             this.freq3.TabIndex = 62;
             this.freq3.ThousandsSeparator = true;
             this.freq3.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -1837,6 +1879,11 @@
             // 
             // freq2
             // 
+            this.freq2.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq2.Location = new System.Drawing.Point(4, 25);
             this.freq2.Maximum = new decimal(new int[] {
             300000000,
@@ -1844,7 +1891,7 @@
             0,
             0});
             this.freq2.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1853,7 +1900,7 @@
             this.freq2.TabIndex = 62;
             this.freq2.ThousandsSeparator = true;
             this.freq2.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -1948,6 +1995,11 @@
             // 
             // freq1
             // 
+            this.freq1.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.freq1.Location = new System.Drawing.Point(4, 25);
             this.freq1.Maximum = new decimal(new int[] {
             300000000,
@@ -1955,7 +2007,7 @@
             0,
             0});
             this.freq1.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -1964,7 +2016,7 @@
             this.freq1.TabIndex = 62;
             this.freq1.ThousandsSeparator = true;
             this.freq1.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -2061,6 +2113,11 @@
             // 
             // freq0
             // 
+            this.freq0.Increment = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.freq0.Location = new System.Drawing.Point(4, 25);
             this.freq0.Maximum = new decimal(new int[] {
             300000000,
@@ -2068,7 +2125,7 @@
             0,
             0});
             this.freq0.Minimum = new decimal(new int[] {
-            200000000,
+            100000000,
             0,
             0,
             0});
@@ -2077,7 +2134,7 @@
             this.freq0.TabIndex = 62;
             this.freq0.ThousandsSeparator = true;
             this.freq0.Value = new decimal(new int[] {
-            255000000,
+            178000000,
             0,
             0,
             0});
@@ -2108,11 +2165,13 @@
             // LiveLaserBox854FREQ
             // 
             this.LiveLaserBox854FREQ.AutoSize = true;
+            this.LiveLaserBox854FREQ.Checked = true;
+            this.LiveLaserBox854FREQ.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854FREQ.Location = new System.Drawing.Point(248, 46);
             this.LiveLaserBox854FREQ.Name = "LiveLaserBox854FREQ";
-            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(111, 17);
+            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(83, 17);
             this.LiveLaserBox854FREQ.TabIndex = 5;
-            this.LiveLaserBox854FREQ.Text = "854nm Frequency";
+            this.LiveLaserBox854FREQ.Text = "Radial AOM";
             this.LiveLaserBox854FREQ.UseVisualStyleBackColor = true;
             this.LiveLaserBox854FREQ.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
@@ -2123,9 +2182,9 @@
             this.LiveLaserBox854POWER.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854POWER.Location = new System.Drawing.Point(248, 23);
             this.LiveLaserBox854POWER.Name = "LiveLaserBox854POWER";
-            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(91, 17);
+            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(73, 17);
             this.LiveLaserBox854POWER.TabIndex = 4;
-            this.LiveLaserBox854POWER.Text = "854nm Power";
+            this.LiveLaserBox854POWER.Text = "Bichro Off";
             this.LiveLaserBox854POWER.UseVisualStyleBackColor = true;
             this.LiveLaserBox854POWER.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
@@ -2209,28 +2268,28 @@
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\xml";
+            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\xml";
             this.saveXMLFileDialog.RestoreDirectory = true;
             this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
             // 
             this.openXMLFileDialog.Filter = "Xml File|*.xml";
-            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\xml";
+            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\xml";
             this.openXMLFileDialog.RestoreDirectory = true;
             this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
             this.openHexFileDialog.Filter = "Hex File|*.hex";
-            this.openHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\Hex";
+            this.openHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\Hex";
             this.openHexFileDialog.RestoreDirectory = true;
             this.openHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openHexFileDialog_FileOk);
             // 
             // saveHexFileDialog
             // 
             this.saveHexFileDialog.Filter = "Hex File|*.hex";
-            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\Hex";
+            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\Hex";
             this.saveHexFileDialog.RestoreDirectory = true;
             this.saveHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveHexFileDialog_FileOk);
             // 
@@ -2264,16 +2323,6 @@
             this.OpenCamera.Text = "Start Camera";
             this.OpenCamera.UseVisualStyleBackColor = true;
             this.OpenCamera.Click += new System.EventHandler(this.OpenCamera_Click);
-            // 
-            // mleCheckBox
-            // 
-            this.mleCheckBox.AutoSize = true;
-            this.mleCheckBox.Location = new System.Drawing.Point(200, 339);
-            this.mleCheckBox.Name = "mleCheckBox";
-            this.mleCheckBox.Size = new System.Drawing.Size(48, 17);
-            this.mleCheckBox.TabIndex = 63;
-            this.mleCheckBox.Text = "MLE";
-            this.mleCheckBox.UseVisualStyleBackColor = true;
             // 
             // CoreForm
             // 
@@ -2518,6 +2567,7 @@
         private System.Windows.Forms.Button OpenCamera;
         private System.Windows.Forms.CheckBox cameraCheck;
         private System.Windows.Forms.CheckBox mleCheckBox;
+        private System.Windows.Forms.CheckBox powerNorm;
     }
 }
 

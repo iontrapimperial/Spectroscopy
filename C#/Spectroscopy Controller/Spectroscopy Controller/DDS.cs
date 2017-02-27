@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Spectroscopy_Controller
 {
-    // Methods for DDS
+    // Methods for DDS. Designed for communication with an Arduino Mega 2560 to control an AD9910 DDS.
     class DDS
     {
         public static int CalculateFTW(int fo)
@@ -92,30 +92,128 @@ namespace Spectroscopy_Controller
             FTWbyte3 = CalculateByte(FTWBinary, 24);
         }
 
-        public static void GetASF(decimal value, decimal amp, out string ASFbyte0, out string ASFbyte1)
+        public static void GetASF(decimal value, decimal amp, out string ASFbyte0, out string ASFbyte1, bool normalisation) // This method is rather more complex than GetFTW because it includes normalistaions to maintain a constant output amplitude over the whole frequency range.
         {
            ASFbyte0 = "63"; // first byte of the ASF in decimal, full scale value
            ASFbyte1 = "255"; // second byte of the ASF in decimal, full scale value
            
-            double frequency = Convert.ToDouble(value);
+           double frequency = Convert.ToDouble(value);
+           double ampD = Convert.ToDouble(amp);
                
-           if(frequency <= 300000000 && frequency >= 200000000) // checks the value of the frequency is in the range covered by the LUT
+           if(frequency >= 100000000 && frequency <= 119999999) // checks the value of the frequency is in the first range. The different ranges correspond to different fitting regions.
            {
 
-               /*double rank = Math.Round(frequency / 100000) - 2000; // converts the frequency into the number of a line in the LUT
-               int line = (int)rank;
-               string[] amplitudeScaleFactor = System.IO.File.ReadAllLines(@"C:\Users\localadmin\Desktop\ASF_200_300MHz_33dBm.txt"); // open and read the LUT (text file)
-               int ASF = Convert.ToInt32(amplitudeScaleFactor[line]); // converts the ASF into an int*/
-               double freqMHz = frequency / Math.Pow(10, 6);
-               int ASF = (int)Math.Round(194*0.826*Math.Pow(2,14)/(-8.59478*Math.Pow(10,-7)*Math.Pow(freqMHz,4) + 8.37290*Math.Pow(10,-4)*Math.Pow(freqMHz,3) - 0.302463*Math.Pow(freqMHz,2) + 47.6572*freqMHz - 2526.30));
-               ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+                // OLD BIT OF CODE //////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /*double rank = Math.Round(frequency / 100000) - 2000; // converts the frequency into the number of a line in the LUT
+                int line = (int)rank;
+                string[] amplitudeScaleFactor = System.IO.File.ReadAllLines(@"C:\Users\localadmin\Desktop\ASF_200_300MHz_33dBm.txt"); // open and read the LUT (text file)
+                int ASF = Convert.ToInt32(amplitudeScaleFactor[line]); // converts the ASF into an int*/
+                //int ASF = (int)Math.Round(194*0.826*Math.Pow(2,14)/(-8.59478*Math.Pow(10,-7)*Math.Pow(freqMHz,4) + 8.37290*Math.Pow(10,-4)*Math.Pow(freqMHz,3) - 0.302463*Math.Pow(freqMHz,2) + 47.6572*freqMHz - 2526.30)); // normalisation
+                // END OF THE OLD BIT ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-               string ASFBinary = Calculate16Binary(ASF); // converts ASF in binary string
+                double freqMHz = frequency / Math.Pow(10, 6);
+                double RMS = 0.02 * Math.Pow(freqMHz, 2) - 4.5 * freqMHz + 595; // this is a fit of the RMS of the driver output as a function of frequency. Measured with ASF = 8181 and 30 dB attenuation on a Tektronix MSO3034 scope. Measurements done on 25/10/2016. See Vince's lab book for details.
+                int ASF = (int)Math.Round(0.7 * 217 * Math.Pow(2, 14) / RMS); // Normalisation: 217 is in mV RMS the minimum measured on the 100 - 300 MHz range. The factor 0.7 is to avoid the saturation of the AOM.
+                //ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
 
-               ASFbyte0 = CalculateByte(ASFBinary, 0);
-               ASFbyte1 = CalculateByte(ASFBinary, 8);
+                if (normalisation == true) // laser power normalisation so that x % on the GUI corresponds to x % of the max laser power
+                {                          // The normalisations below correspond to fits of the ASF versus laser power. They can be seen on the excel file "New calibration 729 AOM driver".
+                    if (ampD >= 5 && ampD <= 91.56) // Measurements were made at 178 MHz which is close to the carrier frequency to this date. The two different ranges correspond to different fitting regions.
+                    {
+                        ASF = (int)Math.Round(ASF * (8.78114279 * Math.Pow(10, -7) * Math.Pow(ampD, 3) - 1.323317 * Math.Pow(10, -4) * Math.Pow(ampD, 2) + 0.0126421389 * ampD + 0.0775117));
+                    }
+                    else if (ampD >= 91.57 && ampD <= 100)
+                    {
+                        ASF = (int)Math.Round(ASF * (4.6113 * Math.Pow(10, -4) * Math.Pow(ampD, 3) - 0.1305 * Math.Pow(ampD, 2) + 12.323 * ampD - 387.44));
+                    }
+                    else ASF = (int)Math.Round(ASF * amp / 100); // No normalistaion below 5%
+                }
+                else ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                string ASFBinary = Calculate16Binary(ASF); // converts ASF in binary string
+
+                ASFbyte0 = CalculateByte(ASFBinary, 0);
+                ASFbyte1 = CalculateByte(ASFBinary, 8);
             }
-            else
+            else if(frequency >= 120000000 && frequency <= 179999999)
+            {
+                double freqMHz = frequency / Math.Pow(10, 6);
+                double RMS = 2.3543 * Math.Pow(10, -4) * Math.Pow(freqMHz, 3) - 0.10083 * Math.Pow(freqMHz, 2) + 13.333 * freqMHz - 211.91;
+                int ASF = (int)Math.Round(0.7 * 217 * Math.Pow(2, 14) / RMS);
+                //ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                if (normalisation == true) // laser power normalisation so that x % on the GUI corresponds to x % of the max laser power
+                {
+                    if (ampD >= 5 && ampD <= 91.56)
+                    {
+                        ASF = (int)Math.Round(ASF * (8.78114279 * Math.Pow(10, -7) * Math.Pow(ampD, 3) - 1.323317 * Math.Pow(10, -4) * Math.Pow(ampD, 2) + 0.0126421389 * ampD + 0.0775117));
+                    }
+                    else if (ampD >= 91.57 && ampD <= 100)
+                    {
+                        ASF = (int)Math.Round(ASF * (4.6113 * Math.Pow(10, -4) * Math.Pow(ampD, 3) - 0.1305 * Math.Pow(ampD, 2) + 12.323 * ampD - 387.44));
+                    }
+                    else ASF = (int)Math.Round(ASF * amp / 100);
+                }
+                else ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                string ASFBinary = Calculate16Binary(ASF); // converts ASF in binary string
+
+                ASFbyte0 = CalculateByte(ASFBinary, 0);
+                ASFbyte1 = CalculateByte(ASFBinary, 8);
+            }
+            else if (frequency >= 180000000 && frequency <= 229999999)
+            {
+                double freqMHz = frequency / Math.Pow(10, 6);
+                double RMS = 1.7716 * Math.Pow(10, -4) * Math.Pow(freqMHz, 3) - 0.10867 * Math.Pow(freqMHz, 2) + 21.385 * freqMHz - 1067.2;
+                int ASF = (int)Math.Round(0.7 * 217 * Math.Pow(2, 14) / RMS);
+                //ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                if (normalisation == true) // laser power normalisation so that x % on the GUI corresponds to x % of the max laser power
+                {
+                    if (ampD >= 5 && ampD <= 91.56)
+                    {
+                        ASF = (int)Math.Round(ASF * (8.78114279 * Math.Pow(10, -7) * Math.Pow(ampD, 3) - 1.323317 * Math.Pow(10, -4) * Math.Pow(ampD, 2) + 0.0126421389 * ampD + 0.0775117));
+                    }
+                    else if (ampD >= 91.57 && ampD <= 100)
+                    {
+                        ASF = (int)Math.Round(ASF * (4.6113 * Math.Pow(10, -4) * Math.Pow(ampD, 3) - 0.1305 * Math.Pow(ampD, 2) + 12.323 * ampD - 387.44));
+                    }
+                    else ASF = (int)Math.Round(ASF * amp / 100);
+                }
+                else ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                string ASFBinary = Calculate16Binary(ASF); // converts ASF in binary string
+
+                ASFbyte0 = CalculateByte(ASFBinary, 0);
+                ASFbyte1 = CalculateByte(ASFBinary, 8);
+            }
+            else if (frequency >= 230000000 && frequency <= 300000000)
+            {
+                double freqMHz = frequency / Math.Pow(10, 6);
+                double RMS = -6.1763 * Math.Pow(10, -5) * Math.Pow(freqMHz, 3) + 0.037394 * Math.Pow(freqMHz, 2) - 7.3432 * freqMHz + 718.86;
+                int ASF = (int)Math.Round(0.7 * 217 * Math.Pow(2, 14) / RMS);
+                //ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                if (normalisation == true) // laser power normalisation so that x % on the GUI corresponds to x % of the max laser power
+                {
+                    if (ampD >= 5 && ampD <= 91.56)
+                    {
+                        ASF = (int)Math.Round(ASF * (8.78114279 * Math.Pow(10, -7) * Math.Pow(ampD, 3) - 1.323317 * Math.Pow(10, -4) * Math.Pow(ampD, 2) + 0.0126421389 * ampD + 0.0775117));
+                    }
+                    else if (ampD >= 91.57 && ampD <= 100)
+                    {
+                        ASF = (int)Math.Round(ASF * (4.6113 * Math.Pow(10, -4) * Math.Pow(ampD, 3) - 0.1305 * Math.Pow(ampD, 2) + 12.323 * ampD - 387.44));
+                    }
+                    else ASF = (int)Math.Round(ASF * amp / 100);
+                }
+                else ASF = (int)Math.Round(ASF * amp / 100); // multiplies the ASF by the amp percentage
+
+                string ASFBinary = Calculate16Binary(ASF); // converts ASF in binary string
+
+                ASFbyte0 = CalculateByte(ASFBinary, 0);
+                ASFbyte1 = CalculateByte(ASFBinary, 8);
+            }
+            else // If out of range. Max ASF. Should not happen in normal operation.
             {
                    ASFbyte0 = "63";
                    ASFbyte1 = "255";
@@ -127,9 +225,7 @@ namespace Spectroscopy_Controller
             POWbyte0 = "0";
             POWbyte1 = "0";
 
-            double phase = 0;
-            if (value <= 360) phase = Convert.ToDouble(value);
-            else phase = Convert.ToDouble(value - 360);
+            double phase = Convert.ToDouble(value%360);
 
             int POW = CalculatePOW(phase); // calculates POW
             string POWBinary = Calculate16Binary(POW); // converts in binary string 

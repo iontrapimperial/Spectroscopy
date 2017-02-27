@@ -891,8 +891,8 @@ namespace Camera_Control
                     this.startAcqButton.Enabled = true;
                     this.ShutDown.Enabled = true;
                     this.AbortAcquisition.Enabled = true;
-                    writeToFileSpec();
-
+                    //writeToFileSpec();
+                    fluorescData.Clear();
                 }
 
                 Console.WriteLine("Set system done");

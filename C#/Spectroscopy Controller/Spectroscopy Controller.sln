@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Controller", "Spectroscopy Controller\Spectroscopy Controller.csproj", "{80120DBE-C573-462C-BDB2-FB015E12A6B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectroscopy Viewer", "..\Spectroscopy Viewer\Spectroscopy Viewer\Spectroscopy Viewer.csproj", "{A0DC7E82-3691-484E-8360-7A5036E879BC}"
@@ -52,5 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{45CAC13D-143C-4ACA-93DE-8715835AF6D3} = {20AF02B1-FF93-4CC7-B7CF-407E9898C1B9}
 	EndGlobalSection
 EndGlobal

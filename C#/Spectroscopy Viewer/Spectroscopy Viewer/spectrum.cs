@@ -25,6 +25,8 @@ namespace Spectroscopy_Viewer
 
         // List for plotting bad counts due to failed cooling counts
         private PointPairList badCountsThreshold = new PointPairList();
+
+        private double badCountPercent = 0; 
         // List for plotting bad counts due to error flags
         private PointPairList badCountsErrors = new PointPairList();
         // List for plotting all bad counts
@@ -82,6 +84,7 @@ namespace Spectroscopy_Viewer
             {
                 metadata[i] = metadataPassed[i];
             }
+            repeats =   Int32.Parse(metadataPassed[13]);
             // Need to take the right spectrum name (only want to store 1)
             metadata[18] = metadataPassed[18 + specNumInFile];
             // Need to take notes section - where it is in the array depends on how many interleaved spectra there are
@@ -98,11 +101,12 @@ namespace Spectroscopy_Viewer
             {
                 metadata[i] = metadataPassed[i];
             }
+            repeats = Int32.Parse(metadataPassed[13]);
             // Need to take the right spectrum name (only want to store 1)
             metadata[18] = metadataPassed[18 + spectrumNumberPassed];
             // Need to take notes section - where it is in the array depends on how many interleaved spectra there are
             metadata[19] = metadataPassed[18 + numberInterleaved];
-
+            
             // Set spectrum number & name
             this.spectrumNumber = spectrumNumberPassed;
             this.spectrumName = metadata[18];
@@ -333,9 +337,10 @@ namespace Spectroscopy_Viewer
                 dataPlot.Add( freq, myDataPoints[i].getDarkProb() );            // Dark ion prob
                 badCountsThreshold.Add(freq, temp_badCountsThreshold);          // Bad counts (threshold)
                 badCountsErrors.Add(freq, temp_badCountsErrors);                // Bad counts (laser errors)
-                badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );      // Bad counts (sum of both)             
+                badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );      // Bad counts (sum of both)          
             }
 
+           badCountPercent =  (double) temp_badCountsThreshold / repeats;
         }
             
         // Method to update list of data for plotting to graph
@@ -378,7 +383,7 @@ namespace Spectroscopy_Viewer
                     // Bad counts due to threshold
                     badCountsThreshold.Add(freq, temp_badCountsThreshold);
                     // All bad counts
-                    badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );
+                    badCountsAll.Add(freq, (temp_badCountsThreshold + temp_badCountsErrors) );                  
 
                 }
             }
@@ -578,7 +583,10 @@ namespace Spectroscopy_Viewer
         {
             return myDataPoints[0].getRepeats(); 
         }
-
+        public double getThreshErrorPercent()
+        {
+            return badCountPercent;
+        }
 
     }
 }

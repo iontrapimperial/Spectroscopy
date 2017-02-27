@@ -23,7 +23,8 @@ namespace Spectroscopy_Viewer
         // A list of spectrum objects. List is basically just a dynamic array so we can add more objects as necessary
         public List<spectrum> myPMTSpectrum = new List<spectrum>();
         public List<spectrum>[] myCAMSpectrum;
-
+        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\IonTrap\Downloads\apollo03.wav");
+       
         // List to store data for plotting spectrum graph. PointPairList is the object needed for plotting with zedGraph 
         private List<PointPairList> dataPMTPlot = new List<PointPairList>();
         private List<PointPairList>[] dataCAMPlot;
@@ -48,7 +49,7 @@ namespace Spectroscopy_Viewer
         private int numOfIons = 1;
         private int numDerivedPlots = 4;
 
-
+    
 
         private bool useCamera = false;
         private int useDerivedPlots = 0; // 0 = NOT used , 1 = PMT, 2 = CAM
@@ -457,6 +458,11 @@ namespace Spectroscopy_Viewer
 
                     // Retrieve the data to plot to graph (has already been updated by the addToSpectrum method)
                     dataPMTPlot[i] = myPMTSpectrum[i].getDataPlot();
+                    //myPMTSpectrum[i].getDataPlot();
+                    if (myPMTSpectrum[i].getThreshErrorPercent() > 0.5)
+                    {
+                        player.Play();
+                    }
 
                 }
 
@@ -694,7 +700,7 @@ namespace Spectroscopy_Viewer
         private void loadFileButton_Click(object sender, EventArgs e)
         {
             // Configuring dialog to open a new data file
-            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
+            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data";      // Initialise to share drive
             openDataFile.RestoreDirectory = false;           // Open to last viewed directory
             openDataFile.FileName = "";                     // Set default filename to blank
             openDataFile.Multiselect = true;                // Allow selection of multiple files
@@ -910,7 +916,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data\\";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -1463,7 +1469,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -1496,7 +1502,7 @@ namespace Spectroscopy_Viewer
                 else
                 {
                     // Configuring dialog to save file
-                    saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Dropbox\\Current Data";      // Initialise to share drive
+                    saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data";      // Initialise to share drive
                     saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                     saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -1905,7 +1911,7 @@ namespace Spectroscopy_Viewer
                     this.graphControlAverage[i].Location = new System.Drawing.Point(6, 62);
                     this.graphControlAverage[i].Size = new System.Drawing.Size(85, 17);
                     this.graphControlAverage[i].TabIndex = 2;
-                    this.graphControlAverage[i].Text = "AVG";
+                    this.graphControlAverage[i].Text = "Parity";
                     this.graphControlAverage[i].UseVisualStyleBackColor = true;
                     this.graphControlAverage[i].CheckedChanged +=
                         new System.EventHandler(this.updateGraph_EventDER);
@@ -2712,7 +2718,7 @@ namespace Spectroscopy_Viewer
 
                     //average
 
-                    case 0:
+                    case 4:
 
                         for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
                         {
@@ -2788,7 +2794,7 @@ namespace Spectroscopy_Viewer
                         }
                         break;
 
-                    case 4:
+                    case 0:
 
                         for (int k = 0; k < myCAMSpectrum[0][nSpectra].getDataSize(); k++)
                         {
@@ -2827,7 +2833,7 @@ namespace Spectroscopy_Viewer
 
                 //average
 
-                case 0:
+                case 4:
 
                     for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
                     {
@@ -2870,7 +2876,7 @@ namespace Spectroscopy_Viewer
                     }
                     break;
 
-                case 4:
+                case 0:
 
                     for (int k = 0; k < myPMTSpectrum[nSpectra].getDataSize(); k++)
                     {

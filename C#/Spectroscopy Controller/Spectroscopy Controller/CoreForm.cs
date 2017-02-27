@@ -55,8 +55,8 @@ namespace Spectroscopy_Controller
         private List<RadioButton> profileRadioButtons = new List<RadioButton>();
         public string hexFileName;
         //Trap and ion parameters
-        private float dnought = 0.0189F;
-        private float bField = 1.845F;
+        private float dnought = 0.0186215F; //0.01866689F;//0.0189F;
+        private float bField = 1.89997F;
         private float ionmass = 40;
         private float ioncharge = 1;
         private int angtruecycFreq;
@@ -267,6 +267,7 @@ namespace Spectroscopy_Controller
 
         private void DDSBoxChange(object sender, EventArgs e)
         {
+            phase4.Value = phase4.Value % 360;
             SetDDSProfiles.Enabled = true;
         }
 
@@ -614,7 +615,7 @@ namespace Spectroscopy_Controller
                         metadata[10] = this.sbToScanBox.Value.ToString();
                         metadata[11] = this.sbWidthBox.Value.ToString();
                         metadata[12] = this.freq0.Value.ToString();
-                        rfAmp =(float) this.freq0.Value;
+                        rfAmp =(float) this.amp0.Value;
                         // Fill in remaining metadata from form
                         int repeats = (int)myExperimentDialog.NumberOfRepeats.Value;
                         metadata[13] = repeats.ToString();
@@ -1818,14 +1819,14 @@ namespace Spectroscopy_Controller
             string[] FTW6Byte = new string[4];
             string[] FTW7Byte = new string[4];
 
-            DDS.GetASF(f0, amp0, out ASF0Byte[0], out ASF0Byte[1]);
-            DDS.GetASF(f1, amp1, out ASF1Byte[0], out ASF1Byte[1]);
-            DDS.GetASF(f2, amp2, out ASF2Byte[0], out ASF2Byte[1]);
-            DDS.GetASF(f3, amp3, out ASF3Byte[0], out ASF3Byte[1]);
-            DDS.GetASF(f4, amp4, out ASF4Byte[0], out ASF4Byte[1]);
-            DDS.GetASF(f5, amp5, out ASF5Byte[0], out ASF5Byte[1]);
-            DDS.GetASF(f6, amp6, out ASF6Byte[0], out ASF6Byte[1]);
-            DDS.GetASF(f7, amp7, out ASF7Byte[0], out ASF7Byte[1]);
+            DDS.GetASF(f0, amp0, out ASF0Byte[0], out ASF0Byte[1], powerNorm.Checked); // the last parameter is a boolean to activate or not the laser power normalisation
+            DDS.GetASF(f1, amp1, out ASF1Byte[0], out ASF1Byte[1], powerNorm.Checked);
+            DDS.GetASF(f2, amp2, out ASF2Byte[0], out ASF2Byte[1], powerNorm.Checked);
+            DDS.GetASF(f3, amp3, out ASF3Byte[0], out ASF3Byte[1], powerNorm.Checked);
+            DDS.GetASF(f4, amp4, out ASF4Byte[0], out ASF4Byte[1], powerNorm.Checked);
+            DDS.GetASF(f5, amp5, out ASF5Byte[0], out ASF5Byte[1], powerNorm.Checked);
+            DDS.GetASF(f6, amp6, out ASF6Byte[0], out ASF6Byte[1], powerNorm.Checked);
+            DDS.GetASF(f7, amp7, out ASF7Byte[0], out ASF7Byte[1], powerNorm.Checked);
 
             DDS.GetPOW(phase0, out POW0Byte[0], out POW0Byte[1]);
             DDS.GetPOW(phase1, out POW1Byte[0], out POW1Byte[1]);
