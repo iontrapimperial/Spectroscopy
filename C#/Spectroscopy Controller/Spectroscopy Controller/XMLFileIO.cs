@@ -33,7 +33,7 @@ namespace Spectroscopy_Controller
 
                 Writer.WriteEndElement();
                 Writer.WriteEndDocument();
-            }
+            }            
         }
 
         /// <summary>

@@ -28,13 +28,12 @@ namespace Camera_Control
         int VSnumber = 0;                 // Vertical Speed Index
         int HSnumber = 0;                 // Horizontal Speed Index
         int ADnumber;                 // AD Index
-        public int acquisitionMode;   // read from xxxxWndw.c
-        public int readMode;          // read from xxxxWndw.c
+        public int acquisitionMode;   // Most modes described starting at line 440
+        public int readMode;          // 0 = Full Vertical Binning, 1 = MUlti-Track, 2 = Random-Track, 3 = Single-Track, 4 = Image. This code is set up to work with 4. 
         bool gblData = false;
         bool gblCooler = false;
         bool abortCont;
-        int[,] pixelPosGlobal;
-        const int SPI_GETSCREENSAVERRUNNING = 114;  // screensaver running ID
+        int[,] pixelPosGlobal;       
         const int Color = 256;// 65536;                      // Number of colors in the palette
         int hbin, vbin, hstart, hend, vstart, vend, hDim, vDim;
         int[] hBoxStart = new int[10];
@@ -77,7 +76,7 @@ namespace Camera_Control
 
 
 
-        // int runCounter;                    //Counts the number of rusn in a multi image run-til-abort acquisition.
+        // int runCounter;                    //Counts the number of runs in a multi image run-til-abort acquisition.
         int numIons = 1;						// The number of ions. Used for tracking and spectroscopy.
         int ionSquarePixelDim = 10;			// dimensions of box to be drawn around ions in camera pixels.
         int repeatPos;
@@ -88,7 +87,7 @@ namespace Camera_Control
         int threshold = 235;
 
 
-        private void InitializeBackgroundWorker()
+        private void InitializeBackgroundWorker()  // This background worker is used to keep the live acquisition of the data on a separate thread to the main form, allowing the acquistion to be interrupted. 
         {
             bw.DoWork +=
                 new DoWorkEventHandler(bw_DoWork);
@@ -101,22 +100,22 @@ namespace Camera_Control
         public CameraForm()
         {
             this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
-            aTimer = new System.Windows.Forms.Timer();
+            aTimer = new System.Windows.Forms.Timer(); // Benchmarking timers. Not essential. 
             aTimer.Tick += new EventHandler(OnTimedEvent);
             tempTimer = new System.Windows.Forms.Timer();
             tempTimer.Interval = (int)(10000);
             tempTimer.Tick += new EventHandler(TempMeasureEvent);
             tempTimer.Enabled = true;
             tempTimer.Start();
-            InitializeBackgroundWorker();
-            freqStep = 1;
-            freqStart = 1.0;
-            readMode = 4;
-            acquisitionMode = 7;
-            uint errorValue;
-            float speed = 0;
+            InitializeBackgroundWorker(); // Start the asynchronous background thread for use with continuous data acquisition
+            freqStep = 1; // Old bit of code. Used to define frequency step for writing to file 
+            freqStart = 1.0; // Old bit of code. Used to define starting frequency for writing to file
+            readMode = 4; 
+            acquisitionMode = 1; 
+            uint errorValue; // this is an unsigned int used to monitor whether any of the camera functiosn fail. 
+            float speed = 0; // readoubt speed variable. 
             InitializeComponent();
-            errorValue = myAndor.Initialize(Directory.GetCurrentDirectory());
+            errorValue = myAndor.Initialize(Directory.GetCurrentDirectory());  // This function starts up the camera and prepares it for use. 
 
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
@@ -127,7 +126,7 @@ namespace Camera_Control
               MessageBoxDefaultButton.Button1);
             }
 
-            errorValue = myAndor.GetCapabilities(ref caps);
+            errorValue = myAndor.GetCapabilities(ref caps);      // This function loads all the camera specifications.  
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Get Andor Capabilities information Error.",
@@ -137,8 +136,8 @@ namespace Camera_Control
                MessageBoxDefaultButton.Button1);
             }
 
-            // Get Head Model
-            errorValue = myAndor.GetHeadModel(ref model);
+            // Get Head Model 
+            errorValue = myAndor.GetHeadModel(ref model);      
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Get Head Model Error.",
@@ -149,7 +148,7 @@ namespace Camera_Control
             }
 
             // Get detector information
-            errorValue = myAndor.GetDetector(ref gblXPixels, ref gblYPixels);
+            errorValue = myAndor.GetDetector(ref gblXPixels, ref gblYPixels);        // This function loads the detector array size. 
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Get Detector Error.",
@@ -159,8 +158,8 @@ namespace Camera_Control
                MessageBoxDefaultButton.Button1);
             }
 
-            // Set acquisition mode to required setting specified in xxxxWndw.c
-            errorValue = myAndor.SetAcquisitionMode(acquisitionMode);
+            // Set acquisition mode to desired setting
+            errorValue = myAndor.SetAcquisitionMode(acquisitionMode); 
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Error setting acquisition.",
@@ -170,7 +169,7 @@ namespace Camera_Control
               MessageBoxDefaultButton.Button1);
             }
 
-            // Set read mode to required setting specified in xxxxWndw.c
+            // Set read mode to desired setting 
             errorValue = myAndor.SetReadMode(readMode);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
@@ -182,7 +181,7 @@ namespace Camera_Control
             }
 
             // Set Vertical speed to recommended
-            myAndor.GetFastestRecommendedVSSpeed(ref VSnumber, ref speed);
+            myAndor.GetFastestRecommendedVSSpeed(ref VSnumber, ref speed); // This automatic speed selection can be overridden manually, but usually works quite well with these values. 
             VSnumber = 0;
             errorValue = myAndor.SetVSSpeed(VSnumber);
             myAndor.GetVSSpeed(VSnumber, ref speed);
@@ -197,7 +196,7 @@ namespace Camera_Control
             Console.WriteLine("VSpeed:  " + speed);
 
 
-            errorValue = myAndor.SetIsolatedCropMode(0, 1, 1, 1, 1);
+            errorValue = myAndor.SetIsolatedCropMode(0, 1, 1, 1, 1); //  SetIsolatedCropMode(int active, int cropheight, int cropwidth, int vbin, int hbin) active = 0 = off
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Crop mode failed.",
@@ -206,41 +205,8 @@ namespace Camera_Control
               MessageBoxIcon.Exclamation,
               MessageBoxDefaultButton.Button1);
             }
-
-
-            /*
-            // Set Horizontal Speed to max
-            STemp = 0;
-          
-            ADnumber = 0;
-            errorValue = myAndor.GetNumberADChannels(ref nAD);
-            if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
-            {
-                MessageBox.Show("Get Number of ADC Channels error.",
-             "Error!",
-               MessageBoxButtons.OK,
-              MessageBoxIcon.Exclamation,
-              MessageBoxDefaultButton.Button1);
-            }
-            else
-            {
-                for (iAD = 0; iAD < nAD; iAD++)
-                {
-                    myAndor.GetNumberHSSpeeds(iAD, 0, ref index);
-                    for (iSpeed = 0; iSpeed < index; iSpeed++)
-                    {
-                        myAndor.GetHSSpeed(iAD, 0, iSpeed, ref speed);
-                        if (speed > STemp)
-                        {
-                            STemp = speed;
-                            HSnumber = iSpeed;
-                            ADnumber = iAD;
-                        }
-                    }
-                }
-            }*/
-
-            errorValue = myAndor.SetVSAmplitude(2);
+            
+            errorValue = myAndor.SetVSAmplitude(2);  // The vertical clock voltage amplitude here is set to +2 in order to use faster vertical readout speeds. Goes up to 4. 
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
             {
                 MessageBox.Show("Error setting VS amplitude.",
@@ -261,7 +227,7 @@ namespace Camera_Control
               MessageBoxDefaultButton.Button1);
             }
 
-            errorValue = myAndor.SetHSSpeed(0, HSnumber);
+            errorValue = myAndor.SetHSSpeed(0, HSnumber); // Sets the horizontal shift speed.
             myAndor.GetHSSpeed(ADnumber, 0, HSnumber, ref speed);
             Console.WriteLine("HSpeed: " + speed);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -275,7 +241,7 @@ namespace Camera_Control
 
             if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_BASELINECLAMP) != 0)
             {
-                errorValue = myAndor.SetBaselineClamp(1);
+                errorValue = myAndor.SetBaselineClamp(1);  // This is needed to make the count to photon/electron conversion work. 
                 if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                 {
                     MessageBox.Show("Set Baseline clamp Error.",
@@ -293,7 +259,7 @@ namespace Camera_Control
 
 
 
-        private void Shutter_Click(object sender, EventArgs e)
+        private void Shutter_Click(object sender, EventArgs e)  // Open/Close shutter 
         {
             if (shutter == 1)
             {
@@ -310,7 +276,7 @@ namespace Camera_Control
         private void ShutDown_Click(object sender, EventArgs e)
         {
             /*uint errorValue;
-            if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_TEMPERATURE) != 0)
+            if ((caps.ulSetFunctions & ATMCD32CS.AndorSDK.AC_SETFUNCTION_TEMPERATURE) != 0) // This section of code was meant to prevent shutdown before the camera was sufficiently warm. Deemed unnecessary
             {
                 errorValue = myAndor.CoolerOFF();        // Switch off cooler (if used)
                 if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -339,12 +305,12 @@ namespace Camera_Control
 
         }
 
-        private void startAcqButton_Click(object sender, EventArgs e)
+        private void startAcqButton_Click(object sender, EventArgs e)  // Starts the acquisition 
         {
             setSystem();
         }
 
-        public void startSpectrum()
+        public void startSpectrum() // Old acquisition mode 
         {
             AbortAcq();
             acqTypeComboBox.Text = "Spectrum";
@@ -371,12 +337,12 @@ namespace Camera_Control
         }
 
 
-        public void pause()
+        public void pause() // Pauses the experiment
         {
             PauseExperiment = !PauseExperiment;
         }
 
-        public void stopExp()
+        public void stopExp()  // This is used to stop the experiment from various locations in the code. 
         {
             bShouldQuitCamThread = true;
             isExpRunning = false;
@@ -388,14 +354,14 @@ namespace Camera_Control
             Console.WriteLine("In set system");
 
 
-            float fAccumTime = 0, fKineticTime = 0;
+            float fAccumTime = 0, fKineticTime = 0; // Accumulation and kinetic cycle times. 
             uint errorValue;
             int i;
             int gain = (int)gainUpDown.Value;
             gblData = true;
             vbin = 1;
             hbin = 1;
-            hstart = (int)horStartUpDown.Value;
+            hstart = (int)horStartUpDown.Value; // Takes down initial dimensions from form
             hend = (int)horEndUpDown.Value;
             vstart = (int)verStartUpDown.Value;
             vend = (int)vertEndUpDown.Value;
@@ -406,7 +372,7 @@ namespace Camera_Control
 
 
 
-            //Set Exposure
+            //Set Exposure time
             fExposure = (float)exposureUpDown.Value;
             errorValue = myAndor.SetExposureTime(fExposure);
             if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
@@ -429,7 +395,7 @@ namespace Camera_Control
              MessageBoxIcon.Exclamation,
              MessageBoxDefaultButton.Button1);
 
-
+            //Get trigger modes. Software in this means the camera waits for a trigger from the C#
             if (comboTrigger.SelectedItem.ToString() == "Software")
             {
                 giTrigger = 10;
@@ -469,7 +435,7 @@ namespace Camera_Control
                 acqType = 5;
                 acquisitionMode = 3;
             }
-
+            // This selects the count mode. It is a built in conversion using the quantum efficiency and all other gain parameters. 
             if (comboCountType.SelectedItem.ToString() == "Counts")
             {
                 countType = 0;
@@ -483,8 +449,8 @@ namespace Camera_Control
                 countType = 2;
             }
 
-            myAndor.SetEMGainMode(3);
-            myAndor.SetEMAdvanced(1);
+            myAndor.SetEMGainMode(3); // Set to Real EM gain
+            myAndor.SetEMAdvanced(1); // Enables gain > 300x 
 
 
             errorValue = myAndor.SetAcquisitionMode(acquisitionMode);

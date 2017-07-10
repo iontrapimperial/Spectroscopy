@@ -508,15 +508,26 @@
             // 
             // TicksBox
             // 
+            this.TicksBox.DecimalPlaces = 2;
+            this.TicksBox.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            131072});
             this.TicksBox.Location = new System.Drawing.Point(87, 63);
             this.TicksBox.Maximum = new decimal(new int[] {
-            333334,
+            100000,
             0,
             0,
             0});
             this.TicksBox.Name = "TicksBox";
             this.TicksBox.Size = new System.Drawing.Size(117, 20);
             this.TicksBox.TabIndex = 37;
+            this.TicksBox.Value = new decimal(new int[] {
+            72,
+            0,
+            0,
+            131072});
             this.TicksBox.ValueChanged += new System.EventHandler(this.TicksBox_ValueChanged);
             // 
             // PulseTypeBox
@@ -2169,22 +2180,20 @@
             this.LiveLaserBox854FREQ.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854FREQ.Location = new System.Drawing.Point(248, 46);
             this.LiveLaserBox854FREQ.Name = "LiveLaserBox854FREQ";
-            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(83, 17);
+            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(75, 17);
             this.LiveLaserBox854FREQ.TabIndex = 5;
-            this.LiveLaserBox854FREQ.Text = "Radial AOM";
+            this.LiveLaserBox854FREQ.Text = "Axial AOM";
             this.LiveLaserBox854FREQ.UseVisualStyleBackColor = true;
             this.LiveLaserBox854FREQ.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
             // LiveLaserBox854POWER
             // 
             this.LiveLaserBox854POWER.AutoSize = true;
-            this.LiveLaserBox854POWER.Checked = true;
-            this.LiveLaserBox854POWER.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854POWER.Location = new System.Drawing.Point(248, 23);
             this.LiveLaserBox854POWER.Name = "LiveLaserBox854POWER";
-            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(73, 17);
+            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(57, 17);
             this.LiveLaserBox854POWER.TabIndex = 4;
-            this.LiveLaserBox854POWER.Text = "Bichro Off";
+            this.LiveLaserBox854POWER.Text = "Axi Off";
             this.LiveLaserBox854POWER.UseVisualStyleBackColor = true;
             this.LiveLaserBox854POWER.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
@@ -2268,28 +2277,28 @@
             // saveXMLFileDialog
             // 
             this.saveXMLFileDialog.Filter = "Xml File|*.xml";
-            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\xml";
+            this.saveXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data\\xml";
             this.saveXMLFileDialog.RestoreDirectory = true;
             this.saveXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveXMLFileDialog_FileOk);
             // 
             // openXMLFileDialog
             // 
             this.openXMLFileDialog.Filter = "Xml File|*.xml";
-            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\xml";
+            this.openXMLFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data\\xml";
             this.openXMLFileDialog.RestoreDirectory = true;
             this.openXMLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openXMLFileDialog_FileOk);
             // 
             // openHexFileDialog
             // 
             this.openHexFileDialog.Filter = "Hex File|*.hex";
-            this.openHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\Hex";
+            this.openHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data\\Hex";
             this.openHexFileDialog.RestoreDirectory = true;
             this.openHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openHexFileDialog_FileOk);
             // 
             // saveHexFileDialog
             // 
             this.saveHexFileDialog.Filter = "Hex File|*.hex";
-            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\Hex";
+            this.saveHexFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data\\Hex";
             this.saveHexFileDialog.RestoreDirectory = true;
             this.saveHexFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveHexFileDialog_FileOk);
             // 

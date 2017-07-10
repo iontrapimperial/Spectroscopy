@@ -32,6 +32,10 @@ namespace Spectroscopy_Viewer
         // List to store data for derived plots (e.g. 1+2 Average, Parity, EE, GG, EG, GE etc)
         private List<PointPairList>[] derivedCAMPlot;
 
+        private List<PointPairList> guassinFitCurve = new List<PointPairList>();
+        private bool fitGraph = false;
+
+
         // Arrays of data for histograms - separate lists for cooling period, count period & all combined
         // Plus an integer to keep track of how large the arrays are
         private int[] histogramCoolPMT;
@@ -462,6 +466,8 @@ namespace Spectroscopy_Viewer
                     if (myPMTSpectrum[i].getThreshErrorPercent() > 0.5)
                     {
                         player.Play();
+                        pauseButton.PerformClick();
+
                     }
 
                 }
@@ -700,7 +706,7 @@ namespace Spectroscopy_Viewer
         private void loadFileButton_Click(object sender, EventArgs e)
         {
             // Configuring dialog to open a new data file
-            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data";      // Initialise to share drive
+            openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data";      // Initialise to share drive
             openDataFile.RestoreDirectory = false;           // Open to last viewed directory
             openDataFile.FileName = "";                     // Set default filename to blank
             openDataFile.Multiselect = true;                // Allow selection of multiple files
@@ -916,7 +922,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data\\";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data\\";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -1469,7 +1475,7 @@ namespace Spectroscopy_Viewer
             else
             {
                 // Configuring dialog to save file
-                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data";      // Initialise to share drive
+                saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data";      // Initialise to share drive
                 saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -1502,7 +1508,7 @@ namespace Spectroscopy_Viewer
                 else
                 {
                     // Configuring dialog to save file
-                    saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Current Data";      // Initialise to share drive
+                    saveFileDialog.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data";      // Initialise to share drive
                     saveFileDialog.RestoreDirectory = true;           // Open to last viewed directory
                     saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -2343,6 +2349,24 @@ namespace Spectroscopy_Viewer
                         myCurve.IsY2Axis = true;
                     }
 
+                    //This displays the guassian fit
+                    if (fitGraph)
+                    {
+                        try
+                        {
+                            guassinFitCurve[i].Sort();
+
+                            myCurve = myPane.AddCurve("guassian fit", guassinFitCurve[i], Color.HotPink, SymbolType.None);
+                        }
+                        catch
+                        {
+
+                        }
+
+
+                    }
+
+
 
                 }
 
@@ -2892,10 +2916,454 @@ namespace Spectroscopy_Viewer
 
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //This will fit a guassian and plot it, with a textbox showing the maximum.
+            //zedGraphSpectra
+
+            Scale xScale = zedGraphSpectra.GraphPane.XAxis.Scale;
+            Console.Write("Max:" + xScale.Max + " min: " + xScale.Min);
+            //okay these are the xboundaries. Now to parse the data and fit it. Just the first spectrum.
+            //Just pick 0
+            guassinFitCurve = new List<PointPairList>();
+            string displayText = "";
+            for (int k = 0; k < numberOfSpectra; k++)
+            {
+
+
+
+                PointPairList vals = myPMTSpectrum[k].getDataPlot();
+
+                Console.Write("\n");
+                //We are going to do the classic cheat of rounding off the sides for a better fit. 
+                //Or disable this for right now. 
+                int length = 0;
+                double minX = 0;
+                double maxX = 0;
+                double minY = 0;
+                double maxY = 0;
+                for (int i = 0; i < vals.Count; i++)
+                {
+                    if (vals[i].X > xScale.Min && vals[i].X < xScale.Max)
+                    {
+                        length += 1;
+                        if (length == 1)
+                        {
+                            minX = vals[i].X;
+                            minY = vals[i].Y;
+                        }
+                        maxX = vals[i].X;
+                        maxY = vals[i].Y;
+                        //xvals[i] = vals[i].X;
+                        //yvals[i] = vals[i].Y;
+                        //Console.Write(xvals[i] + " : " + yvals[i] + "\n");
+                    }
+
+                }
+                //This needs to be either a max or min depending on if the curve goes up/down. Easiest way to do this is to find the middle value.
+                double midVal = vals[Convert.ToInt32(vals.Count / 2)].Y;
+                if (midVal < minY)
+                {
+                    //This goes down
+                    //Pick the highest values
+                    if (maxY < minY)
+                    {
+                        maxY = minY;
+                    }
+                    else
+                    {
+                        minY = maxY;
+                    }
+                }
+                else
+                {
+                    //This goes up
+                    //Pick The lowest
+                    if (maxY > minY)
+                    {
+                        maxY = minY;
+                    }
+                    else
+                    {
+                        minY = maxY;
+                    }
+
+                }
+
+                if (maxY > minY)
+                {
+                    minY = maxY;
+                }
+                double[] xvals = new double[length + 6];
+                double[] yvals = new double[length + 6];
+
+                int j = 2; //I want the spacing
+                double spacing = vals[1].X - vals[0].X;
+                xvals[0] = minX - 3.0 * spacing;
+                xvals[1] = minX - 2.0 * spacing;
+                xvals[2] = minX - spacing;
+                //yvals[0] =
+                yvals[2] = yvals[1] = yvals[0] = minY;
+                xvals[length + 5] = maxX + 3.0 * spacing;
+                xvals[length + 4] = maxX + 2.0 * spacing;
+                xvals[length + 3] = maxX + spacing;
+                yvals[length + 5] = yvals[length + 4] = yvals[length + 3] = minY;
+
+                for (int i = 0; i < vals.Count; i++)
+                {
+                    if (vals[i].X > xScale.Min && vals[i].X < xScale.Max)
+                    {
+                        j += 1;
+
+                        xvals[j] = vals[i].X;
+                        yvals[j] = vals[i].Y;
+                        //Console.Write(xvals[j] + " : " + yvals[j] + "\n");
+                    }
+
+                }
+                //for (int i = 0; i < xvals.Length; i++)
+                //{
+                //    Console.Write(xvals[i] + " : " + yvals[i] + "\n");
+                //}
+
+                //Now fit it.
+                double baseline = yvals.Min();
+                double maxval = yvals.Max() - baseline;
+                double meanval = (xvals.Max() - xvals.Min()) * 0.5 + xvals.Min();
+                double width = spacing * 4.0;
+
+                double[] pvals = { baseline, maxval, meanval, width };
+                double[] paramsa;
+
+                paramsa = TestFit.TestGaussFit(xvals, yvals, pvals);
+                Console.Write("That was for" + k);
+                //Console.Write("Done");
+                //Now to graph it.
+                //Let's do 1,000 points between the bounds
+                double[] x2 = new double[1000];
+                double[] y2 = new double[1000];
+                //Fit it from xvals.Min() to xvals.Max();
+                double space = (xvals.Max() - xvals.Min()) / 1000.0;
+
+
+                double sig = paramsa[3] * paramsa[3];
+                for (int i = 0; i < 1000; i++)
+                {
+                    x2[i] = xvals.Min() + i * space;
+                    //Evaluate the guassian
+                    y2[i] = paramsa[0] + paramsa[1] * Math.Exp(-0.5 * Math.Pow((x2[i] - paramsa[2]), 2) / sig);
+
+                }
+                //double[] x2 = xvals;
+                //double[] y2 = yvals;
 
 
 
 
+                //double[] x2 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                //double[] y2 = { 200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 110 };
+
+
+
+                GraphPane myPane = this.zedGraphSpectra.GraphPane;
+
+                //myCurve = myPane.AddCurve("my new curve bad counts", new PointPairList(x2, y2), Color.Blue, SymbolType.Circle);
+                //myCurve.IsY2Axis = false;
+                fitGraph = true;
+                guassinFitCurve.Add(new PointPairList(x2, y2));
+                displayText = displayText + k + " : " + Math.Round(paramsa[2] / 1000000, 4) + " +/- " + Math.Round(paramsa[2 + 4] / 1000000, 4) + System.Environment.NewLine;
+
+
+            }
+            updateGraph();
+            userDisplayText.Text = displayText;
+            userDisplayText.SelectionStart = userDisplayText.Text.Length;
+            userDisplayText.ScrollToCaret();
+        }
+
+        private void clearSpects_Click(object sender, EventArgs e)
+        {
+            Console.Write("Clearing Spectrums");
+            myPMTSpectrum = new List<spectrum>();
+            // List to store data for plotting spectrum graph. PointPairList is the object needed for plotting with zedGraph 
+            dataPMTPlot = new List<PointPairList>();
+            guassinFitCurve = new List<PointPairList>();
+            for (int i = 0; i < numberOfSpectra; i++)
+            {
+                this.removeGraphControls(i);
+            }
+            numberOfSpectra = 0;
+            //updateGraph();
+
+            updateGraph();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //Auto Evaluate
+            //First Populate Histogram
+            if (myPMTSpectrum.Count == 0)
+            {
+                MessageBox.Show("No data loaded");
+                return;
+            }
+            else
+            {
+                // Calculating data for histogram
+                //********************************
+                // Initialise variables every time we re-create the histogram
+                histogramSizePMT = new int();
+
+                // Local variables used within this method
+                int[] tempHistogramCool;
+                int[] tempHistogramCount;
+                int tempHistogramSize = new int();
+
+                // For each spectrum
+                int i = 0;
+
+                // Temporarily store histograms for this spectrum
+                tempHistogramCool = myPMTSpectrum[i].getHistogramCool();
+                tempHistogramCount = myPMTSpectrum[i].getHistogramCount();
+
+                // Find size of histograms for this spectrum
+                tempHistogramSize = tempHistogramCool.Length;
+
+                // For the first spectrum only
+                if (i == 0)
+                {
+                    // Store size of lists
+                    histogramSizePMT = tempHistogramSize;
+
+                    // Create arrays of the right size
+                    histogramCoolPMT = new int[histogramSizePMT];
+                    histogramCountPMT = new int[histogramSizePMT];
+                    histogramAllPMT = new int[histogramSizePMT];
+
+
+                    // Loop through each histogram bin and populate arrays
+                    for (int j = 0; j < histogramSizePMT; j++)
+                    {
+                        // Populate arrays from temp histograms
+                        // NB cannot just use e.g. histogramCool = tempHistogram, this will cause errors
+                        // since arrays are a reference type. Need to manipulate each element individually
+                        histogramCoolPMT[j] = tempHistogramCool[j];
+                        histogramCountPMT[j] = tempHistogramCount[j];
+
+                        // Calculate total data and store in another array (cool + count)
+                        histogramAllPMT[j] = histogramCoolPMT[j] + histogramCountPMT[j];
+                    }
+                }
+                else
+                {   // For subsequent spectra, go through and add the data to existing lists
+                    for (int j = 0; j < histogramSizePMT; j++)
+                    {
+                        // Sum the data from each spectrum into the full list
+                        histogramCoolPMT[j] += tempHistogramCool[j];
+                        histogramCountPMT[j] += tempHistogramCount[j];
+
+                        histogramAllPMT[j] = histogramCoolPMT[j] + histogramCountPMT[j];
+                    }
+
+                    // If the histogram for the current spectrum is larger than the existing histogram
+                    if (tempHistogramSize > histogramSizePMT)
+                    {
+                        Array.Resize(ref histogramCoolPMT, tempHistogramSize);
+                        Array.Resize(ref histogramCountPMT, tempHistogramSize);
+                        Array.Resize(ref histogramAllPMT, tempHistogramSize);
+
+                        // Fill in the data into the new bins
+                        for (int j = histogramSizePMT; j < tempHistogramSize; j++)
+                        {
+                            histogramCoolPMT[j] = tempHistogramCool[j];
+                            histogramCountPMT[j] = tempHistogramCount[j];
+                            histogramAllPMT[j] = histogramCoolPMT[j] + histogramCountPMT[j];
+                        }
+
+                        // Update size of list (could use tempHistogramSize, but recalculate just in case)
+                        histogramSizePMT = histogramCoolPMT.Count();
+                    }
+                } // End of loop which goes through spectra and creates histogram
+            }
+
+            //Next Cool
+            Console.Write("Cool Fit");
+            int i2 = 0;
+            double threshold = 0.01;
+            //This simply sums all cool counts, then finds the x point where it surpasses 1%, then list this as the threshold in a box that comes up.
+            double total = 0;
+            for (int j = 0; j < histogramCoolPMT.Count(); j++)
+            {
+                total += myPMTSpectrum[i2].histogramCool[j];
+            }
+            double numThreshold = total * threshold;
+            total = 0;
+            double thresholdX = 0;
+            for (int j = 0; j < histogramCoolPMT.Count(); j++)
+            {
+                total += myPMTSpectrum[i2].histogramCool[j];
+                if (total >= numThreshold)
+                {
+                    Console.Write("Threshold is: " + j);
+                    thresholdX = j;
+                    break;
+                }
+            }
+            MessageBox.Show("Cool threshold is: " + thresholdX);
+            //Next Count
+
+            Console.Write("Cool Fit");
+            int i3 = 0;
+
+            //This simply takes all the data in as x/y's, then fits the data to a DoublePossFunc, then prints out what the values for the two means are. 
+
+            double[] x = new double[myPMTSpectrum[i3].histogramCount.Length];
+            double[] y = myPMTSpectrum[i3].histogramCount.Select(Convert.ToDouble).ToArray();
+            //double[] y = i.Select(myPMTSpectrum[i].histogramCool.ToDouble).ToArray();
+
+
+            for (int j = 0; j < histogramCountPMT.Count(); j++)
+            {
+                //the x data is the j values
+                //the y data is the histogramCount values
+                //Now I just need an example.
+
+                //Console.Write(j + "\t" + myPMTSpectrum[i].histogramCount[j] + "\n");
+                x[j] = j;
+                //histogramFile.WriteLine(j + "\t" + (histogramCool[j] + histogramCount[j]) + "\t"
+                // + histogramCool[j] + "\t" + histogramCount[j]);
+            }
+
+
+
+            // Flush & close file when finished
+            //double[] x2 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            //double[] y2 = { 200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 110 };
+
+            double[] retVal = TestFit.TestPoissFit(x, y);
+            //Console.Write(Math.Round(4.534223, 2));
+            //double roundVal1 = Math.Round(retVal[0], 2);
+            //double roundVal2 = Math.Round(retVal[1], 2);
+            //Console.Write(roundVal1 + ":" + roundVal2);
+            string text = "Count threshold is: " + retVal[2] + " Bot mean is: " + Math.Round(retVal[0], 2) + " Top mean is: " + Math.Round(retVal[1], 2);
+            double sucThreshold = 1.0;
+            bool succed = false;
+            if (Math.Abs(retVal[0] - 7.0) > 0.1)
+            //if (Math.Abs(retVal[0]-retVal[1]) > sucThreshold)
+            {
+                succed = true;
+            }
+            else
+            {
+                text = "!!!!ERROR!!!!" + text + "!!!!ERROR!!!!";
+            }
+            //Green is succeed
+            //Red is fail
+            //It passes just abinary value as the second
+
+            MessageBox.Show(text);
+
+            //AutoAddForm addForm = new AutoAddForm(text,succed);
+
+
+            //addForm.ShowDialog();
+
+
+
+
+            this.coolingThresholdSelect.Value = new Decimal(thresholdX);
+            this.countThresholdSelect.Value = new Decimal(retVal[2]);
+
+            updateThresholds();
+        }
+
+        private void coolAuto_Click(object sender, EventArgs e)
+        {
+            try {
+                Console.Write("Cool Fit");
+
+                int i = 0;
+                double threshold = 0.01;
+                //This simply sums all cool counts, then finds the x point where it surpasses 1%, then list this as the threshold in a box that comes up.
+                double total = 0;
+                for (int j = 0; j < histogramCoolPMT.Count(); j++)
+                {
+                    total += myPMTSpectrum[i].histogramCool[j];
+                }
+                double numThreshold = total * threshold;
+                total = 0;
+                double thresholdX = 0;
+                for (int j = 0; j < histogramCoolPMT.Count(); j++)
+                {
+                    total += myPMTSpectrum[i].histogramCool[j];
+                    if (total >= numThreshold)
+                    {
+                        Console.Write("Threshold is: " + j);
+                        thresholdX = j;
+                        break;
+                    }
+                }
+                MessageBox.Show("Cool threshold is: " + thresholdX);
+            } catch
+            {
+
+            };
+        }
+
+        private void countAuto_Click(object sender, EventArgs e)
+        {
+            try {
+                Console.Write("Cool Fit");
+                int i = 0;
+
+                //This simply takes all the data in as x/y's, then fits the data to a DoublePossFunc, then prints out what the values for the two means are. 
+
+                double[] x = new double[myPMTSpectrum[i].histogramCount.Length];
+                double[] y = myPMTSpectrum[i].histogramCount.Select(Convert.ToDouble).ToArray();
+                //double[] y = i.Select(myPMTSpectrum[i].histogramCool.ToDouble).ToArray();
+
+
+                for (int j = 0; j < histogramCountPMT.Count(); j++)
+                {
+                    //the x data is the j values
+                    //the y data is the histogramCount values
+                    //Now I just need an example.
+
+                    //Console.Write(j + "\t" + myPMTSpectrum[i].histogramCount[j] + "\n");
+                    x[j] = j;
+                    //histogramFile.WriteLine(j + "\t" + (histogramCool[j] + histogramCount[j]) + "\t"
+                    // + histogramCool[j] + "\t" + histogramCount[j]);
+                }
+
+                for (int j = 0; j < histogramCountPMT.Count(); j++)
+                {
+                    //the x data is the j values
+                    //the y data is the histogramCount values
+                    //Now I just need an example.
+
+                    Console.Write(x[j] + "\t" + y[j] + "\n");
+
+                    //histogramFile.WriteLine(j + "\t" + (histogramCool[j] + histogramCount[j]) + "\t"
+                    // + histogramCool[j] + "\t" + histogramCount[j]);
+                }
+
+                // Flush & close file when finished
+                //double[] x2 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                //double[] y2 = { 200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 110 };
+
+                double[] retVal = TestFit.TestPoissFit(x, y);
+                MessageBox.Show("Count threshold is: " + retVal[2] + " Bot mean is: " + retVal[0] + " Top mean is: " + retVal[1]);
+
+            } catch
+            {
+
+            }
+
+
+
+
+            //MessageBox.Show("Cool threshold is: " + thresholdX);
+        }
     }
         
     }

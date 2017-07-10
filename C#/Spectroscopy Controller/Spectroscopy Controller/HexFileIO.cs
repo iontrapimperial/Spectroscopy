@@ -109,16 +109,19 @@ namespace Spectroscopy_Controller
         /// </summary>
         void SaveHexFile()
         {
+            string fileLoc = openHexFileDialog.InitialDirectory + "\\"+Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex";           
             bStopSignalPresent = false;
-            InstructionsWritten = 0;
-            using (BinaryWriter Writer = new BinaryWriter(File.Open(openHexFileDialog.InitialDirectory + "\\" + Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex", FileMode.Create)))
+            InstructionsWritten = 0;         
+            using (BinaryWriter Writer = new BinaryWriter(File.Open(fileLoc, FileMode.Create)))
+           // using (BinaryWriter Writer = new BinaryWriter(File.Open( "testFile" + ".hex", FileMode.Create)))
             {
-                WriteMessage("Writing to file: " + openHexFileDialog.InitialDirectory + "\\" + Path.GetFileNameWithoutExtension(saveXMLFileDialog.FileName) + ".hex");
+                WriteMessage("In Using", true);
+                WriteMessage("Writing to file: " + fileLoc);
                 ParseNodeCollection(PulseTree.Nodes, Writer);
 
                 if (InstructionsWritten == 0)
                 {
-                    WriteMessage("Warning: No instructions written to file",true);
+                    WriteMessage("Warning: No instructions written to file", true);
                 }
                 else
                 {
@@ -132,7 +135,7 @@ namespace Spectroscopy_Controller
                 if (!bStopSignalPresent) //no Stop signal written
                 {
                     WriteMessage("Warning: No stop signal written to binary file", true);
-                } 
+                }
 
                 WriteMessage("Finished writing file");
             }                       
@@ -202,6 +205,7 @@ namespace Spectroscopy_Controller
             // Write 3 bytes of data for Ticks
             byte[] Data = new byte[4];
             byte[] Ticks = BitConverter.GetBytes(State.Ticks*32);
+
             if (BitConverter.IsLittleEndian) //Least significant bits are at start of array
             {
                 for (int i = 2; i >= 0; i--)

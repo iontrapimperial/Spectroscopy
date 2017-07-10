@@ -386,11 +386,11 @@ namespace Spectroscopy_Controller
 
         private int tickRounder()
         {
-            //Find nearest number of integer ticks (640ns per tick) to desired pulse length
-            int roundedTicks = (int)(TicksBox.Value * 1000 / 640);
+            //Find nearest number of integer ticks (40 ns per tick) to desired pulse length. Modified 28/02/2017 for new tick lenght of 40 ns following the installation of the new FPGA on 27/02/2017.
+            int roundedTicks = (int)(TicksBox.Value * 1000 / 40);
             //Console.WriteLine(roundedTicks);
             //Calculate rounded pulse length and display on form
-            float roundedLength = (float)(roundedTicks * 0.64);
+            float roundedLength = (float)(roundedTicks * 0.040);
             string roundedLengthString = roundedLength.ToString("0.##");
             TimeLabel.Text = "Length = " + roundedLengthString + "us";
 
@@ -901,10 +901,29 @@ namespace Spectroscopy_Controller
                 }
             }
         }
+        // Make sure pause button isn't disabled (since we call this method from several events, not just from pause button)
+        public void Pause()
+        {
+            if (this.PauseButton.Enabled)
+            {
+                // Only let it pause if the experiment is running (need to check this)
+                if (FPGAReadThread != null && FPGAReadThread.IsAlive)
+                {
+                    // Flag to pause. This is detected within the FPGARead method (in FPGAControls)
+                    PauseExperiment = true;
+                    if (useCameraSpectrum == true && IsCameraOpen == true)
+                        myCamera.pause();
+                    PauseButton.Enabled = false;
+                    StartButton.Enabled = true;
+                }
+            }
+        }
 
-        // Method to write the metadata to files
-        // Gets filenames from private member myFileName
-        private void writeMetadataToFile(ref StartExperimentDialog myExperimentDialog, ref RabiSelector myRabiSelector,
+
+
+// Method to write the metadata to files
+// Gets filenames from private member myFileName
+private void writeMetadataToFile(ref StartExperimentDialog myExperimentDialog, ref RabiSelector myRabiSelector,
                                             ref string FolderPath, ref TextWriter[] myFile, int numberOfFiles)
         {
             // These variables are needed for windowed files only
@@ -1602,7 +1621,7 @@ namespace Spectroscopy_Controller
         {
             // Create loop state for this pulse length
             loop = new LoopState();
-            loop.Name = "Pulse length: " + (float)pulseLength * 0.64 / 1000 + "ms";
+            loop.Name = "Pulse length: " + (float)pulseLength * 0.040 / 1000 + "ms"; // tick length: 40 ns (new FPGA, installed 27/02/2017)
             loop.LoopCount = reps;
             loop.bIsFPGALoop = false;            // Made it false to match other xml files. OLD (Always make it an FPGA loop  )
             
@@ -1630,7 +1649,7 @@ namespace Spectroscopy_Controller
                      {
                          // Set correct ticks & target length
                          newState[i].Ticks = pulseLength;
-                         newState[i].TargetLength = pulseLength * 640;
+                         newState[i].TargetLength = pulseLength * 40;
                      }
                      // If not to sweep, just leave it as it is
 
@@ -1784,14 +1803,7 @@ namespace Spectroscopy_Controller
         public void LoadDDS(decimal f0, decimal f1, decimal f2, decimal f3, decimal f4, decimal f5, decimal f6, decimal f7, decimal amp0, decimal amp1, decimal amp2, decimal amp3, decimal amp4, decimal amp5, decimal amp6, decimal amp7, decimal phase0, decimal phase1, decimal phase2, decimal phase3, decimal phase4, decimal phase5, decimal phase6, decimal phase7)
         {
             if (COM12.IsOpen == false) COM12.Open();    
-       
-
-        
-
-
-
-
-        
+              
             string[] ASF0Byte = new string[2];
             string[] ASF1Byte = new string[2];
             string[] ASF2Byte = new string[2];
@@ -1865,9 +1877,6 @@ namespace Spectroscopy_Controller
             MessagesBox.Items.Add(L6); 
             ListViewItem L7 = new ListViewItem(f7.ToString());
             MessagesBox.Items.Add(L7);*/
-
-
-
 
             COM12.WriteLine(ASF0Byte[0] + "," + ASF0Byte[1] + "," + POW0Byte[0] + "," + POW0Byte[1] + "," + FTW0Byte[0] + "," + FTW0Byte[1] + "," + FTW0Byte[2] + "," + FTW0Byte[3] + "," +
                             ASF1Byte[0] + "," + ASF1Byte[1] + "," + POW1Byte[0] + "," + POW1Byte[1] + "," + FTW1Byte[0] + "," + FTW1Byte[1] + "," + FTW1Byte[2] + "," + FTW1Byte[3] + "," +

@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MPFitLib">
+      <HintPath>..\..\MPFitLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -67,8 +70,10 @@
     <Compile Include="changeColour.Designer.cs">
       <DependentUpon>changeColour.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomUserVariable.cs" />
     <Compile Include="dataPoint.cs" />
     <Compile Include="fileHandler.cs" />
+    <Compile Include="ForwardModels.cs" />
     <Compile Include="metadataViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +107,7 @@
     <Compile Include="spectrumSelect.Designer.cs">
       <DependentUpon>spectrumSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestFit.cs" />
     <EmbeddedResource Include="addOffset.resx">
       <DependentUpon>addOffset.cs</DependentUpon>
     </EmbeddedResource>

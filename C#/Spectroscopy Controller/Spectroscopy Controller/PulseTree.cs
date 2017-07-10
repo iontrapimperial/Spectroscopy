@@ -301,7 +301,7 @@ namespace Spectroscopy_Controller
                     {
                         SourceSelect729.Value = 7;
                     }
-                    
+
                     //Update tick box to target length, and call tickRounder to update rounded length display
                     TicksBox.Value = ((LaserState)P).TargetLength;
                     tickRounder();
