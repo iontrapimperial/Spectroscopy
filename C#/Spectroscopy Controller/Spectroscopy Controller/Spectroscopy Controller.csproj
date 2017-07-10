@@ -11,7 +11,7 @@
     <RootNamespace>Spectroscopy_Controller</RootNamespace>
     <AssemblyName>Spectroscopy Controller</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -69,6 +69,9 @@
     <Reference Include="ATMCD32CS">
       <HintPath>..\..\..\AndorCamera\ATMCD32CS.dll</HintPath>
     </Reference>
+    <Reference Include="MPFitLib">
+      <HintPath>..\..\MPFitLib.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.Common\v4.0_13.0.40.190__dc6ad606294fc298\NationalInstruments.Common.dll</HintPath>
@@ -87,6 +90,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\..\zedgraph_dll_v515\zedgraph_dll_v5.1.5\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DDS.cs" />
@@ -114,6 +120,12 @@
     <Compile Include="PulseTree.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CarrierUpdateBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CarrierUpdateBox.Designer.cs">
+      <DependentUpon>CarrierUpdateBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="StartExperimentDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +145,9 @@
       <DependentUpon>CoreForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="CarrierUpdateBox.resx">
+      <DependentUpon>CarrierUpdateBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StartExperimentDialog.resx">
       <DependentUpon>StartExperimentDialog.cs</DependentUpon>
     </EmbeddedResource>

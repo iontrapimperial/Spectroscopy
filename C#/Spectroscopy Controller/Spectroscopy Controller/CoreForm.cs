@@ -1456,6 +1456,74 @@ private void writeMetadataToFile(ref StartExperimentDialog myExperimentDialog, r
             else { useCameraSpectrum = false; }
         }
 
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged1(object sender, EventArgs e)
+        {
+            Console.WriteLine("Asking for carrier freq");
+
+
+            carrierSpectrumDialog myRenameDialog = new carrierSpectrumDialog();
+            myRenameDialog.oldCarrierBox.Value = carrierFreq.Value;
+            myRenameDialog.ShowDialog();
+
+            //// Only perform rename if user clicked OK (not cancel)
+            if (myRenameDialog.DialogResult == DialogResult.OK)
+            {
+                //Set All
+                decimal oldVal = myRenameDialog.oldCarrierBox.Value;
+                decimal newVal = myRenameDialog.newCarrierBox.Value;
+                decimal dif = (newVal - oldVal)*1000000;
+                carrierFreq.Value = newVal;
+                freq0.Value = freq0.Value + dif;
+                freq1.Value = freq1.Value + dif;
+                freq2.Value = freq2.Value + dif;
+                freq3.Value = freq3.Value + dif;
+                freq4.Value = freq4.Value + dif;
+                freq5.Value = freq5.Value + dif;
+                freq6.Value = freq6.Value + dif;
+                freq7.Value = freq7.Value + dif;
+
+            }
+            else if (myRenameDialog.DialogResult == DialogResult.Cancel)
+            {
+                //Just set carrier
+                decimal newVal = myRenameDialog.newCarrierBox.Value;
+                carrierFreq.Value = newVal;
+            }
+            else if (myRenameDialog.DialogResult == DialogResult.Abort)
+            {
+                //Cancel
+                
+            }
+
+
+
+                //    // Get name from dialog box
+                //    string newName = myRenameDialog.newNameBox.Text;
+                //    // Rename appropriate spectrum
+                //    myPMTSpectrum[spectrumNumber].setName(newName);
+
+                //    // Re-label graph control group box
+                //    this.graphControlGroup[spectrumNumber].Text = newName;
+                //}
+
+                //// Configuring dialog to open a new data file
+                //openDataFile.InitialDirectory = "C:\\Users\\IonTrap\\Box Sync\\Ion Trapping\\Current Data";      // Initialise to share drive
+                //openDataFile.RestoreDirectory = false;           // Open to last viewed directory
+                //openDataFile.FileName = "";                     // Set default filename to blank
+                //openDataFile.Multiselect = true;                // Allow selection of multiple files
+
+                //// Show dialog to open new data file
+                //// Do not attempt to open file if user has pressed cancel
+                //if (openDataFile.ShowDialog() != DialogResult.Cancel)
+                //    int numberOfFiles = openDataFile.FileNames.Length;
+
+            }
+        
         private void myViewer_FormClosing(object sender, FormClosingEventArgs e)
         {
 

@@ -69,6 +69,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DesignerGroup = new System.Windows.Forms.GroupBox();
             this.SpectroGroup = new System.Windows.Forms.GroupBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.carrierFreq = new System.Windows.Forms.NumericUpDown();
             this.mleCheckBox = new System.Windows.Forms.CheckBox();
             this.cameraCheck = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
@@ -202,6 +204,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TicksBox)).BeginInit();
             this.DesignerGroup.SuspendLayout();
             this.SpectroGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.carrierFreq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.phaseStep)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.magFreqBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modcycFreqBox)).BeginInit();
@@ -252,9 +255,9 @@
             // 
             FileSendBox.AutoSize = true;
             FileSendBox.Controls.Add(this.ProgressLabel);
-            FileSendBox.Location = new System.Drawing.Point(131, 363);
+            FileSendBox.Location = new System.Drawing.Point(131, 384);
             FileSendBox.Name = "FileSendBox";
-            FileSendBox.Size = new System.Drawing.Size(137, 58);
+            FileSendBox.Size = new System.Drawing.Size(137, 52);
             FileSendBox.TabIndex = 49;
             FileSendBox.TabStop = false;
             FileSendBox.Text = "Binary File Upload";
@@ -611,7 +614,7 @@
             // CreateFromTemplateButton
             // 
             this.CreateFromTemplateButton.Image = ((System.Drawing.Image)(resources.GetObject("CreateFromTemplateButton.Image")));
-            this.CreateFromTemplateButton.Location = new System.Drawing.Point(272, 363);
+            this.CreateFromTemplateButton.Location = new System.Drawing.Point(272, 370);
             this.CreateFromTemplateButton.Name = "CreateFromTemplateButton";
             this.CreateFromTemplateButton.Size = new System.Drawing.Size(105, 58);
             this.CreateFromTemplateButton.TabIndex = 50;
@@ -621,7 +624,7 @@
             // OpenXMLButton
             // 
             this.OpenXMLButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenXMLButton.Image")));
-            this.OpenXMLButton.Location = new System.Drawing.Point(383, 363);
+            this.OpenXMLButton.Location = new System.Drawing.Point(383, 370);
             this.OpenXMLButton.Name = "OpenXMLButton";
             this.OpenXMLButton.Size = new System.Drawing.Size(105, 58);
             this.OpenXMLButton.TabIndex = 51;
@@ -631,7 +634,7 @@
             // SaveXMLButton
             // 
             this.SaveXMLButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveXMLButton.Image")));
-            this.SaveXMLButton.Location = new System.Drawing.Point(272, 427);
+            this.SaveXMLButton.Location = new System.Drawing.Point(272, 435);
             this.SaveXMLButton.Name = "SaveXMLButton";
             this.SaveXMLButton.Size = new System.Drawing.Size(105, 58);
             this.SaveXMLButton.TabIndex = 52;
@@ -641,7 +644,7 @@
             // BinaryCompileButton
             // 
             this.BinaryCompileButton.Image = ((System.Drawing.Image)(resources.GetObject("BinaryCompileButton.Image")));
-            this.BinaryCompileButton.Location = new System.Drawing.Point(383, 427);
+            this.BinaryCompileButton.Location = new System.Drawing.Point(383, 435);
             this.BinaryCompileButton.Name = "BinaryCompileButton";
             this.BinaryCompileButton.Size = new System.Drawing.Size(105, 58);
             this.BinaryCompileButton.TabIndex = 53;
@@ -682,6 +685,8 @@
             // 
             // SpectroGroup
             // 
+            this.SpectroGroup.Controls.Add(this.label26);
+            this.SpectroGroup.Controls.Add(this.carrierFreq);
             this.SpectroGroup.Controls.Add(this.mleCheckBox);
             this.SpectroGroup.Controls.Add(this.cameraCheck);
             this.SpectroGroup.Controls.Add(this.label25);
@@ -723,10 +728,39 @@
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
             // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(15, 338);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(119, 13);
+            this.label26.TabIndex = 67;
+            this.label26.Text = "Carrier Freq (MHz AOM)";
+            // 
+            // carrierFreq
+            // 
+            this.carrierFreq.DecimalPlaces = 2;
+            this.carrierFreq.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.carrierFreq.Location = new System.Drawing.Point(150, 336);
+            this.carrierFreq.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.carrierFreq.Name = "carrierFreq";
+            this.carrierFreq.ReadOnly = true;
+            this.carrierFreq.Size = new System.Drawing.Size(104, 20);
+            this.carrierFreq.TabIndex = 66;
+            this.carrierFreq.Click += new System.EventHandler(this.numericUpDown1_ValueChanged1);
+            // 
             // mleCheckBox
             // 
             this.mleCheckBox.AutoSize = true;
-            this.mleCheckBox.Location = new System.Drawing.Point(200, 339);
+            this.mleCheckBox.Location = new System.Drawing.Point(197, 361);
             this.mleCheckBox.Name = "mleCheckBox";
             this.mleCheckBox.Size = new System.Drawing.Size(48, 17);
             this.mleCheckBox.TabIndex = 63;
@@ -736,7 +770,7 @@
             // cameraCheck
             // 
             this.cameraCheck.AutoSize = true;
-            this.cameraCheck.Location = new System.Drawing.Point(18, 339);
+            this.cameraCheck.Location = new System.Drawing.Point(15, 361);
             this.cameraCheck.Name = "cameraCheck";
             this.cameraCheck.Size = new System.Drawing.Size(110, 17);
             this.cameraCheck.TabIndex = 65;
@@ -774,7 +808,7 @@
             // carrierCheck
             // 
             this.carrierCheck.AutoSize = true;
-            this.carrierCheck.Location = new System.Drawing.Point(134, 339);
+            this.carrierCheck.Location = new System.Drawing.Point(131, 361);
             this.carrierCheck.Name = "carrierCheck";
             this.carrierCheck.Size = new System.Drawing.Size(56, 17);
             this.carrierCheck.TabIndex = 62;
@@ -785,7 +819,7 @@
             // StopButton
             // 
             this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
-            this.StopButton.Location = new System.Drawing.Point(193, 427);
+            this.StopButton.Location = new System.Drawing.Point(193, 435);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(58, 58);
             this.StopButton.TabIndex = 61;
@@ -795,7 +829,7 @@
             // PauseButton
             // 
             this.PauseButton.Image = ((System.Drawing.Image)(resources.GetObject("PauseButton.Image")));
-            this.PauseButton.Location = new System.Drawing.Point(131, 427);
+            this.PauseButton.Location = new System.Drawing.Point(131, 435);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(58, 58);
             this.PauseButton.TabIndex = 58;
@@ -805,7 +839,7 @@
             // StartButton
             // 
             this.StartButton.Image = ((System.Drawing.Image)(resources.GetObject("StartButton.Image")));
-            this.StartButton.Location = new System.Drawing.Point(67, 427);
+            this.StartButton.Location = new System.Drawing.Point(67, 435);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(58, 58);
             this.StartButton.TabIndex = 59;
@@ -815,7 +849,7 @@
             // ResetButton
             // 
             this.ResetButton.Image = ((System.Drawing.Image)(resources.GetObject("ResetButton.Image")));
-            this.ResetButton.Location = new System.Drawing.Point(3, 427);
+            this.ResetButton.Location = new System.Drawing.Point(3, 435);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(58, 58);
             this.ResetButton.TabIndex = 57;
@@ -825,9 +859,9 @@
             // OpenUSBButton
             // 
             this.OpenUSBButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenUSBButton.Image")));
-            this.OpenUSBButton.Location = new System.Drawing.Point(3, 363);
+            this.OpenUSBButton.Location = new System.Drawing.Point(3, 384);
             this.OpenUSBButton.Name = "OpenUSBButton";
-            this.OpenUSBButton.Size = new System.Drawing.Size(58, 58);
+            this.OpenUSBButton.Size = new System.Drawing.Size(58, 45);
             this.OpenUSBButton.TabIndex = 60;
             this.OpenUSBButton.UseVisualStyleBackColor = true;
             this.OpenUSBButton.Click += new System.EventHandler(this.OpenUSBButton_Click);
@@ -868,9 +902,9 @@
             // UploadButton
             // 
             this.UploadButton.Image = ((System.Drawing.Image)(resources.GetObject("UploadButton.Image")));
-            this.UploadButton.Location = new System.Drawing.Point(67, 363);
+            this.UploadButton.Location = new System.Drawing.Point(68, 384);
             this.UploadButton.Name = "UploadButton";
-            this.UploadButton.Size = new System.Drawing.Size(58, 58);
+            this.UploadButton.Size = new System.Drawing.Size(58, 45);
             this.UploadButton.TabIndex = 55;
             this.UploadButton.UseVisualStyleBackColor = true;
             this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
@@ -990,9 +1024,10 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(15, 207);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(119, 13);
+            this.label9.Size = new System.Drawing.Size(122, 13);
             this.label9.TabIndex = 12;
-            this.label9.Text = "Carrier Freq (MHz AOM)";
+            this.label9.Text = "Central Freq (MHz AOM)";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // carFreqBox
             // 
@@ -2364,6 +2399,7 @@
             this.DesignerGroup.PerformLayout();
             this.SpectroGroup.ResumeLayout(false);
             this.SpectroGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.carrierFreq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.phaseStep)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.magFreqBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.modcycFreqBox)).EndInit();
@@ -2577,6 +2613,8 @@
         private System.Windows.Forms.CheckBox cameraCheck;
         private System.Windows.Forms.CheckBox mleCheckBox;
         private System.Windows.Forms.CheckBox powerNorm;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.NumericUpDown carrierFreq;
     }
 }
 
