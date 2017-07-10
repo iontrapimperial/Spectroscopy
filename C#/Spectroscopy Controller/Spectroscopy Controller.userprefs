@@ -1,0 +1,23 @@
+﻿<Properties StartupConfiguration="{80120DBE-C573-462C-BDB2-FB015E12A6B5}|Default">
+  <MonoDevelop.Ide.ItemProperties.Spectroscopy_220Controller PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Spectroscopy Controller/FPGAControls.cs">
+    <Files>
+      <File FileName="Spectroscopy Controller/Program.cs" Line="9" Column="6" />
+      <File FileName="../Camera Control/CameraForm.cs" Line="22" Column="6" />
+      <File FileName="../Camera Control/Image8Bit.cs" Line="1" Column="1" />
+      <File FileName="../Camera Control/Program.cs" Line="8" Column="15" />
+      <File FileName="Spectroscopy Controller/CoreForm.cs" Line="867" Column="31" />
+      <File FileName="../Camera Control/CameraForm.Designer.cs" Line="909" Column="25" />
+      <File FileName="../Spectroscopy Viewer/Spectroscopy Viewer/SpectroscopyViewerForm.cs" Line="16" Column="1" />
+      <File FileName="../Spectroscopy Viewer/Spectroscopy Viewer/Program.cs" Line="8" Column="25" />
+      <File FileName="Spectroscopy Controller/FPGAControls.cs" Line="505" Column="19" />
+      <File FileName="../../../../../../../../Library/Frameworks/Mono.framework/Versions/5.0.1/lib/mono/msbuild/15.0/bin/Microsoft.Common.CurrentVersion.targets" Line="4441" Column="49" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
