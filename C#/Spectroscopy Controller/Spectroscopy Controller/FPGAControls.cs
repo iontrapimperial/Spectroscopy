@@ -12,7 +12,7 @@ namespace Spectroscopy_Controller
         private void OpenUSBPort()
         {
             int devices = FPGA.CountDevices();
-            
+
             if (devices > 0)
             {
                 WriteMessage("Device(s) detected (" + devices + ")");
@@ -47,7 +47,7 @@ namespace Spectroscopy_Controller
 
 
         delegate void CallbackDelegateOutput(string text);
-    
+
 
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Spectroscopy_Controller
         {
             int Frequency = startFreq;
             int CurrentWindowStep = 0;
-            int FixedCamPos = 0; 
+            int FixedCamPos = 0;
 
             int CurrentSideband = 0;
 
@@ -91,10 +91,10 @@ namespace Spectroscopy_Controller
             }
             else
             {
-                myFile = new TextWriter[numOfIons+1];
+                myFile = new TextWriter[numOfIons + 1];
                 for (int i = 0; i < myFile.Length; i++)
                 {
-                    myFile[i]= new StreamWriter(myFileName[CurrentSideband+(numberOfFiles/(numOfIons+1))*i], true);
+                    myFile[i] = new StreamWriter(myFileName[CurrentSideband + (numberOfFiles / (numOfIons + 1)) * i], true);
                 }
             }
             if (myFile != null)
@@ -114,6 +114,7 @@ namespace Spectroscopy_Controller
                 // If flag is set to reset FPGA, do so
                 if (bResetFPGA)
                 {
+                    FPGA.SendReadingFinish();
                     FPGA.SendResetSignal();
                     bResetFPGA = false;
                     for (int i = 0; i < myFile.Length; i++)
@@ -265,8 +266,8 @@ namespace Spectroscopy_Controller
                                 }
                                 else
                                 {
-                                    int[,] camDat = myCamera.getCameraData(CurrentWindowStep+(CurrentSideband*(1+sbWidth)));
-                                    Console.WriteLine("repeat" + (CurrentWindowStep + CurrentSideband *(1+ sbWidth)));
+                                    int[,] camDat = myCamera.getCameraData(CurrentWindowStep + (CurrentSideband * (1 + sbWidth)));
+                                    Console.WriteLine("repeat" + (CurrentWindowStep + CurrentSideband * (1 + sbWidth)));
                                     myViewer.addLiveData(Readings, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
                                     myViewer.addLiveDataCAM(camDat, CurrentWindowStep, startFreqArray[CurrentSideband], 0);
                                     for (int i = 0; i < numOfIons; i++)
@@ -292,143 +293,57 @@ namespace Spectroscopy_Controller
                                 }
                             }
                         }
-                        
 
 
-                            // Clear buffers for writing to file, gets ready for writing more data next time
-                            for (int i = 0; i < myFile.Length; i++)
-                            {
-                                myFile[i].Flush();
-                            }
-                            //myFile[i].Flush();
-                            // Clear list of readings
-                            Readings.Clear();
 
-                            if (specType == "Fixed")
-                            {
-                                CurrentPulseLength += fixed_stepSize;
-                                phase4.Value += phaseStep.Value;
+                        // Clear buffers for writing to file, gets ready for writing more data next time
+                        for (int i = 0; i < myFile.Length; i++)
+                        {
+                            myFile[i].Flush();
+                        }
+                        //myFile[i].Flush();
+                        // Clear list of readings
+                        Readings.Clear();
+
+                        if (specType == "Fixed")
+                        {
+                            CurrentPulseLength += fixed_stepSize;
+                            phase4.Value += phaseStep.Value;
 
                             // Update the DDS only if there is a phase change. This is to save time in Rabi type experiments.
                             //if (phaseStep.Value != 0) 
                             LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
-                               // else { }
-                            }
-
-                            FPGA.ResetDevice();
-
-                            // If the Pause flag is set
-                            while (PauseExperiment)
-                            {
-                                //sleep for 1ms so we don't use all the CPU cycles
-                                System.Threading.Thread.Sleep(1000);
-                            }
-
-                            FPGA.SendReadingFinish();
-                            //break; 
+                            // else { }
                         }
-                        else if (Data[3] == 77)
+
+                        FPGA.ResetDevice();
+
+                        // If the Pause flag is set
+                        while (PauseExperiment)
                         {
+                            //sleep for 1ms so we don't use all the CPU cycles
+                            System.Threading.Thread.Sleep(1000);
+                        }
 
-                            FPGA.FinishInfoRequest();
+                        FPGA.SendReadingFinish();
+                        //break; 
+                    }
+                    else if (Data[3] == 77)
+                    {
 
-                            Data[3] = 0;
-                            int ExtraData = BitConverter.ToInt32(Data, 0);
-                            if (ExtraData == 0xAB25FC)
+                        FPGA.FinishInfoRequest();
+
+                        Data[3] = 0;
+                        int ExtraData = BitConverter.ToInt32(Data, 0);
+                        if (ExtraData == 0xAB25FC)
+                        {
+                            WriteMessage("Need to change frequency!\r\n");
+                            if (bIsFreqGenEnabled)
                             {
-                                WriteMessage("Need to change frequency!\r\n");
-                                if (bIsFreqGenEnabled)
+                                //Change Frequency :)
+                                if (specType == "Windowed")
                                 {
-                                    //Change Frequency :)
-                                    if (specType == "Windowed")
-                                    {
-                                        if (CurrentWindowStep < sbWidth)
-                                        {
-                                            Frequency += stepSize;
-                                            freq0.Value = Frequency;
-                                            freq4.Value = Frequency;
-                                            phase4.Value += phaseStep.Value;
-                                            LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
-                                            SetDDSProfiles.Enabled = false;
-                                            CurrentWindowStep++;
-                                        }
-                                        else if (CurrentWindowStep >= sbWidth)
-                                        {
-                                            // This means we have come to the end of one sideband
-                                            // So flush & close that file
-                                            for (int i = 0; i < myFile.Length; i++)
-                                            {
-                                                myFile[i].Flush();
-                                                myFile[i].Close();
-                                            }
-                                            CurrentSideband++;
-                                            if (includeCarrier == true)
-                                            {
-                                                if (CurrentSideband < (sbToScan * 2) + 1)
-                                                {
-                                                    // New sideband, so open the next file, using filename from array
-                                                    for (int i = 0; i < myFile.Length; i++)
-                                                    {
-                                                        myFile[i] = new StreamWriter(myFileName[CurrentSideband + (numberOfFiles / (numOfIons + 1)) * i], true);
-                                                    }
-
-
-                                                    Frequency = startFreqArray[CurrentSideband];
-                                                    freq0.Value = Frequency;
-                                                    freq4.Value = Frequency;
-                                                    phase4.Value += phaseStep.Value;
-                                                    LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
-                                                    SetDDSProfiles.Enabled = false;
-                                                    CurrentWindowStep = 0;
-                                                }
-                                                //if we reach end of final sideband, stop experiment (need to test this section)
-                                                else
-                                                {
-                                                    if (useCameraSpectrum == true)
-                                                        myCamera.stopExp();
-                                                    MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
-                                                    bShouldQuitThread = true;
-
-                                                // break;       // might need this??
-                                            }
-
-                                            }
-                                            else
-                                            {
-                                                if (CurrentSideband < (sbToScan * 2))
-                                                {
-                                                    // New sideband, so open the next file, using filename from array
-                                                    for (int i = 0; i < myFile.Length; i++)
-                                                    {
-                                                        myFile[i] = new StreamWriter(myFileName[CurrentSideband + (numberOfFiles / (numOfIons + 1)) * i], true);
-                                                    }
-
-
-                                                    Frequency = startFreqArray[CurrentSideband];
-                                                    freq0.Value = Frequency;
-                                                    freq4.Value = Frequency;
-                                                    phase4.Value += phaseStep.Value;
-                                                    LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
-                                                    SetDDSProfiles.Enabled = false;
-                                                    CurrentWindowStep = 0;
-                                                }
-                                                //if we reach end of final sideband, stop experiment (need to test this section)
-                                                else
-                                                {
-                                                    if (useCameraSpectrum == true)
-                                                        myCamera.stopExp();
-                                                    MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
-                                                    bShouldQuitThread = true;
-
-                                                    // break;       // might need this??
-                                                }
-
-                                            }
-
-                                        }
-
-                                    }
-                                    else if (specType == "Continuous")
+                                    if (CurrentWindowStep < sbWidth)
                                     {
                                         Frequency += stepSize;
                                         freq0.Value = Frequency;
@@ -438,77 +353,163 @@ namespace Spectroscopy_Controller
                                         SetDDSProfiles.Enabled = false;
                                         CurrentWindowStep++;
                                     }
+                                    else if (CurrentWindowStep >= sbWidth)
+                                    {
+                                        // This means we have come to the end of one sideband
+                                        // So flush & close that file
+                                        for (int i = 0; i < myFile.Length; i++)
+                                        {
+                                            myFile[i].Flush();
+                                            myFile[i].Close();
+                                        }
+                                        CurrentSideband++;
+                                        if (includeCarrier == true)
+                                        {
+                                            if (CurrentSideband < (sbToScan * 2) + 1)
+                                            {
+                                                // New sideband, so open the next file, using filename from array
+                                                for (int i = 0; i < myFile.Length; i++)
+                                                {
+                                                    myFile[i] = new StreamWriter(myFileName[CurrentSideband + (numberOfFiles / (numOfIons + 1)) * i], true);
+                                                }
+
+
+                                                Frequency = startFreqArray[CurrentSideband];
+                                                freq0.Value = Frequency;
+                                                freq4.Value = Frequency;
+                                                phase4.Value += phaseStep.Value;
+                                                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                                SetDDSProfiles.Enabled = false;
+                                                CurrentWindowStep = 0;
+                                            }
+                                            //if we reach end of final sideband, stop experiment (need to test this section)
+                                            else
+                                            {
+                                                if (useCameraSpectrum == true)
+                                                    myCamera.stopExp();
+                                                MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
+                                                bShouldQuitThread = true;
+
+                                                // break;       // might need this??
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            if (CurrentSideband < (sbToScan * 2))
+                                            {
+                                                // New sideband, so open the next file, using filename from array
+                                                for (int i = 0; i < myFile.Length; i++)
+                                                {
+                                                    myFile[i] = new StreamWriter(myFileName[CurrentSideband + (numberOfFiles / (numOfIons + 1)) * i], true);
+                                                }
+
+
+                                                Frequency = startFreqArray[CurrentSideband];
+                                                freq0.Value = Frequency;
+                                                freq4.Value = Frequency;
+                                                phase4.Value += phaseStep.Value;
+                                                LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                                SetDDSProfiles.Enabled = false;
+                                                CurrentWindowStep = 0;
+                                            }
+                                            //if we reach end of final sideband, stop experiment (need to test this section)
+                                            else
+                                            {
+                                                if (useCameraSpectrum == true)
+                                                    myCamera.stopExp();
+                                                MessageBox.Show("Experiment Finished! (Reached final sideband)", "Bang");
+                                                bShouldQuitThread = true;
+
+                                                // break;       // might need this??
+                                            }
+
+                                        }
+
+                                    }
 
                                 }
-                                else
+                                else if (specType == "Continuous")
                                 {
-                                    WriteMessage("Frequency Generator not enabled!\r\n");
+                                    Frequency += stepSize;
+                                    freq0.Value = Frequency;
+                                    freq4.Value = Frequency;
+                                    phase4.Value += phaseStep.Value;
+                                    LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+                                    SetDDSProfiles.Enabled = false;
+                                    CurrentWindowStep++;
                                 }
 
-                                while (PauseExperiment)
-                                {
-                                    //sleep for 1ms so we don't use all the CPU cycles
-                                    System.Threading.Thread.Sleep(1000);
-                                }
-
-                                FPGA.SendFreqChangeFinish();
                             }
                             else
                             {
-                                WriteMessage("Received corrupted frequency change command!\r\n");
+                                WriteMessage("Frequency Generator not enabled!\r\n");
                             }
-                        }
-                        else if (Data[3] == 173)
-                        {
-                            FPGA.FinishInfoRequest();
 
-                            Data[3] = 0;
-                            int ExtraData = BitConverter.ToInt32(Data, 0);
-                            if (ExtraData == 0xFC32DA)
+                            while (PauseExperiment)
                             {
-                                if (useCameraSpectrum == true)
-                                    myCamera.stopExp();
-                                WriteMessage("Received experiment stop command!\r\n");
-                                MessageBox.Show("Experiment Finished!", "Bang");
-                                bShouldQuitThread = true;
-                                
-                        }
-                            else
-                            {
-                                WriteMessage("Received corrupted experiment stop command!\r\n");
+                                //sleep for 1ms so we don't use all the CPU cycles
+                                System.Threading.Thread.Sleep(1000);
                             }
-                            break;
+
+                            FPGA.SendFreqChangeFinish();
                         }
                         else
                         {
-                            WriteMessage("Received corrupted data (Unrecoverable)!\r\n");
+                            WriteMessage("Received corrupted frequency change command!\r\n");
                         }
                     }
-                }
-            
-
-
-                // If it's a windowed spectrum, we will already have closed the file. Otherwise, need to flush & close it
-                if (specType != "Windowed")
-                {
-                    for (int i = 0; i < myFile.Length; i++)
+                    else if (Data[3] == 173)
                     {
-                        myFile[i].Flush();
-                        myFile[i].Close();
+                        FPGA.FinishInfoRequest();
+
+                        Data[3] = 0;
+                        int ExtraData = BitConverter.ToInt32(Data, 0);
+                        if (ExtraData == 0xFC32DA)
+                        {
+                            if (useCameraSpectrum == true)
+                                myCamera.stopExp();
+                            WriteMessage("Received experiment stop command!\r\n");
+                            MessageBox.Show("Experiment Finished!", "Bang");
+                            bShouldQuitThread = true;
+
+                        }
+                        else
+                        {
+                            WriteMessage("Received corrupted experiment stop command!\r\n");
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        WriteMessage("Received corrupted data (Unrecoverable)!\r\n");
                     }
                 }
+            }
 
 
-                this.ExperimentFinished();
-                if (useCameraSpectrum == true)
-                    myCamera.stopExp();
-                FPGA.ResetDevice();
+
+            // If it's a windowed spectrum, we will already have closed the file. Otherwise, need to flush & close it
+            if (specType != "Windowed")
+            {
+                for (int i = 0; i < myFile.Length; i++)
+                {
+                    myFile[i].Flush();
+                    myFile[i].Close();
+                }
+            }
+
+
+            this.ExperimentFinished();
+            if (useCameraSpectrum == true)
+                myCamera.stopExp();
+            FPGA.ResetDevice();
 
         }
 
 
         private void StartReadingData()
-        {    
+        {
             if ((FPGAReadThread != null) && (FPGAReadThread.IsAlive))
             {
                 FPGAReadThread.Abort();
