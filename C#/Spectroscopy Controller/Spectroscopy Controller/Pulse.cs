@@ -93,7 +93,7 @@ namespace Spectroscopy_Controller
         /// Number of clock cycles this state should last for before moving to the next.
         /// </summary>
         public int Ticks = 0;
-        public int TargetLength = 0;
+        public float TargetLength = 0; //Int to float 08/08/17
 
         /// <summary>
         /// True/False for a particular laser being on/off. Default is all are off. Profile 0 selected (all true)

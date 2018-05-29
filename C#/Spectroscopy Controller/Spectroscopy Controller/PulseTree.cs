@@ -151,7 +151,7 @@ namespace Spectroscopy_Controller
 
                 //Set pulse length to nearest number of ticks
                 State.Ticks = tickRounder();
-                State.TargetLength = (int)TicksBox.Value;
+                State.TargetLength = (float)TicksBox.Value;
 
                 if (PulseTypeBox.SelectedIndex == 0)
                 {
@@ -303,7 +303,7 @@ namespace Spectroscopy_Controller
                     }
 
                     //Update tick box to target length, and call tickRounder to update rounded length display
-                    TicksBox.Value = ((LaserState)P).TargetLength;
+                    TicksBox.Value = (decimal) ((LaserState)P).TargetLength;
                     tickRounder();
 
                     PulseTypeBox.SelectedIndex = (int)((LaserState)P).StateType;

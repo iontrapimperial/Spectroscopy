@@ -269,7 +269,7 @@ namespace Spectroscopy_Controller
                 }
                 else if (XMLFile.Name.ToUpper() == "TargetLength".ToUpper())
                 {
-                    State.TargetLength = System.Int32.Parse(XMLFile.Value);
+                    State.TargetLength = float.Parse(XMLFile.Value); // int to float 08/08/17
                 }
                 else if (XMLFile.Name.ToUpper() == "Laser397B1".ToUpper())
                 {

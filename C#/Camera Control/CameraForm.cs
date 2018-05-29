@@ -402,7 +402,7 @@ namespace Camera_Control
             }
             if (comboTrigger.SelectedItem.ToString() == "External")
             {
-                giTrigger = 7;
+                giTrigger = 1;
             }
             // Get acquisition mode selection             
             if (acqTypeComboBox.SelectedItem.ToString() == "Single")
@@ -594,7 +594,7 @@ namespace Camera_Control
                 {
                     ionLocations = new int[numIons];
                     errorValue = myAndor.StartAcquisition();
-                    if (giTrigger == 6)
+                    if (giTrigger == 1)
                         errorMsgTxtBox.AppendText("Waiting for external trigger" + "\r\n");
                     if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                     {
@@ -619,7 +619,7 @@ namespace Camera_Control
                 {
                     ionLocations = new int[numIons];
                     errorValue = myAndor.StartAcquisition();
-                    if (giTrigger == 7)
+                    if (giTrigger == 1)
                         errorMsgTxtBox.AppendText("Waiting for external trigger" + "\r\n");
                     if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                     {
@@ -643,7 +643,7 @@ namespace Camera_Control
                 if (acqType == 2)
                 {
                     ionLocations = new int[numIons];
-                    myAndor.SetFastExtTrigger(1);
+                   // myAndor.SetFastExtTrigger(1);
                     myAndor.SetNumberAccumulations(repeatNum);
                     myAndor.SetNumberKinetics(giNumberLoops);
 
@@ -654,6 +654,7 @@ namespace Camera_Control
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
                     if (giTrigger == 10) myAndor.SetTriggerMode(0);
+                    if (giTrigger == 1) myAndor.SetTriggerMode(1);
                     /*
                     errorValue = myAndor.StartAcquisition();                    
                     if (giTrigger == 1)
@@ -682,7 +683,8 @@ namespace Camera_Control
                     // aTimer.SynchronizingObject = this;
                     ionLocations = new int[numIons];
                     // myAndor.SetKineticCycleTime(1);
-                    myAndor.SetTriggerMode(0);
+                    if (giTrigger == 10) myAndor.SetTriggerMode(0);
+                    if (giTrigger == 1) myAndor.SetTriggerMode(1);
                     myAndor.GetAcquisitionTimings(ref fExposure, ref fAccumTime, ref fKineticTime);
                     myAndor.SetKineticCycleTime(fExposure);
                     errorMsgTxtBox.AppendText("exposure: " + fExposure + "  kinetic Cycle:  " + fKineticTime + "\r\n");
@@ -691,8 +693,11 @@ namespace Camera_Control
                     pixelPosGlobal = trialExposure(NpixelNum);
                     Console.WriteLine("Acquired Trial exposure");
                     errorValue = myAndor.StartAcquisition();
-                    if (giTrigger == 6)
+                    if (giTrigger == 1)
+                    {
                         errorMsgTxtBox.AppendText("Waiting for external trigger" + "\r\n");
+                    }
+                
                     if (errorValue != ATMCD32CS.AndorSDK.DRV_SUCCESS)
                     {
                         errorMsgTxtBox.AppendText("Error Starting Acquisition" + "\r\n");

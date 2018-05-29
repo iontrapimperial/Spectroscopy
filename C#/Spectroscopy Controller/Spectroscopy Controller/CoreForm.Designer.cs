@@ -678,7 +678,7 @@
             this.DesignerGroup.Controls.Add(this.PulseTree);
             this.DesignerGroup.Location = new System.Drawing.Point(12, 5);
             this.DesignerGroup.Name = "DesignerGroup";
-            this.DesignerGroup.Size = new System.Drawing.Size(497, 499);
+            this.DesignerGroup.Size = new System.Drawing.Size(497, 505);
             this.DesignerGroup.TabIndex = 55;
             this.DesignerGroup.TabStop = false;
             this.DesignerGroup.Text = "Pulse Sequence Designer";
@@ -723,7 +723,7 @@
             this.SpectroGroup.Controls.Add(this.specTypeBox);
             this.SpectroGroup.Location = new System.Drawing.Point(520, 5);
             this.SpectroGroup.Name = "SpectroGroup";
-            this.SpectroGroup.Size = new System.Drawing.Size(262, 499);
+            this.SpectroGroup.Size = new System.Drawing.Size(262, 505);
             this.SpectroGroup.TabIndex = 56;
             this.SpectroGroup.TabStop = false;
             this.SpectroGroup.Text = "Spectroscopy Sweep Control";
@@ -819,7 +819,7 @@
             // StopButton
             // 
             this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
-            this.StopButton.Location = new System.Drawing.Point(193, 435);
+            this.StopButton.Location = new System.Drawing.Point(193, 441);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(58, 58);
             this.StopButton.TabIndex = 61;
@@ -829,7 +829,7 @@
             // PauseButton
             // 
             this.PauseButton.Image = ((System.Drawing.Image)(resources.GetObject("PauseButton.Image")));
-            this.PauseButton.Location = new System.Drawing.Point(131, 435);
+            this.PauseButton.Location = new System.Drawing.Point(131, 441);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(58, 58);
             this.PauseButton.TabIndex = 58;
@@ -839,7 +839,7 @@
             // StartButton
             // 
             this.StartButton.Image = ((System.Drawing.Image)(resources.GetObject("StartButton.Image")));
-            this.StartButton.Location = new System.Drawing.Point(67, 435);
+            this.StartButton.Location = new System.Drawing.Point(67, 441);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(58, 58);
             this.StartButton.TabIndex = 59;
@@ -849,7 +849,7 @@
             // ResetButton
             // 
             this.ResetButton.Image = ((System.Drawing.Image)(resources.GetObject("ResetButton.Image")));
-            this.ResetButton.Location = new System.Drawing.Point(3, 435);
+            this.ResetButton.Location = new System.Drawing.Point(3, 441);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(58, 58);
             this.ResetButton.TabIndex = 57;
@@ -861,7 +861,7 @@
             this.OpenUSBButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenUSBButton.Image")));
             this.OpenUSBButton.Location = new System.Drawing.Point(3, 384);
             this.OpenUSBButton.Name = "OpenUSBButton";
-            this.OpenUSBButton.Size = new System.Drawing.Size(58, 45);
+            this.OpenUSBButton.Size = new System.Drawing.Size(58, 58);
             this.OpenUSBButton.TabIndex = 60;
             this.OpenUSBButton.UseVisualStyleBackColor = true;
             this.OpenUSBButton.Click += new System.EventHandler(this.OpenUSBButton_Click);
@@ -904,7 +904,7 @@
             this.UploadButton.Image = ((System.Drawing.Image)(resources.GetObject("UploadButton.Image")));
             this.UploadButton.Location = new System.Drawing.Point(68, 384);
             this.UploadButton.Name = "UploadButton";
-            this.UploadButton.Size = new System.Drawing.Size(58, 45);
+            this.UploadButton.Size = new System.Drawing.Size(58, 58);
             this.UploadButton.TabIndex = 55;
             this.UploadButton.UseVisualStyleBackColor = true;
             this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
@@ -2215,9 +2215,9 @@
             this.LiveLaserBox854FREQ.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LiveLaserBox854FREQ.Location = new System.Drawing.Point(248, 46);
             this.LiveLaserBox854FREQ.Name = "LiveLaserBox854FREQ";
-            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(75, 17);
+            this.LiveLaserBox854FREQ.Size = new System.Drawing.Size(83, 17);
             this.LiveLaserBox854FREQ.TabIndex = 5;
-            this.LiveLaserBox854FREQ.Text = "Axial AOM";
+            this.LiveLaserBox854FREQ.Text = "Radial AOM";
             this.LiveLaserBox854FREQ.UseVisualStyleBackColor = true;
             this.LiveLaserBox854FREQ.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
@@ -2226,9 +2226,9 @@
             this.LiveLaserBox854POWER.AutoSize = true;
             this.LiveLaserBox854POWER.Location = new System.Drawing.Point(248, 23);
             this.LiveLaserBox854POWER.Name = "LiveLaserBox854POWER";
-            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(57, 17);
+            this.LiveLaserBox854POWER.Size = new System.Drawing.Size(51, 17);
             this.LiveLaserBox854POWER.TabIndex = 4;
-            this.LiveLaserBox854POWER.Text = "Axi Off";
+            this.LiveLaserBox854POWER.Text = "854P";
             this.LiveLaserBox854POWER.UseVisualStyleBackColor = true;
             this.LiveLaserBox854POWER.CheckedChanged += new System.EventHandler(this.LaserBoxChanged);
             // 
@@ -2285,9 +2285,9 @@
             // debugmessagebox
             // 
             this.debugmessagebox.Controls.Add(this.MessagesBox);
-            this.debugmessagebox.Location = new System.Drawing.Point(12, 510);
+            this.debugmessagebox.Location = new System.Drawing.Point(12, 516);
             this.debugmessagebox.Name = "debugmessagebox";
-            this.debugmessagebox.Size = new System.Drawing.Size(770, 186);
+            this.debugmessagebox.Size = new System.Drawing.Size(770, 180);
             this.debugmessagebox.TabIndex = 58;
             this.debugmessagebox.TabStop = false;
             this.debugmessagebox.Text = "Debug Messages";

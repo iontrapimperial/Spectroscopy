@@ -1742,7 +1742,7 @@ private void writeMetadataToFile(ref StartExperimentDialog myExperimentDialog, r
                             Console.WriteLine("I am in the if statement");
                             nState.Ticks -= 200;
                         }
-                        nState.TargetLength = pulseLength;
+                        nState.TargetLength = pulseLength*0.04f;
                     }
                     // If not to sweep, just leave it as it is
 
