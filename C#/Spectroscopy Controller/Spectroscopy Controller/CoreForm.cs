@@ -549,332 +549,323 @@ namespace Spectroscopy_Controller
                     WriteMessage("Can't Send Start Signal to FPGA: USB port is not open", true);
                     return;
                 }
-                else
-                {
-                    //Grab all scan and trap parameters from form:
+                //Grab all scan and trap parameters from form:
                     
-                    specType = specTypeBox.SelectedItem.ToString();
-                    specDir = specDirBox.SelectedItem.ToString();
-                    trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
-                    axFreq = (int)(1000 * axFreqBox.Value);
-                    modcycFreq = (int)(1000 * modcycFreqBox.Value);
-                    magFreq = (int)(1000 * magFreqBox.Value);
-                    startFreq = (int)(1000000 * startFreqBox.Value);
-                    carFreq = (int)(1000000 * carFreqBox.Value);
-                    stepSize = (int)(1000 * stepSizeBox.Value);
-                    sbToScan = (int)sbToScanBox.Value;
-                    sbWidth = (int)sbWidthBox.Value;
+                specType = specTypeBox.SelectedItem.ToString();
+                specDir = specDirBox.SelectedItem.ToString();
+                trapV = (float)(1000 * trapVBox.Value);   //Trap voltage stored in millivolts
+                axFreq = (int)(1000 * axFreqBox.Value);
+                modcycFreq = (int)(1000 * modcycFreqBox.Value);
+                magFreq = (int)(1000 * magFreqBox.Value);
+                startFreq = (int)(1000000 * startFreqBox.Value);
+                carFreq = (int)(1000000 * carFreqBox.Value);
+                stepSize = (int)(1000 * stepSizeBox.Value);
+                sbToScan = (int)sbToScanBox.Value;
+                sbWidth = (int)sbWidthBox.Value;
 
-                    // Metadata ordering in array:
-                    // 0: Date
-                    // 1: Spectrum type
-                    // 2: 729 direction
-                    // 3: Trap voltage
-                    // 4: Axial freq (kHz)
-                    // 5: Modified cyc freq (kHz)
-                    // 6: Magnetron freq (kHz)
-                    // 7: AOM start freq (MHz)
-                    // 8: Carrier freq (MHz)
-                    // 9: Step size (kHz or ticks)
-                    // 10: Sidebands/side
-                    // 11: Sideband width (steps)
-                    // 12: 729 RF amplitude
-                    // 13: Number of repeats
-                    // 14: Number interleaved
-                    // 15: Which sideband
-                    // 16: Starting pulse length (fixed)
-                    // 17: Number of steps (fixed)
-                    // 18 + i: spectrum i name
+                // Metadata ordering in array:
+                // 0: Date
+                // 1: Spectrum type
+                // 2: 729 direction
+                // 3: Trap voltage
+                // 4: Axial freq (kHz)
+                // 5: Modified cyc freq (kHz)
+                // 6: Magnetron freq (kHz)
+                // 7: AOM start freq (MHz)
+                // 8: Carrier freq (MHz)
+                // 9: Step size (kHz or ticks)
+                // 10: Sidebands/side
+                // 11: Sideband width (steps)
+                // 12: 729 RF amplitude
+                // 13: Number of repeats
+                // 14: Number interleaved
+                // 15: Which sideband
+                // 16: Starting pulse length (fixed)
+                // 17: Number of steps (fixed)
+                // 18 + i: spectrum i name
 
-                    if (mleCheckBox.Checked == true)
+                if (mleCheckBox.Checked == true)
+                {
+                    useMLE = true;
+                }
+
+                // Create new dialog to get data from user before starting the experiment
+                StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
+                myExperimentDialog.ShowDialog();
+                if (myExperimentDialog.DialogResult == DialogResult.Cancel) return;
+
+                // Create & fill in metadata
+                UploadButton.Enabled = false;
+                isExperimentRunning = true;
+                string[] metadata = new string[23];
+                metadata[0] = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
+                // This is all from the CoreForm
+                metadata[1] = specType;
+                metadata[2] = specDir;
+                metadata[3] = this.trapVBox.Value.ToString();
+                metadata[4] = this.axFreqBox.Value.ToString();
+                metadata[5] = this.modcycFreqBox.Value.ToString();
+                metadata[6] = this.magFreqBox.Value.ToString();
+                metadata[7] = this.startFreqBox.Value.ToString();
+                metadata[8] = this.carFreqBox.Value.ToString();
+                metadata[9] = this.stepSizeBox.Value.ToString();
+                metadata[10] = this.sbToScanBox.Value.ToString();
+                metadata[11] = this.sbWidthBox.Value.ToString();
+                metadata[12] = this.freq0.Value.ToString();
+                rfAmp =(float) this.amp0.Value;
+                // Fill in remaining metadata from form
+                int repeats = (int)myExperimentDialog.NumberOfRepeats.Value;
+                metadata[13] = repeats.ToString();
+                int numSpec = (int)myExperimentDialog.NumberOfSpectra.Value;
+                mleNumberOfCounts = (int)myExperimentDialog.mleCountPeriods.Value;
+                metadata[14] = numSpec.ToString();
+                readingsPerDataPoint = int.Parse(metadata[13]) * int.Parse(metadata[14]) * 4;
+                metadata[15] = hexFileName;
+                metadata[16] = "N/A";   // For fixed spectra only
+                metadata[17] = "N/A";   // For fixed spectra only
+                numOfIons = (int)myExperimentDialog.numOfIonsUpDown.Value;
+
+                if (useCameraSpectrum == true && IsCameraOpen == true)
+                {
+                    if (numOfIons != myCamera.getRoiCount())
                     {
-                        useMLE = true;
+                        MessageBox.Show("Please add the correct amount of ROI.");
+                        return;
                     }
 
+                    myCamera.setNumIons(numOfIons);
+                    myCamera.setNumLoops(2 * repeats * numSpec);
+                }
+                int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
+                for (int i = 0; i < numberOfSpectra; i++)
+                {
+                    metadata[i + 18] = myExperimentDialog.SpectrumNames[i].Text;
+                    Console.WriteLine("coreName: " + metadata[i + 18] + " num " + (i + 18));
+                    }
 
-                    // Create new dialog to get data from user before starting the experiment
-                    StartExperimentDialog myExperimentDialog = new StartExperimentDialog();
-                    myExperimentDialog.ShowDialog();
-                    if (myExperimentDialog.DialogResult != DialogResult.Cancel)
+                metadata[18 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
+
+                // Retrieve the folder path selected by the user
+                string FolderPath = myExperimentDialog.getFilePath();
+                // Make sure the 
+                if (FolderPath != null)
+                {
+                    TextWriter[] myFile;        // Declare array of files
+
+                    // If "Continuous" experiment type has been selected
+                    if (specType == "Continuous")
                     {
-                        // Create & fill in metadata
-                        UploadButton.Enabled = false;
-                        isExperimentRunning = true;
-                        string[] metadata = new string[23];
-                        metadata[0] = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
-                        // This is all from the CoreForm
-                        metadata[1] = specType;
-                        metadata[2] = specDir;
-                        metadata[3] = this.trapVBox.Value.ToString();
-                        metadata[4] = this.axFreqBox.Value.ToString();
-                        metadata[5] = this.modcycFreqBox.Value.ToString();
-                        metadata[6] = this.magFreqBox.Value.ToString();
-                        metadata[7] = this.startFreqBox.Value.ToString();
-                        metadata[8] = this.carFreqBox.Value.ToString();
-                        metadata[9] = this.stepSizeBox.Value.ToString();
-                        metadata[10] = this.sbToScanBox.Value.ToString();
-                        metadata[11] = this.sbWidthBox.Value.ToString();
-                        metadata[12] = this.freq0.Value.ToString();
-                        rfAmp =(float) this.amp0.Value;
-                        // Fill in remaining metadata from form
-                        int repeats = (int)myExperimentDialog.NumberOfRepeats.Value;
-                        metadata[13] = repeats.ToString();
-                        int numSpec = (int)myExperimentDialog.NumberOfSpectra.Value;
-                        mleNumberOfCounts = (int)myExperimentDialog.mleCountPeriods.Value;
-                        metadata[14] = numSpec.ToString();
-                        readingsPerDataPoint = int.Parse(metadata[13]) * int.Parse(metadata[14]) * 4;
-                        metadata[15] = hexFileName;
-                        metadata[16] = "N/A";   // For fixed spectra only
-                        metadata[17] = "N/A";   // For fixed spectra only
-                        numOfIons = (int)myExperimentDialog.numOfIonsUpDown.Value;
+                        //Turn on frequency generator
+                        bIsFreqGenEnabled = true;
 
-                        if (useCameraSpectrum == true && IsCameraOpen == true)
+                        //Start frequency is the value taken directly from the form, no windowing
+                        startFreqArray = new int[1];
+                        startFreqArray[0] = startFreq;
+
+                        // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                        RabiSelector myRabiSelector = new RabiSelector();
+
+                        // Create a single file and put all readings in there
+                        if (useCameraSpectrum != true)
                         {
-                            if (numOfIons != myCamera.getRoiCount())
-                            {
-                                MessageBox.Show("Please add the correct amount of ROI.");
-                                return;
-                            }
-
-                            myCamera.setNumIons(numOfIons);
-                            myCamera.setNumLoops(2 * repeats * numSpec);
-                        }
-                        int numberOfSpectra = (int)myExperimentDialog.NumberOfSpectra.Value;
-                        for (int i = 0; i < numberOfSpectra; i++)
-                        {
-                            metadata[i + 18] = myExperimentDialog.SpectrumNames[i].Text;
-                            Console.WriteLine("coreName: " + metadata[i + 18] + " num " + (i + 18));
-                        }
-
-                        metadata[18 + numberOfSpectra] = myExperimentDialog.NotesBox.Text;
-
-                        // Retrieve the folder path selected by the user
-                        string FolderPath = myExperimentDialog.getFilePath();
-                        // Make sure the 
-                        if (FolderPath != null)
-                        {
-                            TextWriter[] myFile;        // Declare array of files
-
-                            // If "Continuous" experiment type has been selected
-                            if (specType == "Continuous")
-                            {
-                                //Turn on frequency generator
-                                bIsFreqGenEnabled = true;
-
-                                //Start frequency is the value taken directly from the form, no windowing
-                                startFreqArray = new int[1];
-                                startFreqArray[0] = startFreq;
-
-                                // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
-                                RabiSelector myRabiSelector = new RabiSelector();
-
-                                // Create a single file and put all readings in there
-                                if (useCameraSpectrum != true)
-                                {
-                                    myFileName = new string[1];
-                                    myFile = new TextWriter[1];
-                                    // Create the file with appropriate name & write metadata to it
-                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
-                                }
-                                else
-                                {
-                                    myFileName = new string[1 + numOfIons];
-                                    myFile = new TextWriter[1 + numOfIons];
-                                    // Create the file with appropriate name & write metadata to it
-                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1, numOfIons);
-
-                                }
-
-
-
-
-
-                            }
-                            else if (specType == "Windowed")
-                            {
-                                //Turn on frequency generator
-                                bIsFreqGenEnabled = true;
-
-                                //Calculate frequency offset of sideband start frequencies from sideband centres
-                                int offsetFreq = (int)stepSize * sbWidth/2; 
-                                //Determine window spacing from trap frequencys and the type of spectrum selected
-                                int numberOfFiles;
-                                int windowSpace = 0;
-                                if (specDir == "Axial") windowSpace = (int)(axFreq); // MOD2
-                                else if (specDir == "Radial") windowSpace = (int)(modcycFreq); // MOD2
-                                if (includeCarrier == true || sbToScan == 0)
-                                {
-                                    //Array of start frequencies for each sideband (from furthest red to furthest blue)            
-                                    startFreqArray = new int[sbToScan * 2 + 1];
-                                    for (int sb = 0; sb < (sbToScan * 2 + 1); sb++)
-                                    {
-                                        startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
-                                    }
-                                    // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
-                                    RabiSelector myRabiSelector = new RabiSelector();
-                                    if (useCameraSpectrum != true)
-                                    {
-                                        // We want a file for each sideband with appropriate naming
-                                        numberOfFiles = (int)(sbToScan * 2 + 1);
-
-                                        // Create array of filenames & array of files
-                                        myFileName = new string[numberOfFiles];
-                                        myFile = new TextWriter[numberOfFiles];
-                                        // Generate filenames and actually create files
-                                        writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
-                                    }
-                                    else
-                                    {
-                                        int temp = (int)(sbToScan * 2 + 1);
-                                        numberOfFiles = temp * (numOfIons + 1);
-                                        // Create array of filenames & array of files
-                                        myFileName = new string[numberOfFiles];
-                                        myFile = new TextWriter[numberOfFiles];
-                                        // Generate filenames and actually create files
-                                        writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
-                                    }
-
-
-
-
-
-                                }
-
-                                else
-                                {
-                                    //Array of start frequencies for each sideband (from furthest red to furthest blue)            
-                                    startFreqArray = new int[sbToScan * 2];
-                                    for (int sb = 0; sb < (sbToScan * 2); sb++)
-                                    {
-                                        int sbPos = sbToScan - sb;
-                                        if (sbPos > 0) { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos)); }
-                                        else { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos - 1)); }
-
-
-                                    }
-                                    // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
-                                    RabiSelector myRabiSelector = new RabiSelector();
-
-                                    // We want a file for each sideband with appropriate naming
-                                    // Calculate how many files we will need - one for each R/B sideband plus one for carrier
-                                    if (useCameraSpectrum != true)
-                                    {
-                                        numberOfFiles = (int)(sbToScan * 2);
-                                        // Create array of filenames & array of files
-                                        myFileName = new string[numberOfFiles];
-                                        myFile = new TextWriter[numberOfFiles];
-                                        // Generate filenames and actually create files
-                                        writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
-                                    }
-                                    else
-                                    {
-                                        int temp = (int)(sbToScan * 2);
-                                        numberOfFiles = temp * (numOfIons + 1);
-                                        // Create array of filenames & array of files
-                                        myFileName = new string[numberOfFiles];
-                                        myFile = new TextWriter[numberOfFiles];
-                                        // Generate filenames and actually create files
-                                        writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
-                                    }
-
-
-
-                                }
-
-                            }
-                            else if (specType == "Fixed")
-                            {
-                                // Maybe put a box for user to input which pulses are varied in length
-
-                                //Start frequency is the value taken directly from the form, no windowing
-                                startFreqArray = new int[1];
-                                startFreqArray[0] = startFreq;
-
-                                // Show form for user to enter details about fixed frequency sequence
-                                // (need starting pulse length & step size)
-                                RabiSelector myRabiSelector = new RabiSelector();
-                                myRabiSelector.generateSequenceButton.Enabled = false;
-                                myRabiSelector.pulseSelectBox.Enabled = false;
-                                myRabiSelector.repeatsSelect.Enabled = false;
-                                myRabiSelector.ShowDialog();
-
-                                // Get starting pulse length & step size from user form
-                                fixed_startLength = (int)myRabiSelector.startLengthSelect.Value;
-                                fixed_stepSize = (int)myRabiSelector.stepSizeSelect.Value;
-                                // Change step size in metadata
-                                metadata[9] = fixed_stepSize.ToString();
-                                metadata[16] = fixed_startLength.ToString();
-                                metadata[17] = myRabiSelector.stepsSelect.Value.ToString();
-
-                                // Create a single file and put all readings in there
-                                if (useCameraSpectrum != true)
-                                {
-                                    myFileName = new string[1];
-                                    myFile = new TextWriter[1];
-                                    writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
-                                }
-                                else
-                                {
-                                    myFileName = new string[1 + numOfIons];
-                                    myFile = new TextWriter[1 + numOfIons];
-                                    writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1, numOfIons);
-                                }
-
-                                bIsFreqGenEnabled = false;
-                            }
-
-                            // If myViewer is not open
-                            if (IsViewerOpen)
-                            {
-                                myViewer.Close();
-
-
-                                IsViewerOpen = false;
-                            }
-                            // Create new instance of viewer
-                            myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum, numOfIons, useMLE, mleNumberOfCounts);
-                            // Set up event handler to deal with viewer closing - must be done after it is constructed
-                            myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
-                            // Set up event handler to deal with event raised when pause button on viewer is clicked
-                            // This should trigger the pause button in the main window
-                            myViewer.PauseEvent += new SpectroscopyViewerForm.PauseEventHandler(PauseButton_Click);
-                            // Show viewer
-                            myViewer.Show();
-                            // Set boolean  to indicate that viewer is open
-                            IsViewerOpen = true;
-
-                            // Code required to start the experiment running:
-                            bShouldQuitThread = false;
-
-                            //Disable spectroscopy frequency box and set value to start frequency
-                            /*freq0.Enabled = false;
-                            freq4.Enabled = false;
-                            phase0.Enabled = false;*/
-
-                            panel1.Enabled = true;
-                            panel3.Enabled = true;
-
-                            freq0.Value = startFreq;
-                            freq4.Value = startFreq;
-
-                            LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
-
-                            SendSetupFinish();
-
-                            // Start experiment
-                            StartReadingData();
-                            if (useCameraSpectrum == true)
-                                myCamera.startSpectrum();
+                            myFileName = new string[1];
+                            myFile = new TextWriter[1];
+                            // Create the file with appropriate name & write metadata to it
+                            writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
                         }
                         else
                         {
-                            MessageBox.Show("Error selecting folder. Please try again.");
+                            myFileName = new string[1 + numOfIons];
+                            myFile = new TextWriter[1 + numOfIons];
+                            // Create the file with appropriate name & write metadata to it
+                            writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1, numOfIons);
 
                         }
 
 
+
+
+
+                    }
+                    else if (specType == "Windowed")
+                    {
+                        //Turn on frequency generator
+                        bIsFreqGenEnabled = true;
+
+                        //Calculate frequency offset of sideband start frequencies from sideband centres
+                        int offsetFreq = (int)stepSize * sbWidth/2; 
+                        //Determine window spacing from trap frequencys and the type of spectrum selected
+                        int numberOfFiles;
+                        int windowSpace = 0;
+                        if (specDir == "Axial") windowSpace = (int)(axFreq); // MOD2
+                        else if (specDir == "Radial") windowSpace = (int)(modcycFreq); // MOD2
+                        if (includeCarrier == true || sbToScan == 0)
+                        {
+                            //Array of start frequencies for each sideband (from furthest red to furthest blue)            
+                            startFreqArray = new int[sbToScan * 2 + 1];
+                            for (int sb = 0; sb < (sbToScan * 2 + 1); sb++)
+                            {
+                                startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbToScan - sb));
+                            }
+                            // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                            RabiSelector myRabiSelector = new RabiSelector();
+                            if (useCameraSpectrum != true)
+                            {
+                                // We want a file for each sideband with appropriate naming
+                                numberOfFiles = (int)(sbToScan * 2 + 1);
+
+                                // Create array of filenames & array of files
+                                myFileName = new string[numberOfFiles];
+                                myFile = new TextWriter[numberOfFiles];
+                                // Generate filenames and actually create files
+                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                            }
+                            else
+                            {
+                                int temp = (int)(sbToScan * 2 + 1);
+                                numberOfFiles = temp * (numOfIons + 1);
+                                // Create array of filenames & array of files
+                                myFileName = new string[numberOfFiles];
+                                myFile = new TextWriter[numberOfFiles];
+                                // Generate filenames and actually create files
+                                writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
+                            }
+
+
+
+
+
+                        }
+
+                        else
+                        {
+                            //Array of start frequencies for each sideband (from furthest red to furthest blue)            
+                            startFreqArray = new int[sbToScan * 2];
+                            for (int sb = 0; sb < (sbToScan * 2); sb++)
+                            {
+                                int sbPos = sbToScan - sb;
+                                if (sbPos > 0) { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos)); }
+                                else { startFreqArray[sb] = carFreq - offsetFreq - (windowSpace * (sbPos - 1)); }
+
+
+                            }
+                            // Create empty RabiSelector object to pass to writeMetadataToFile (not used)
+                            RabiSelector myRabiSelector = new RabiSelector();
+
+                            // We want a file for each sideband with appropriate naming
+                            // Calculate how many files we will need - one for each R/B sideband plus one for carrier
+                            if (useCameraSpectrum != true)
+                            {
+                                numberOfFiles = (int)(sbToScan * 2);
+                                // Create array of filenames & array of files
+                                myFileName = new string[numberOfFiles];
+                                myFile = new TextWriter[numberOfFiles];
+                                // Generate filenames and actually create files
+                                writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, numberOfFiles);
+                            }
+                            else
+                            {
+                                int temp = (int)(sbToScan * 2);
+                                numberOfFiles = temp * (numOfIons + 1);
+                                // Create array of filenames & array of files
+                                myFileName = new string[numberOfFiles];
+                                myFile = new TextWriter[numberOfFiles];
+                                // Generate filenames and actually create files
+                                writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, temp, numOfIons);
+                            }
+
+
+
+                        }
+
+                    }
+                    else if (specType == "Fixed")
+                    {
+                        // Maybe put a box for user to input which pulses are varied in length
+
+                        //Start frequency is the value taken directly from the form, no windowing
+                        startFreqArray = new int[1];
+                        startFreqArray[0] = startFreq;
+
+                        // Show form for user to enter details about fixed frequency sequence
+                        // (need starting pulse length & step size)
+                        RabiSelector myRabiSelector = new RabiSelector();
+                        myRabiSelector.generateSequenceButton.Enabled = false;
+                        myRabiSelector.pulseSelectBox.Enabled = false;
+                        myRabiSelector.repeatsSelect.Enabled = false;
+                        myRabiSelector.ShowDialog();
+
+                        // Get starting pulse length & step size from user form
+                        fixed_startLength = (int)myRabiSelector.startLengthSelect.Value;
+                        fixed_stepSize = (int)myRabiSelector.stepSizeSelect.Value;
+                        // Change step size in metadata
+                        metadata[9] = fixed_stepSize.ToString();
+                        metadata[16] = fixed_startLength.ToString();
+                        metadata[17] = myRabiSelector.stepsSelect.Value.ToString();
+
+                        // Create a single file and put all readings in there
+                        if (useCameraSpectrum != true)
+                        {
+                            myFileName = new string[1];
+                            myFile = new TextWriter[1];
+                            writeMetadataToFile(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1);
+                        }
+                        else
+                        {
+                            myFileName = new string[1 + numOfIons];
+                            myFile = new TextWriter[1 + numOfIons];
+                            writeMetadataToFileCAM(ref myExperimentDialog, ref myRabiSelector, ref FolderPath, ref myFile, 1, numOfIons);
+                        }
+
+                        bIsFreqGenEnabled = false;
                     }
 
+                    // If myViewer is not open
+                    if (IsViewerOpen)
+                    {
+                        myViewer.Close();
+
+
+                        IsViewerOpen = false;
+                    }
+                    // Create new instance of viewer
+                    myViewer = new Spectroscopy_Viewer.SpectroscopyViewerForm(ref metadata, useCameraSpectrum, numOfIons, useMLE, mleNumberOfCounts);
+                    // Set up event handler to deal with viewer closing - must be done after it is constructed
+                    myViewer.FormClosing += new FormClosingEventHandler(myViewer_FormClosing);
+                    // Set up event handler to deal with event raised when pause button on viewer is clicked
+                    // This should trigger the pause button in the main window
+                    myViewer.PauseEvent += new SpectroscopyViewerForm.PauseEventHandler(PauseButton_Click);
+                    // Show viewer
+                    myViewer.Show();
+                    // Set boolean  to indicate that viewer is open
+                    IsViewerOpen = true;
+
+                    // Code required to start the experiment running:
+                    bShouldQuitThread = false;
+
+                    //Disable spectroscopy frequency box and set value to start frequency
+                    /*freq0.Enabled = false;
+                    freq4.Enabled = false;
+                    phase0.Enabled = false;*/
+
+                    panel1.Enabled = true;
+                    panel3.Enabled = true;
+
+                    freq0.Value = startFreq;
+                    freq4.Value = startFreq;
+
+                    LoadDDS(freq0.Value, freq1.Value, freq2.Value, freq3.Value, freq4.Value, freq5.Value, freq6.Value, freq7.Value, amp0.Value, amp1.Value, amp2.Value, amp3.Value, amp4.Value, amp5.Value, amp6.Value, amp7.Value, phase0.Value, phase1.Value, phase2.Value, phase3.Value, phase4.Value, phase5.Value, phase6.Value, phase7.Value);
+
+                    SendSetupFinish();
+
+                    // Start experiment
+                    StartReadingData();
+                    if (useCameraSpectrum == true)
+                        myCamera.startSpectrum();
+                }
+                else
+                {
+                    MessageBox.Show("Error selecting folder. Please try again.");
                 }
 
             }
