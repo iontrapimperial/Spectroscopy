@@ -31,17 +31,6 @@ namespace Spectroscopy_Viewer
         private string[] spectrumNames;     // Names of spectra stored in file
         private string notes = "";
 
-        // Default constructor
-        public fileHandler()
-        {
-            // Cannot handle data if a file is not chosen!
-            System.Windows.Forms.MessageBox.Show("No file selected");
-        }
-
-        //***********//
-        // Need start frequency as well!!! (nb: Think I've done this - Joe)
-        //***********//
-
         // Constructor given an array of data and some bits of metadata
         public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed,
                             int startFreqPassed, int currentWindowStepPassed, int startLengthPassed)
@@ -108,118 +97,9 @@ namespace Spectroscopy_Viewer
 
         }
 
-        /*
-        public fileHandler(ref int[] IncomingData, int repeatsPassed, int stepSizePassed, int numberInterleavedPassed,
-                            int startFreqPassed, int currentWindowStepPassed, int startLengthPassed)
-        {
-            // Need to convert the array of incoming data into a List<int[]>[]
-            // Each list is for a separate spectrum
-            // Each int[] is an array of 4 ints (one reading, inc. cooling, counts & error flags)
-
-            // Store crucial numbers
-            repeats = repeatsPassed;
-            stepSize = stepSizePassed;
-            numberInterleaved = numberInterleavedPassed;
-            startFrequency = startFreqPassed;
-            currentWindowStep = currentWindowStepPassed;
-            startLength = startLengthPassed;
-
-            // Check that the important numbers are not zero (otherwise data will not process correctly)
-            if (stepSize != 0 && repeats != 0 && numberInterleaved != 0)
-            {
-                // Initialise arrays for storing Lists of raw data & dataPoints
-                fullData = new List<int[]>[numberInterleaved];
-                dataPoints = new List<dataPoint>[numberInterleaved];
-
-                // Have to initialise the array and then each List in the array individually
-                for (int i = 0; i < numberInterleaved; i++)
-                {
-                    fullData[i] = new List<int[]>();
-                    dataPoints[i] = new List<dataPoint>();
-                }
-
-                // row counter to keep track of which array of 4 readings within the list we are filling
-                int j = 0;
-
-                // Loop through incoming data array
-                int m = 0;
-                int datLength = IncomingData.Length;
-                while (m < datLength)
-                {
-                    // Fill a separate list for each interleaved spectrum
-                    for (int k = 0; k < numberInterleaved; k++)
-                    {
-                        // This MUST be a new int, cannot add any other array!!!!
-                        fullData[k].Add(new int[4]);                        // Add new reading to the list, reading will contain 4 ints
-
-                        // Loop through the 4 readings
-                        for (int i = 0; i < 4; i++)
-                        {
-                            fullData[k][j][i] = IncomingData[m];
-                            // Move to the next element in the array of incoming data
-                            m++;
-                        }
-                    }
-                    // Once we have filled one array of 4 readings for each interleaved spectrum, increment the row counter
-                    j++;
-                }
-
-                // Create array of data point lists
-                for (int i = 0; i < numberInterleaved; i++)
-                {
-                    this.constructDataPoints(i);
-                }
-
-            }   // End of if statement checking that repeats & numberInterleaved are valid numbers
-
-        }
-        */
-
-
-
-
-
-
         // Constructor given a file (pass by reference!)
         public fileHandler(ref System.IO.StreamReader myFile, string myFileName)
         {
-            //*************************************//
-            // Metadata format
-            // ---------------
-            //
-            // "Spectroscopy data file"
-            // date
-            // "Trap frequency:"
-            // trapFrequency
-            // "Trap voltage:"
-            // trapVoltage
-            // "AOM Start frequency:"
-            // startFrequency
-            // "Step size:"
-            // stepSize
-            // "Number of repeats per frequency:"
-            // repeats
-            // "File contains interleaved spectra:"
-            // numberInterleaved
-            // "This is sideband:"
-            // sidebandNumber
-            // "Starting pulse length (fixed):"
-            // startLength
-            // "Number of steps (fixed):"
-            // numberOfSteps (fixed)
-            // "Spectrum i name":
-            // spectrumName[i]
-            // "Notes:"
-            // Notes section - all lines should start with a #
-            // "Data:"
-
-
-            // Two "name" labels - one in file, one for displaying on graph
-            // Name spectra on creation rather than when loading file?
-            // Include notes section - parse & display in a window
-
-            //*************************************//
-
             // String to temporarily store data from the file
             string myString = myFile.ReadLine();              // Read first line of file
 
