@@ -3246,12 +3246,8 @@ namespace Spectroscopy_Viewer
             //double roundVal2 = Math.Round(retVal[1], 2);
             //Console.Write(roundVal1 + ":" + roundVal2);
             string text = "Count threshold is: " + retVal[2] + " Bot mean is: " + Math.Round(retVal[0], 2) + " Top mean is: " + Math.Round(retVal[1], 2);
-            double sucThreshold = 1.0;
-            bool succed = false;
             if (Math.Abs(retVal[0] - 7.0) > 0.1)
-            //if (Math.Abs(retVal[0]-retVal[1]) > sucThreshold)
             {
-                succed = true;
             }
             else
             {
@@ -3262,14 +3258,6 @@ namespace Spectroscopy_Viewer
             //It passes just abinary value as the second
 
             MessageBox.Show(text);
-
-            //AutoAddForm addForm = new AutoAddForm(text,succed);
-
-
-            //addForm.ShowDialog();
-
-
-
 
             this.coolingThresholdSelect.Value = new Decimal(thresholdX);
             this.countThresholdSelect.Value = new Decimal(retVal[2]);

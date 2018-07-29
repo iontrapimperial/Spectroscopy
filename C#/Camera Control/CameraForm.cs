@@ -42,7 +42,6 @@ namespace Camera_Control
         int[] vBoxEnd = new int[10];
         int ROICount = 0;
         bool isDrawing = false;
-        bool isUpdatingImageArray = false;
         bool isExpRunning = false; 
         bool isAcquiring = false;
         int temperature = 20;
@@ -1104,14 +1103,12 @@ namespace Camera_Control
 
                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION                  // WaitForAcquisitionTimeOut(200);
                                                     // errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
-                isUpdatingImageArray = true;
                 pImageArray = new int[size];
                 // ACQUISTION PERFORMED HERE!!!
 
                 Console.WriteLine("Get image in while loop");
                 errorValue = myAndor.GetOldestImage(pImageArray, size);
                 imageContData.Enqueue(pImageArray);
-                isUpdatingImageArray = false;
                 //getFluorescence();
                 Console.WriteLine("Get fluorescence in loop");
                 fluorescContData.Add(getFluorescenceContAdaptExp(NpixelNum, pixelPosGlobal));
@@ -1140,14 +1137,12 @@ namespace Camera_Control
 
                 myAndor.WaitForAcquisition();       // THREAD RESUMES FROM SLEEP AT THE END OF ACQUISITION                  // WaitForAcquisitionTimeOut(200);
                                                     // errorMsgTxtBox.AppendText("acq wait over" + "\r\n");
-                isUpdatingImageArray = true;
                 pImageArray = new int[size];
                 // ACQUISTION PERFORMED HERE!!!
 
                 Console.WriteLine("Get image in while loop");
                 errorValue = myAndor.GetOldestImage(pImageArray, size);
                 imageContData.Enqueue(pImageArray);
-                isUpdatingImageArray = false;
                 //getFluorescence();
                 Console.WriteLine("Get fluorescence in loop");
                 fluorescContData.Add(getFluorescenceContAdaptExp(NpixelNum, pixelPosGlobal));

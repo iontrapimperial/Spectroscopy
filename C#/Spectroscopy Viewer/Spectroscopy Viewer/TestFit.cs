@@ -27,8 +27,6 @@ namespace Spectroscopy_Viewer
         /* Main function which drives the whole thing */
         public static void Main3()
         {
-            int i;
-            int niter = 1;
             double[] x = {-1.7237128E+00,1.8712276E+00,-9.6608055E-01,
         -2.8394297E-01,1.3416969E+00,1.3757038E+00,
         -1.3703436E+00,4.2581975E-02,-1.4970151E-01,
