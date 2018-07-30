@@ -1,5 +1,2 @@
-- Can't do Rabi oscillations
-
 - Thresholds must be adjusted twice at start, otherwise spectrum plots vertical line nonsense
-
-
+- 400-shot spectra are incorrectly plotted because user is unable to change the number of repeats at the beginning of the spectrum (Error: Incorrect number of repeats)
