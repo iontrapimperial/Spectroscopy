@@ -67,7 +67,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ATMCD32CS">
-      <HintPath>..\..\..\AndorCamera\ATMCD32CS.dll</HintPath>
+      <HintPath>..\..\SpectroscopyLib\ATMCD32CS.dll</HintPath>
     </Reference>
     <Reference Include="MPFitLib">
       <HintPath>..\..\MPFitLib.dll</HintPath>
@@ -196,9 +196,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ATMCD32CS.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

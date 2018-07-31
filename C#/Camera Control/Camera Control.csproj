@@ -36,9 +36,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ATMCD32CS, Version=2.98.30010.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ATMCD32CS.dll</HintPath>
+    <Reference Include="ATMCD32CS">
+      <HintPath>..\SpectroscopyLib\ATMCD32CS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,17 +82,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\x86\Debug\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ATMCD32CS.dll" />
-    <Content Include="atmcd32d.dll" />
-    <Content Include="bin\Release\ATMCD32CS.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
