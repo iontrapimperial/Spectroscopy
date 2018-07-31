@@ -27,7 +27,7 @@ namespace Camera_Control
         int gblYPixels;       				// CCD chip
         int VSnumber = 0;                 // Vertical Speed Index
         int HSnumber = 0;                 // Horizontal Speed Index
-        int ADnumber;                 // AD Index
+        int ADnumber = 0;                 // AD Index
         public int acquisitionMode;   // Most modes described starting at line 440
         public int readMode;          // 0 = Full Vertical Binning, 1 = MUlti-Track, 2 = Random-Track, 3 = Single-Track, 4 = Image. This code is set up to work with 4. 
         bool gblData = false;
