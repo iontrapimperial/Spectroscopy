@@ -69,9 +69,6 @@
     <Reference Include="ATMCD32CS">
       <HintPath>..\..\SpectroscopyLib\ATMCD32CS.dll</HintPath>
     </Reference>
-    <Reference Include="MPFitLib">
-      <HintPath>..\..\MPFitLib.dll</HintPath>
-    </Reference>
     <Reference Include="NationalInstruments.Common, Version=13.0.40.190, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.Common\v4.0_13.0.40.190__dc6ad606294fc298\NationalInstruments.Common.dll</HintPath>

@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MPFitLib">
-      <HintPath>..\..\MPFitLib.dll</HintPath>
+      <HintPath>..\..\SpectroscopyLib\MPFitLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
